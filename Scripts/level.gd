@@ -11,8 +11,6 @@ func _process(delta):
 		var spawn_point = spawn_area.calculate_spawn_point()
 		var spawn = enemy.instantiate()
 		spawn.position = spawn_point
-		print(spawn.name)
-		print(spawn.position)
 		add_child(spawn)
 		spawn.target = get_node("Boyfriend")
 		spawn_number -= 1

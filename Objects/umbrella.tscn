@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dohpiv0ujwlqr"]
+
+[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="1_lji7x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjqy0"]
+size = Vector2(227, 20)
+
+[node name="umbrella" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(111.5, -3.57628e-07)
+scale = Vector2(1.72656, 0.140625)
+texture = ExtResource("1_lji7x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(113.5, 1)
+shape = SubResource("RectangleShape2D_wjqy0")

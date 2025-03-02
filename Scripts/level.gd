@@ -6,6 +6,7 @@ extends Node2D
 @onready var hud = $HUD
 
 var enemy = preload("res://Characters/enemy.tscn")
+var total_enemies = 5
 var spawn_number = 5
 var wave = 1
 var defeated = 0
@@ -21,6 +22,13 @@ func _ready():
 
 func _process(delta):
 	spawn_enemy()
+	check_wave_completed()
+
+func check_wave_completed():
+	if(total_enemies == defeated):
+		wave += 1
+		hud.set_wave(wave)
+		total_enemies = 6
 
 func spawn_enemy():
 	if spawn_number > 0:

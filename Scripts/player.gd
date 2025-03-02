@@ -40,7 +40,7 @@ func update_animation():
 	else:
 		var direction = "down"
 		if velocity.x < 0: direction = "left"
-		elif velocity.x > 0: direction = "rigt"
+		elif velocity.x > 0: direction = "right"
 		elif velocity.y < 0: direction = "up"
 		print(direction)
 		last_animation = direction

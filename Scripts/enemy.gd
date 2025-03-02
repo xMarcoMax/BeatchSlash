@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var hp = 100
 @export var damage = 10
 
+signal defeated
 func _ready():
 	target = get_node("../Boyfriend")
 	
@@ -24,6 +25,7 @@ func _physics_process(delta):
 func dead():
 	velocity = Vector2.ZERO
 	timer.start()
+	defeated.emit()
 
 #Delete the dead enemy after the animation
 func _on_dead_timer_timeout():

@@ -24,13 +24,7 @@ func _input(event):
 		var mouse_position = get_global_mouse_position()
 		shoot_sand(mouse_position)
 	elif event.is_action_pressed("slash"):
-		print("attack_"+last_animation)
-		animations.play("attack_"+last_animation)
-		is_attacking = true
-		umbrella.visible = true
-		await animations.animation_finished
-		umbrella.visible = false
-		is_attacking = false
+		attack()
 
 func update_animation():
 	if is_attacking: return
@@ -42,7 +36,6 @@ func update_animation():
 		if velocity.x < 0: direction = "left"
 		elif velocity.x > 0: direction = "right"
 		elif velocity.y < 0: direction = "up"
-		print(direction)
 		last_animation = direction
 
 #Input movement direction
@@ -54,6 +47,13 @@ func get_input():
 		nominal_speed = speed
 	velocity = direction * nominal_speed
 
+func attack():
+	animations.play("attack_"+last_animation)
+	is_attacking = true
+	umbrella.visible = true
+	await animations.animation_finished
+	umbrella.visible = false
+	is_attacking = false
 
 #Shooting sand ball
 func shoot_sand(mouse_position):

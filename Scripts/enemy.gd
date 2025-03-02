@@ -7,7 +7,6 @@ extends CharacterBody2D
 
 @export var hp = 100
 @export var damage = 10
-var hit
 
 func _ready():
 	target = get_node("../Boyfriend")

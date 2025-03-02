@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=4 uid="uid://bl61hfkyhdt23"]
+[gd_scene load_steps=19 format=4 uid="uid://bl61hfkyhdt23"]
 
 [ext_resource type="PackedScene" uid="uid://bwccdi1diecof" path="res://Characters/player.tscn" id="1_6bqah"]
 [ext_resource type="Script" path="res://Scripts/level.gd" id="1_nesj5"]
 [ext_resource type="Script" path="res://Scripts/enemy_spawn.gd" id="2_28emp"]
+[ext_resource type="PackedScene" uid="uid://cgy5p47lpk3mu" path="res://Objects/hud.tscn" id="2_c5jan"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_oi1h6"]
 [ext_resource type="Texture2D" uid="uid://b7o6kaeiy5qfc" path="res://Assets/Tiles/sand.png" id="2_rfw8i"]
 [ext_resource type="PackedScene" uid="uid://b0kya84v0rrp1" path="res://Objects/projectiles.tscn" id="3_3qltc"]
@@ -576,6 +577,8 @@ sources/1 = SubResource("TileSetAtlasSource_puxv4")
 [node name="Level" type="Node2D"]
 script = ExtResource("1_nesj5")
 
+[node name="HUD" parent="." instance=ExtResource("2_c5jan")]
+
 [node name="World" type="Node2D" parent="."]
 
 [node name="EnemySpawn" type="Area2D" parent="World"]
@@ -618,18 +621,6 @@ limit_left = -350
 limit_top = -1450
 limit_right = 2300
 limit_bottom = 550
-
-[node name="Health" type="Label" parent="Player/Camera2D"]
-offset_left = -1011.0
-offset_top = 423.0
-offset_right = -971.0
-offset_bottom = 446.0
-
-[node name="WaveNumber" type="Label" parent="Player/Camera2D"]
-offset_left = -1011.0
-offset_top = 423.0
-offset_right = -971.0
-offset_bottom = 446.0
 
 [node name="Boyfriend" parent="." groups=["target"] instance=ExtResource("5_a1jco")]
 position = Vector2(804, -421)

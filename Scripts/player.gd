@@ -13,6 +13,7 @@ var nominal_speed = speed
 var last_animation = "down"
 var is_attacking = false
 
+@warning_ignore("unused_parameter")
 func _physics_process(delta):
 	get_input()
 	update_animation()
@@ -47,6 +48,7 @@ func get_input():
 		nominal_speed = speed
 	velocity = direction * nominal_speed
 
+#Attack with umbrella
 func attack():
 	animations.play("attack_"+last_animation)
 	is_attacking = true
@@ -56,6 +58,7 @@ func attack():
 	is_attacking = false
 
 #Shooting sand ball
+@warning_ignore("unused_parameter")
 func shoot_sand(mouse_position):
 	var b: Area2D = ball.instantiate()
 	b.damage = damage

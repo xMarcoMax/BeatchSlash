@@ -24,6 +24,7 @@ func _physics_process(delta):
 #Stop movement and playing dead animation
 func dead():
 	velocity = Vector2.ZERO
+	$CollisionShape2D.set_deferred("disabled", true)
 	timer.start()
 	defeated.emit()
 

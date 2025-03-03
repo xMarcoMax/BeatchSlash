@@ -24,8 +24,6 @@ func _input(event):
 	if(event.is_action_pressed("shoot_sand")):
 		var mouse_position = get_global_mouse_position()
 		shoot_sand(mouse_position)
-	elif event.is_action_pressed("slash"):
-		attack()
 
 func update_animation():
 	if is_attacking: return

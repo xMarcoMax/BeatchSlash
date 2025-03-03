@@ -34,7 +34,6 @@ func check_wave_completed():
 	if(total_enemies == defeated_level):
 		wave += 1
 		hud.set_wave(wave)
-		total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
 		spawn_number = total_enemies
 		defeated_level = 0
 
@@ -46,16 +45,7 @@ func spawn_enemy():
 		add_child(spawn)
 		spawn.defeated.connect(_on_defeated)
 		spawn.target = target
-		spawn.hp = Formulas.calculate("health", wave, base_enemy_health)
-		spawn.damage = Formulas.calculate("damage", wave, base_enemy_damage)
 		spawn_number -= 1
-
-func get_new_enemy_number():
-	pass
-func get_new_enemy_hp():
-	pass
-func get_new_enemy_damage():
-	pass
 
 func _on_defeated():
 	defeated_total += 1

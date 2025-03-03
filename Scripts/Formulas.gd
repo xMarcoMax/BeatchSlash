@@ -16,5 +16,4 @@ func calculate(type, wave_real, base):
 			factor = 1.05
 			pass
 	var result = ceil(base * ( 1 + ( ( float(wave) /(cap+wave) ) )*factor ) )
-	print(type+" = "+str(result))
 	return result

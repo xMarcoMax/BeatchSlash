@@ -7,14 +7,14 @@ func calculate(type, wave_real, base):
 	print("ondata: "+str(wave_real))
 	match type:
 		"enemies":
-			factor = 0.5
+			factor = 1.2
 			pass
 		"health":
 			factor = 1.1
 			pass
 		"damage":
-			factor = 0.8
+			factor = 1.05
 			pass
-	var result = ceil(base * ( 1 + ( ( float(wave) /(cap+wave) ) ) ) )
+	var result = ceil(base * ( 1 + ( ( float(wave) /(cap+wave) ) )*factor ) )
 	print(type+" = "+str(result))
 	return result

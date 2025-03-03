@@ -1,9 +1,9 @@
 extends CanvasLayer
 
-@onready var health =$VBoxContainer/Health
-@onready var wave = $VBoxContainer/Wave
-@onready var defeated = $VBoxContainer2/EnemyDefeated
-@onready var record = $VBoxContainer2/MaxDefeated
+@onready var health =$HealthAndWave/Health
+@onready var wave = $HealthAndWave/Wave
+@onready var defeated = $DefeatedAndRecord/EnemyDefeated
+@onready var record = $DefeatedAndRecord/MaxDefeated
 
 func set_health(value):
 	health.text = "Salute rimasta: " + str(value)

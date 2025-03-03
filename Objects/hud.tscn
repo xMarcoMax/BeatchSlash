@@ -6,7 +6,7 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_2lhhg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HealthAndWave" type="VBoxContainer" parent="."]
 anchors_preset = -1
 anchor_right = 0.135417
 anchor_bottom = 0.200617
@@ -14,14 +14,14 @@ offset_left = 5.0
 offset_right = 5.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Health" type="Label" parent="VBoxContainer"]
+[node name="Health" type="Label" parent="HealthAndWave"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
 theme_override_font_sizes/font_size = 40
 text = "Salute"
 
-[node name="Wave" type="Label" parent="VBoxContainer"]
+[node name="Wave" type="Label" parent="HealthAndWave"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
@@ -29,7 +29,7 @@ theme_override_font_sizes/font_size = 40
 text = "Ondata
 "
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="DefeatedAndRecord" type="VBoxContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -39,14 +39,14 @@ offset_bottom = 130.0
 grow_horizontal = 0
 alignment = 2
 
-[node name="EnemyDefeated" type="Label" parent="VBoxContainer2"]
+[node name="EnemyDefeated" type="Label" parent="DefeatedAndRecord"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
 theme_override_font_sizes/font_size = 40
 text = "Donne sconfitte: 2"
 
-[node name="MaxDefeated" type="Label" parent="VBoxContainer2"]
+[node name="MaxDefeated" type="Label" parent="DefeatedAndRecord"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")

@@ -2,8 +2,8 @@ extends CanvasLayer
 
 @onready var health =$HealthAndWave/Health
 @onready var wave = $HealthAndWave/Wave
-@onready var defeated = $DefeatedAndRecord/EnemyDefeated
-@onready var record = $DefeatedAndRecord/MaxDefeated
+@onready var defeated = $DefeatedAndRemain/EnemyDefeated
+@onready var record = $DefeatedAndRemain/EnemyRemain
 
 func set_health(value):
 	health.text = "Salute rimasta: " + str(value)
@@ -14,5 +14,5 @@ func set_wave(value):
 func set_defeated(value):
 	defeated.text = "Nemici sconfitti: "+str(value)
 
-func set_record(value):
-	record.text = "Record nemici sconfitti: "+str(value)
+func set_remain(value):
+	record.text = "Nemici rimasti: "+str(value)

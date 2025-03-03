@@ -4,7 +4,6 @@ func calculate(type, wave_real, base):
 	var factor
 	var cap = 15
 	var wave = wave_real - 1
-	print("ondata: "+str(wave_real))
 	match type:
 		"enemies":
 			factor = 1.2

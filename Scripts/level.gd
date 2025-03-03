@@ -13,18 +13,18 @@ var total_enemies = 5
 var wave = 1
 var defeated_total = 0
 var defeated_level = 0
-var record
 var spawn_number
+var remain
 
 #Set essential variables
 func _ready():
 	total_enemies = base_enemy_number
 	spawn_number = base_enemy_number
-	record = 0 #da sistemare quando saranno implementati i salvataggi di dati
+	remain = base_enemy_number
 	hud.set_health(target.hp)
 	hud.set_wave(wave)
 	hud.set_defeated(defeated_total)
-	hud.set_record(record)
+	hud.set_remain(total_enemies)
 
 func _process(delta):
 	spawn_enemy()
@@ -34,6 +34,9 @@ func check_wave_completed():
 	if(total_enemies == defeated_level):
 		wave += 1
 		hud.set_wave(wave)
+		total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
+		remain = total_enemies
+		hud.set_remain(remain)
 		spawn_number = total_enemies
 		defeated_level = 0
 
@@ -44,12 +47,15 @@ func spawn_enemy():
 		spawn.position = spawn_point
 		add_child(spawn)
 		spawn.defeated.connect(_on_defeated)
-		spawn.target = target
+		spawn.set_spawn_values(target,
+			Formulas.calculate("health", wave, base_enemy_health),
+			Formulas.calculate("damage", wave, base_enemy_damage)
+		)
 		spawn_number -= 1
 
 func _on_defeated():
 	defeated_total += 1
 	defeated_level += 1
+	remain -= 1
 	hud.set_defeated(defeated_total)
-	if defeated_total > record:
-		hud.set_record(defeated_total)
+	hud.set_remain(remain)

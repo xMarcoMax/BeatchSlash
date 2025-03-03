@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var target: CharacterBody2D
 @onready var ray_cast = $RayCast2D
 @onready var timer = $DeadTimer
+@onready var health = $HP
 
 @export var hp = 100
 @export var damage = 10
@@ -11,7 +12,9 @@ extends CharacterBody2D
 signal defeated
 func _ready():
 	target = get_node("../Boyfriend")
-	
+
+func _process(delta):
+	health.text = "Salute: "+str(hp)
 #Moving the enemy to a specific location
 func _physics_process(delta):
 	ray_cast.look_at(target.position)

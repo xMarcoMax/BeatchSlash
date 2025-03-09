@@ -1,20 +1,23 @@
 extends CharacterBody2D
 
-@export var speed = 100
-@export var target: CharacterBody2D
 @onready var ray_cast = $RayCast2D
 @onready var timer = $DeadTimer
 @onready var health = $HP
 @onready var progress_bar = $ProgressBar
 
+@export var speed = 100
+@export var target: CharacterBody2D
 @export var hp = 100
 @export var damage = 10
 
 signal defeated
+
+#Set target and initial hp bar value
 func _ready():
 	target = get_node("../Boyfriend")
 	progress_bar.max_value = hp;
 
+#Update visualized healt text on the health bar
 func _process(delta):
 	health.text = "Salute: 0" if hp <= 0 else "Salute: "+str(hp)
 	progress_bar.value = hp
@@ -28,6 +31,7 @@ func _physics_process(delta):
 		velocity = position.direction_to(target.position) * speed
 	move_and_slide()
 
+#Set useful values for the enemy
 func set_spawn_values(target_body, hp_value, damage_value):
 	target = target_body
 	damage = damage_value

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cgy5p47lpk3mu"]
 
-[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_2lhhg"]
+[ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_bc8po"]
 
 [node name="HUD" type="CanvasLayer"]

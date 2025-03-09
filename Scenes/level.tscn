@@ -1,15 +1,16 @@
-[gd_scene load_steps=19 format=4 uid="uid://bl61hfkyhdt23"]
+[gd_scene load_steps=20 format=4 uid="uid://bl61hfkyhdt23"]
 
 [ext_resource type="PackedScene" uid="uid://bwccdi1diecof" path="res://Characters/player.tscn" id="1_6bqah"]
-[ext_resource type="Script" path="res://Scripts/level.gd" id="1_nesj5"]
-[ext_resource type="Script" path="res://Scripts/enemy_spawn.gd" id="2_28emp"]
+[ext_resource type="Script" uid="uid://dsoesl8lamd66" path="res://Scripts/level.gd" id="1_nesj5"]
+[ext_resource type="Script" uid="uid://dd6cvvdyvi5si" path="res://Scripts/enemy_spawn.gd" id="2_28emp"]
 [ext_resource type="PackedScene" uid="uid://cgy5p47lpk3mu" path="res://Objects/hud.tscn" id="2_c5jan"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="2_oi1h6"]
+[ext_resource type="Script" uid="uid://bfmp7d82hfq72" path="res://Scripts/player.gd" id="2_oi1h6"]
 [ext_resource type="Texture2D" uid="uid://b7o6kaeiy5qfc" path="res://Assets/Tiles/sand.png" id="2_rfw8i"]
 [ext_resource type="PackedScene" uid="uid://b0kya84v0rrp1" path="res://Objects/projectiles.tscn" id="3_3qltc"]
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="3_qxfql"]
 [ext_resource type="Texture2D" uid="uid://dv3ukkfsjy8a3" path="res://Assets/Tiles/beach-desert.png" id="3_x66pn"]
 [ext_resource type="PackedScene" uid="uid://rwfa2y1hi3hm" path="res://Characters/boyfriend.tscn" id="5_a1jco"]
-[ext_resource type="Script" path="res://Scripts/boyfriend.gd" id="6_gulnw"]
+[ext_resource type="Script" uid="uid://do0n1cb3kqcvw" path="res://Scripts/boyfriend.gd" id="6_gulnw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qgsd"]
 size = Vector2(641, 2077)
@@ -579,6 +580,24 @@ script = ExtResource("1_nesj5")
 
 [node name="HUD" parent="." instance=ExtResource("2_c5jan")]
 
+[node name="NextWave" type="Label" parent="HUD"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.38
+anchor_right = 0.5
+anchor_bottom = 0.38
+offset_left = -209.5
+offset_top = -27.24
+offset_right = 209.5
+offset_bottom = 30.76
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_qxfql")
+theme_override_font_sizes/font_size = 37
+text = "Prossima ondata tra"
+
 [node name="World" type="Node2D" parent="."]
 
 [node name="EnemySpawn" type="Area2D" parent="World"]
@@ -621,3 +640,9 @@ zoom = Vector2(0.5, 0.5)
 [node name="Boyfriend" parent="." groups=["target"] instance=ExtResource("5_a1jco")]
 position = Vector2(804, -421)
 script = ExtResource("6_gulnw")
+
+[node name="NextWaveTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="NextWaveTimer" to="." method="_on_next_wave_timer_timeout"]

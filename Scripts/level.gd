@@ -4,6 +4,9 @@ extends Node2D
 @onready var target = get_node("Boyfriend")
 @onready var spawn_area = $World/EnemySpawn
 @onready var hud = $HUD
+@onready var next_wave = $HUD/NextWave
+@onready var next_wave_timer = $NextWaveTimer
+
 const base_enemy_health = 100
 const base_enemy_damage = 10
 const base_enemy_number = 5
@@ -26,19 +29,31 @@ func _ready():
 	hud.set_defeated(defeated_total)
 	hud.set_remain(total_enemies)
 
+#Enemis spawn and check of completed wave
 func _process(delta):
 	spawn_enemy()
-	check_wave_completed()
+	check_all_eliminated()
+	if next_wave_timer.time_left > 0:
+		update_timer_text()
 
-func check_wave_completed():
-	if(total_enemies == defeated_level):
-		wave += 1
-		hud.set_wave(wave)
-		total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
-		remain = total_enemies
-		hud.set_remain(remain)
-		spawn_number = total_enemies
-		defeated_level = 0
+#Check if all enemies defeated and set timer to next wave
+func check_all_eliminated():
+	if(total_enemies == defeated_level and next_wave_timer.is_stopped()):
+		next_wave.visible = true
+		next_wave_timer.start()
+		update_timer_text()
+
+func update_timer_text():
+	next_wave.text = "Prossima ondata tra: " + str( ceili(next_wave_timer.time_left) )
+
+func set_next_wave():
+	wave += 1
+	hud.set_wave(wave)
+	total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
+	remain = total_enemies
+	hud.set_remain(remain)
+	spawn_number = total_enemies
+	defeated_level = 0
 
 func spawn_enemy():
 	if spawn_number > 0:
@@ -59,3 +74,7 @@ func _on_defeated():
 	remain -= 1
 	hud.set_defeated(defeated_total)
 	hud.set_remain(remain)
+
+func _on_next_wave_timer_timeout():
+	next_wave.visible = false
+	set_next_wave()

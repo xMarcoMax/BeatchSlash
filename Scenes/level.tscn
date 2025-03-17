@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://do0n1cb3kqcvw" path="res://Scripts/boyfriend.gd" id="6_gulnw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qgsd"]
-size = Vector2(641, 2077)
+size = Vector2(831, 1608.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbqd1"]
 size = Vector2(4191, 475)
@@ -605,7 +605,7 @@ position = Vector2(701, 347)
 script = ExtResource("2_28emp")
 
 [node name="LeftSpawn" type="CollisionShape2D" parent="World/EnemySpawn"]
-position = Vector2(-1168, -205)
+position = Vector2(-1376.5, 29.25)
 shape = SubResource("RectangleShape2D_7qgsd")
 disabled = true
 

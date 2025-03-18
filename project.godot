@@ -30,6 +30,7 @@ sand_ball=""
 player=""
 enemy=""
 target=""
+upgrades=""
 
 [input]
 

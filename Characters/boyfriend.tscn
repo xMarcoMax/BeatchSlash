@@ -3,17 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="1_vljnq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qqcdl"]
-radius = 177.0
+radius = 185.043
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(130, 129)
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Boyfriend" type="CharacterBody2D" groups=["target"]]
 metadata/_edit_group_ = true
 
 [node name="HitZone" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone" groups=["target"]]
 shape = SubResource("CircleShape2D_qqcdl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

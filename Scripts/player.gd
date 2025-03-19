@@ -3,10 +3,9 @@ extends CharacterBody2D
 
 @export var speed = 400
 @export var ball : PackedScene
-@onready var ray_cast = $RayCast2D
-@onready var camera = $Camera2D
-@onready var animations = $AnimationPlayer
-@onready var umbrella = $umbrella
+@onready var ray_cast: RayCast2D = $RayCast2D
+@onready var camera: Camera2D = $Camera2D
+@onready var animations: AnimationPlayer = $AnimationPlayer
 @export var damage = 10
 
 var nominal_speed = speed
@@ -45,15 +44,6 @@ func get_input():
 	elif (Input.is_action_just_released("run")):
 		nominal_speed = speed
 	velocity = direction * nominal_speed
-
-#Attack with umbrella
-func attack():
-	animations.play("attack_"+last_animation)
-	is_attacking = true
-	umbrella.visible = true
-	await animations.animation_finished
-	umbrella.visible = false
-	is_attacking = false
 
 #Shooting sand ball
 @warning_ignore("unused_parameter")

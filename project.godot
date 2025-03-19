@@ -17,7 +17,8 @@ config/icon="res://Assets/icon.svg"
 
 [autoload]
 
-Formulas="*res://Scripts/Formulas.gd"
+Formulas="*res://Scripts/Autoload/Formulas.gd"
+SignalManager="*res://Scripts/Autoload/SignalManager.gd"
 
 [editor]
 

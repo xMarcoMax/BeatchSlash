@@ -1,11 +1,11 @@
 extends Node2D
 
-@onready var player = $Player
-@onready var target = get_node("Boyfriend")
-@onready var spawn_area = $World/EnemySpawn
-@onready var hud = $HUD
-@onready var next_wave = $HUD/NextWave
-@onready var next_wave_timer = $NextWaveTimer
+@onready var player: CharacterBody2D = $Player
+@onready var target: CharacterBody2D = get_node("Boyfriend")
+@onready var spawn_area: Area2D = $World/EnemySpawn
+@onready var hud: CanvasLayer = $HUD
+@onready var next_wave: Label = $HUD/NextWave
+@onready var next_wave_timer: Timer = $NextWaveTimer
 
 const base_enemy_health = 100
 const base_enemy_damage = 10
@@ -61,7 +61,7 @@ func spawn_enemy():
 		var spawn = enemy.instantiate()
 		spawn.position = spawn_point
 		add_child(spawn)
-		spawn.defeated.connect(_on_defeated)
+		SignalManager.defeated.connect(_on_defeated)
 		spawn.set_spawn_values(target,
 			Formulas.calculate("health", wave, base_enemy_health),
 			Formulas.calculate("damage", wave, base_enemy_damage)

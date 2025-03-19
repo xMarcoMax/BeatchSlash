@@ -1,9 +1,12 @@
 extends CanvasLayer
 
-@onready var health =$HealthAndWave/Health
-@onready var wave = $HealthAndWave/Wave
-@onready var defeated = $DefeatedAndRemain/EnemyDefeated
-@onready var record = $DefeatedAndRemain/EnemyRemain
+@onready var health: Label =$HealthAndWave/Health
+@onready var wave: Label = $HealthAndWave/Wave
+@onready var defeated: Label = $DefeatedAndRemain/EnemyDefeated
+@onready var record: Label = $DefeatedAndRemain/EnemyRemain
+
+func _ready():
+	SignalManager.update_health.connect(set_health)
 
 func set_health(value):
 	health.text = "Salute rimasta: " + str(value)

@@ -27,7 +27,7 @@ func _on_enemy_attack(damage):
 	hp -= damage
 	SignalManager.update_health.emit(hp)
 	if hp <= 0:
-		print("GAME OVER")
+		SignalManager.game_over.emit()
 
 func set_hp(value):
 	pass

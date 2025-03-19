@@ -4,6 +4,7 @@ extends Node2D
 @onready var target: CharacterBody2D = get_node("Boyfriend")
 @onready var spawn_area: Area2D = $World/EnemySpawn
 @onready var hud: CanvasLayer = $HUD
+@onready var game_over: CanvasLayer = $GameOver
 @onready var next_wave: Label = $HUD/NextWave
 @onready var next_wave_timer: Timer = $NextWaveTimer
 
@@ -28,6 +29,7 @@ func _ready():
 	hud.set_wave(wave)
 	hud.set_defeated(defeated_total)
 	hud.set_remain(total_enemies)
+	SignalManager.game_over.connect(_on_game_over)
 
 #Enemis spawn and check of completed wave
 func _process(delta):
@@ -78,3 +80,7 @@ func _on_defeated():
 func _on_next_wave_timer_timeout():
 	next_wave.visible = false
 	set_next_wave()
+
+func _on_game_over():
+	game_over.visible = true
+	get_tree().paused = true

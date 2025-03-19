@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvn7wqfspf5nw"]
+
+[ext_resource type="Script" uid="uid://dnh3jd50rkbf6" path="res://Scripts/game_over.gd" id="1_8fo1c"]
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_ojehl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fo1c"]
+bg_color = Color(0.16, 0.16, 0.16, 0.905882)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojehl"]
+
+[node name="GameOver" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_8fo1c")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8fo1c")
+
+[node name="GameOver" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -248.5
+offset_right = 248.5
+offset_bottom = 101.504
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_ojehl")
+theme_override_font_sizes/font_size = 80
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.0
+offset_top = -118.0
+offset_right = 206.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Restart" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_ojehl")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ojehl")
+text = "Ricomincia"
+
+[node name="BackMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_ojehl")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ojehl")
+text = "Torna al Menù"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_ojehl")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ojehl")
+text = "Esci"
+
+[connection signal="pressed" from="VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/BackMenu" to="." method="_on_back_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

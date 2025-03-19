@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Beatch Slash!"
-run/main_scene="res://Scenes/level.tscn"
+run/main_scene="uid://cwwo0tn1cydle"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://Assets/icon.svg"
 

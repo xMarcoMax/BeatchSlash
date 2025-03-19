@@ -1,7 +1,7 @@
 extends Node
 
 #Segnali del target
-signal enemy_attacking
+signal enemy_attacking(enemy)
 
 #Segnali del nemico
 signal defeated

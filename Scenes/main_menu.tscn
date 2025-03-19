@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwwo0tn1cydle"]
+
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_28flt"]
+[ext_resource type="Script" uid="uid://bmfx0l8kwsby" path="res://Scripts/main_menu.gd" id="1_48xlc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48xlc"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48xlc")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_right = 63.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_28flt")
+theme_override_font_sizes/font_size = 67
+text = "Beatch Slash!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.0
+offset_top = -167.0
+offset_right = 229.0
+offset_bottom = 167.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 9
+
+[node name="NewGame" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_28flt")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
+text = "Nuovo Gioco"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_28flt")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
+disabled = true
+text = "Opzioni"
+
+[node name="Tutorial" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_28flt")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
+disabled = true
+text = "Tutorial"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_28flt")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
+text = "Esci"
+
+[connection signal="pressed" from="VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

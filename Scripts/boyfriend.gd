@@ -14,7 +14,7 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.is_in_group("enemy"):
-		SignalManager.enemy_attacking.emit()
+		SignalManager.enemy_attacking.emit(body)
 		is_attacked = true
 
 func _process(delta):
@@ -28,3 +28,8 @@ func _on_enemy_attack(damage):
 	SignalManager.update_health.emit(hp)
 	if hp <= 0:
 		print("GAME OVER")
+
+func set_hp(value):
+	pass
+func set_shield(value):
+	pass

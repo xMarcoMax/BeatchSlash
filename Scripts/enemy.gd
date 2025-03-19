@@ -58,5 +58,6 @@ func dead():
 func _on_dead_timer_timeout():
 	queue_free()
 
-func _on_enemy_attacking():
-	is_attacking = true
+func _on_enemy_attacking(attacker):
+	if attacker == self:
+		is_attacking = true

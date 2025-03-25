@@ -1,0 +1,120 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhsgh2vnyybdr"]
+
+[ext_resource type="Script" uid="uid://dqw17nvjm30dn" path="res://Scripts/upgrades_purchase.gd" id="1_njbm1"]
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_xats4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xats4"]
+bg_color = Color(0.160784, 0.160784, 0.160784, 0.905882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njbm1"]
+bg_color = Color(0.13, 0.13, 0.13, 1)
+
+[node name="UpgradesPurchase" type="CanvasLayer"]
+script = ExtResource("1_njbm1")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xats4")
+
+[node name="ShopName" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -71.0
+offset_right = 71.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_xats4")
+theme_override_font_sizes/font_size = 30
+text = "Nome Negozio SrL"
+horizontal_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 63.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_njbm1")
+tab_alignment = 1
+current_tab = 0
+
+[node name="Player" type="Control" parent="Panel/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Player"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Player/ScrollContainer"]
+layout_mode = 2
+columns = 10
+
+[node name="Target" type="Control" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Target"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Target/ScrollContainer"]
+layout_mode = 2
+columns = 10
+
+[node name="Bonus" type="Control" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Bonus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Bonus/ScrollContainer"]
+layout_mode = 2
+columns = 10
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -66.0
+offset_right = 57.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_xats4")
+theme_override_font_sizes/font_size = 30
+text = "Esci"
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]

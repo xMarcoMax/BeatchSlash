@@ -3,9 +3,9 @@ extends Node2D
 @onready var player: CharacterBody2D = $Player
 @onready var target: CharacterBody2D = get_node("Boyfriend")
 @onready var spawn_area: Area2D = $World/EnemySpawn
-@onready var hud: CanvasLayer = $HUD
-@onready var game_over: CanvasLayer = $GameOver
-@onready var next_wave: Label = $HUD/NextWave
+@onready var hud: CanvasLayer = $UI/HUD
+@onready var game_over: CanvasLayer = $UI/GameOver
+@onready var next_wave: Label = $UI/HUD/NextWave
 @onready var next_wave_timer: Timer = $NextWaveTimer
 
 const base_enemy_health = 100
@@ -25,7 +25,7 @@ func _ready():
 	total_enemies = base_enemy_number
 	spawn_number = base_enemy_number
 	remain = base_enemy_number
-	hud.set_health(target.hp)
+	hud.set_values(target.shield, target.hp)
 	hud.set_wave(wave)
 	hud.set_defeated(defeated_total)
 	hud.set_remain(total_enemies)

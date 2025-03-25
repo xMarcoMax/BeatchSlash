@@ -20,14 +20,17 @@ func _on_body_entered(body):
 func _process(delta):
 	pass
 
-func _physics_process(delta):
-	pass
-
 func _on_enemy_attack(damage):
-	hp -= damage
-	SignalManager.update_health.emit(hp)
+	calculate_health_values(damage)
 	if hp <= 0:
 		SignalManager.game_over.emit()
+
+func calculate_health_values(damage):
+	if shield > 0:
+		shield -= damage
+	else:
+		hp -= damage
+	SignalManager.update_health_shield.emit(hp, shield)
 
 func set_hp(value):
 	pass

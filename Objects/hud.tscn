@@ -51,4 +51,4 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
 theme_override_font_sizes/font_size = 40
-text = "Record per partita: 5"
+text = "Rimasti: 5"

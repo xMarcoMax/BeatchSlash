@@ -1,7 +1,6 @@
 extends Control
 
 func _ready():
-	print(MusicManager.is_music_playing())
 	if !MusicManager.is_music_playing():
 		MusicManager.load_menu_music()
 

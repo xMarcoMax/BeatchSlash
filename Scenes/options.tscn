@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=3 uid="uid://bi3ujrsgqsinc"]
+
+[ext_resource type="Script" uid="uid://6pr5uivui05e" path="res://Scripts/options.gd" id="1_4tmxy"]
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_prnvy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4tmxy"]
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4tmxy")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_right = 63.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_prnvy")
+theme_override_font_sizes/font_size = 67
+text = "Opzioni"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.0
+offset_top = -167.0
+offset_right = 229.0
+offset_bottom = 167.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 9
+
+[node name="VolumeOptions" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Volume" type="Label" parent="VBoxContainer/VolumeOptions"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("1_prnvy")
+theme_override_font_sizes/font_size = 40
+text = "Volume"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/VolumeOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="MuteOption" type="VBoxContainer" parent="VBoxContainer/VolumeOptions"]
+layout_mode = 2
+
+[node name="Mute" type="Label" parent="VBoxContainer/VolumeOptions/MuteOption"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_prnvy")
+text = "Muto"
+
+[node name="MuteVolume" type="CheckBox" parent="VBoxContainer/VolumeOptions/MuteOption"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Resolution" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_prnvy")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4tmxy")
+disabled = true
+text = "Risoluzioni"
+
+[node name="Back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_prnvy")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4tmxy")
+text = "Indietro"
+
+[connection signal="value_changed" from="VBoxContainer/VolumeOptions/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="toggled" from="VBoxContainer/VolumeOptions/MuteOption/MuteVolume" to="." method="_on_mute_volume_toggled"]
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]

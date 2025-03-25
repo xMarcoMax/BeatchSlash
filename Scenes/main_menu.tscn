@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwwo0tn1cydle"]
+[gd_scene load_steps=4 format=3 uid="uid://cwwo0tn1cydle"]
 
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_28flt"]
 [ext_resource type="Script" uid="uid://bmfx0l8kwsby" path="res://Scripts/main_menu.gd" id="1_48xlc"]
-[ext_resource type="AudioStream" uid="uid://cq0ndyxcfqyn0" path="res://Assets/Music/main menu.mp3" id="3_1ehe0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48xlc"]
 
@@ -65,7 +64,6 @@ size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("1_28flt")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
-disabled = true
 text = "Tutorial"
 
 [node name="Exit" type="Button" parent="VBoxContainer"]
@@ -75,11 +73,6 @@ theme_override_fonts/font = ExtResource("1_28flt")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
 text = "Esci"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_1ehe0")
-volume_db = -8.157
-autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]

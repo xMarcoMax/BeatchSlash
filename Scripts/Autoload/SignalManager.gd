@@ -11,3 +11,4 @@ signal attack_target
 signal update_health(value)
 
 signal game_over
+signal game_started

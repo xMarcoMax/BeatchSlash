@@ -19,6 +19,7 @@ config/icon="res://Assets/icon.svg"
 
 Formulas="*res://Scripts/Autoload/Formulas.gd"
 SignalManager="*res://Scripts/Autoload/SignalManager.gd"
+MusicManager="*res://Scripts/Autoload/MusicManager.gd"
 
 [editor]
 

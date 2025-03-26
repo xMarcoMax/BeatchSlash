@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6yw3dncpe1sk"]
+
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_eaugr"]
+[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_pt4yd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4rfbx"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="LittleShield" type="PanelContainer"]
+offset_top = -2.0
+offset_right = 132.0
+offset_bottom = 160.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4rfbx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_eaugr")
+text = "Acqua Tonica"
+horizontal_alignment = 1
+
+[node name="Image" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+tooltip_text = "L'idratazione è essenziale per non perdere la testa!
+Ripristina il 25% della moralità del tuo partner"
+texture_normal = ExtResource("2_pt4yd")
+stretch_mode = 3

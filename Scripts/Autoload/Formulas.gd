@@ -2,14 +2,14 @@ extends Node
 
 func calculate(type, wave_real, base):
 	var factor
-	var cap = 15
+	var cap = 12
 	var wave = wave_real - 1
 	match type:
 		"enemies":
 			factor = 1.6
 			pass
 		"health":
-			factor = 1.1
+			factor = 1.25
 			pass
 		"damage":
 			factor = 1.05

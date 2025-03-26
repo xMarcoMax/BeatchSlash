@@ -4,34 +4,32 @@ extends CanvasLayer
 @onready var target_upgrades: GridContainer = $Panel/TabContainer/Target/ScrollContainer/GridContainer
 @onready var bonus_upgrades: GridContainer = $Panel/TabContainer/Bonus/ScrollContainer/GridContainer
 
-var item
 func _ready():
-	#caricherò gli item da qui
-	#item = load("res://Objects/item.tscn").instantiate()
-	populate_player_tab()
-	populate_target_tab()
-	populate_bonus_tab()
+	populate_tab("Player")
+	populate_tab("Target")
+	populate_tab("Bonus")
 
-func populate_player_tab():
-	for i in range(20):
-		item = load("res://Objects/item.tscn").instantiate()
-		var image = item.get_node("Image")
+func populate_tab(type: String):
+	var path = "res://Objects/Items/Beach/"+type+"/"
+	var dir = DirAccess.open(path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file = dir.get_next()
+	while file != "":
+		var item = load(path+"/"+file).instantiate()
+		var image = item.get_node("VBoxContainer").get_node("Image")
 		image.pressed.connect(_purchase_item)
-		player_upgrades.add_child(item)
-		
-func populate_target_tab():
-	for i in range(20):
-		item = load("res://Objects/item.tscn").instantiate()
-		var image = item.get_node("Image")
-		image.pressed.connect(_purchase_item)
-		target_upgrades.add_child(item)
-		
-func populate_bonus_tab():
-	for i in range(20):
-		item = load("res://Objects/item.tscn").instantiate()
-		var image = item.get_node("Image")
-		image.pressed.connect(_purchase_item)
-		bonus_upgrades.add_child(item)
+		match type:
+			"Player":
+				player_upgrades.add_child(item)
+			"Target":
+				target_upgrades.add_child(item)
+			"Bonus":
+				bonus_upgrades.add_child(item)
+		file = dir.get_next()
+	dir.list_dir_end()
+
 
 func _on_button_pressed():
 	visible = false

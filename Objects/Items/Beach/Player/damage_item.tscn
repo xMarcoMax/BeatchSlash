@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://7kmrd3b7a5qy"]
+
+[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_qxypa"]
+[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_obqvu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w18mc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="DamageItem" type="PanelContainer"]
+offset_top = 1.0
+offset_right = 174.0
+offset_bottom = 159.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_w18mc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_qxypa")
+text = "Barretta Energetica"
+horizontal_alignment = 1
+
+[node name="Image" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+tooltip_text = "L'ideale per dare la carica e farti sentire più forte!
+Disponibile ogni 5 ondate. Aumenta il danno del 20%"
+texture_normal = ExtResource("2_obqvu")
+stretch_mode = 3

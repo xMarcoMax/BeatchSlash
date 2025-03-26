@@ -29,10 +29,8 @@ func _on_body_entered(body):
 	if body.is_in_group("player") and !wave_timer.is_stopped():
 		upgrades_text.visible = true
 		player_in_range = true
-		print("Player entrato")
 		
 func _on_body_exited(body):
 	if body.is_in_group("player"):
 		upgrades_text.visible = false
 		player_in_range = false
-		print("Player uscitow")

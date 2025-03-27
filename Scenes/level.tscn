@@ -588,18 +588,14 @@ script = ExtResource("1_nesj5")
 [node name="HUD" parent="UI" instance=ExtResource("2_c5jan")]
 
 [node name="NextWave" type="Label" parent="UI/HUD"]
-visible = false
-anchors_preset = -1
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.639
 anchor_right = 0.5
-anchor_bottom = 0.639
 offset_left = -209.5
-offset_top = -26.0721
+offset_top = 19.0
 offset_right = 209.5
-offset_bottom = 31.9279
+offset_bottom = 77.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_qxfql")
 theme_override_font_sizes/font_size = 37
@@ -613,9 +609,9 @@ anchor_top = 0.752
 anchor_right = 0.501
 anchor_bottom = 0.752
 offset_left = -325.0
-offset_top = -26.296
+offset_top = -52.296
 offset_right = 330.848
-offset_bottom = 30.704
+offset_bottom = 4.70401
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)

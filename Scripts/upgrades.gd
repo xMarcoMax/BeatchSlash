@@ -16,6 +16,7 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("buy_upgrades") and !wave_timer.is_stopped():
 		purchase.visible = true
+		SignalManager.purchase_item.emit()
 	elif event.is_action_pressed("esc"):
 		purchase.visible = false
 

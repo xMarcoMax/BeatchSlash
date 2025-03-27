@@ -23,8 +23,27 @@ func _ready():
 func _process(delta):
 	health.text = "Salute: 0" if hp <= 0 else "Salute: "+str(hp)
 	progress_bar.value = hp
+	set_healthbar_color()
 	if is_attacking and attack_cooldown.is_stopped():
 		attack()
+
+func set_healthbar_color():
+	var rateo = hp/progress_bar.max_value
+	var bgcolor = StyleBoxFlat.new()
+	var fillcolor = StyleBoxFlat.new()
+
+	if rateo >= 0.5:
+		bgcolor.bg_color = Color(0.00, 0.78, 0.00, 0.39)
+		fillcolor.bg_color = Color(0.00, 0.78, 0.00)
+	elif rateo < 0.5 and rateo >= 0.25:
+		bgcolor.bg_color = Color(0.80, 0.53, 0.00, 0.39)
+		fillcolor.bg_color = Color(0.80, 0.53, 0.00)
+	else:
+		bgcolor.bg_color = Color(0.78, 0.00, 0.00, 0.39)
+		fillcolor.bg_color = Color(0.78, 0.00, 0.00)
+	progress_bar.add_theme_stylebox_override("background", bgcolor)
+	progress_bar.add_theme_stylebox_override("fill", fillcolor)
+	progress_bar.queue_redraw() 
 
 func attack():
 	SignalManager.attack_target.emit(damage)

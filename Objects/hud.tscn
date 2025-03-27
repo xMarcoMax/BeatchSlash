@@ -6,13 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://dy7mboqru3m1p" path="res://Assets/Icons/scudo.png" id="4_gjuw2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r85nm"]
-bg_color = Color(0.73, 0, 0.0121665, 0.615686)
+bg_color = Color(0.73, 0, 0.0121665, 0.439216)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjuw2"]
 bg_color = Color(0.73, 0, 0.0121665, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhj4i"]
-bg_color = Color(0.73, 0.535333, 0, 0.615686)
+bg_color = Color(0.73, 0.535333, 0, 0.439216)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow4l2"]
 bg_color = Color(0.73, 0.535333, 0, 1)
@@ -31,13 +31,15 @@ text = "Ondata
 "
 
 [node name="DefeatedAndRemain" type="VBoxContainer" parent="."]
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -465.0
-offset_right = -5.0
-offset_bottom = 130.0
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -130.0
 grow_horizontal = 0
+grow_vertical = 0
 alignment = 2
 
 [node name="EnemyDefeated" type="Label" parent="DefeatedAndRemain"]

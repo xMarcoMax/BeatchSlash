@@ -44,6 +44,7 @@ func check_all_eliminated():
 	if(total_enemies == defeated_level and next_wave_timer.is_stopped()):
 		next_wave.visible = true
 		next_wave_timer.start()
+		SignalManager.wave_purchase_item.emit(wave)
 		update_timer_text()
 
 func update_timer_text():

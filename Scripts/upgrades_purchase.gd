@@ -5,9 +5,10 @@ extends CanvasLayer
 @onready var target_upgrades: GridContainer = $Panel/TabContainer/Target/ScrollContainer/GridContainer
 @onready var bonus_upgrades: GridContainer = $Panel/TabContainer/Bonus/ScrollContainer/GridContainer
 
-var wave_number
+var damage_item
 
 func _ready():
+	SignalManager.wave_purchase_item.connect(damage_item_availability)
 	tab_container.set_tab_title(0, "Giocatore")
 	populate_tab("Player")
 	tab_container.set_tab_title(1, "Partner")
@@ -23,8 +24,9 @@ func populate_tab(type: String):
 	dir.list_dir_begin()
 	var file = dir.get_next()
 	while file != "":
-		var scene = load(path+"/"+file)
-		var item = scene.instantiate()
+		var item = load(path+"/"+file).instantiate()
+		if file == "damage_item.tscn":
+			damage_item = item
 		var image = item.get_node("VBoxContainer").get_node("Image")
 		image.pressed.connect(_purchase_item)
 		match type:
@@ -37,6 +39,9 @@ func populate_tab(type: String):
 		file = dir.get_next()
 	dir.list_dir_end()
 
+func damage_item_availability(wave):
+	var d = player_upgrades.get_children().filter(func(item): return item == damage_item).get(0)
+	d.visible = (wave % 5) == 0
 
 func _on_button_pressed():
 	visible = false

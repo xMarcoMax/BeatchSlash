@@ -1,28 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgy5p47lpk3mu"]
+[gd_scene load_steps=9 format=3 uid="uid://cgy5p47lpk3mu"]
 
 [ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_bc8po"]
+[ext_resource type="Texture2D" uid="uid://bmjv7dr5b5ptp" path="res://Assets/Icons/cuore.jpg" id="3_r85nm"]
+[ext_resource type="Texture2D" uid="uid://dy7mboqru3m1p" path="res://Assets/Icons/scudo.png" id="4_gjuw2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r85nm"]
+bg_color = Color(0.73, 0, 0.0121665, 0.615686)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjuw2"]
+bg_color = Color(0.73, 0, 0.0121665, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhj4i"]
+bg_color = Color(0.73, 0.535333, 0, 0.615686)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow4l2"]
+bg_color = Color(0.73, 0.535333, 0, 1)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_2lhhg")
 
-[node name="HealthAndWave" type="VBoxContainer" parent="."]
-anchors_preset = -1
-anchor_right = 0.135417
-anchor_bottom = 0.200617
-offset_left = 5.0
-offset_right = 5.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Health" type="Label" parent="HealthAndWave"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
-text = "Salute"
-
-[node name="Wave" type="Label" parent="HealthAndWave"]
-layout_mode = 2
+[node name="Wave" type="Label" parent="."]
+offset_left = 9.0
+offset_right = 269.0
+offset_bottom = 129.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
 theme_override_font_sizes/font_size = 40
@@ -52,3 +53,51 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_bc8po")
 theme_override_font_sizes/font_size = 40
 text = "Rimasti: 5"
+
+[node name="HealthBar" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -71.0
+offset_right = 305.0
+offset_bottom = -25.0
+grow_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="HealthBar"]
+layout_mode = 2
+texture = ExtResource("3_r85nm")
+expand_mode = 2
+
+[node name="Health" type="ProgressBar" parent="HealthBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_r85nm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gjuw2")
+max_value = 1.0
+show_percentage = false
+
+[node name="ShieldBar" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -140.0
+offset_right = 305.0
+offset_bottom = -94.0
+grow_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="ShieldBar"]
+layout_mode = 2
+texture = ExtResource("4_gjuw2")
+expand_mode = 2
+
+[node name="Shield" type="ProgressBar" parent="ShieldBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yhj4i")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ow4l2")
+max_value = 1.0
+show_percentage = false

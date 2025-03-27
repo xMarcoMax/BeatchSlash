@@ -5,6 +5,7 @@ extends Node2D
 @onready var spawn_area: Area2D = $World/EnemySpawn
 @onready var hud: CanvasLayer = $UI/HUD
 @onready var game_over: CanvasLayer = $UI/GameOver
+@onready var pause_menu: CanvasLayer = $UI/PauseMenu
 @onready var next_wave: Label = $UI/HUD/NextWave
 @onready var next_wave_timer: Timer = $NextWaveTimer
 

@@ -1,12 +1,18 @@
 extends CanvasLayer
 
+@onready var tab_container: TabContainer = $Panel/TabContainer
 @onready var player_upgrades: GridContainer = $Panel/TabContainer/Player/ScrollContainer/GridContainer
 @onready var target_upgrades: GridContainer = $Panel/TabContainer/Target/ScrollContainer/GridContainer
 @onready var bonus_upgrades: GridContainer = $Panel/TabContainer/Bonus/ScrollContainer/GridContainer
 
+var wave_number
+
 func _ready():
+	tab_container.set_tab_title(0, "Giocatore")
 	populate_tab("Player")
+	tab_container.set_tab_title(1, "Partner")
 	populate_tab("Target")
+	tab_container.set_tab_title(2, "Bonus")
 	populate_tab("Bonus")
 
 func populate_tab(type: String):
@@ -17,7 +23,8 @@ func populate_tab(type: String):
 	dir.list_dir_begin()
 	var file = dir.get_next()
 	while file != "":
-		var item = load(path+"/"+file).instantiate()
+		var scene = load(path+"/"+file)
+		var item = scene.instantiate()
 		var image = item.get_node("VBoxContainer").get_node("Image")
 		image.pressed.connect(_purchase_item)
 		match type:

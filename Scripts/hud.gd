@@ -1,12 +1,21 @@
 extends CanvasLayer
 
-@onready var health_label: Label =$HealthAndWave/Health
-@onready var wave_label: Label = $HealthAndWave/Wave
+@onready var wave_label: Label = $Wave
 @onready var defeated_label: Label = $DefeatedAndRemain/EnemyDefeated
 @onready var record_label: Label = $DefeatedAndRemain/EnemyRemain
 
+@onready var health_bar: ProgressBar = $HealthBar/Health
+@onready var shield_bar: ProgressBar = $ShieldBar/Shield
+
+var hp_value
+var shield_value
+
 func _ready():
 	SignalManager.update_health_shield.connect(set_values)
+
+func _process(delta):
+	health_bar.value = hp_value
+	shield_bar.value = shield_value
 
 func set_wave(value):
 	wave_label.text = "Ondata n°: "+str(value)
@@ -18,6 +27,8 @@ func set_remain(value):
 	record_label.text = "Nemici rimasti: "+str(value)
 
 func set_values(health, shield):
-	health = 0 if health < 0 else health
-	shield = 0 if shield < 0 else shield
-	health_label.text = "Morale e Fedeltà: " + str(shield) + "|" + str(health)
+	hp_value = 0 if health < 0 else health
+	shield_value = 0 if shield < 0 else shield
+	if health_bar.max_value == 1 and shield_bar.max_value == 1:
+		health_bar.max_value = hp_value
+		shield_bar.max_value = shield_value

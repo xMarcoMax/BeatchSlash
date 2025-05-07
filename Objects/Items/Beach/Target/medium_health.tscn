@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddw5sb0w0y0tp"]
+[gd_scene load_steps=5 format=3 uid="uid://ddw5sb0w0y0tp"]
 
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_048bn"]
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_w0hup"]
+[ext_resource type="Script" uid="uid://bhoghn7n8c7wn" path="res://Scripts/Items/medium_health.gd" id="1_rno3y"]
+[ext_resource type="Texture2D" uid="uid://c3yfikx4meoj5" path="res://Assets/Sprites/rosemary_chips.png" id="3_3ichk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdvcf"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -15,6 +16,7 @@ offset_top = 1.0
 offset_right = 199.0
 offset_bottom = 163.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bdvcf")
+script = ExtResource("1_rno3y")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -29,5 +31,5 @@ horizontal_alignment = 1
 layout_mode = 2
 tooltip_text = "L'aroma delle erbe fa riaffiorare i ricordi anche a chi soffre d'amnesia!
 Ripristina il 50% della fedeltà del tuo partner"
-texture_normal = ExtResource("2_w0hup")
+texture_normal = ExtResource("3_3ichk")
 stretch_mode = 3

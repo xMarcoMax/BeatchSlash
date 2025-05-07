@@ -12,12 +12,17 @@ var player_in_range = false
 func _ready():
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
+	Global.purchase_just_closed = false
 
 func _input(event):
 	if event.is_action_pressed("buy_upgrades") and !wave_timer.is_stopped():
+		Global.is_in_purchase = true
+		Global.purchase_just_closed = false
 		purchase.visible = true
 		SignalManager.purchase_item.emit()
-	elif event.is_action_pressed("esc"):
+	elif event.is_action_pressed("esc") and purchase.visible:
+		Global.is_in_purchase = false
+		Global.purchase_just_closed = true
 		purchase.visible = false
 
 func _process(delta):

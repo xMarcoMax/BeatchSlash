@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuntcmt4km2xr"]
+[gd_scene load_steps=5 format=3 uid="uid://cuntcmt4km2xr"]
 
+[ext_resource type="Script" uid="uid://di486j5odblb1" path="res://Scripts/Items/little_health.gd" id="1_8y3ss"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_qddto"]
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_re8tj"]
+[ext_resource type="Texture2D" uid="uid://da1lao3ugk1ue" path="res://Assets/Sprites/mint_candies.png" id="3_ajmob"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbmat"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -15,6 +16,7 @@ offset_top = -1.0
 offset_right = 185.0
 offset_bottom = 161.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fbmat")
+script = ExtResource("1_8y3ss")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -29,5 +31,5 @@ horizontal_alignment = 1
 layout_mode = 2
 tooltip_text = "La freschezza della menta allontana dalla testa i pensieri sconci!
 Ripristina il 25% della fedeltà del tuo partner"
-texture_normal = ExtResource("2_re8tj")
+texture_normal = ExtResource("3_ajmob")
 stretch_mode = 3

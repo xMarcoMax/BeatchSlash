@@ -2,7 +2,9 @@ extends CanvasLayer
 
 func _input(event):
 	if event.is_action_pressed("esc"):
-		_on_resume_pressed()
+		if !Global.purchase_just_closed:
+			_on_resume_pressed()
+		Global.purchase_just_closed = false
 
 func _on_back_menu_pressed():
 	get_tree().paused = false

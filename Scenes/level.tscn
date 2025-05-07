@@ -588,6 +588,7 @@ script = ExtResource("1_nesj5")
 [node name="HUD" parent="UI" instance=ExtResource("2_c5jan")]
 
 [node name="NextWave" type="Label" parent="UI/HUD"]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -678,7 +679,7 @@ position = Vector2(512, -950)
 script = ExtResource("13_crh0w")
 
 [node name="NextWaveTimer" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 5.0
 one_shot = true
 
 [connection signal="timeout" from="NextWaveTimer" to="." method="_on_next_wave_timer_timeout"]

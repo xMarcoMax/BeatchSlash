@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://md6w60u6kf0h"]
+[gd_scene load_steps=5 format=3 uid="uid://md6w60u6kf0h"]
 
+[ext_resource type="Script" uid="uid://bx6t8ufycjq6h" path="res://Scripts/Items/large_shield.gd" id="1_2fmu7"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_gb8hj"]
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_p3twc"]
+[ext_resource type="Texture2D" uid="uid://cls01oy312k60" path="res://Assets/Sprites/berry_smoothie.png" id="3_ci4ol"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h13pn"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -15,6 +16,7 @@ offset_top = -2.0
 offset_right = 229.0
 offset_bottom = 160.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h13pn")
+script = ExtResource("1_2fmu7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -29,5 +31,5 @@ horizontal_alignment = 1
 layout_mode = 2
 tooltip_text = "Un mix di frutta che soddisfa i bisogni di tutti!
 Ripristina il 100% della moralità del tuo partner"
-texture_normal = ExtResource("2_p3twc")
+texture_normal = ExtResource("3_ci4ol")
 stretch_mode = 3

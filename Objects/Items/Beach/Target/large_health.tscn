@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtf2l1icx15yo"]
+[gd_scene load_steps=5 format=3 uid="uid://dtf2l1icx15yo"]
 
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_2e071"]
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="2_shs6i"]
+[ext_resource type="Script" uid="uid://c0t86wd7u54m2" path="res://Scripts/Items/large_health.gd" id="1_xsspl"]
+[ext_resource type="Texture2D" uid="uid://cqamag4sx454t" path="res://Assets/Sprites/strawberry_milkshake.png" id="3_tddom"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bejo0"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -14,6 +15,7 @@ border_width_bottom = 2
 offset_right = 195.0
 offset_bottom = 162.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bejo0")
+script = ExtResource("1_xsspl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -28,5 +30,5 @@ horizontal_alignment = 1
 layout_mode = 2
 tooltip_text = "La fragola è il vero frutto dell'amor, con i suoi colori e il suo sapore irresistibile!
 Ripristina il 100% della fedeltà del tuo partner"
-texture_normal = ExtResource("2_shs6i")
+texture_normal = ExtResource("3_tddom")
 stretch_mode = 3

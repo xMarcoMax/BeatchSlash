@@ -58,6 +58,8 @@ func set_next_wave():
 	hud.set_remain(remain)
 	spawn_number = total_enemies
 	defeated_level = 0
+	if Global.is_in_purchase:
+		Global.is_in_purchase = false
 
 func spawn_enemy():
 	if spawn_number > 0:

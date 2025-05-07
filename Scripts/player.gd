@@ -12,11 +12,15 @@ var nominal_speed = speed
 var last_animation = "down"
 var is_attacking = false
 
+func _ready():
+	Global.is_in_purchase = false
+
 @warning_ignore("unused_parameter")
 func _physics_process(delta):
-	get_input()
-	update_animation()
-	move_and_slide()
+	if(!Global.is_in_purchase):
+		get_input()
+		update_animation()
+		move_and_slide()
 
 #Input events (shoot, attack, etc.)
 func _input(event):

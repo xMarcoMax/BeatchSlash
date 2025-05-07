@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_bc8po"]
-[ext_resource type="Texture2D" uid="uid://bmjv7dr5b5ptp" path="res://Assets/Icons/cuore.jpg" id="3_r85nm"]
-[ext_resource type="Texture2D" uid="uid://dy7mboqru3m1p" path="res://Assets/Icons/scudo.png" id="4_gjuw2"]
+[ext_resource type="Texture2D" uid="uid://bm6hf4f20tt2k" path="res://Assets/Icons/health.png" id="3_gjuw2"]
+[ext_resource type="Texture2D" uid="uid://di3lr7owpeol2" path="res://Assets/Icons/shield.png" id="4_yhj4i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r85nm"]
 bg_color = Color(0.73, 0, 0.0121665, 0.439216)
@@ -12,10 +12,10 @@ bg_color = Color(0.73, 0, 0.0121665, 0.439216)
 bg_color = Color(0.73, 0, 0.0121665, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhj4i"]
-bg_color = Color(0.73, 0.535333, 0, 0.439216)
+bg_color = Color(0, 0.509804, 1, 0.439216)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow4l2"]
-bg_color = Color(0.73, 0.535333, 0, 1)
+bg_color = Color(0, 0.509804, 1, 1)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_2lhhg")
@@ -68,7 +68,7 @@ grow_vertical = 0
 
 [node name="Icon" type="TextureRect" parent="HealthBar"]
 layout_mode = 2
-texture = ExtResource("3_r85nm")
+texture = ExtResource("3_gjuw2")
 expand_mode = 2
 
 [node name="Health" type="ProgressBar" parent="HealthBar"]
@@ -92,7 +92,7 @@ grow_vertical = 0
 
 [node name="Icon" type="TextureRect" parent="ShieldBar"]
 layout_mode = 2
-texture = ExtResource("4_gjuw2")
+texture = ExtResource("4_yhj4i")
 expand_mode = 2
 
 [node name="Shield" type="ProgressBar" parent="ShieldBar"]

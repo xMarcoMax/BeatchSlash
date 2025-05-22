@@ -1,6 +1,10 @@
 extends CanvasLayer
 
 @onready var wave_label: Label = $Wave
+
+@onready var points_label: Label = $PointsCurrency/Points
+@onready var currency_label: Label = $PointsCurrency/Currency
+
 @onready var defeated_label: Label = $DefeatedAndRemain/EnemyDefeated
 @onready var record_label: Label = $DefeatedAndRemain/EnemyRemain
 
@@ -25,6 +29,12 @@ func set_defeated(value):
 
 func set_remain(value):
 	record_label.text = "Nemici rimasti: "+str(value)
+
+func set_points(value):
+	points_label.text = "Punti: "+str(value)
+
+func set_currency(value):
+	currency_label.text = "Valuta: "+str(value)+"¢"
 
 func set_values(health, shield):
 	hp_value = 0 if health < 0 else health

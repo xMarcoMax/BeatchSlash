@@ -28,8 +28,10 @@ text = "Patatine al Rosmarino"
 horizontal_alignment = 1
 
 [node name="Image" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 tooltip_text = "L'aroma delle erbe fa riaffiorare i ricordi anche a chi soffre d'amnesia!
 Ripristina il 50% della fedeltà del tuo partner"
 texture_normal = ExtResource("3_3ichk")
-stretch_mode = 3
+ignore_texture_size = true
+stretch_mode = 5

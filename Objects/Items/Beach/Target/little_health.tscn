@@ -28,8 +28,10 @@ text = "Caramelle alla menta"
 horizontal_alignment = 1
 
 [node name="Image" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 tooltip_text = "La freschezza della menta allontana dalla testa i pensieri sconci!
 Ripristina il 25% della fedeltà del tuo partner"
 texture_normal = ExtResource("3_ajmob")
-stretch_mode = 3
+ignore_texture_size = true
+stretch_mode = 5

@@ -12,6 +12,8 @@ extends Node2D
 const base_enemy_health = 100
 const base_enemy_damage = 10
 const base_enemy_number = 5
+const base_enemy_points = 10
+const base_enemy_currency = 5
 
 var enemy = preload("res://Characters/enemy.tscn")
 var total_enemies = 5
@@ -21,16 +23,18 @@ var defeated_level = 0
 var spawn_number
 var remain
 
+var points = 0
+var currency = 0
+var point_multiplier
+var currency_multiplier
+
 #Set essential variables
 func _ready():
-	total_enemies = base_enemy_number
-	spawn_number = base_enemy_number
-	remain = base_enemy_number
 	hud.set_values(target.shield, target.hp)
 	hud.set_wave(wave)
-	hud.set_defeated(defeated_total)
-	hud.set_remain(total_enemies)
-	SignalManager.game_over.connect(_on_game_over)
+	set_hud()
+	set_variables()
+	set_signals()
 
 #Enemis spawn and check of completed wave
 func _process(delta):
@@ -50,17 +54,6 @@ func check_all_eliminated():
 func update_timer_text():
 	next_wave.text = "Prossima ondata tra: " + str( ceili(next_wave_timer.time_left) )
 
-func set_next_wave():
-	wave += 1
-	hud.set_wave(wave)
-	total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
-	remain = total_enemies
-	hud.set_remain(remain)
-	spawn_number = total_enemies
-	defeated_level = 0
-	if Global.is_in_purchase:
-		Global.is_in_purchase = false
-
 func spawn_enemy():
 	if spawn_number > 0:
 		var spawn_point = spawn_area.calculate_spawn_point()
@@ -78,8 +71,12 @@ func _on_defeated():
 	defeated_total += 1
 	defeated_level += 1
 	remain -= 1
+	points = points + (point_multiplier * base_enemy_points)
+	currency = currency + (currency_multiplier * base_enemy_currency)
 	hud.set_defeated(defeated_total)
 	hud.set_remain(remain)
+	hud.set_points(points)
+	hud.set_currency(currency)
 
 func _on_next_wave_timer_timeout():
 	next_wave.visible = false
@@ -88,3 +85,31 @@ func _on_next_wave_timer_timeout():
 func _on_game_over():
 	game_over.visible = true
 	get_tree().paused = true
+
+
+func set_next_wave():
+	wave += 1
+	hud.set_wave(wave)
+	total_enemies = Formulas.calculate("enemies", wave, base_enemy_number)
+	remain = total_enemies
+	hud.set_remain(remain)
+	spawn_number = total_enemies
+	defeated_level = 0
+	if Global.is_in_purchase:
+		Global.is_in_purchase = false
+
+func set_signals():
+	SignalManager.game_over.connect(_on_game_over)
+
+func set_variables():
+	total_enemies = base_enemy_number
+	spawn_number = base_enemy_number
+	remain = base_enemy_number
+	point_multiplier = 1
+	currency_multiplier = 1
+
+func set_hud():
+	hud.set_defeated(defeated_total)
+	hud.set_remain(total_enemies)
+	hud.set_points(points)
+	hud.set_currency(currency)

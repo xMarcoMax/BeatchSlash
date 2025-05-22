@@ -68,7 +68,7 @@ grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Player/ScrollContainer"]
 layout_mode = 2
-columns = 10
+columns = 4
 
 [node name="Target" type="Control" parent="Panel/TabContainer"]
 visible = false
@@ -86,7 +86,9 @@ grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Target/ScrollContainer"]
 layout_mode = 2
-columns = 10
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
 
 [node name="Bonus" type="Control" parent="Panel/TabContainer"]
 visible = false
@@ -104,7 +106,7 @@ grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Bonus/ScrollContainer"]
 layout_mode = 2
-columns = 10
+columns = 4
 
 [node name="Button" type="Button" parent="Panel"]
 layout_mode = 1

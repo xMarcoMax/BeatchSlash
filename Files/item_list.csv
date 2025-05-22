@@ -1,0 +1,9 @@
+﻿id;name;description;bonus;order;category;sub_category;image
+large_shield;Frullato ai Frutti di bosco;Ripristina il 100% della moralità del tuo partner;1;2;Target;Shield;berry_smoothie.png
+medium_shield;Granita al Limone;Ripristina il 50% della moralità del tuo partner;0.5;1;Target;Shield;lemon_granita.png
+little_shield;Acqua Tonica;Ripristina il 25% della moralità del tuo partner;0.25;0;Target;Shield;tonic_water.png
+large_health;Milkshake alla Fragola;Ripristina il 100% della fedeltà del tuo partner;1;2;Target;Health;strawberry_milkshake.png
+medium_health;Patatine al Rosmarino;Ripristina il 50% della fedeltà del tuo partner;0.5;1;Target;Health;rosemary_chips.png
+little_health;Caramelle alla menta;Ripristina il 25% della fedeltà del tuo partner;0.25;0;Target;Health;mint_candies.png
+damage_item;Barretta Energetica;Aumenta il danno del 20%;0.2;0;Player;Damage;energy_bar.png
+;;;;;;;

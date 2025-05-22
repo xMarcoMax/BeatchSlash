@@ -18,35 +18,12 @@ func _ready():
 	populate_tab("Target")
 	tab_container.set_tab_title(2, "Bonus")
 	populate_tab("Bonus")
-	update_columns()
-	self.connect("resized", Callable(self, "update_columns"))
 
 func populate_tab(type: String):
 	var items = item_list.filter(func(item: Item): 
 		return item.item_category == type)
 	items.sort_custom(func(a: Item, b: Item): return a.item_order < b.item_order)
 	add_items(items, type)
-	
-	
-	#var path = "res://Objects/Items/Beach/"+type+"/"
-	#var dir = DirAccess.open(path)
-	#if dir == null:
-		#return
-	#dir.list_dir_begin()
-	#var file = dir.get_next()
-	#
-	##Recupero gli item, li ordino e poi li carico
-	#
-	#while file != "":
-		#var item = load(path+"/"+file).instantiate()
-		#if file == "damage_item.tscn":
-			#damage_item = item
-		#items.append(item)
-		#
-		#file = dir.get_next()
-	#dir.list_dir_end()
-	#items.sort_custom(func(a, b): return a.order < b.order)
-	#add_items(items, type)
 
 func add_items(items: Array, type: String):
 	for item in items:

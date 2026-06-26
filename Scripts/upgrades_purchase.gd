@@ -52,11 +52,19 @@ func _purchase_item():
 	var item = button.get_parent().get_parent()
 	var data = item.get_data()
 	
-	SignalManager.item_purchased.emit(data)
+	match data["category"]:
+		"Player":
+			SignalManager.item_player_purchased.emit(data)
+		"Target":
+			SignalManager.item_target_purchased.emit(data)
+		"Bonus":
+			SignalManager.item_bonus_purchased.emit(data)
+	
+	
 
 func load_item_file():
 	var file = FileAccess.open("res://Files/item_list.csv", FileAccess.READ)
-	var item_scene: PackedScene = load("res://Objects/Items/Beach/Target/item.tscn")
+	var item_scene: PackedScene = load("res://Objects/Items/item.tscn")
 	file.get_csv_line(";")
 	
 	while not file.eof_reached():

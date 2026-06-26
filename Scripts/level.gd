@@ -60,7 +60,6 @@ func spawn_enemy():
 		var spawn = enemy.instantiate()
 		spawn.position = spawn_point
 		add_child(spawn)
-		SignalManager.defeated.connect(_on_defeated)
 		spawn.set_spawn_values(target,
 			Formulas.calculate("health", wave, base_enemy_health),
 			Formulas.calculate("damage", wave, base_enemy_damage)
@@ -100,6 +99,7 @@ func set_next_wave():
 
 func set_signals():
 	SignalManager.game_over.connect(_on_game_over)
+	SignalManager.defeated.connect(_on_defeated)
 
 func set_variables():
 	total_enemies = base_enemy_number

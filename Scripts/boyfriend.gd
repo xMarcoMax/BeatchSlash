@@ -14,7 +14,7 @@ var max_shield
 func _ready():
 	max_hp = hp
 	max_shield = shield
-	SignalManager.item_purchased.connect(_apply_bonus)
+	SignalManager.item_target_purchased.connect(_apply_bonus)
 	area.body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body):

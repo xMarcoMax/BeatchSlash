@@ -4,17 +4,16 @@ var spawn_areas: Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var left_spawn: CollisionShape2D = $LeftSpawn
-	var bottom_spawn: CollisionShape2D = $BottomSpawn
-	var right_spawn: CollisionShape2D = $RightSpawn
-	
-	spawn_areas = [left_spawn, bottom_spawn, right_spawn]
+	spawn_areas = []
+	for child in get_children():
+		if child is CollisionShape2D:
+			spawn_areas.append(child)
 
 func calculate_spawn_point():
 	var spawn_area: CollisionShape2D = spawn_areas.pick_random()
 	var shape = spawn_area.shape
-	var center = spawn_area.position
-	var size = shape.extents
+	var center = spawn_area.global_position
+	var size = shape.size/2.0
 	
 	var spawn_point = Vector2(
 		randf_range(center.x - size.x, center.x + size.x),

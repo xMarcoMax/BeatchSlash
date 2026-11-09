@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0kya84v0rrp1"]
 
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="1_625en"]
+[ext_resource type="SpriteFrames" path="res://Assets/Projectiles/SandBall/sand_ball_frames.tres" id="1_625en"]
 [ext_resource type="Script" uid="uid://bv0uxpiu0lqbs" path="res://Scripts/projectiles.gd" id="1_g21x7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jryfm"]
@@ -9,10 +9,11 @@ size = Vector2(32, 32)
 [node name="SandBall" type="Area2D" groups=["sand_ball"]]
 script = ExtResource("1_g21x7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.319717, 0.148849, 2.40654e-08, 1)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_625en")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("1_625en")
+animation = &"flight"
+autoplay = "flight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_jryfm")
@@ -22,4 +23,5 @@ wait_time = 3.0
 autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="timeout" from="Used" to="." method="_on_used_timeout"]

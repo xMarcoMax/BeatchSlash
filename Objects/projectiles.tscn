@@ -11,6 +11,7 @@ script = ExtResource("1_g21x7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(2, 2)
 sprite_frames = ExtResource("1_625en")
 animation = &"flight"
 autoplay = "flight"

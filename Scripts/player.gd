@@ -9,9 +9,9 @@ extends CharacterBody2D
 @onready var moving_throw: Sprite2D = $MovingThrow
 @export var damage = 10
 
-# Frame 4: hand releases at 0.125 s with Throw at 32 FPS.
+# Frame 3: hand releases at ~0.094 s with Throw at 32 FPS.
 # A new press may interrupt recovery after release, never the pending projectile.
-@export_range(0, 7) var throw_release_frame: int = 4
+@export_range(0, 7) var throw_release_frame: int = 3
 signal throw_released
 
 var nominal_speed = speed

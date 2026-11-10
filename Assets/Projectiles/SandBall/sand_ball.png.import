@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cyc28l8o6x4wq"
-path="res://.godot/imported/player_spritesheet_v20.png-0d81393b6801d716d44d16c111921d6e.ctex"
+uid="uid://vpcf0t8khpsl"
+path="res://.godot/imported/sand_ball.png-ccd52ce59c0035c0a3b71f846c084d9e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Player/player_spritesheet_v20.png"
-dest_files=["res://.godot/imported/player_spritesheet_v20.png-0d81393b6801d716d44d16c111921d6e.ctex"]
+source_file="res://Assets/Projectiles/SandBall/sand_ball.png"
+dest_files=["res://.godot/imported/sand_ball.png-ccd52ce59c0035c0a3b71f846c084d9e.ctex"]
 
 [params]
 

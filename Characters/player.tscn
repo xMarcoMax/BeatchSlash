@@ -3,7 +3,7 @@
 [ext_resource type="SpriteFrames" path="res://Assets/Characters/Player/player_frames.tres" id="1_frames"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_script"]
 [ext_resource type="PackedScene" path="res://Objects/projectiles.tscn" id="3_ball"]
-[ext_resource type="Texture2D" path="res://Assets/Characters/Player/player_moving_throw_v20.png" id="4_moving_throw"]
+[ext_resource type="Texture2D" path="res://Assets/Characters/Player/player_moving_throw.png" id="4_moving_throw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(130, 129)
@@ -19,7 +19,7 @@ scale = Vector2(4, 4)
 sprite_frames = ExtResource("1_frames")
 animation = &"idle_down"
 autoplay = "idle_down"
-offset = Vector2(0, -5)
+offset = Vector2(0, -3)
 
 [node name="MovingThrow" type="Sprite2D" parent="."]
 visible = false
@@ -28,7 +28,7 @@ scale = Vector2(4, 4)
 texture = ExtResource("4_moving_throw")
 hframes = 8
 vframes = 64
-offset = Vector2(0, -5)
+offset = Vector2(0, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)

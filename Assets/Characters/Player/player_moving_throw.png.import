@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3dfjkujjbm3h"
-path="res://.godot/imported/sand_ball_v1.png-0579d8ad7158f02baa3b0397c7132fb9.ctex"
+uid="uid://cwdjmef1qhe3f"
+path="res://.godot/imported/player_moving_throw.png-a39438a9931f2788a714ceded87f1b35.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Projectiles/SandBall/sand_ball_v1.png"
-dest_files=["res://.godot/imported/sand_ball_v1.png-0579d8ad7158f02baa3b0397c7132fb9.ctex"]
+source_file="res://Assets/Characters/Player/player_moving_throw.png"
+dest_files=["res://.godot/imported/player_moving_throw.png-a39438a9931f2788a714ceded87f1b35.ctex"]
 
 [params]
 

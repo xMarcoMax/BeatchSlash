@@ -1,45 +1,45 @@
 [gd_resource type="SpriteFrames" load_steps=10 format=3]
 
-[ext_resource type="Texture2D" path="res://Assets/Projectiles/SandBall/sand_ball_v1.png" id="1"]
+[ext_resource type="Texture2D" path="res://Assets/Projectiles/SandBall/sand_ball.png" id="1"]
 
 [sub_resource type="AtlasTexture" id="Frame_0"]
 atlas = ExtResource("1")
-region = Rect2(0, 0, 48, 48)
+region = Rect2(0, 0, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_1"]
 atlas = ExtResource("1")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(24, 0, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_2"]
 atlas = ExtResource("1")
-region = Rect2(96, 0, 48, 48)
+region = Rect2(48, 0, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_3"]
 atlas = ExtResource("1")
-region = Rect2(144, 0, 48, 48)
+region = Rect2(72, 0, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_4"]
 atlas = ExtResource("1")
-region = Rect2(0, 48, 48, 48)
+region = Rect2(0, 24, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_5"]
 atlas = ExtResource("1")
-region = Rect2(48, 48, 48, 48)
+region = Rect2(24, 24, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_6"]
 atlas = ExtResource("1")
-region = Rect2(96, 48, 48, 48)
+region = Rect2(48, 24, 24, 24)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Frame_7"]
 atlas = ExtResource("1")
-region = Rect2(144, 48, 48, 48)
+region = Rect2(72, 24, 24, 24)
 filter_clip = true
 
 [resource]

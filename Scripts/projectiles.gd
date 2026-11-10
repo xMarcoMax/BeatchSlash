@@ -8,6 +8,13 @@ var is_impacting := false
 
 func _ready():
 	animations.play(&"flight")
+	# The launch transform is assigned after add_child(): read the direction once it is set.
+	_face_upright.call_deferred()
+
+# When thrown leftwards the node is rotated ~180 degrees: flip the sprite vertically so
+# the top-left lighting stays on top. The impact frames face +x, i.e. the enemy, in every direction.
+func _face_upright():
+	animations.flip_v = global_transform.x.x < 0.0
 
 func _physics_process(delta):
 	if is_impacting:

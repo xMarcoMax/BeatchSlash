@@ -25,11 +25,16 @@ Formulas="*res://Scripts/Autoload/Formulas.gd"
 SignalManager="*res://Scripts/Autoload/SignalManager.gd"
 MusicManager="*res://Scripts/Autoload/MusicManager.gd"
 Global="*res://Scripts/Autoload/Global.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
 
 [global_group]
 

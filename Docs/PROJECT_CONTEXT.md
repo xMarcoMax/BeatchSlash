@@ -2,6 +2,8 @@
 
 Ultimo aggiornamento: **11 novembre 2026** (Claude e Codex). Confrontare sempre con i file correnti, git status e le ultime istruzioni dell'utente. Aggiornare questo file a fine di ogni intervento (stato, approvazioni, punti aperti), mantenendolo descrittivo dello stato attuale e non come diario.
 
+**Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script); questo file descrive visione, stile grafico e stato.
+
 Nel progetto esistono solo le risorse grafiche attualmente in uso, senza suffissi di versione. Le versioni precedenti di sprite e strumenti sono state eliminate su richiesta dell'utente; non vanno ricreate né citate.
 
 ## Concept del gioco (visione dell'utente, da rispettare)

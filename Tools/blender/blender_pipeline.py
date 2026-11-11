@@ -172,25 +172,31 @@ def pose_combo(base_fn, t, i, static=False):
             P[b].rotation_euler = tuple(a*(1-w)+c*w for a, c in zip(r1, snap[b]))
     if static: P["hair"].rotation_euler = (R(6 + (6 if 3.0 <= p <= 5.0 else 2)), 0, 0)
 
-def render_pose(fn, t, ball=False):
+def render_pose(fn, t, ball=False, yaws=DIRY):
     clear_pose(); fn(t); bpy.data.objects["SandBall"].hide_render = not ball
-    return render_sprites(DIRY)
+    return render_sprites(yaws)
 
 # ---------- costruzione degli atlanti nel formato del progetto ----------
-def build_all():
+DIAG = [135, -135, 45, -45]       # NE, NW, SE, SW (rotazione di Root)
+
+def build_diagonals():
+    """atlanti delle diagonali, stesso formato dei principali ma direzioni NE,NW,SE,SW"""
+    return build_all(DIAG, "player_diagonals_spritesheet.png", "player_diagonals_moving_throw.png")
+
+def build_all(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_moving_throw.png"):
     rig = bpy.data.objects["Rig"]; rig.animation_data_create(); rig.animation_data.action = None
     ball = bpy.data.objects["SandBall"]
     groups = []   # Idle(6), Walk(8), Dash(8), Throw(8) x N,S,E,W
     for fn, n in ((idle, 6), (walk, 8), (run, 8)):
         arr = np.zeros((4, 8, SIZE, SIZE, 4))
         for f in range(n):
-            out = render_pose(fn, f/n*2*math.pi)
+            out = render_pose(fn, f/n*2*math.pi, yaws=yaws)
             for d in range(4): arr[d, f] = out[d]
         groups.append(arr)
     arr = np.zeros((4, 8, SIZE, SIZE, 4))
     for i in range(8):
         pose_combo(idle, 0.0, i, static=True); ball.hide_render = i not in BALL_FRAMES
-        out = render_sprites(DIRY)
+        out = render_sprites(yaws)
         for d in range(4): arr[d, i] = out[d]
     groups.append(arr)
     sheet = np.zeros((16*SIZE, 8*SIZE, 4))
@@ -204,10 +210,10 @@ def build_all():
         for g in range(8):
             for i in range(8):
                 pose_combo(fn, g/8*2*math.pi, i); ball.hide_render = i not in BALL_FRAMES
-                out = render_sprites(DIRY)
+                out = render_sprites(yaws)
                 for d in range(4):
                     r = ai*32+d*8+g; mt[r*SIZE:(r+1)*SIZE, i*SIZE:(i+1)*SIZE] = out[d]
     ball.hide_render = True; clear_pose()
-    save_rgba(sheet, os.path.join(PROJ, "player_spritesheet.png"))
-    save_rgba(mt, os.path.join(PROJ, "player_moving_throw.png"))
+    save_rgba(sheet, os.path.join(PROJ, sheet_name))
+    save_rgba(mt, os.path.join(PROJ, mt_name))
     return sheet.shape, mt.shape

@@ -1,6 +1,6 @@
 # Beatch Slash! — contesto condiviso per Codex e Claude
 
-Ultimo aggiornamento: **11 novembre 2026** (Claude). Confrontare sempre con i file correnti, git status e le ultime istruzioni dell'utente. Aggiornare questo file a fine di ogni intervento (stato, approvazioni, punti aperti), mantenendolo descrittivo dello stato attuale e non come diario.
+Ultimo aggiornamento: **11 novembre 2026** (Claude e Codex). Confrontare sempre con i file correnti, git status e le ultime istruzioni dell'utente. Aggiornare questo file a fine di ogni intervento (stato, approvazioni, punti aperti), mantenendolo descrittivo dello stato attuale e non come diario.
 
 Nel progetto esistono solo le risorse grafiche attualmente in uso, senza suffissi di versione. Le versioni precedenti di sprite e strumenti sono state eliminate su richiesta dell'utente; non vanno ricreate né citate.
 
@@ -55,17 +55,20 @@ Characters/player.tscn: AnimatedSprite2D con Assets/Characters/Player/player_fra
 
 up = Nord, down = Sud, right = Est, left = Ovest.
 
+**Diagonali (11 nov 2026, da far approvare all'utente):** stessi 4 gruppi (idle, walk, dash, throw) con suffissi `_up_right` (NE), `_up_left` (NW), `_down_right` (SE), `_down_left` (SW) in player_frames.tres, da Assets/Characters/Player/player_diagonals_spritesheet.png (stesso layout: righe = gruppo*4 + direzione NE,NW,SE,SW; stessi frame e FPS) e player_diagonals_moving_throw.png (righe = azione*32 + direzione*8 + fase). Gli atlanti principali non sono stati toccati. Rigenerazione: `build_diagonals()` in Tools/blender/blender_pipeline.py (yaw Root NE 135, NW -135, SE 45, SW -45). player.gd: `_direction_name()` sceglie tra 8 direzioni (diagonale se l'asse minore > 0.414 del maggiore) sia per il movimento sia per la mira del lancio; nei lanci in movimento MovingThrow cambia texture tra atlante cardinale e diagonale. Verificato in gioco: walk/idle/throw diagonali e moving throw (texture e frame corretti). Non verificato a occhio: dash e throw diagonali in animazione fluida, e gli occhi timbrati sulle diagonali (SE mostra un solo occhio).
+
 - player_moving_throw.png (384x3072): riga = azione*32 + direzione*8 + fase_del_passo; colonna = frame del lancio. Azioni Walk=0/Dash=1, direzioni N/S/E/W = 0..3. player.gd la usa durante i lanci in movimento: gambe dal passo corrente, busto dal lancio.
 - Movimento ui_left/right/up/down a 400; run (Spazio) porta a 800 e seleziona Dash. Asse dominante del movimento, precedenza orizzontale sulle diagonali esatte. Idle mantiene l'ultima direzione.
 - shoot_sand (tasto destro) avvia start_throw(); durante Throw il movimento continua. **throw_release_frame = 3**: la palla è in mano nei frame 0-2 e parte al 3; throw_released emesso dopo lo spawn.
 - A fine Throw torna Idle se fermo; in movimento riprende Walk/Dash dalla fase raggiunta.
-- Collider: RectangleShape2D 130x129, posizione (0, 0.5). Raycast: scala (2, 2), target (50, 0).
+- Collider: RectangleShape2D 72x120, posizione (0, 17) (tronco e gambe fino ai piedi, adattato allo sprite 48x48 a scala 4; il bbox visibile è circa 80 px in larghezza e va da -95 a +77 in altezza). Raycast: scala (2, 2), target (50, 0). La scelta delle 8 direzioni sta in `Formulas.direction_name()` (autoload), usata anche dai nemici.
 
 ## Palla di sabbia: integrazione
 
 - Assets/Projectiles/SandBall/sand_ball.png (celle 24x24) e sand_ball_frames.tres: flight 4 frame 12 FPS loop; impact 4 frame 26 FPS una volta.
 - In projectiles.tscn l'AnimatedSprite2D ha scale (2, 2): il nodo eredita scala 2 dal RayCast2D, quindi 1 pixel = 4 px a schermo come il Player.
 - Lo sprite ruota con la direzione di lancio: l'impatto è disegnato verso +x (il nemico) e simmetrico in verticale; projectiles.gd imposta flip_v quando il lancio va a sinistra, così la luce resta in alto. Ogni nuovo proiettile/effetto che ruota con la mira va disegnato con la stessa regola.
+- Collider RectangleShape2D 24x22 in posizione (1, 0), sulla testa della palla (coordinate locali, il nodo eredita scala 2). Verificato in gioco: il colpo toglie salute al nemico.
 - Danno immediato una sola volta al contatto con un nemico vivo; la palla si ferma e sparisce a fine impatto; colpi mancati eliminati dopo 3 s.
 
 ## Pipeline grafica e stile visivo - LEGGERE PRIMA DI TOCCARE SPRITE
@@ -85,6 +88,7 @@ Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi cor
   - Tools/concept/prompts.json: prompt usati per il turnaround della protagonista.
   - Per nemici e ragazzo aggiungere i loro .blend (ed eventuali script) in Tools/blender/ e i prompt dei concept in Tools/concept/.
 - Concept di partenza: Assets/ConceptArt/Player/player_turnaround.png (fronte/lato/retro).
+- Concept base delle nemiche: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/lato/retro), variante del concept Player con capelli viola e costume verde smeraldo. Richiesta dall'utente mantenendo il disegno e cambiando solo quei colori, scelti da Codex. Creata con image_gen e aperta/esportata tramite Pixelorama MCP; prompt in Tools/concept/prompts.json, voce enemy_base. Verificata visivamente, non certificata identica pixel per pixel; approvazione visiva dell'utente ancora da ricevere. Nessuna integrazione negli sprite o nelle scene.
 
 ### Regole di stile (vincolanti)
 
@@ -102,14 +106,16 @@ Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi cor
 
 - [x] **Player approvato** dall'utente ("animazione davvero perfetta"): sprite, animazioni, ombra e lanci in movimento. Non modificarlo senza nuova richiesta.
 - [x] **Palla di sabbia approvata** ("perfetto"): volo, impatto rivolto verso il nemico, flip_v sui lanci a sinistra.
+- [ ] **Nemica base (11-12 nov 2026, approvata dall'utente come aspetto; il flirt è stato rifatto dopo il suo feedback):** sorgente Tools/blender/nemica.blend (copia del modello del Player con chioma più piena: mesh Hair allargata X 1.10-1.24 e Y dietro 1.12-1.30, crescente verso le punte; capelli viola #2a1240 #4b2a78 #7043a1 #a97fd9, costume smeraldo #16503a #25805a #3db57d #8de0b4, pelle e viso invariati) e Tools/blender/nemica_pipeline.py (`build_enemy()`, riusa blender_pipeline.py, scrive in Assets/Characters/Enemy). Atlante enemy_spritesheet.png (celle 48x48, 12 colonne, 24 righe): righe = gruppo*8 + direzione; gruppi walk (righe 0-7, 8 frame), flirt (8-15, 12 frame), idle (16-23, 6 frame, riusa idle() del Player); ordine direzioni up, down, right, left, up_right, up_left, down_right, down_left. Assets/Characters/Enemy/enemy_frames.tres: `walk_<dir>` 8 FPS, `flirt_<dir>` 8 FPS, `idle_<dir>` 5 FPS, tutte in loop. Il flirt è la posa da ferma davanti al ragazzo: i piedi restano fissi a terra (IK numerico `pin_feet()` su coscia+stinco, errore < 0,5 mm), il peso passa da una gamba all'altra con bacino che si sposta/abbassa/ruota, busto in contro-movimento, mano sul fianco, l'altra tra i capelli, testa inclinata. **Collegata** a Characters/enemy.tscn (AnimatedSprite2D scala 4, offset (0, -3), barra salute spostata in alto di 40 px, collider 72x120 in (0, 17)) e a Scripts/enemy.gd `update_animation()`: flirt se is_attacking, idle (rivolta verso il ragazzo) se la velocità reale è < 10% di speed (arrivata o bloccata da un'altra nemica), altrimenti walk nella direzione reale; riprende a camminare appena l'ostacolo sparisce (verificato in gioco). Alla morte l'animazione si ferma (nessuna animazione di morte). Animazioni ancora da fare (concordate con l'utente, a tempo debito): **colpita** (non come clip separata: va integrata dentro le animazioni di movimento e di attacco/flirt, per esempio un sussulto sovrapposto a walk e flirt in tutte le 8 direzioni) e **morte**; poi varianti di colore e classi di nemiche.
+  Ordine previsto: prima l'animazione di colpita integrata, poi la morte (oggi alla morte l'animazione si ferma sul frame corrente e dead_timer elimina il nodo).
 - [ ] Commit da fare (utente): nuovi PNG con i .import rigenerati da Godot, .tres, Assets/ConceptArt/, Tools/, .gitignore, player.tscn, projectiles.tscn, player.gd, projectiles.gd, README, eliminazione dei file precedenti.
-- [ ] **TileSet mappa:** l'import dell'editor segnala celle fuori texture/mancanti (TileSetAtlasSource). Preesistente, causa da diagnosticare.
+- [ ] **TileSet mappa:** l'import dell'editor segnala celle fuori texture/mancanti (TileSetAtlasSource). Preesistente, causa da diagnosticare. Su indicazione dell'utente (12 nov 2026) il fix di TileSet e tilemap in generale è rimandato a una sessione futura: per ora non toccarli.
 - [ ] **Mira durante Throw:** posa scelta all'inizio, raycast al mouse al rilascio; muovendo il mouse durante il lancio possono divergere. Da valutare se migliorarlo.
 - [ ] Playtest completo menu -> ondate -> acquisti -> game over; flusso potenziamenti e stub statistiche massime da verificare.
 
-## Prossimi passi (NON ancora iniziati, l'utente li chiederà a tempo debito)
+## Prossimi passi (modellazione e animazioni non ancora iniziate)
 
-1. **Nemici**: ragazze in spiaggia, "più belle della protagonista". Partire dal concept con la **chioma piena e voluminosa** (Assets/ConceptArt/Player/player_turnaround.png), mantenendola, e variare colori di capelli, occhi, costumi, pelle (e altri dettagli) per avere più varianti. Oggi Characters/enemy.tscn usa ancora il placeholder Assets/icon.svg (Sprite2D, CharacterBody2D, RayCast2D scala 2). Servono anche le loro animazioni (da definire con l'utente: movimento, attacco, colpite, morte...).
+1. **Nemici**: ragazze in spiaggia, "più belle della protagonista". Il concept base è ora Assets/ConceptArt/Enemies/enemy_turnaround.png, derivato dal Player con la **chioma piena e voluminosa**, capelli viola e costume smeraldo; attendere l'approvazione visiva prima della modellazione. Per ulteriori varianti cambiare colori di capelli, occhi, costumi, pelle (e altri dettagli). Oggi Characters/enemy.tscn usa ancora il placeholder Assets/icon.svg (Sprite2D, CharacterBody2D, RayCast2D scala 2). Servono anche le loro animazioni (da definire con l'utente: movimento, attacco, colpite, morte...).
 2. **Il ragazzo ("la torre")**: Characters/boyfriend.tscn, gruppo "target", oggi placeholder icon.svg. Sprite e animazioni da creare.
 3. Per entrambi usare la stessa pipeline e le stesse regole di stile del Player: Blender (modello chibi + rig, render 48x48 senza anti-aliasing, toon 4 toni, contorno #3a1418, occhi timbrati a pixel, ombra a terra) e Pixelorama per ritocchi ed effetti. Partire da un turnaround per ciascun personaggio; per le varianti dei nemici basta cambiare le palette dei materiali dello stesso modello. Prima di animare, mostrare all'utente un render di prova 48x48 nelle 4 direzioni e farlo approvare.
 

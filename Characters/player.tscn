@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" path="res://Assets/Characters/Player/player_moving_throw.png" id="4_moving_throw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
-size = Vector2(130, 129)
+size = Vector2(72, 120)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("2_script")
@@ -31,7 +31,7 @@ vframes = 64
 offset = Vector2(0, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 17)
 shape = SubResource("RectangleShape2D_faqlr")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

@@ -69,7 +69,7 @@ func load_item_file():
 	
 	while not file.eof_reached():
 		var columns = file.get_csv_line(";")
-		if columns.size() < 8:
+		if columns.size() < 8 or columns[0] == "":
 			continue
 		var id = columns[0]
 		var name = columns[1]

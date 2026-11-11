@@ -15,6 +15,7 @@ func _ready():
 	max_hp = hp
 	max_shield = shield
 	SignalManager.item_target_purchased.connect(_apply_bonus)
+	SignalManager.attack_target.connect(_on_enemy_attack)
 	area.body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body):

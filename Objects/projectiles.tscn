@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bv0uxpiu0lqbs" path="res://Scripts/projectiles.gd" id="1_g21x7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jryfm"]
-size = Vector2(32, 32)
+size = Vector2(24, 22)
 
 [node name="SandBall" type="Area2D" groups=["sand_ball"]]
 script = ExtResource("1_g21x7")
@@ -17,6 +17,7 @@ animation = &"flight"
 autoplay = "flight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_jryfm")
 
 [node name="Used" type="Timer" parent="."]

@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var attack_cooldown: Timer =$Timer/AttackCooldown
 @onready var health: Label = $HP
 @onready var progress_bar: ProgressBar = $ProgressBar
+@onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var speed = 100
 @export var target: CharacterBody2D
@@ -18,7 +19,6 @@ func _ready():
 	target = get_node("../Boyfriend")
 	progress_bar.max_value = hp;
 	SignalManager.enemy_attacking.connect(_on_enemy_attacking)
-	SignalManager.attack_target.connect(target._on_enemy_attack)
 
 func _process(delta):
 	health.text = "Salute: 0" if hp <= 0 else "Salute: "+str(hp)
@@ -57,6 +57,21 @@ func _physics_process(delta):
 	else:
 		velocity = position.direction_to(target.position) * speed
 	move_and_slide()
+	update_animation()
+
+#Walk while moving, flirt when attacking, idle when stopped (target reached or blocked by another enemy)
+func update_animation():
+	if hp <= 0:
+		animations.pause()
+		return
+	var to_target = target.position - position
+	var moved = get_real_velocity()
+	if is_attacking:
+		animations.play("flirt_" + Formulas.direction_name(to_target))
+	elif moved.length() < speed * 0.1:
+		animations.play("idle_" + Formulas.direction_name(to_target))
+	else:
+		animations.play("walk_" + Formulas.direction_name(moved))
 
 #Set useful values for the enemy
 func set_spawn_values(target_body, hp_value, damage_value):

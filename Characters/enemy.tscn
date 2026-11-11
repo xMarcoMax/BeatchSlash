@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://rt8e7i8kcefv"]
 
 [ext_resource type="Script" uid="uid://brexcm5e22l0w" path="res://Scripts/enemy.gd" id="1_biwbq"]
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="1_g1x4i"]
+[ext_resource type="SpriteFrames" path="res://Assets/Characters/Enemy/enemy_frames.tres" id="2_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
-size = Vector2(130, 129)
+size = Vector2(72, 120)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtu5t"]
 bg_color = Color(0, 0.784314, 0, 0.392157)
@@ -15,12 +15,15 @@ bg_color = Color(0.00392157, 0.784314, 0, 1)
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_biwbq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.746585, 9.3855e-07, 4.81307e-07, 1)
-texture = ExtResource("1_g1x4i")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("2_frames")
+animation = &"walk_down"
+offset = Vector2(0, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 17)
 shape = SubResource("RectangleShape2D_faqlr")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
@@ -37,9 +40,9 @@ one_shot = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -101.0
-offset_top = -96.0
+offset_top = -136.0
 offset_right = 105.0
-offset_bottom = -66.0
+offset_bottom = -106.0
 theme_override_styles/background = SubResource("StyleBoxFlat_rtu5t")
 theme_override_styles/fill = SubResource("StyleBoxFlat_sdfay")
 show_percentage = false
@@ -47,9 +50,9 @@ show_percentage = false
 [node name="HP" type="Label" parent="."]
 visible = false
 offset_left = -24.0
-offset_top = -92.0
+offset_top = -132.0
 offset_right = 25.0
-offset_bottom = -69.0
+offset_bottom = -109.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 0

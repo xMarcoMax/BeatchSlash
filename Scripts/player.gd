@@ -14,6 +14,12 @@ extends CharacterBody2D
 @export_range(0, 7) var throw_release_frame: int = 3
 signal throw_released
 
+# Atlas dei lanci in movimento: righe = azione*32 + direzione*8 + fase; ordine direzioni per atlas.
+const MOVING_THROW_DIAGONAL = preload("res://Assets/Characters/Player/player_diagonals_moving_throw.png")
+const CARDINAL_DIRECTIONS = ["up", "down", "right", "left"]
+const DIAGONAL_DIRECTIONS = ["up_right", "up_left", "down_right", "down_left"]
+@onready var moving_throw_cardinal: Texture2D = moving_throw.texture
+
 var nominal_speed = speed
 var last_animation = "down"
 var is_attacking = false
@@ -45,14 +51,7 @@ func update_animation():
 	if velocity.length() == 0:
 		animations.play("idle_" + last_animation)
 	else:
-		var direction = "down"
-		# Follow the dominant motion axis: a small horizontal stick component
-		# must not hide North/South locomotion. Exact diagonals keep side priority.
-		if absf(velocity.x) >= absf(velocity.y):
-			direction = "left" if velocity.x < 0 else "right"
-		else:
-			direction = "up" if velocity.y < 0 else "down"
-		last_animation = direction
+		last_animation = Formulas.direction_name(velocity)
 		var action = "dash" if nominal_speed > speed else "walk"
 		animations.play(action + "_" + last_animation)
 
@@ -69,10 +68,7 @@ func start_throw(mouse_position: Vector2):
 			_moving_gait_phase = animations.frame + animations.frame_progress
 	var aim = mouse_position - global_position
 	if not aim.is_zero_approx():
-		if absf(aim.x) > absf(aim.y):
-			last_animation = "right" if aim.x > 0 else "left"
-		else:
-			last_animation = "down" if aim.y > 0 else "up"
+		last_animation = Formulas.direction_name(aim)
 	# Restart even the same Throw without waiting for its previous recovery.
 	is_attacking = false
 	animations.stop()
@@ -111,7 +107,11 @@ func _update_moving_throw(delta: float):
 	var action_index: int = 1 if nominal_speed > speed else 0
 	var gait_fps: float = 12.0 if action_index == 1 else 8.0
 	_moving_gait_phase = fposmod(_moving_gait_phase + delta * gait_fps, 8.0)
-	var direction_index: int = ["up", "down", "right", "left"].find(last_animation)
+	var direction_index: int = CARDINAL_DIRECTIONS.find(last_animation)
+	var is_diagonal: bool = direction_index == -1
+	if is_diagonal:
+		direction_index = DIAGONAL_DIRECTIONS.find(last_animation)
+	moving_throw.texture = MOVING_THROW_DIAGONAL if is_diagonal else moving_throw_cardinal
 	var atlas_row: int = action_index * 32 + direction_index * 8 + int(_moving_gait_phase)
 	# Each cell is a complete coherent pose. Only the arm uses the throw clock;
 	# legs, pelvis, torso and hair use the current gait, with no horizontal splice.

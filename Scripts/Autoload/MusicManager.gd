@@ -10,7 +10,7 @@ func _ready():
 	SignalManager.game_started.connect(_on_game_started)
 
 func load_menu_music():
-	var music = preload("res://Assets/Music/Menu/main_menu.mp3")
+	var music = preload("res://Assets/Music/Menu/summer-funky-dance-314907.mp3")
 	music_player.stream = music
 	start_music()
 
@@ -25,6 +25,3 @@ func is_music_playing():
 
 func _on_game_started():
 	stop_music()
-	#var music = preload("res://Assets/Music/Beach/summer-funky-dance-314907.mp3")
-	#music_player.stream = music
-	#start_music()

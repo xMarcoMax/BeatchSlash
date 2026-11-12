@@ -20,7 +20,7 @@ GDScript, Godot 4.7, renderer Mobile. Scena principale: Scenes/main_menu.tscn. T
 | --- | --- | --- |
 | `Formulas` | Scripts/Autoload/Formulas.gd | `calculate(type, wave, base)` scala nemiche/salute/danno con le ondate (fattori 1.6 / 1.25 / 1.05, cap 12); `direction_name(Vector2)` sceglie una delle 8 direzioni degli sprite (`up`, `down`, `left`, `right`, `up_right`, `up_left`, `down_right`, `down_left`), usata da Player e nemiche |
 | `SignalManager` | Scripts/Autoload/SignalManager.gd | bus di segnali globali (tabella sotto) |
-| `MusicManager` | Scripts/Autoload/MusicManager.gd | un AudioStreamPlayer; musica del menu; `game_started` la ferma (la musica di spiaggia è commentata) |
+| `MusicManager` | Scripts/Autoload/MusicManager.gd | un AudioStreamPlayer; carica `Assets/Music/Menu/summer-funky-dance-314907.mp3` (unica musica del progetto, loop); `game_started` la ferma e in partita non c'è musica |
 | `Global` | Scripts/Autoload/Global.gd | `is_mobile`, `is_in_purchase` (blocca movimento e lanci durante gli acquisti), `purchase_just_closed` (evita che Esc chiuda anche la pausa) |
 | `_mcp_game_helper` | addons/godot_ai/... | solo strumenti di sviluppo, non fa parte del gioco |
 

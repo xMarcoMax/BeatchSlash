@@ -143,7 +143,6 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
 - Sprite e animazioni del ragazzo (Characters/boyfriend.tscn, gruppo "target", oggi placeholder Assets/icon.svg), con la stessa pipeline del Player: turnaround, render di prova 48x48 nelle 4 direzioni da far approvare prima di animare.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
-- Decidere se usare o eliminare Assets/Music/Beach/summer-funky-dance-314907.mp3 (non usata: citata solo in un preload commentato di MusicManager.gd).
 - Valutare la mira durante il lancio: posa scelta all'inizio e raycast al mouse al rilascio, muovendo il mouse possono divergere.
 - Playtest completo: menu -> ondate -> acquisti -> game over.
 - Riordino cartelle (facoltativo, proposta in CODE_MAP.md, sezione Risorse).

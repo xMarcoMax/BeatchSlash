@@ -1,8 +1,11 @@
 extends Area2D
 
 @export var speed = 400
+#At the end of its flight the ball slows down by this much per second while it drops onto the sand
+const LAND_DECEL = 1500.0
 var damage
 var is_impacting := false
+var is_landing := false
 
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -19,11 +22,13 @@ func _face_upright():
 func _physics_process(delta):
 	if is_impacting:
 		return
+	if is_landing:
+		speed = maxf(speed - LAND_DECEL * delta, 0.0)
 	position = position + transform.x * speed * delta
 
 #Detects if the bullet hit an enemy
 func _on_body_entered(body):
-	if is_impacting:
+	if is_impacting or is_landing:
 		return
 	if body.is_in_group("enemy") and body.hp > 0:
 		# Lock the hit before damage/death signals can trigger another contact.
@@ -34,17 +39,18 @@ func _on_body_entered(body):
 		$CollisionShape2D.set_deferred("disabled", true)
 		$Used.stop()
 		animations.play(&"impact")
-		body.hp = body.hp - damage
-		if body.hp <= 0:
-			enemy_dead(body)
+		body.take_damage(damage, transform.x)
 
-func enemy_dead(body):
-	body.dead()
-
+#End of the flight: the ball drops onto the sand and scatters (no more hits while it falls)
 func _on_used_timeout():
-	if not is_impacting:
-		queue_free()
+	if is_impacting:
+		return
+	is_landing = true
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+	$CollisionShape2D.set_deferred("disabled", true)
+	animations.play(&"land")
 
 func _on_animation_finished():
-	if is_impacting and animations.animation == &"impact":
+	if animations.animation == &"impact" or animations.animation == &"land":
 		queue_free()

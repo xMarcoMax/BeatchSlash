@@ -2,6 +2,7 @@ extends Node
 
 #Segnali del target
 signal enemy_attacking(enemy)
+signal enemy_left_target(enemy)
 
 #Segnali del nemico e del player
 signal defeated

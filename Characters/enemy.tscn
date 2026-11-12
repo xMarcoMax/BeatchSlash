@@ -13,6 +13,8 @@ bg_color = Color(0, 0.784314, 0, 0.392157)
 bg_color = Color(0.00392157, 0.784314, 0, 1)
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_biwbq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -25,10 +27,6 @@ offset = Vector2(0, -3)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 17)
 shape = SubResource("RectangleShape2D_faqlr")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-scale = Vector2(2, 2)
-target_position = Vector2(50, 0)
 
 [node name="Timer" type="Node2D" parent="."]
 

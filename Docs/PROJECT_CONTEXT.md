@@ -80,20 +80,21 @@ up = Nord, down = Sud, right = Est, left = Ovest.
 
 ## Palla di sabbia: specifiche
 
-- Assets/Projectiles/SandBall/sand_ball.png (celle 24x24) e sand_ball_frames.tres: flight 4 frame 12 FPS loop; impact 4 frame 26 FPS una volta.
+- Assets/Projectiles/SandBall/sand_ball.png (celle 24x24) e sand_ball_frames.tres: flight 4 frame 12 FPS loop; impact 4 frame 26 FPS una volta; land 8 frame 14 FPS una volta (texture separata sand_ball_land.png, vedi sotto).
 - In projectiles.tscn l'AnimatedSprite2D ha scale (2, 2): il nodo eredita scala 2 dal RayCast2D, quindi 1 pixel = 4 px a schermo come il Player.
 - Lo sprite ruota con la direzione di lancio: l'impatto è disegnato verso +x (il nemico) e simmetrico in verticale; projectiles.gd imposta flip_v quando il lancio va a sinistra, così la luce resta in alto. Ogni nuovo proiettile o effetto che ruota con la mira va disegnato con la stessa regola.
 - Collider RectangleShape2D 24x22 in posizione (1, 0), sulla testa della palla (coordinate locali, il nodo eredita scala 2).
-- Danno immediato una sola volta al contatto con un nemico vivo; la palla si ferma e sparisce a fine impatto; i colpi mancati sono eliminati dopo 3 s.
+- Danno immediato una sola volta al contatto con un nemico vivo; la palla si ferma e sparisce a fine impatto. I colpi mancati, dopo 3 s di volo, cadono sulla sabbia: animazione `land` (8 frame 24x24, 14 FPS, una volta) da Assets/Projectiles/SandBall/sand_ball_land.png (sorgenti Tools/pixelorama/sand_ball_land.pxo e sand_ball_land_gen.py): la palla si rimpicciolisce di poco (3 frame), si schiaccia a terra, scoppia in granelli e si dissolve in granelli scuri visibili sulla sabbia. Simmetrica, quindi vale per ogni direzione di lancio. Mentre cade non colpisce più e rallenta fino a fermarsi.
 
 ## Nemica base: specifiche
 
 - Sorgenti: Tools/blender/nemica.blend (copia del modello del Player con chioma più piena: mesh Hair allargata X 1.10-1.24 e Y dietro 1.12-1.30, crescente verso le punte) e Tools/blender/nemica_pipeline.py (`build_enemy()`, riusa blender_pipeline.py, scrive in Assets/Characters/Enemy).
 - Palette: capelli viola #2a1240 #4b2a78 #7043a1 #a97fd9; costume smeraldo #16503a #25805a #3db57d #8de0b4; pelle e viso invariati rispetto al Player.
-- Atlante enemy_spritesheet.png: celle 48x48, 12 colonne, 24 righe; righe = gruppo*8 + direzione. Gruppi: walk (righe 0-7, 8 frame), flirt (8-15, 12 frame), idle (16-23, 6 frame, riusa idle() del Player). Ordine direzioni: up, down, right, left, up_right, up_left, down_right, down_left.
-- Assets/Characters/Enemy/enemy_frames.tres: `walk_<dir>` 8 FPS, `flirt_<dir>` 8 FPS, `idle_<dir>` 5 FPS, tutte in loop.
+- Atlante enemy_spritesheet.png: celle 48x48, 12 colonne, 32 righe; righe = gruppo*8 + direzione. Gruppi: walk (righe 0-7, 8 frame), flirt (8-15, 12 frame), idle (16-23, 6 frame, riusa idle() del Player), dead (24-31, 8 frame: caduta a sedere, `fall()` in nemica_pipeline.py, tabella `FALL` di 8 pose; gambe all'aria, impatto, rimbalzo, seduta stordita). Ordine direzioni: up, down, right, left, up_right, up_left, down_right, down_left.
+- Assets/Characters/Enemy/enemy_frames.tres: `walk_<dir>` 8 FPS, `flirt_<dir>` 8 FPS, `idle_<dir>` 5 FPS, tutte in loop; `dead_<dir>` 12 FPS, una volta sola (resta sull'ultimo frame). Le animazioni `dead_*` sono nel .tres ma non le scrive la pipeline: se rigeneri la sheet con `build_enemy()` i frame restano validi (stesse righe), ma il .tres va ritoccato a mano per eventuali nuovi frame.
 - Il flirt è la posa da ferma davanti al ragazzo: piedi fissi a terra (IK `pin_feet()` su coscia e stinco), peso che passa da una gamba all'altra con bacino che si sposta, si abbassa e ruota, busto in contro-movimento, una mano sul fianco e l'altra tra i capelli, testa inclinata.
 - Characters/enemy.tscn: AnimatedSprite2D scala 4, offset (0, -3); barra salute spostata in alto di 40 px; collider 72x120 in (0, 17). La logica che sceglie flirt, idle e walk sta in enemy.gd `update_animation()` (vedi CODE_MAP.md).
+- Colpita e morte: lampo bianco 0,1 s con shader `Assets/Characters/Enemy/hit_flash.gdshader` (solo pixel opachi, l'ombra non cambia), piccolo rinculo e stordimento di 0,15 s (non durante il flirt). Alla morte cade a sedere nella direzione in cui guardava, resta a terra circa 1 s e sparisce in un "puff": `Objects/puff.tscn`, nuvoletta di 6 frame 32x32 (scala 4) disegnata in Pixelorama con palette sabbia #fff6e8 #f6e2b0 #e3c084 e contorno #3a1418 (sorgenti: Tools/pixelorama/puff.pxo e puff_gen.py; sheet Assets/Effects/Puff/puff.png). Cresce, copre il corpo al picco e si scioglie in sbuffi più piccoli. Niente particelle di Godot (`CPUParticles2D`/`GPUParticles2D`): l'idea dei granelli di sabbia non è stata realizzata.
 - Concept: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/lato/retro), variante del concept Player con capelli viola e costume smeraldo; prompt in Tools/concept/prompts.json, voce enemy_base.
 
 ## Pipeline grafica e stile visivo - LEGGERE PRIMA DI TOCCARE SPRITE
@@ -129,8 +130,8 @@ Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi cor
 
 ## Stato
 
-- **Fatto di recente:** la nemica base ha sprite e animazioni (walk, flirt, idle in 8 direzioni) ed è collegata a enemy.tscn e enemy.gd. Il progetto è stato ripulito da file inutilizzati e gli script sono agganciati alle scene base.
-- **Approvati dall'utente:** Player (sprite, animazioni, diagonali, ombra, lanci in movimento; non modificarlo senza nuova richiesta), palla di sabbia, aspetto e animazioni walk/flirt/idle della nemica base.
+- **Fatto di recente:** la nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
+- **Approvati dall'utente:** Player (sprite, animazioni, diagonali, ombra, lanci in movimento; non modificarlo senza nuova richiesta), palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
 - **Incompleti o con errori noti:** negozio (solo gli oggetti per moralità e fedeltà funzionano, senza spendere valuta; gli acquisti Giocatore e Bonus non hanno effetto; set_max_hp() e set_max_shield() sono stub); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
 
 ## Prossimi passi
@@ -139,7 +140,7 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 
 - Sistemare il negozio: spesa della valuta e acquisti Giocatore e Bonus.
 - Sistemare gli errori di TileSet e tilemap (non toccarli prima).
-- Animazioni della nemica: colpita (integrata nelle animazioni di movimento e di flirt, per esempio un sussulto sovrapposto in tutte le 8 direzioni) e morte (oggi alla morte l'animazione si ferma e dead_timer elimina il nodo); poi varianti di colore e classi di nemiche.
+- Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
 - Sprite e animazioni del ragazzo (Characters/boyfriend.tscn, gruppo "target", oggi placeholder Assets/icon.svg), con la stessa pipeline del Player: turnaround, render di prova 48x48 nelle 4 direzioni da far approvare prima di animare.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
 - Decidere se usare o eliminare Assets/Music/Beach/summer-funky-dance-314907.mp3 (non usata: citata solo in un preload commentato di MusicManager.gd).

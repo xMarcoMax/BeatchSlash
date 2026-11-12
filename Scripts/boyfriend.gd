@@ -17,11 +17,17 @@ func _ready():
 	SignalManager.item_target_purchased.connect(_apply_bonus)
 	SignalManager.attack_target.connect(_on_enemy_attack)
 	area.body_entered.connect(_on_body_entered)
+	area.body_exited.connect(_on_body_exited)
 
 func _on_body_entered(body):
 	if body.is_in_group("enemy"):
 		SignalManager.enemy_attacking.emit(body)
 		is_attacked = true
+
+#An enemy pushed out of the hit zone stops attacking and walks back
+func _on_body_exited(body):
+	if body.is_in_group("enemy"):
+		SignalManager.enemy_left_target.emit(body)
 
 func _process(delta):
 	pass

@@ -10,7 +10,8 @@ Uso (Blender MCP execute_blender_code):
 Riusa utilita', render e stile (48x48, toon 4 toni, contorno, occhi a pixel, ombra) di
 blender_pipeline.py. Atlante: righe = gruppo*8 + direzione, colonne = frame (12).
 Gruppi: 0 = walk (8 frame), 1 = flirt (12 frame, posa ammiccante davanti al ragazzo),
-2 = idle (6 frame, da ferma quando e' bloccata; riusa idle() del Player).
+2 = idle (6 frame, da ferma quando e' bloccata; riusa idle() del Player),
+3 = dead (8 frame, caduta a sedere, non in loop: l'ultimo frame resta a terra; vedi fall()).
 Direzioni (ordine righe): up, down, right, left, up_right, up_left, down_right, down_left.
 
 Palette: capelli #2a1240 #4b2a78 #7043a1 #a97fd9; costume #16503a #25805a #3db57d #8de0b4.
@@ -78,13 +79,42 @@ def flirt(t):
     P["hair"].rotation_euler = (R(6+6*a+3*math.sin(2*t)), R(8*s), 0)
 
 
+# Caduta a sedere (morte): 8 frame, non in loop. Ogni riga:
+# (bacino giu', bacino indietro, spine X, chest X, head X, head Z, cosce X, cosce aperte Z, stinchi X,
+#  piedi X, braccia X (indietro +), braccia aperte Z, avambracci X, capelli X)
+FALL_FRAMES = 8
+FALL = [
+    (0.00, 0.00,  -4,  -4,  -6,   0,    0,  4,   0,    0,  -25, 35, -30, 18),   # sussulto: braccia in alto
+    (-0.12, 0.02, -10, -6,  -8,   2,  -30,  5,  55,  -25,    0, 50, -20, 24),   # ginocchia che cedono
+    (-0.30, 0.08, -18, -8, -10,   4,  -58,  6,  35,   -5,   25, 60, -10, 30),   # busto indietro, braccia a ventaglio
+    (-0.50, 0.12, -22, -8,  -6,   5, -100,  8,  15,   25,   40, 45,  -5, 36),   # gambe all'aria prima dell'impatto
+    (-0.58, 0.12, -12, -4,   4,   4,  -86, 10,   0,  -12,   55, 25,   0, 12),   # impatto sulla sabbia
+    (-0.585, 0.12, -8, -2,   9,   6,  -84, 11,   4,  -14,   58, 20,   0,  4),   # rimbalzo
+    (-0.585, 0.12, -6, -1,   7,   5,  -84, 11,   5,  -14,   58, 20,   0,  1),   # assestamento
+    (-0.585, 0.12, -6,  0,   6,   6,  -84, 11,   5,  -14,   58, 20,   0,  0),   # seduta, stordita
+]
+
+def fall(i):
+    """posa i (0..7) della caduta a sedere; l'ultima e' la posa che resta a terra"""
+    dy, dz, sp, ch, hd, hz, th, tz, sh, ft, ua, uz, fa, hr = FALL[i]
+    P = pb()
+    P["hips"].location = (0, dy, dz)
+    P["spine"].rotation_euler = (R(sp), 0, 0); P["chest"].rotation_euler = (R(ch), 0, 0)
+    P["head"].rotation_euler = (R(hd), 0, R(hz))
+    for s, g in (("L", -1), ("R", 1)):
+        P["thigh."+s].rotation_euler = (R(th), 0, R(g*tz)); P["shin."+s].rotation_euler = (R(sh), 0, 0)
+        P["foot."+s].rotation_euler = (R(ft), 0, 0)
+        P["upper_arm."+s].rotation_euler = (R(ua), 0, R(g*uz)); P["forearm."+s].rotation_euler = (R(fa), 0, 0)
+    P["hair"].rotation_euler = (R(hr), 0, 0)
+
+
 def build_enemy():
     rig = bpy.data.objects["Rig"]; rig.animation_data_create(); rig.animation_data.action = None
     bpy.data.objects["SandBall"].hide_render = True
-    sheet = np.zeros((24*SIZE, FLIRT_FRAMES*SIZE, 4))
-    for g, (fn, n) in enumerate(((walk_e, 8), (flirt, FLIRT_FRAMES), (idle, 6))):
+    sheet = np.zeros((32*SIZE, FLIRT_FRAMES*SIZE, 4))
+    for g, (fn, n) in enumerate(((walk_e, 8), (flirt, FLIRT_FRAMES), (idle, 6), (None, FALL_FRAMES))):
         for f in range(n):
-            out = render_pose(fn, f/n*2*math.pi, yaws=DIR8)
+            out = render_pose(fn if fn else (lambda t, f=f: fall(f)), f/n*2*math.pi, yaws=DIR8)
             for d in range(8):
                 r = g*8+d; sheet[r*SIZE:(r+1)*SIZE, f*SIZE:(f+1)*SIZE] = out[d]
     clear_pose()

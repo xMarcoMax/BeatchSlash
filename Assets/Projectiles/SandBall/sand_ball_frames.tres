@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://vpcf0t8khpsl" path="res://Assets/Projectiles/SandBall/sand_ball.png" id="1"]
 
+[ext_resource type="Texture2D" uid="uid://bg8i2boqyr8gb" path="res://Assets/Projectiles/SandBall/sand_ball_land.png" id="2"]
+
 [sub_resource type="AtlasTexture" id="Frame_0"]
 atlas = ExtResource("1")
 region = Rect2(0, 0, 24, 24)
@@ -42,6 +44,46 @@ atlas = ExtResource("1")
 region = Rect2(72, 24, 24, 24)
 filter_clip = true
 
+[sub_resource type="AtlasTexture" id="Land_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_1"]
+atlas = ExtResource("2")
+region = Rect2(24, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_2"]
+atlas = ExtResource("2")
+region = Rect2(48, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_3"]
+atlas = ExtResource("2")
+region = Rect2(72, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_4"]
+atlas = ExtResource("2")
+region = Rect2(96, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_5"]
+atlas = ExtResource("2")
+region = Rect2(120, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_6"]
+atlas = ExtResource("2")
+region = Rect2(144, 0, 24, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Land_7"]
+atlas = ExtResource("2")
+region = Rect2(168, 0, 24, 24)
+filter_clip = true
+
 [resource]
 animations = [{
 "frames": [{
@@ -77,4 +119,33 @@ animations = [{
 "loop": 0,
 "name": &"impact",
 "speed": 26.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Land_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Land_7")
+}],
+"loop": false,
+"name": &"land",
+"speed": 14.0
 }]

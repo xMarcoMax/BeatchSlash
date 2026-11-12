@@ -16,6 +16,7 @@ const base_enemy_points = 10
 const base_enemy_currency = 5
 
 var enemy = preload("res://Characters/enemy.tscn")
+var pathfinder := Pathfinder.new()
 var total_enemies = 5
 var wave = 1
 var defeated_total = 0
@@ -35,6 +36,20 @@ func _ready():
 	set_hud()
 	set_variables()
 	set_signals()
+	add_child(pathfinder)
+	pathfinder.build(_world_bounds())
+
+#Area covered by the map, the spawn zones and the target, in global coordinates
+func _world_bounds() -> Rect2:
+	var bounds := Rect2(target.global_position, Vector2.ZERO)
+	for layer: TileMapLayer in [$World/Beach, $World/BeachEnvironment]:
+		var tile := Vector2(layer.tile_set.tile_size)
+		var used := layer.get_used_rect()
+		bounds = bounds.merge(layer.get_global_transform() * Rect2(Vector2(used.position) * tile, Vector2(used.size) * tile))
+	for area: CollisionShape2D in spawn_area.spawn_areas:
+		var size: Vector2 = area.shape.size
+		bounds = bounds.merge(Rect2(area.global_position - size / 2.0, size))
+	return bounds
 
 #Enemis spawn and check of completed wave
 func _process(delta):
@@ -60,6 +75,7 @@ func spawn_enemy():
 		var spawn = enemy.instantiate()
 		spawn.position = spawn_point
 		add_child(spawn)
+		spawn.pathfinder = pathfinder
 		spawn.set_spawn_values(target,
 			Formulas.calculate("health", wave, base_enemy_health),
 			Formulas.calculate("damage", wave, base_enemy_damage)

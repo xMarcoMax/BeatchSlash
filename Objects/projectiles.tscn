@@ -7,6 +7,7 @@
 size = Vector2(24, 22)
 
 [node name="SandBall" type="Area2D" groups=["sand_ball"]]
+collision_mask = 3
 script = ExtResource("1_g21x7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

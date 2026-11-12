@@ -97,6 +97,14 @@ up = Nord, down = Sud, right = Est, left = Ovest.
 - Colpita e morte: lampo bianco 0,1 s con shader `Assets/Characters/Enemy/hit_flash.gdshader` (solo pixel opachi, l'ombra non cambia), piccolo rinculo e stordimento di 0,15 s (non durante il flirt). Alla morte cade a sedere nella direzione in cui guardava, resta a terra circa 1 s e sparisce in un "puff": `Objects/puff.tscn`, nuvoletta di 6 frame 32x32 (scala 4) disegnata in Pixelorama con palette sabbia #fff6e8 #f6e2b0 #e3c084 e contorno #3a1418 (sorgenti: Tools/pixelorama/puff.pxo e puff_gen.py; sheet Assets/Effects/Puff/puff.png). Cresce, copre il corpo al picco e si scioglie in sbuffi più piccoli. Niente particelle di Godot (`CPUParticles2D`/`GPUParticles2D`): l'idea dei granelli di sabbia non è stata realizzata.
 - Concept: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/lato/retro), variante del concept Player con capelli viola e costume smeraldo; prompt in Tools/concept/prompts.json, voce enemy_base.
 
+## Ragazzo: concept
+
+- Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png: tavola 1536x1024, fronte/profilo destro/retro, nello stile dei turnaround Player e nemica; prompt in Tools/concept/prompts.json, voce boyfriend. Concept da approvare visivamente; sprite e animazioni non ancora realizzati.
+- Specifiche richieste: adulto leggermente più alto delle ragazze, atletico e robusto senza eccessi muscolari; viso bello e affascinante, occhi verdi, pelle moderatamente abbronzata; capelli corti castano scuro, taglio ordinato con lati corti e parte superiore pettinata lateralmente, ispirato al taglio di George Clooney.
+- Barba corta castana su mento e mandibola, ispirata al riferimento di Can Yaman: spazio di pelle libera sotto il labbro inferiore con piccolo pizzetto triangolare centrale rivolto in basso. Collanina sottile da spiaggia, piccole perline scure con accenti rosso/giallo/verde d'ispirazione giamaicana.
+- Costume richiesto: bermuda fino a metà ginocchio. Colore scelto: terracotta caldo (riferimento #B85B41), con cordino chiaro, in una palette ispirata ai toni Autunno dell'armocromia.
+- Per i concept è sufficiente ImageGen con i turnaround esistenti come riferimento; Pixelorama serve solo quando sono necessari ritocchi o pixel art.
+
 ## Pipeline grafica e stile visivo - LEGGERE PRIMA DI TOCCARE SPRITE
 
 Tutte le nuove risorse grafiche (nemici, ragazzo, oggetti, effetti) devono seguire questo stile e questi strumenti. Strumenti MCP del progetto: **Blender** (personaggi animati), **Pixelorama** (pixel art a mano, effetti, ritocchi), **Godot AI** (editor e gioco: scene, nodi, script, avvio, log, screenshot per verificare in gioco).
@@ -112,7 +120,7 @@ Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi cor
 - **Cartella Tools/** (versionata in Git per conservare i sorgenti grafici; Tools/.gitignore esclude solo i backup .blend1 e __pycache__; ignorata da Godot con Tools/.gdignore):
   - Tools/blender/personaggio.blend: sorgente della protagonista (modello, rig 17 ossa, action idle/walk/run, materiali, camera CamSprite, palla SandBall). È la copia di riferimento: aprire questa in Blender.
   - Tools/blender/blender_pipeline.py (anche come testo dentro il .blend): con il .blend aperto, `exec(open(...).read()); build_all()` rigenera player_spritesheet.png e player_moving_throw.png in Assets/Characters/Player. Percorsi relativi al .blend, render temporanei nella cartella temp di sistema.
-  - Tools/concept/prompts.json: prompt dei concept (protagonista, nemica base).
+  - Tools/concept/prompts.json: prompt dei concept (protagonista, nemica base, ragazzo).
   - Per ogni nuovo elemento con sprite (personaggio, nemica, oggetto, effetto) salvare il .blend (ed eventuali script) in Tools/blender/ e i prompt dei concept in Tools/concept/, così i sorgenti restano disponibili.
 - Concept art di base: cartella Assets/ConceptArt/ (ignorata da Godot con .gdignore), una sottocartella per soggetto, per esempio Player/player_turnaround.png (fronte/lato/retro) ed Enemies/enemy_turnaround.png.
 
@@ -141,7 +149,7 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 - Sistemare il negozio: spesa della valuta e acquisti Giocatore e Bonus.
 - Sistemare gli errori di TileSet e tilemap (non toccarli prima).
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
-- Sprite e animazioni del ragazzo (Characters/boyfriend.tscn, gruppo "target", oggi placeholder Assets/icon.svg), con la stessa pipeline del Player: turnaround, render di prova 48x48 nelle 4 direzioni da far approvare prima di animare.
+- Approvare il concept del ragazzo in Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png; poi creare sprite e animazioni (Characters/boyfriend.tscn, gruppo "target", oggi placeholder Assets/icon.svg) con la stessa pipeline del Player: render di prova 48x48 nelle 4 direzioni da far approvare prima di animare.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
 - Valutare la mira durante il lancio: posa scelta all'inizio e raycast al mouse al rilascio, muovendo il mouse possono divergere.
 - Playtest completo: menu -> ondate -> acquisti -> game over.

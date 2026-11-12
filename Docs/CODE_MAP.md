@@ -47,17 +47,15 @@ GDScript, Godot 4.7, renderer Mobile. Scena principale: Scenes/main_menu.tscn. T
 | Scenes/level.tscn | level.gd | radice `Level`: `UI` (HUD, GameOver, UpgradesPurchase, PauseMenu), `World` (EnemySpawn con 3 CollisionShape2D, TileMapLayer `Beach` e `BeachEnvironment`), `Player` (con Camera2D), `Boyfriend`, `Upgrades`, `NextWaveTimer` |
 | Characters/player.tscn | player.gd | CharacterBody2D, gruppo `player`; AnimatedSprite2D + MovingThrow (Sprite2D) + RayCast2D + collider 72x120 |
 | Characters/enemy.tscn | enemy.gd | CharacterBody2D, gruppo `enemy`; AnimatedSprite2D, collider 72x120, RayCast2D, ProgressBar salute, Timer `DeadTimer` e `AttackCooldown` (2 s) |
-| Characters/boyfriend.tscn | boyfriend.gd | CharacterBody2D, gruppo `target`; figlio `HitZone` (Area2D); ancora lo sprite placeholder icon.svg |
+| Characters/boyfriend.tscn | boyfriend.gd (agganciato alla scena base) | CharacterBody2D, gruppo `target`; figlio `HitZone` (Area2D); ancora lo sprite placeholder icon.svg |
 | Objects/projectiles.tscn | projectiles.gd | Area2D `SandBall`, gruppo `sand_ball`; Timer `Used` (3 s) |
 | Objects/hud.tscn | hud.gd | HUD: ondata, punti, valuta, sconfitte/rimaste, barre fedeltà e moralità |
-| Objects/upgrades.tscn | upgrades.gd | StaticBody2D del negozio sulla spiaggia, con Area2D di prossimità |
+| Objects/upgrades.tscn | upgrades.gd (agganciato alla scena base) | StaticBody2D del negozio sulla spiaggia, con Area2D di prossimità |
 | Scenes/upgrades_purchase.tscn | upgrades_purchase.gd | pannello acquisti con tre tab (Giocatore, Partner, Bonus) |
 | Objects/Items/item.tscn | item.gd (`class_name Item`) | scheda di un oggetto in vendita (nome, immagine, descrizione) |
 | Scenes/pause_menu.tscn, Scenes/game_over.tscn, Scenes/options.tscn, Scenes/tutorial.tscn | pause_menu.gd, game_over.gd, options.gd, tutorial.gd | menu secondari; la pausa si alterna con Esc (`pause_menu.gd`) |
 
-`Scripts/pause.gd` (pausa con il tasto P) non è collegato a nessuna scena: codice inutilizzato.
-
-`Scripts/Items/*.gd` (damage_item, little/medium/large_health e shield) sono script di vecchie schede oggetto con `get_data()` ed export identici a `item.gd`: gli oggetti reali oggi vengono creati da `item.tscn` + `Files/item_list.csv`, quindi questi sono probabilmente superflui (da verificare prima di toccarli).
+Gli script di `Player`, `Boyfriend` e `Upgrades` sono agganciati alle rispettive scene base: `level.tscn` istanzia le scene senza ridefinire script o `ball`. Eliminati il 12 nov 2026 perché inutilizzati: `Scripts/pause.gd` e `Scripts/Items/*.gd` (vecchie schede oggetto; gli oggetti reali nascono da `item.tscn` + `Files/item_list.csv`).
 
 ## Giocatore (player.gd)
 
@@ -87,14 +85,15 @@ Area2D che avanza lungo `transform.x` a `speed` 400 (la scala 2 ereditata dal Ra
 
 ## Input (project.godot)
 
-`ui_left/right/up/down` (frecce e tasti configurati, anche gamepad), `shoot_sand` (tasto destro del mouse), `run` (Spazio), `buy_upgrades` (F), `esc` (Esc: chiude il negozio o alterna la pausa), `pause` (P, oggi inutilizzato).
+`ui_left/right/up/down` (frecce e tasti configurati, anche gamepad), `shoot_sand` (tasto destro del mouse), `run` (Spazio), `buy_upgrades` (F), `esc` (Esc: chiude il negozio o alterna la pausa), `pause` (P, azione definita ma senza script che la usi).
 
 ## Risorse
 
 - `Assets/Characters/Player/`, `Assets/Characters/Enemy/`, `Assets/Projectiles/SandBall/`: sprite e SpriteFrames (vedi PROJECT_CONTEXT.md per layout e FPS).
-- `Assets/Sprites/` (icone oggetti del negozio), `Assets/Icons/` (cuore e scudo dell'HUD), `Assets/Tiles/` (mappa), `Assets/Music/`, `Assets/Fonts/`, `Assets/ConceptArt/` (concept, ignorata da Godot).
-- `Files/item_list.csv`: catalogo degli oggetti. `Tools/` e `Docs/`: sorgenti grafici e documentazione, ignorati da Godot.
-- `Scenes/level.tscn15675837699.tmp` è un file temporaneo dell'editor (non fa parte del progetto).
+- `Assets/Sprites/` (icone oggetti del negozio), `Assets/Icons/` (health.png e shield.png dell'HUD), `Assets/Tiles/` (mappa), `Assets/Music/`, `Assets/Fonts/`, `Assets/ConceptArt/` (concept, ignorata da Godot).
+- `Files/item_list.csv`: catalogo degli oggetti, letto con `FileAccess`; il suo `.import` è stato scritto a mano con `importer="keep"` perché il CSV grezzo sia incluso negli export (con `csv_translation` non lo sarebbe). **Non verificato**: la cache dell'editor riporta ancora il tipo `Translation`; se alla prossima apertura il `.import` torna a `csv_translation`, rifare dal dock Import: Import As -> Keep File -> Reimport. `Tools/` e `Docs/`: sorgenti grafici e documentazione, ignorati da Godot.
+- `.gitignore` esclude `*.tmp` (file temporanei dell'editor).
+- Possibile riordino futuro (non fatto, da eseguire dal dock FileSystem di Godot e correggendo le stringhe `res://` nei `.gd`, compresa `"res://Assets/Sprites/"+file` in `upgrades_purchase.gd`): scene e script vicini sotto `Scenes/{Characters,Objects,Levels,UI,UI/Shop}`, `Files/` -> `Data/`, `Assets/Sprites/` -> `Assets/Items/`.
 
 ## Punti fragili e cose da sapere
 

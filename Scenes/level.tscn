@@ -1,21 +1,17 @@
-[gd_scene load_steps=25 format=4 uid="uid://bl61hfkyhdt23"]
+[gd_scene load_steps=21 format=4 uid="uid://bl61hfkyhdt23"]
 
 [ext_resource type="PackedScene" uid="uid://bwccdi1diecof" path="res://Characters/player.tscn" id="1_6bqah"]
 [ext_resource type="Script" uid="uid://dsoesl8lamd66" path="res://Scripts/level.gd" id="1_nesj5"]
 [ext_resource type="Script" uid="uid://dd6cvvdyvi5si" path="res://Scripts/enemy_spawn.gd" id="2_28emp"]
 [ext_resource type="PackedScene" uid="uid://cgy5p47lpk3mu" path="res://Objects/hud.tscn" id="2_c5jan"]
-[ext_resource type="Script" uid="uid://bfmp7d82hfq72" path="res://Scripts/player.gd" id="2_oi1h6"]
 [ext_resource type="Texture2D" uid="uid://b7o6kaeiy5qfc" path="res://Assets/Tiles/sand.png" id="2_rfw8i"]
-[ext_resource type="PackedScene" uid="uid://b0kya84v0rrp1" path="res://Objects/projectiles.tscn" id="3_3qltc"]
 [ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="3_qxfql"]
 [ext_resource type="Texture2D" uid="uid://dv3ukkfsjy8a3" path="res://Assets/Tiles/beach-desert.png" id="3_x66pn"]
 [ext_resource type="PackedScene" uid="uid://bvn7wqfspf5nw" path="res://Scenes/game_over.tscn" id="4_crh0w"]
 [ext_resource type="PackedScene" uid="uid://rwfa2y1hi3hm" path="res://Characters/boyfriend.tscn" id="5_a1jco"]
 [ext_resource type="PackedScene" uid="uid://dhsgh2vnyybdr" path="res://Scenes/upgrades_purchase.tscn" id="5_c7le1"]
 [ext_resource type="PackedScene" uid="uid://d0knuth3fquin" path="res://Scenes/pause_menu.tscn" id="6_2klc5"]
-[ext_resource type="Script" uid="uid://do0n1cb3kqcvw" path="res://Scripts/boyfriend.gd" id="6_gulnw"]
 [ext_resource type="PackedScene" uid="uid://5262icj7jl87" path="res://Objects/upgrades.tscn" id="12_pa6b8"]
-[ext_resource type="Script" uid="uid://xiutgrolxo2x" path="res://Scripts/upgrades.gd" id="13_crh0w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qgsd"]
 size = Vector2(831, 1608.5)
@@ -664,19 +660,15 @@ tile_set = SubResource("TileSet_4pl8q")
 
 [node name="Player" parent="." instance=ExtResource("1_6bqah")]
 position = Vector2(1011, -423)
-script = ExtResource("2_oi1h6")
-ball = ExtResource("3_3qltc")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(0.5, 0.5)
 
 [node name="Boyfriend" parent="." instance=ExtResource("5_a1jco")]
 position = Vector2(804, -421)
-script = ExtResource("6_gulnw")
 
 [node name="Upgrades" parent="." instance=ExtResource("12_pa6b8")]
 position = Vector2(512, -950)
-script = ExtResource("13_crh0w")
 
 [node name="NextWaveTimer" type="Timer" parent="."]
 wait_time = 20.0

@@ -3,3 +3,6 @@
 /android/
 /addons/
 .sprite-tools-env/
+
+# File temporanei dell'editor
+*.tmp

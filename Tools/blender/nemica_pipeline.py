@@ -28,6 +28,8 @@ FLIRT_FRAMES = 12
 def walk_e(t):
     """camminata sensuale: bacino che dondola, busto in contro-rotazione, gomiti piegati, chioma mossa"""
     walk(t); P = pb(); s = math.sin(t)
+    # La nemica conserva il passo ampio originale, indipendente dalla postura piu' raccolta del Player.
+    P["thigh.L"].rotation_euler.z = R(-5); P["thigh.R"].rotation_euler.z = R(5)
     P["hips"].location = (0.02*s, 0.035*abs(s)-0.02, 0); P["hips"].rotation_euler = (0, R(12*s), R(3*s))
     P["spine"].rotation_euler = (R(5), R(-9*s), 0); P["chest"].rotation_euler = (0, R(-6*s), 0)
     P["upper_arm.L"].rotation_euler = (R(18*s), 0, R(-9)); P["upper_arm.R"].rotation_euler = (R(-18*s), 0, R(9))

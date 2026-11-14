@@ -13,7 +13,7 @@ Non scrivere: cronologia, correzioni fatte, processo di realizzazione, come le c
 
 A fine intervento riscrivi le voci toccate, senza note datate. Confronta sempre con i file correnti, git status e le ultime istruzioni dell'utente.
 
-Ultimo aggiornamento: 12 novembre 2026.
+Ultimo aggiornamento: 14 novembre 2026.
 
 **Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script). Questo file descrive visione, specifiche, stile grafico e stato.
 
@@ -41,7 +41,7 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 
 - Gioco 2D top-down da spiaggia, pixel art; Godot **4.7 stable**, renderer Mobile.
 - Menu principale -> Scenes/level.tscn. Difesa a ondate: il Player lancia palle di sabbia contro i nemici diretti al partner Boyfriend; la morte del partner causa game over.
-- Scripts/level.gd: ondate, spawn, punteggio, valuta, HUD e timer. Scripts/enemy.gd: movimento, attacchi, salute e morte. Scripts/boyfriend.gd: salute/scudo e bonus; set_max_hp() e set_max_shield() sono stub (pass).
+- Scripts/level.gd: ondate, spawn, punteggio, valuta, HUD e timer. Scripts/enemy.gd: movimento, attacchi, salute e morte. Scripts/boyfriend.gd: salute/scudo, bonus e scelta dell'animazione del ragazzo in base a moralità, fedeltà e nemiche che attaccano; set_max_hp() e set_max_shield() sono stub (pass).
 - Objects/projectiles.tscn e Scripts/projectiles.gd: proiettile Area2D (palla di sabbia).
 - Acquisti: Scripts/upgrades_purchase.gd e Files/item_list.csv (separatore `;`, categorie Player/Target/Bonus). Oggi funzionano solo gli oggetti che ripristinano moralità e fedeltà del ragazzo, senza spendere valuta.
 - Presenti menu, opzioni audio, tutorial, pausa (Esc) e game over.
@@ -95,43 +95,57 @@ up = Nord, down = Sud, right = Est, left = Ovest.
 - Il flirt è la posa da ferma davanti al ragazzo: piedi fissi a terra (IK `pin_feet()` su coscia e stinco), peso che passa da una gamba all'altra con bacino che si sposta, si abbassa e ruota, busto in contro-movimento, una mano sul fianco e l'altra tra i capelli, testa inclinata.
 - Characters/enemy.tscn: AnimatedSprite2D scala 4, offset (0, -3); barra salute spostata in alto di 40 px; collider 72x120 in (0, 17). La logica che sceglie flirt, idle e walk sta in enemy.gd `update_animation()` (vedi CODE_MAP.md).
 - Colpita e morte: lampo bianco 0,1 s con shader `Assets/Characters/Enemy/hit_flash.gdshader` (solo pixel opachi, l'ombra non cambia), piccolo rinculo e stordimento di 0,15 s (non durante il flirt). Alla morte cade a sedere nella direzione in cui guardava, resta a terra circa 1 s e sparisce in un "puff": `Objects/puff.tscn`, nuvoletta di 6 frame 32x32 (scala 4) disegnata in Pixelorama con palette sabbia #fff6e8 #f6e2b0 #e3c084 e contorno #3a1418 (sorgenti: Tools/pixelorama/puff.pxo e puff_gen.py; sheet Assets/Effects/Puff/puff.png). Cresce, copre il corpo al picco e si scioglie in sbuffi più piccoli. Niente particelle di Godot (`CPUParticles2D`/`GPUParticles2D`): l'idea dei granelli di sabbia non è stata realizzata.
-- Concept: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/lato/retro), variante del concept Player con capelli viola e costume smeraldo; prompt in Tools/concept/prompts.json, voce enemy_base.
+- Concept: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/profilo destro/retro); look approvato dall'utente, con ultimi ritocchi a capelli posteriori e volumi da valutare. Prompt e ritocchi in Tools/concept/prompts.json, voce enemy_base. Proporzioni chibi e altezza mantenute su richiesta; donna adulta atletica e formosa, vita definita, seno e glutei leggermente più pieni rispetto alla protagonista senza eccessi, muscolatura morbida. Sguardo magnetico e sicuro, bellezza naturale da femme fatale discreta: vuole conquistare il ragazzo. Capelli viola lunghi e lisci, meno voluminosi, con massa posteriore continua fino alla vita bassa coerente con fronte e profilo; sul retro le braccia hanno contorni liberi e continui, senza ciocche laterali davanti alle braccia o negli spazi tra braccia e busto; bikini smeraldo a triangolo con lacci sopra e ai fianchi, slip sgambato. Palette e stile del gioco invariati. Modello Blender e sprite in gioco corrispondono ancora all'aspetto precedente e non recepiscono questo concept.
 
 ## Ragazzo: concept
 
-- Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png: tavola 1536x1024, fronte/profilo destro/retro, nello stile dei turnaround Player e nemica; prompt in Tools/concept/prompts.json, voce boyfriend. Concept da approvare visivamente; sprite e animazioni non ancora realizzati.
+- Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png: tavola 1536x1024, fronte/profilo destro/retro, nello stile dei turnaround Player e nemica; prompt in Tools/concept/prompts.json, voce boyfriend. **Concept approvato dall'utente.**
 - Specifiche richieste: adulto leggermente più alto delle ragazze, atletico e robusto senza eccessi muscolari; viso bello e affascinante, occhi verdi, pelle moderatamente abbronzata; capelli corti castano scuro, taglio ordinato con lati corti e parte superiore pettinata lateralmente, ispirato al taglio di George Clooney.
 - Barba corta castana su mento e mandibola, ispirata al riferimento di Can Yaman: spazio di pelle libera sotto il labbro inferiore con piccolo pizzetto triangolare centrale rivolto in basso. Collanina sottile da spiaggia, piccole perline scure con accenti rosso/giallo/verde d'ispirazione giamaicana.
 - Costume richiesto: bermuda fino a metà ginocchio. Colore scelto: terracotta caldo (riferimento #B85B41), con cordino chiaro, in una palette ispirata ai toni Autunno dell'armocromia.
 - Per i concept è sufficiente ImageGen con i turnaround esistenti come riferimento; Pixelorama serve solo quando sono necessari ritocchi o pixel art.
 
+## Ragazzo: sprite (in lavorazione, render di prova da approvare)
+
+- Modello ricostruito dal concept (Tools/blender/ragazzo.blend, `ragazzo_pipeline.py`; procedura e parametri in `Docs/BLENDER.md` §6-7).
+- **Altezza dal concept (priorità dell'utente):** rapporto delle altezze dei due turnaround, 879/759 = 1.158. Cella **64x64** (non 48x48) con la stessa scala di pixel del Player; figura circa 48 px (righe 5-53), piedi alla riga 53.
+- Viso a pixel: di fronte occhi 2x2 (scuro + riflesso, riga bassa verde), sopracciglia 2 px con una riga libera, bocca 2 px #b5483a; di profilo occhio 1x2 a 2 px dal bordo del viso (uguale nei due lati), sopracciglio 2 px, bocca 1 px sul bordo 3 righe sotto l'occhio. Occhi, bocca e barba sui lati della mandibola sono un po' più alti che nel concept, per compensare la camera inclinata (indicazione dell'utente: occhi troppo grandi e bassi, bocca e barba poco visibili).
+- Palette (dai colori del concept): pelle #8f4a2c #c97847 #e99d63 #f8b47a; capelli e barba #2b140c #4d2a1e #6b3a26 #9b573b; bermuda #6e2818 #9e3f2c #c4553a #dd7050; occhi #1f3319 / #4e7a34; perline #1e0d07 con #c0392b #e8c547 #2e8b45.
+- **Modello approvato dall'utente** (nota dell'utente: davanti sembra senza collo, accettato). Ancora da fare: capelli con la forma pettinata del concept (oggi la sagoma è giusta ma la superficie è liscia), cordino dei bermuda. Tools/pixelorama/boyfriend.pxo contiene un ritocco a mano del modello precedente, superato.
+- **Animazioni (richiesta dell'utente)**, `build_boyfriend()` scrive Assets/Characters/Boyfriend/boyfriend_spritesheet.png e boyfriend_frames.tres; 8 direzioni come le nemiche:
+  - `idle` (6 frame, 5 FPS, loop): fermo al sole, mani sui fianchi, mento alzato, occhi chiusi (`EYES_CLOSED`), respira solo il busto.
+  - `glance` (8 frame, 8 FPS, una volta): corpo sempre rivolto in basso come l'idle, testa (fino a 90°) e busto (al massimo 30°) girati per un attimo verso la direzione della nemica, poi tornano; occhiata curiosa senza attenzione.
+  - `admire` (8 frame, 6 FPS, loop): rivolto verso la nemica, sporto in avanti, testa inclinata, mano destra al mento, sinistra sul fianco, ondeggia.
+  - `flex` (8 frame, 8 FPS, loop): rivolto verso la nemica, doppio bicipite col petto in fuori a impulsi.
+- Regole di scelta (utente): con moralità > 0 sempre lo stesso comportamento (idle con occhiate ogni 2,5-5 s), qualunque sia la fedeltà; con moralità a 0 dipende dalla fedeltà: sopra metà `admire`, a metà o meno `flex`. Senza nemiche che attaccano: idle. Verificato in gioco (sequenza glance -> admire a moralità 0 -> flex a fedeltà 50). Da far approvare all'utente in gioco.
+
 ## Pipeline grafica e stile visivo - LEGGERE PRIMA DI TOCCARE SPRITE
 
 Tutte le nuove risorse grafiche (nemici, ragazzo, oggetti, effetti) devono seguire questo stile e questi strumenti. Strumenti MCP del progetto: **Blender** (personaggi animati), **Pixelorama** (pixel art a mano, effetti, ritocchi), **Godot AI** (editor e gioco: scene, nodi, script, avvio, log, screenshot per verificare in gioco).
 
-### Strumenti
+### Strumenti (guide operative dedicate)
 
-Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi corrispondenti devono essere aperti (Blender con l'add-on, Pixelorama 1.2.3, editor Godot con il progetto). Ogni client (Claude Code, Codex, Claude Desktop) ha la propria configurazione MCP sul computer dell'utente e non è condivisa tra loro: se uno strumento non è collegato, avvisare l'utente.
+Server MCP attesi: `blender`, `pixelorama`, `godot-ai`, con i programmi aperti. Ognuno ha una guida con installazione, procedure, comandi, parametri, accortezze ed errori incontrati, da **leggere prima di usarlo e aggiornare man mano che si impara** (indicazione dell'utente; destinate a diventare skill):
 
-- **Blender 5.2** con l'add-on ufficiale **MCP di Blender Lab** (v1.0.3) per i personaggi animati: modello 3D chibi low-poly + rig, renderizzato a pixel. Server MCP: repo projects.blender.org/lab/blender_mcp (cartella mcp), avviato con `uv --directory <repo>\mcp run blender-mcp`; Codex lo ha in ~/.codex/config.toml come [mcp_servers.blender]. Lavorare con execute_blender_code.
-- **Pixelorama 1.2.3** (NON 1.2.4: l'estensione richiede l'API 9) con estensione **pixelorama-mcp** (github.com/CyberIce2077/pixelorama-mcp, server `node <repo>\dist\index.js`, porta 7651) per oggetti piccoli, effetti, icone e ritocchi a mano. Disegna con griglie di caratteri + palette.
-- **Godot AI** (plugin addons/godot_ai, v4.4.1, MCP con ~46 strumenti: scene, nodi, script, segnali, UI, animazioni, screenshot dell'editor e del gioco, avvio del progetto, log). Richiede l'editor aperto. addons/ è esclusa da Git: il plugin resta solo in locale. Client configurati dal pannello Godot AI: Claude Code (~/.claude.json), Codex (~/.codex/config.toml), Claude Desktop. Attenzione: per Claude Desktop il plugin scrive in ...\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\claude_desktop_config.json, ma l'app legge ...\AppData\Local\Claude-Data\claude_pzs8sxrjxfjjc\claude_desktop_config.json: dopo aggiornamenti del plugin o cambi di porta (8000/9500) ricopiare a mano il blocco "godot-ai" nel file giusto. Nel pannello Godot AI NON premere "Reconfigure" o "Configure all" per Claude Desktop (riscriverebbe la voce nel file sbagliato); "Rimuovi" su Claude Desktop è innocuo (toglie solo la copia inutilizzata), mentre su Claude Code e Codex va evitato perché cancella la connessione funzionante. Telemetria del plugin attiva di default, disattivabile dal pannello.
-- Limite del tool godot-ai `filesystem_manage`: rifiuta di rimuovere o spostare file se un'altra scena è troppo grande da leggere (Objects/Items/item.tscn supera 256 KB) e non riscrive i riferimenti; per spostare file usare il dock FileSystem dell'editor.
-- **Cartella Tools/** (versionata in Git per conservare i sorgenti grafici; Tools/.gitignore esclude solo i backup .blend1 e __pycache__; ignorata da Godot con Tools/.gdignore):
-  - Tools/blender/personaggio.blend: sorgente della protagonista (modello, rig 17 ossa, action idle/walk/run, materiali, camera CamSprite, palla SandBall). È la copia di riferimento: aprire questa in Blender.
-  - Tools/blender/blender_pipeline.py (anche come testo dentro il .blend): con il .blend aperto, `exec(open(...).read()); build_all()` rigenera player_spritesheet.png e player_moving_throw.png in Assets/Characters/Player. Percorsi relativi al .blend, render temporanei nella cartella temp di sistema.
-  - Tools/concept/prompts.json: prompt dei concept (protagonista, nemica base, ragazzo).
-  - Per ogni nuovo elemento con sprite (personaggio, nemica, oggetto, effetto) salvare il .blend (ed eventuali script) in Tools/blender/ e i prompt dei concept in Tools/concept/, così i sorgenti restano disponibili.
-- Concept art di base: cartella Assets/ConceptArt/ (ignorata da Godot con .gdignore), una sottocartella per soggetto, per esempio Player/player_turnaround.png (fronte/lato/retro) ed Enemies/enemy_turnaround.png.
+- **Blender** (personaggi animati: modello 3D chibi + rig renderizzato a pixel): `Docs/BLENDER.md`. Sorgenti in `Tools/blender/` (base comune `base_personaggio.blend`, un .blend e uno script per personaggio).
+- **Pixelorama** (oggetti piccoli, effetti, icone, ritocchi dentro la silhouette): `Docs/PIXELORAMA.md`. Sorgenti in `Tools/pixelorama/`.
+- **Godot AI** (scene, nodi, script, avvio, log, screenshot per verificare in gioco): `Docs/GODOT.md`.
+- Cartella `Tools/` versionata in Git (sorgenti grafici; `.gitignore` esclude `.blend1` e `__pycache__`) e ignorata da Godot. Prompt dei concept in `Tools/concept/prompts.json`; concept art in `Assets/ConceptArt/<soggetto>/` (ignorata da Godot). Per ogni nuovo elemento con sprite: sorgenti in `Tools/` e prompt in `Tools/concept/`.
+
+### Modalità di lavoro per un nuovo personaggio (indicazione dell'utente)
+
+1. **Il turnaround è il riferimento principale del modello 3D.** Si porta in Blender come immagini di riferimento (fronte, profilo, retro) allineate al modello, e il personaggio si ricostruisce sopra: sagome di busto, braccia, gambe, testa e capelli adattate alle viste, zone di colore (pelle, capelli, barba, costume) prese dal concept. Non si deforma a occhio un modello esistente.
+2. **Coerenza con gli altri personaggi:** stesso rig, materiali toon, camera, contorno, occhi a pixel e ombra della protagonista e delle nemiche; la scala viene dal confronto dei concept (altezze relative come nei turnaround).
+3. **Dopo ogni revisione del modello**, mostrare all'utente sia il render del modello sia lo sprite 2D generato (posa base nelle 4 direzioni, ingrandimento nearest), aprendoli direttamente in VS Code. Mostrare le anteprime man mano, senza aspettare il risultato finale.
+4. **Pixelorama solo per ritoccare lo sprite risultante**, dentro la silhouette (ciocche, viso, dettagli del costume, linee muscolari), se serve.
+5. **Le correzioni di forma e proporzione tornano nel modello:** si usa lo sprite ritoccato come riferimento per rifare correttamente il modello, così ogni frame delle animazioni esce già giusto e coerente tra le direzioni. Non ridisegnare a mano la silhouette vista per vista (le direzioni diventano incoerenti: N/S ed E/O sembrano persone diverse).
 
 ### Regole di stile (vincolanti)
 
-- Personaggi in celle 48x48, in gioco scala 4 con filtro nearest. Proiettili/effetti in celle più piccole con scala tale che 1 pixel = 4 px a schermo come il Player.
-- Nessun anti-aliasing: EEVEE 1 sample, filter size 0, view transform Standard. Pixel interi, nessuna semitrasparenza tranne l'ombra.
-- Materiali toon a 4 toni: Diffuse -> Shader to RGB -> ColorRamp CONSTANT (0 / 0.12 / 0.40 / 0.80) -> Emission. Luce Sun fissa rispetto alla camera (alto, davanti, da sinistra); si ruota il personaggio (oggetto Root), non la camera.
-- Palette Player: pelle #9c5536 #d9864f #faaf72 #ffc994; capelli #5e1c1f #912a2a #d13d3b #ec6a52; costume #4f7f88 #6a9ea6 #96cbcf #c4eef0; sabbia #8a6a3e #b8925a #e3c084 #f6e2b0. Contorno esterno 1 px #3a1418. Le zone del costume sono decise nello shader da un attributo rest_co (posizione a riposo), così non si spostano sulle braccia in animazione.
-- Camera ortografica, elevazione 25 gradi, ortho_scale 2.2, target z 0.9. Direzioni: N = Root ruotato 180, S = 0, E = 90, W = -90.
-- Occhi NON renderizzati: si timbrano a pixel dopo il render (2x3: scuro + riflesso in alto a destra, riga bassa più chiara; di lato un solo occhio 1x3 spostato verso l'interno). Sguardo dolce, mai inclinato (inclinato sembra arrabbiata). Bocca 1 px #a8473a solo di fronte.
+- Personaggi in celle 48x48 (il ragazzo 64x64 per l'altezza del concept, stessa scala di pixel), in gioco scala 4 con filtro nearest. Proiettili/effetti in celle più piccole con scala tale che 1 pixel = 4 px a schermo come il Player.
+- Pixel interi, nessun anti-aliasing, nessuna semitrasparenza tranne l'ombra; toon a 4 toni con luce fissa dall'alto a sinistra; camera dall'alto a 25° (impostazioni tecniche in `Docs/BLENDER.md` §4).
+- Palette Player: pelle #9c5536 #d9864f #faaf72 #ffc994; capelli #5e1c1f #912a2a #d13d3b #ec6a52; costume #4f7f88 #6a9ea6 #96cbcf #c4eef0; sabbia #8a6a3e #b8925a #e3c084 #f6e2b0. Contorno esterno 1 px #3a1418.
+- Occhi NON renderizzati: si timbrano a pixel dopo il render (2x3: scuro + riflesso in alto a destra, riga bassa più chiara; di lato un solo occhio 1x3 spostato verso l'interno). Sguardo dolce, mai inclinato (inclinato sembra arrabbiata). Bocca 2 px #c25a4a solo di fronte (1 px scuro sembrava un puntino nero: indicazione dell'utente).
 - Ombra: proiezione verticale del corpo (Root scalato a z=0.002), #3a1418 alpha 97/255, sotto il contorno, più piccola quando i piedi sono in aria.
 - Proporzioni: chibi ma vicine al concept (testa grande, corpo non troppo schiacciato). Capelli compatti nel Player per leggibilità a 48 px.
 - Animazioni: l'idle muove solo il busto con piedi e bacino fermi (non deve "saltellare"); nella camminata Nord/Sud le gambe vanno leggermente divaricate per distinguerle; ogni animazione d'attacco deve chiudere il ciclo tornando alla posa base.
@@ -139,7 +153,7 @@ Nomi attesi dei server MCP: `blender`, `pixelorama`, `godot-ai`. I programmi cor
 ## Stato
 
 - **Fatto di recente:** la nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
-- **Approvati dall'utente:** Player (sprite, animazioni, diagonali, ombra, lanci in movimento; non modificarlo senza nuova richiesta), palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
+- **Approvati dall'utente:** nuovo aspetto del Player, inclusi capelli e attaccatura; animazioni, diagonali, ombra e lanci in movimento, con la sola correzione richiesta alle gambe troppo divaricate in camminata/corsa. Approvati anche palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
 - **Incompleti o con errori noti:** negozio (solo gli oggetti per moralità e fedeltà funzionano, senza spendere valuta; gli acquisti Giocatore e Bonus non hanno effetto; set_max_hp() e set_max_shield() sono stub); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
 
 ## Prossimi passi
@@ -149,7 +163,10 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 - Sistemare il negozio: spesa della valuta e acquisti Giocatore e Bonus.
 - Sistemare gli errori di TileSet e tilemap (non toccarli prima).
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
-- Approvare il concept del ragazzo in Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png; poi creare sprite e animazioni (Characters/boyfriend.tscn, gruppo "target", oggi placeholder Assets/icon.svg) con la stessa pipeline del Player: render di prova 48x48 nelle 4 direzioni da far approvare prima di animare.
+- Nemica: far valutare gli ultimi ritocchi al turnaround (capelli posteriori coerenti con le altre viste, seno e glutei leggermente più pieni); il look generale è approvato. La ricostruzione di modello e sprite è autorizzata, da affrontare dopo il Player preservando animazioni e comportamenti.
+- Ragazzo: capelli pettinati e cordino nel modello; animazione di fuga al game over (idea: scappa con l'ultima che lo ha attaccato). Animazioni idle/glance/admire/flex approvate dall'utente.
+- **Player: aspetto approvato e passo corretto.** Il turnaround resta il riferimento principale; costume da bagno da donna a due pezzi, corpo e capelli attuali approvati. Camminata e corsa hanno gambe più raccolte e minore rotazione del bacino, anche nei lanci in movimento. Quattro atlanti rigenerati e verificati in Godot; idle, lancio da ferma, tempi e sincronismo preservati. La nemica resta invariata. Anteprime del confronto e delle pose aperte in VS Code; nuova andatura da valutare dall'utente. Dettagli in `Docs/BLENDER.md` §8.
+- **Ricostruzione dei personaggi autorizzata: Player aggiornato; prossimo modello, nemica base.** Ricostruire la nemica dal turnaround con la stessa modalità del ragazzo e del Player (vedi "Modalità di lavoro per un nuovo personaggio"). **Animazioni e comportamenti restano preservati, salvo la correzione richiesta al passo del Player:** stessi frame, FPS, direzioni, layout degli atlanti e indici letti dal codice, sincronismo del lancio, flirt/idle/colpita/morte della nemica.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
 - Valutare la mira durante il lancio: posa scelta all'inizio e raycast al mouse al rilascio, muovendo il mouse possono divergere.
 - Playtest completo: menu -> ondate -> acquisti -> game over.
@@ -157,4 +174,6 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 
 ## Persistenza
 
-Questo file sta in Docs/PROJECT_CONTEXT.md, versionato in Git; Docs/ è ignorata da Godot (.gdignore). AGENTS.md (Codex) nella radice contiene le regole fisse e rimanda qui; CLAUDE.md (Claude Code) importa AGENTS.md con `@AGENTS.md`, quindi le regole si modificano solo in AGENTS.md. Entrambi vengono letti automaticamente all'avvio della sessione. Ambiente .sprite-tools-env (Pillow/NumPy) escluso da Git/Godot. Tools/ è versionata in Git (sorgenti .blend, script e prompt) e invisibile a Godot (.gdignore).
+Per riprendere il Player dopo l'intervento Codex sul lavoro di Claude: `Docs/BLENDER.md` §8, "Ripresa del lavoro condiviso con Claude", elenca sorgenti e atlanti toccati, parti precedenti mantenute, verifiche e limiti. L'aspetto attuale è approvato; la correzione dell'andatura è applicata e verificata, in attesa della valutazione visiva dell'utente. Le altre modifiche presenti nel working tree non sono automaticamente attribuibili a questo intervento.
+
+Questo file sta in Docs/PROJECT_CONTEXT.md, versionato in Git; Docs/ è ignorata da Godot (.gdignore). Accanto: Docs/CODE_MAP.md (codice) e le guide degli strumenti Docs/BLENDER.md, Docs/PIXELORAMA.md, Docs/GODOT.md. AGENTS.md (Codex) nella radice contiene le regole fisse e rimanda qui; CLAUDE.md (Claude Code) importa AGENTS.md con `@AGENTS.md`, quindi le regole si modificano solo in AGENTS.md. Entrambi vengono letti automaticamente all'avvio della sessione. Ambiente .sprite-tools-env (Pillow/NumPy) escluso da Git/Godot. Tools/ è versionata in Git (sorgenti .blend, script e prompt) e invisibile a Godot (.gdignore).

@@ -28,6 +28,7 @@ scene = bpy.context.scene
 def hx8(h):
     h = h.lstrip('#'); return np.array([int(h[i:i+2], 16)/255 for i in (0, 2, 4)])
 OUTLINE = hx8("#3a1418"); SHADOW_RGB = hx8("#3a1418"); SHADOW_A = 97/255
+SHADOW_HIDE = {"Hair", "FrontHair"}          # oggetti che non proiettano l'ombra a terra
 EYE = {"D": hx8("#3b1d14"), "H": hx8("#fff6e8"), "B": hx8("#7a4127")}
 
 # ---------- utilità immagine ----------
@@ -65,10 +66,11 @@ def stamp_face(rgb, alpha, cam, size):
                 x, y = x0+i, y0+j
                 if 0 <= x < size and 0 <= y < size and alpha[y, x] > 0: rgb[y, x] = EYE[ch]
     p = bpy.data.objects["Mouth"].matrix_world.translation
-    if -((p-hc).normalized()).dot(cd) > 0.6:
+    if -((p-hc).normalized()).dot(cd) > 0.2:                  # bocca 2 px rossa (1 px scuro sembrava un puntino nero)
         v = world_to_camera_view(scene, cam, p)
-        x, y = int(round(v.x*size-0.5)), int(round((1-v.y)*size))
-        if 0 <= x < size and 0 <= y < size: rgb[y, x] = hx8("#a8473a")
+        x0, y = int(round(v.x*size-1)), int(round((1-v.y)*size))
+        for x in (x0, x0+1):
+            if 0 <= x < size and 0 <= y < size and alpha[y, x] > 0: rgb[y, x] = hx8("#c25a4a")
 
 def foot_height():
     rig = bpy.data.objects["Rig"]; pb = rig.pose.bones
@@ -95,9 +97,13 @@ def render_sprites(yaws=DIRY, frame=None, shadow=True):
         nb[1:] |= op[:-1]; nb[:-1] |= op[1:]; nb[:, 1:] |= op[:, :-1]; nb[:, :-1] |= op[:, 1:]
         ol = nb & ~op; rgb[ol] = OUTLINE; body = op | ol; alpha = body.astype(float)
         if shadow:
+            # l'ombra la fa il corpo: una chioma voluminosa proiettata diventerebbe un grande semicerchio
+            hid = [o for o in bpy.data.objects if o.name in SHADOW_HIDE and not o.hide_render]
+            for o in hid: o.hide_render = True
             root.scale = (k, k, 0.002); bpy.context.view_layer.update()
             bpy.ops.render.render(write_still=True)
             sm = grab(r.filepath)[..., 3] > 0.5; root.scale = (1, 1, 1)
+            for o in hid: o.hide_render = False
             sh = sm & ~body; rgb[sh] = SHADOW_RGB; alpha[sh] = SHADOW_A
         f = np.concatenate([rgb, alpha[..., None]], axis=2); f[alpha == 0] = 0; out.append(f)
     root.rotation_euler = (0, 0, 0); root.scale = (1, 1, 1); bpy.context.view_layer.update()
@@ -121,10 +127,10 @@ def idle(t):
 
 def walk(t):
     P = pb(); s, c = math.sin(t), math.cos(t)
-    P["hips"].location = (0, 0.035*abs(s)-0.02, 0); P["hips"].rotation_euler = (0, R(7*s), 0)
+    P["hips"].location = (0, 0.035*abs(s)-0.02, 0); P["hips"].rotation_euler = (0, R(3*s), 0)
     P["spine"].rotation_euler = (R(7), R(-5*s), 0); P["chest"].rotation_euler = (0, R(-4*s), 0)
     P["head"].rotation_euler = (R(-5), R(2*s), 0)
-    P["thigh.L"].rotation_euler = (R(-32*s), 0, R(-5)); P["thigh.R"].rotation_euler = (R(32*s), 0, R(5))
+    P["thigh.L"].rotation_euler = (R(-32*s), 0, R(-1.5)); P["thigh.R"].rotation_euler = (R(32*s), 0, R(1.5))
     P["shin.L"].rotation_euler = (R(10+62*max(0, c)), 0, 0); P["shin.R"].rotation_euler = (R(10+62*max(0, -c)), 0, 0)
     P["foot.L"].rotation_euler = (R(-10*s), 0, 0); P["foot.R"].rotation_euler = (R(10*s), 0, 0)
     P["upper_arm.L"].rotation_euler = (R(30*s), 0, R(-6)); P["upper_arm.R"].rotation_euler = (R(-30*s), 0, R(6))
@@ -133,10 +139,10 @@ def walk(t):
 
 def run(t):
     P = pb(); s, c = math.sin(t), math.cos(t)
-    P["hips"].location = (0, 0.06*abs(s)-0.035, -0.02); P["hips"].rotation_euler = (0, R(9*s), 0)
+    P["hips"].location = (0, 0.06*abs(s)-0.035, -0.02); P["hips"].rotation_euler = (0, R(4*s), 0)
     P["spine"].rotation_euler = (R(14), R(-7*s), 0); P["chest"].rotation_euler = (R(3), R(-5*s), 0)
     P["head"].rotation_euler = (R(-12), R(3*s), 0)
-    P["thigh.L"].rotation_euler = (R(-46*s), 0, R(-5)); P["thigh.R"].rotation_euler = (R(46*s), 0, R(5))
+    P["thigh.L"].rotation_euler = (R(-46*s), 0, R(-1.5)); P["thigh.R"].rotation_euler = (R(46*s), 0, R(1.5))
     P["shin.L"].rotation_euler = (R(15+85*max(0, c)), 0, 0); P["shin.R"].rotation_euler = (R(15+85*max(0, -c)), 0, 0)
     P["foot.L"].rotation_euler = (R(-15*s), 0, 0); P["foot.R"].rotation_euler = (R(15*s), 0, 0)
     P["upper_arm.L"].rotation_euler = (R(45*s), 0, R(-10)); P["upper_arm.R"].rotation_euler = (R(-45*s), 0, R(10))
@@ -184,6 +190,14 @@ def build_diagonals():
     return build_all(DIAG, "player_diagonals_spritesheet.png", "player_diagonals_moving_throw.png")
 
 def build_all(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_moving_throw.png"):
+    steps = build_steps(yaws, sheet_name, mt_name)
+    while True:
+        try: next(steps)
+        except StopIteration as done: return done.value
+
+
+def build_steps(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_moving_throw.png"):
+    """Stessa build, una posa per next(): l'MCP puo' dividerla senza bloccare a lungo Blender."""
     rig = bpy.data.objects["Rig"]; rig.animation_data_create(); rig.animation_data.action = None
     ball = bpy.data.objects["SandBall"]
     groups = []   # Idle(6), Walk(8), Dash(8), Throw(8) x N,S,E,W
@@ -192,12 +206,14 @@ def build_all(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_mo
         for f in range(n):
             out = render_pose(fn, f/n*2*math.pi, yaws=yaws)
             for d in range(4): arr[d, f] = out[d]
+            yield fn.__name__, f
         groups.append(arr)
     arr = np.zeros((4, 8, SIZE, SIZE, 4))
     for i in range(8):
         pose_combo(idle, 0.0, i, static=True); ball.hide_render = i not in BALL_FRAMES
         out = render_sprites(yaws)
         for d in range(4): arr[d, i] = out[d]
+        yield 'throw', i
     groups.append(arr)
     sheet = np.zeros((16*SIZE, 8*SIZE, 4))
     for gi, a in enumerate(groups):
@@ -213,6 +229,7 @@ def build_all(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_mo
                 out = render_sprites(yaws)
                 for d in range(4):
                     r = ai*32+d*8+g; mt[r*SIZE:(r+1)*SIZE, i*SIZE:(i+1)*SIZE] = out[d]
+                yield 'moving_throw', ai, g, i
     ball.hide_render = True; clear_pose()
     save_rgba(sheet, os.path.join(PROJ, sheet_name))
     save_rgba(mt, os.path.join(PROJ, mt_name))

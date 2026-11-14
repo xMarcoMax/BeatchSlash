@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7hlo6oyt5mwr"
-path="res://.godot/imported/Beatch Slash no Logo.png-3a47eebb3744b3051d7aee766f0b070b.ctex"
+uid="uid://cirbgh4fvr2y2"
+path="res://.godot/imported/beatch-slash-logo-text-only.png-6ea389a7bd261b15d181eb901f1abd4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/Beatch Slash no Logo.png"
-dest_files=["res://.godot/imported/Beatch Slash no Logo.png-3a47eebb3744b3051d7aee766f0b070b.ctex"]
+source_file="res://Assets/Images/beatch-slash-logo-text-only.png"
+dest_files=["res://.godot/imported/beatch-slash-logo-text-only.png-6ea389a7bd261b15d181eb901f1abd4e.ctex"]
 
 [params]
 

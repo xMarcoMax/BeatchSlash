@@ -1,6 +1,6 @@
 # Pixelorama per Beatch Slash! — guida operativa
 
-Come si usa Pixelorama via MCP in questo progetto: installazione, metodo di disegno, file, errori incontrati. Si aggiorna ogni volta che si impara qualcosa. Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\pixelorama.md`, da leggere prima di questa. Lo stile grafico vincolante è in `Docs/PROJECT_CONTEXT.md` (sezione "Pipeline grafica e stile visivo").
+Come si usa Pixelorama via MCP in questo progetto: installazione, metodo di disegno, file, errori incontrati. Si aggiorna ogni volta che si impara qualcosa. Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\game-tools\references\pixelorama.md`, da leggere prima di questa. Lo stile grafico vincolante è in `Docs/PROJECT_CONTEXT.md` (sezione "Pipeline grafica e stile visivo").
 
 ## 1. Strumenti e collegamento
 

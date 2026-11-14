@@ -125,7 +125,9 @@ Tutte le nuove risorse grafiche (nemici, ragazzo, oggetti, effetti) devono segui
 
 ### Strumenti (guide operative dedicate)
 
-Server MCP attesi: `blender`, `pixelorama`, `godot-ai`, con i programmi aperti. Ognuno ha una guida con installazione, procedure, comandi, parametri, accortezze ed errori incontrati, da **leggere prima di usarlo e aggiornare man mano che si impara** (indicazione dell'utente; destinate a diventare skill):
+Il catalogo della skill è estendibile: Blender, Godot e Pixelorama sono la dotazione iniziale. Quando viene usato un nuovo programma tramite MCP, l'agente aggiunge la guida generica, la voce nel catalogo e la guida locale; un nuovo backend dello stesso programma integra la guida esistente distinguendo le proprie API. Anche le nuove guide seguono l'aggiornamento obbligatorio e la separazione tra know-how generico e dettagli del progetto.
+
+Server MCP attesi: `blender`, `pixelorama`, `godot-ai`, con i programmi aperti. La skill condivisa `game-tools`, in `C:\Users\stefa\.agent-knowledge\game-tools\SKILL.md`, instrada alle tre guide generiche in `references/`. Codex e Claude Code usano la stessa copia. Le tre guide locali esistenti restano dedicate al progetto: leggere quella pertinente prima dell'uso e aggiornarla con le nuove lezioni verificate; trasferire obbligatoriamente il know-how riutilizzabile nei riferimenti della skill in forma generica. Le scelte di stile di questo progetto restano vincolanti qui:
 
 - **Blender** (personaggi animati: modello 3D chibi + rig renderizzato a pixel): `Docs/BLENDER.md`. Sorgenti in `Tools/blender/` (base comune `base_personaggio.blend`, un .blend e uno script per personaggio).
 - **Pixelorama** (oggetti piccoli, effetti, icone, ritocchi dentro la silhouette): `Docs/PIXELORAMA.md`. Sorgenti in `Tools/pixelorama/`.

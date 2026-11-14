@@ -1,6 +1,6 @@
 # Blender per Beatch Slash! — guida operativa
 
-Tutto ciò che serve per lavorare sui personaggi in Blender via MCP: installazione, regole, file, procedure, comandi, parametri ed errori già incontrati. Si aggiorna **ogni volta che si impara qualcosa** (nuova procedura, nuovo errore, parametro cambiato). Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\blender.md`, da leggere prima di questa. Le specifiche di gioco dei personaggi (animazioni, layout degli atlanti, palette approvate) stanno in `Docs/PROJECT_CONTEXT.md`; il codice di gioco in `Docs/CODE_MAP.md`.
+Tutto ciò che serve per lavorare sui personaggi in Blender via MCP: installazione, regole, file, procedure, comandi, parametri ed errori già incontrati. Si aggiorna **ogni volta che si impara qualcosa** (nuova procedura, nuovo errore, parametro cambiato). Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\game-tools\references\blender.md`, da leggere prima di questa. Le specifiche di gioco dei personaggi (animazioni, layout degli atlanti, palette approvate) stanno in `Docs/PROJECT_CONTEXT.md`; il codice di gioco in `Docs/CODE_MAP.md`.
 
 ## 1. Strumenti e collegamento
 

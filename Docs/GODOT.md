@@ -1,6 +1,6 @@
 # Godot AI per Beatch Slash! — guida operativa
 
-Come si lavora sul progetto Godot via MCP (plugin Godot AI): configurazione, strumenti, verifiche in gioco, limiti ed errori incontrati. Si aggiorna ogni volta che si impara qualcosa. Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\godot.md`, da leggere prima di questa. La mappa del codice è in `Docs/CODE_MAP.md`.
+Come si lavora sul progetto Godot via MCP (plugin Godot AI): configurazione, strumenti, verifiche in gioco, limiti ed errori incontrati. Si aggiorna ogni volta che si impara qualcosa. Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\game-tools\references\godot.md`, da leggere prima di questa. La mappa del codice è in `Docs/CODE_MAP.md`.
 
 ## 1. Plugin e collegamento
 

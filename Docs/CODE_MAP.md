@@ -4,6 +4,8 @@ Da leggere **per prima** per capire come è fatto il progetto; poi `Docs/PROJECT
 
 GDScript, Godot 4.7, renderer Mobile. Scena principale: Scenes/main_menu.tscn. Tutto il testo in gioco è in italiano.
 
+Documentazione degli strumenti: `Docs/BLENDER.md`, `Docs/GODOT.md` e `Docs/PIXELORAMA.md` conservano procedure e parametri locali. La skill esterna condivisa `C:\Users\stefa\.agent-knowledge\game-tools\SKILL.md` instrada al know-how generico in `references/` e ne governa l'aggiornamento. Il catalogo si estende ai nuovi programmi/MCP effettivamente usati, aggiungendo una guida generica e una locale o integrando quella dello stesso programma. Questi documenti non introducono nodi, segnali o dipendenze runtime.
+
 ## Flusso di gioco
 
 1. **Menu** (`main_menu.gd`): Nuova partita emette `SignalManager.game_started`, ferma la musica e carica `Scenes/level.tscn`. Opzioni (`options.gd`: volume e mute sul bus 0) e Tutorial portano a scene dedicate e tornano al menu.

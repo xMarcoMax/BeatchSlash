@@ -10,6 +10,7 @@ size = Vector2(72, 120)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 3
+motion_mode = 1
 script = ExtResource("2_script")
 ball = ExtResource("3_ball")
 metadata/_edit_group_ = true

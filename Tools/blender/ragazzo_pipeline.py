@@ -123,6 +123,32 @@ def paint_zones(cc, o, mats, allowed):
         f.material_index = allowed.index(cc.zone(p, n, allowed))
 
 
+def clear_baked_brows(head):
+    """Le piccole isole di capelli sulla fronte duplicano le sopracciglia timbrate."""
+    by_edge = {}
+    links = {}
+    for face in head.data.polygons:
+        if face.material_index != 1: continue
+        links[face.index] = set()
+        for edge in face.edge_keys: by_edge.setdefault(edge, []).append(face.index)
+    for group in by_edge.values():
+        for index in group: links[index].update(group)
+    eyes = sum((bpy.data.objects[n].matrix_world.translation for n in ('Eye_L', 'Eye_R')), Vector())/2
+    unseen = set(links); removed = 0
+    while unseen:
+        pending = [unseen.pop()]; component = []
+        while pending:
+            index = pending.pop(); component.append(index)
+            neighbors = links[index] & unseen
+            unseen.difference_update(neighbors); pending.extend(neighbors)
+        center = sum((head.matrix_world @ head.data.polygons[i].center for i in component), Vector())/len(component)
+        if len(component) <= 8 and 0 < center.z-eyes.z < .12 and center.y < eyes.y+.08:
+            for index in component: head.data.polygons[index].material_index = 0
+            removed += len(component)
+    head.data.update()
+    return removed
+
+
 # ---------- costruzione ----------
 def make_boy():
     rig = bpy.data.objects["Rig"]; body = bpy.data.objects["Body"]; head = bpy.data.objects["Head"]
@@ -139,6 +165,7 @@ def make_boy():
     hair = toon_mat("BoyHair", HAIR); shorts = toon_mat("Shorts", SHORTS)
     paint_zones(cc, body, [skin, shorts], [1, 3])
     paint_zones(cc, head, [skin, hair], [1, 2])
+    clear_baked_brows(head)
 
     # collanina: perline appoggiate sul collo alla quota del concept, davanti scendono un po'
     bpy.context.view_layer.update(); dg = bpy.context.evaluated_depsgraph_get()
@@ -161,12 +188,12 @@ def make_boy():
 
 
 # ---------- render ----------
-BROW = hx8("#2b140c"); MOUTH = hx8("#b5483a")
+BROW = hx8("#6b3a26"); MOUTH = hx8("#b5483a")
 
 def stamp_face(rgb, alpha, cam, size):
     """viso a pixel del ragazzo (sostituisce quello del Player): occhi 2x2 di fronte (scuro + riflesso,
-    riga bassa verde), di lato 1x2 sempre a 2 px dal bordo del viso; sopracciglia 2 px con una riga
-    libera; bocca 2 px di fronte, 1 px di lato"""
+    riga bassa verde), alzati di 1 px; di lato 1x2 a 2 px dal bordo del viso. Sopracciglia
+    marroni piatte 2x1; bocca 2 px di fronte, 1 px di lato alla quota precedente."""
     head = bpy.data.objects["Head"]; hc = head.matrix_world.translation
     cd = (cam.matrix_world.to_quaternion() @ Vector((0, 0, -1))).normalized()
     hcx = world_to_camera_view(scene, cam, hc).x*size
@@ -183,7 +210,7 @@ def stamp_face(rgb, alpha, cam, size):
     eyes = [e for e in (proj("Eye_L"), proj("Eye_R")) if e[2] > 0.12]
     side = len(eyes) == 1; ey0 = None
     for cx, cy, _ in eyes:
-        y0 = ey0 = int(round(cy - 1))
+        ey0 = int(round(cy - 1)); y0 = ey0 - 1
         closed = globals().get("EYES_CLOSED", False)          # idle al sole: occhi chiusi, una riga scura
         if side:
             right = cx > hcx; xe = edge(y0, right)
@@ -191,12 +218,12 @@ def stamp_face(rgb, alpha, cam, size):
             x0 = xe - 2 if right else xe + 2; back = -1 if right else 1
             if closed: put(x0, y0+1, EYE["D"])
             else: put(x0, y0, EYE["D"]); put(x0, y0+1, EYE["B"])
-            put(x0, y0-2, BROW); put(x0 + back, y0-2, BROW)
+            put(x0, y0-1, BROW); put(x0 + back, y0-1, BROW)
         else:
             x0 = int(round(cx - 1))
             if closed: put(x0, y0+1, EYE["D"]); put(x0+1, y0+1, EYE["D"])
             else: put(x0, y0, EYE["D"]); put(x0+1, y0, EYE["H"]); put(x0, y0+1, EYE["B"]); put(x0+1, y0+1, EYE["B"])
-            put(x0, y0-2, BROW); put(x0+1, y0-2, BROW)
+            put(x0, y0-1, BROW); put(x0+1, y0-1, BROW)
     mx, my, mf = proj("Mouth")
     if mf > 0.3 or side:                                       # di profilo la bocca e' sul bordo del viso
         y = int(round(my))
@@ -221,8 +248,9 @@ EYES_CLOSED = False
 def hands_on_hips(P, side="LR"):
     for s, sg in (("L", 1), ("R", -1)):
         if s in side:
-            P["upper_arm."+s].rotation_euler = (R(25), 0, R(sg*-40))
-            P["forearm."+s].rotation_euler = (R(-30), 0, R(sg*110))
+            P["upper_arm."+s].rotation_euler = (R(8), 0, R(sg*-15))
+            P["forearm."+s].rotation_euler = (R(-25), 0, R(sg*80))
+            P["hand."+s].rotation_euler = (0, 0, R(sg*-55))
 
 def boy_idle(t):
     """al sole con le mani sui fianchi, mento un po' alzato, occhi chiusi; respira solo il busto"""

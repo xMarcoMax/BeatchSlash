@@ -268,9 +268,9 @@ def build_hair(cc, body, head, rig, z_chin, hairline):
     return hair, int(keep.sum())
 
 
-def build_front_hair(cc, head, rig):
+def build_front_hair(cc, head, rig, paths=None, part_color="#912a2a"):
     """Due ciocche dalla riga centrale alle tempie, tracciate sul concept e adagiate sul cranio."""
-    paths = [
+    paths = paths if paths is not None else [
         [(321, 170, 2), (306, 173, 15), (289, 192, 22), (278, 226, 27), (268, 263, 28), (243, 292, 22), (207, 307, 1)],
         [(326, 170, 2), (345, 175, 15), (368, 198, 24), (380, 229, 26), (390, 269, 23), (409, 300, 17), (421, 325, 1)],
     ]
@@ -316,7 +316,7 @@ def build_front_hair(cc, head, rig):
     me = bpy.data.meshes.new('FrontHair'); me.from_pydata(verts, [], faces); me.update()
     ob = bpy.data.objects.new('FrontHair', me); head.users_collection[0].objects.link(ob)
     me.materials.append(bpy.data.materials['Hair'])
-    part = bpy.data.materials.get('HairPart') or flat_mat('HairPart', '#912a2a')
+    part = flat_mat('HairPart', part_color)
     me.materials.append(part)
     for face in me.polygons:
         face.use_smooth = True
@@ -394,11 +394,11 @@ def apply_girl_suit(cc, body):
     me.update()
 
 
-def make_girl(stage="all"):
+def make_girl(stage="all", concept_name="player"):
     """stage: "body", "hair", "suit" (solo materiale sul corpo attuale) o "all"; separati per restare nei
     tempi dell'MCP. L'altezza del concept corrisponde a GIRL_H, l'altezza del modello base."""
     rig = bpy.data.objects["Rig"]; body = bpy.data.objects["Body"]; head = bpy.data.objects["Head"]
-    cc = Concept(GIRL_CONCEPT, GIRL_H, girl_classify, "player", axis_mask=girl_body_mask)
+    cc = Concept(GIRL_CONCEPT, GIRL_H, girl_classify, concept_name, axis_mask=girl_body_mask)
     hairline, chin = girl_face_rows(cc); info = {"hairline": hairline, "chin": chin}
     if stage in ("body", "all"):
         for n in ("Bust_L", "Bust_R", "Hair"): bpy.data.objects.remove(bpy.data.objects[n])

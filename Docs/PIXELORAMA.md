@@ -33,3 +33,8 @@ Come si usa Pixelorama via MCP in questo progetto: installazione, metodo di dise
 
 - L'ambiente Python del progetto `.sprite-tools-env` punta a un interprete non più presente (`python314` mancante): per calcoli su immagini usare il Python di Blender (numpy disponibile) oppure riparare l'ambiente.
 - Pixel orfani dopo un ritocco (vecchi contorni fuori dalla nuova silhouette): cercarli con `get_image` e cancellarli con `fill_rect` `transparent`.
+
+## 6. Ispezione della nemica dal concept
+
+- Pixelorama 1.2.3 collegato via MCP; aperti il render di prova e `Assets/Characters/Enemy/enemy_spritesheet.png` (768x2048, celle 64x64) per ispezione. `read_pixels` ha confermato palette e timbri di occhi/bocca nel render.
+- Tutte le correzioni condivise tra direzioni e frame sono nei sorgenti Blender: fronte e ciocche, volumi, bikini e passo. Nessun ritocco raster persistente e nessun nuovo `.pxo`; per rigenerare usare `Docs/BLENDER.md` §11.

@@ -15,6 +15,7 @@ bg_color = Color(0.00392157, 0.784314, 0, 1)
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
 collision_mask = 1
+motion_mode = 1
 script = ExtResource("1_biwbq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

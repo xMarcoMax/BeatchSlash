@@ -44,7 +44,31 @@ Il logo deve sembrare parte integrante dell'illustrazione, non un semplice testo
 - Mantenere la palette grafica del progetto: sabbia, terracotta, rosso corallo, azzurro e verde smeraldo.
 - Conservare le licenze dei font all'interno del progetto e della distribuzione.
 
-## Riferimenti
+## Valori applicati nel gioco
+
+La risoluzione logica è 1152×648. Le dimensioni qui sotto sono pixel logici: crescono proporzionalmente con la finestra, mantenendo la stessa visuale. Le misure indicative a 1080p sopra restano il riferimento di stile, non valori da copiare nei nodi.
+
+| Uso | Font e peso | Dimensione logica |
+|---|---|---|
+| Titolo menu, Opzioni, Pausa | Luckiest Guy | 48 |
+| Game Over | Luckiest Guy | 64 |
+| Conto alla rovescia e titolo negozio | Luckiest Guy | 32 |
+| Pulsanti | Fredoka SemiBold 600 | 26 |
+| Tab del negozio | Fredoka SemiBold 600 | 22 |
+| HUD | Fredoka Bold 700 | 20 |
+| Tutorial | Fredoka Medium 500 | 20 |
+| Invito al negozio | Fredoka SemiBold 600 | 20 |
+| Nomi oggetti | Fredoka SemiBold 600 | 18 |
+| Descrizioni nelle schede da 200 px | Fredoka Regular 400 | 16 |
+| Testi generici | Fredoka Regular 400 | 20 |
+
+Tema globale: `Assets/UI/game_theme.tres`, assegnato da `gui/theme/custom` in `project.godot`. Le scene scelgono il ruolo con `theme_type_variation`; i pesi sono FontVariation del singolo Fredoka variabile. Il lettering illustrato del logo rimane una risorsa distinta dal titolo testuale del menu.
+
+Font originali: `Assets/Fonts/LuckiestGuy-Regular.ttf` e `Assets/Fonts/Fredoka.ttf`. Licenze originali in `Assets/Fonts/Licenses/`: **Apache 2.0 per Luckiest Guy**, **OFL per Fredoka**. I tre preset di esportazione includono esplicitamente `Assets/Fonts/Licenses/*.txt`.
+
+## Riferimenti ufficiali
 
 - Luckiest Guy: https://fonts.google.com/specimen/Luckiest+Guy
 - Fredoka: https://fonts.google.com/specimen/Fredoka
+- Sorgenti e licenza Luckiest Guy: https://github.com/google/fonts/tree/main/apache/luckiestguy
+- Sorgenti e licenza Fredoka: https://github.com/google/fonts/tree/main/ofl/fredoka

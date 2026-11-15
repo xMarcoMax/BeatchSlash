@@ -1,6 +1,6 @@
 # Beatch Slash! — mappa del codice
 
-Da leggere **per prima** per capire come è fatto il progetto; poi `Docs/PROJECT_CONTEXT.md` (visione, stile grafico, stato). Ultimo aggiornamento: 14 novembre 2026. Descrive la struttura, non il diario: se cambi segnali, scene, autoload o flussi, aggiorna questa mappa nello stesso intervento. Verificare sempre contro i file reali.
+Da leggere **per prima** per capire come è fatto il progetto; poi `Docs/PROJECT_CONTEXT.md` (visione, stile grafico, stato). Ultimo aggiornamento: 15 novembre 2026. Descrive la struttura, non il diario: se cambi segnali, scene, autoload o flussi, aggiorna questa mappa nello stesso intervento. Verificare sempre contro i file reali.
 
 GDScript, Godot 4.7, renderer Mobile. Scena principale: Scenes/main_menu.tscn. Tutto il testo in gioco è in italiano.
 
@@ -102,6 +102,11 @@ Area2D che avanza lungo `transform.x` a `speed` 400 (la scala 2 ereditata dal Ra
 `ui_left/right/up/down` (frecce e tasti configurati, anche gamepad), `shoot_sand` (tasto destro del mouse), `run` (Spazio), `buy_upgrades` (F), `esc` (Esc: chiude il negozio o alterna la pausa), `pause` (P, azione definita ma senza script che la usi).
 
 ## Risorse
+
+- `Assets/UI/game_theme.tres`: tema globale selezionato da `gui/theme/custom` in `project.godot`. Default Fredoka400/20; variazioni Label per titoli Luckiest Guy, HUD Bold, tutorial Medium e schede oggetti. Button, CheckBox, TabBar, TabContainer e RichTextLabel ricevono font/pesi nel tema. Nove scene UI scelgono i ruoli senza override di font locali; `Objects/Items/item.tscn` non incorpora più una cache di font. Ruoli, misure e licenze in `Docs/FONTS.md`.
+- Video: `display/window/stretch/mode = "canvas_items"`, aspect `keep` e base1152×648 (default di Godot4.7). La finestra scala la stessa area logica anche a schermo intero. Camera2D del livello a zoom(0.5,0.5), nessuno script di ridimensionamento.
+- `Assets/Images/`: logo testuale, logo completo, copertina dei personaggi e copertina con logo; risorse future conservate su indicazione dell'utente. Nomi e significato in `PROJECT_CONTEXT.md`.
+- Font: `Assets/Fonts/Fredoka.ttf`, `LuckiestGuy-Regular.ttf`, licenze originali in `Assets/Fonts/Licenses/`. Tutti i preset in `export_presets.cfg` includono i `.txt` delle licenze; verificare il pacchetto prima della distribuzione.
 
 `Tools/blender/sprite_contours.py:ArmContours` è usato da `blender_pipeline.py:render_sprites()` per i contorni interni delle braccia nelle sei viste laterali/diagonali dei tre personaggi. Pass Freestyle delle silhouette marcate tramite pesi del rig, tratto1px OUTSIDE rispetto al braccio e limitato ai pixel interni della sagoma opaca totale: separa il braccio dal busto senza annerirne la pelle. Conserva alpha, layout degli atlanti e risorse runtime. La nemica abilita inoltre `EYE_SKIN_FIT` e soglia0.20 per stabilizzare il timbro degli occhi; `verifica_nemica.py:check_walk_eyes()` fa parte di `check_enemy()`. `ragazzo_pipeline.py:clear_baked_brows()` rimuove le piccole isole di sopracciglia dipinte dalla testa dopo `paint_zones()`; il suo `stamp_face()` usa occhi alzati1px e sopracciglia piatte2x1 #6b3a26, senza spostare bocca o barba. Guide in `Docs/BLENDER.md` §13.
 

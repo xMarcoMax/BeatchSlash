@@ -27,6 +27,10 @@ MusicManager="*res://Scripts/Autoload/MusicManager.gd"
 Global="*res://Scripts/Autoload/Global.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
@@ -43,6 +47,10 @@ player=""
 enemy=""
 target=""
 upgrades=""
+
+[gui]
+
+theme/custom="res://Assets/UI/game_theme.tres"
 
 [input]
 

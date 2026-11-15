@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0knuth3fquin"]
+[gd_scene load_steps=4 format=3 uid="uid://d0knuth3fquin"]
 
 [ext_resource type="Script" uid="uid://bivtg2pvvjdai" path="res://Scripts/pause_menu.gd" id="1_k0w1u"]
-[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="2_1och7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fo1c"]
 bg_color = Color(0.16, 0.16, 0.16, 0.905882)
@@ -21,6 +20,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8fo1c")
 
 [node name="Pause" type="Label" parent="."]
+theme_type_variation = "TitleLabel"
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -29,8 +29,6 @@ offset_top = 54.0
 offset_right = 248.5
 offset_bottom = 179.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_1och7")
-theme_override_font_sizes/font_size = 80
 text = "Pausa"
 horizontal_alignment = 1
 
@@ -51,16 +49,12 @@ theme_override_constants/separation = 10
 [node name="Resume" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_1och7")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ojehl")
 text = "Riprendi"
 
 [node name="BackMenu" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_1och7")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ojehl")
 text = "Torna al Menù"
 

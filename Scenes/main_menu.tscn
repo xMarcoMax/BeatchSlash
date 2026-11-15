@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://cwwo0tn1cydle"]
+[gd_scene load_steps=3 format=3 uid="uid://cwwo0tn1cydle"]
 
-[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_28flt"]
 [ext_resource type="Script" uid="uid://bmfx0l8kwsby" path="res://Scripts/main_menu.gd" id="1_48xlc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48xlc"]
@@ -15,17 +14,18 @@ grow_vertical = 2
 script = ExtResource("1_48xlc")
 
 [node name="Title" type="Label" parent="."]
+theme_type_variation = "TitleLabel"
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -62.0
-offset_right = 63.0
-offset_bottom = 26.0
+offset_left = -400.0
+offset_right = 400.0
+offset_top = 28.0
+offset_bottom = 128.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_28flt")
-theme_override_font_sizes/font_size = 67
 text = "Beatch Slash!"
+horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -45,32 +45,24 @@ theme_override_constants/separation = 9
 [node name="NewGame" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("1_28flt")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
 text = "Nuovo Gioco"
 
 [node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("1_28flt")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
 text = "Opzioni"
 
 [node name="Tutorial" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("1_28flt")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
 text = "Tutorial"
 
 [node name="Exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("1_28flt")
-theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_48xlc")
 text = "Esci"
 

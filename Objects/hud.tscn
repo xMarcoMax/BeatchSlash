@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgy5p47lpk3mu"]
+[gd_scene load_steps=8 format=3 uid="uid://cgy5p47lpk3mu"]
 
 [ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
-[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_bc8po"]
 [ext_resource type="Texture2D" uid="uid://bm6hf4f20tt2k" path="res://Assets/Icons/health.png" id="3_gjuw2"]
 [ext_resource type="Texture2D" uid="uid://di3lr7owpeol2" path="res://Assets/Icons/shield.png" id="4_yhj4i"]
 
@@ -21,12 +20,11 @@ bg_color = Color(0, 0.509804, 1, 1)
 script = ExtResource("1_2lhhg")
 
 [node name="Wave" type="Label" parent="."]
+theme_type_variation = "HudLabel"
 offset_left = 9.0
 offset_right = 269.0
 offset_bottom = 129.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
 text = "Ondata
 "
 
@@ -40,17 +38,15 @@ grow_horizontal = 0
 alignment = 2
 
 [node name="Points" type="Label" parent="PointsCurrency"]
+theme_type_variation = "HudLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
 text = "Punti: 10"
 
 [node name="Currency" type="Label" parent="PointsCurrency"]
+theme_type_variation = "HudLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
 text = "Valuta: 5"
 
 [node name="DefeatedAndRemain" type="VBoxContainer" parent="."]
@@ -66,17 +62,15 @@ grow_vertical = 0
 alignment = 2
 
 [node name="EnemyDefeated" type="Label" parent="DefeatedAndRemain"]
+theme_type_variation = "HudLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
 text = "Donne sconfitte: 2"
 
 [node name="EnemyRemain" type="Label" parent="DefeatedAndRemain"]
+theme_type_variation = "HudLabel"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_bc8po")
-theme_override_font_sizes/font_size = 40
 text = "Rimasti: 5"
 
 [node name="HealthBar" type="HBoxContainer" parent="."]

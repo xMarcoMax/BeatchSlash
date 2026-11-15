@@ -2,6 +2,18 @@
 
 Come si lavora sul progetto Godot via MCP (plugin Godot AI): configurazione, strumenti, verifiche in gioco, limiti ed errori incontrati. Si aggiorna ogni volta che si impara qualcosa. Le lezioni valide in ogni progetto vanno (in forma generale) anche nella guida generica `C:\Users\stefa\.agent-knowledge\game-tools\references\godot.md`, da leggere prima di questa. La mappa del codice è in `Docs/CODE_MAP.md`.
 
+## Tipografia e visuale a dimensione fissa
+
+`Assets/UI/game_theme.tres` è il tema globale (`gui/theme/custom`). Font originali Google Fonts: Luckiest Guy, Apache2.0; Fredoka variabile, OFL. `Docs/FONTS.md` descrive ruoli e taglie adattate alla base1152×648. Le nove scene UI usano `theme_type_variation`; eliminati font locali e cache FontFile/Image della scheda oggetto. Le licenze `.txt` sono incluse nei tre preset tramite `Assets/Fonts/Licenses/*.txt`; pacchetto esportato non ancora verificato.
+
+Fredoka ha default reale wght300, anche se i metadati della raccolta indicano400. Creare quattro FontVariation esplicite per400/500/600/700. Su questa combinazione Godot4.7/font, chiavi `"wght"` e `&"wght"` venivano lette dal resource ma `TextServer.font_get_variation_coordinates(font.get_rids()[0])` restituiva `{}`: il testo restava Light. Il tag intero restituito da `TextServer.name_to_tag("wght")`,2003265652, raggiunge invece il renderer. Il solo `get_font_name()` continua a dire Fredoka Light, quindi non prova il peso effettivo. Verificati a runtime600 su pulsanti,500 sul tutorial,700 sull'HUD e400 sulle descrizioni. Il TabContainer imposta il tema del TabBar interno: aggiungere font/size a **entrambi**; il solo TabBar lasciava i tab a400/20. Controllo finale tab:600/22.
+
+`display/window/stretch/mode = "canvas_items"`, aspect `keep`, base1152×648: le misure native sono quelle di default della versione attuale e Godot le omette da `project.godot` quando si salvano valori uguali al default. Camera del livello conservata a zoom(0.5,0.5): area di mondo2304×1296 anche con viewport fisico2544×1422. I tentativi di cambiare `get_window().size` nel gioco incorporato vengono sovrascritti dal contenitore dell'editor: non usarli come prova di diverse dimensioni fisiche.
+
+Per verificare il ridimensionamento nativo senza cambiare le preferenze dell'editor, creata una Window temporanea con le stesse tre proprietà `content_scale_*`: a1152×648,1920×1080,800×800 e2560×1080 mantiene sempre1152×648 logici, con scale uniformi1,1.6667,0.6944,1.6667. Rimossa dopo la prova. Menu, Opzioni, Tutorial, HUD, countdown, invito, negozio Player/Partner, Pausa e Game Over controllati con screenshot; margine superiore del Game Over32px. Nessuna fixture salvata. Non è un playtest completo né una verifica su monitor fisici differenti.
+
+Chiusura verificata dopo un nuovo avvio dell'editor: `project_run(mode="main", autosave=False)` apre `Scenes/main_menu.tscn`, helper live, albero non in pausa, tema corretto e peso effettivo600 sui pulsanti. Screenshot del menu senza tagli e nessun errore all'avvio. Il gioco resta sul menu, senza fixture. Anche in questa sessione il contenitore del gioco ripristina mode0 e1152×648 dopo una richiesta di fullscreen: la prova non verifica il cambio di modalità fisico del monitor.
+
 ## 1. Plugin e collegamento
 
 - **Godot AI** (plugin `addons/godot_ai`, v4.4.1, MCP con ~46 strumenti: scene, nodi, script, segnali, UI, animazioni, screenshot dell'editor e del gioco, avvio del progetto, log). Nome atteso del server: `godot-ai`. Richiede l'editor Godot 4.7 aperto con il progetto. `addons/` è esclusa da Git: il plugin resta solo in locale.

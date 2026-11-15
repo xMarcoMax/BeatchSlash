@@ -13,7 +13,7 @@ Non scrivere: cronologia, correzioni fatte, processo di realizzazione, come le c
 
 A fine intervento riscrivi le voci toccate, senza note datate. Confronta sempre con i file correnti, git status e le ultime istruzioni dell'utente.
 
-Ultimo aggiornamento: 14 novembre 2026.
+Ultimo aggiornamento: 15 novembre 2026.
 
 **Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script). Questo file descrive visione, specifiche, stile grafico e stato.
 
@@ -48,6 +48,12 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - Autoload: Formulas, SignalManager, MusicManager, Global. Global.is_in_purchase blocca movimento e nuovi lanci durante gli acquisti.
 - Gli script di Player, Boyfriend e Upgrades sono agganciati alle rispettive scene base (Characters/player.tscn, Characters/boyfriend.tscn, Objects/upgrades.tscn); level.tscn le istanzia senza override di script.
 - Files/item_list.csv è letto con FileAccess: il suo .import deve usare `importer="keep"` (Import As -> Keep File nel dock Import), altrimenti il CSV grezzo non entra negli export.
+
+## Interfaccia, finestra e immagini disponibili
+
+- Tipografia: `Docs/FONTS.md` definisce ruoli e identità. Luckiest Guy per titoli e annunci; Fredoka per interfaccia e testo, con pesi Regular400/Medium500/SemiBold600/Bold700. Tema globale `Assets/UI/game_theme.tres`. Dimensioni logiche: titoli48, Game Over64, annunci/titolo negozio32, pulsanti26, tab22, HUD/tutorial/invito20, nomi oggetti18 e descrizioni16. Le misure sono adattate alla UI; quelle a1080p della guida sono indicative.
+- Finestra: base logica1152×648, stretch `canvas_items`, aspect `keep`. Massimizzare o passare a schermo intero ingrandisce la stessa visuale; non allarga il mondo visibile. Proporzioni diverse introducono bande. Camera del livello invariata a zoom(0.5,0.5).
+- `Assets/Images/` contiene quattro risorse conservate su richiesta dell'utente per riferimenti e possibili usi futuri: `beatch-slash-logo-text-only.png` (logo solo testo), `beatch-slash-logo.png` (logo completo), `beatch-slash-cover-no-logo.png` (copertina con i personaggi attuali), `beatch-slash-cover-logo.png` (copertina con personaggi e logo). Nessun uso assegnato al momento; non eliminarle come risorse inutilizzate.
 
 ## Vincoli dell'utente
 

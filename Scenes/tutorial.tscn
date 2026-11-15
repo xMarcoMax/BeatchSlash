@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bofspd8868uqo"]
+[gd_scene load_steps=2 format=3 uid="uid://bofspd8868uqo"]
 
 [ext_resource type="Script" uid="uid://b0ky8u02igoj2" path="res://Scripts/tutorial.gd" id="1_feyax"]
-[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_ka2pi"]
 
 [node name="Tutorial" type="Control"]
 layout_mode = 3
@@ -27,9 +26,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer"]
+theme_type_variation = "BodyLabel"
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ka2pi")
-theme_override_font_sizes/font_size = 40
 text = "WASD per muoversi
 Barra Spaziatrice per scattare
 Tasto Destro per sparare"
@@ -37,8 +35,6 @@ horizontal_alignment = 1
 
 [node name="Back" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ka2pi")
-theme_override_font_sizes/font_size = 40
 text = "Indietro"
 
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ca1jm1oqv16by"
-path="res://.godot/imported/Summer.ttf-a7a934a034debb1adf9674e0e08070b8.fontdata"
+uid="uid://dvm3n3u0reowu"
+path="res://.godot/imported/LuckiestGuy-Regular.ttf-96a87f43a55b4280ab9763470571b49c.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/Summer.ttf"
-dest_files=["res://.godot/imported/Summer.ttf-a7a934a034debb1adf9674e0e08070b8.fontdata"]
+source_file="res://Assets/Fonts/LuckiestGuy-Regular.ttf"
+dest_files=["res://.godot/imported/LuckiestGuy-Regular.ttf-96a87f43a55b4280ab9763470571b49c.fontdata"]
 
 [params]
 
@@ -21,8 +21,9 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
-hinting=1
-subpixel_positioning=1
+modulate_color_glyphs=false
+hinting=3
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

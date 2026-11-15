@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dhsgh2vnyybdr"]
 
 [ext_resource type="Script" uid="uid://dqw17nvjm30dn" path="res://Scripts/upgrades_purchase.gd" id="1_njbm1"]
-[ext_resource type="FontFile" uid="uid://ca1jm1oqv16by" path="res://Assets/Fonts/Summer.ttf" id="1_xats4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xats4"]
 bg_color = Color(0.160784, 0.160784, 0.160784, 0.905882)
@@ -27,16 +26,12 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xats4")
 
 [node name="ShopName" type="Label" parent="Panel" unique_id=667777481]
+theme_type_variation = "ShopTitleLabel"
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -71.0
-offset_right = 71.0
-offset_bottom = 23.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 48.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_xats4")
-theme_override_font_sizes/font_size = 30
 text = "Nome Negozio SrL"
 horizontal_alignment = 1
 
@@ -121,8 +116,6 @@ offset_right = 57.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("1_xats4")
-theme_override_font_sizes/font_size = 30
 text = "Esci"
 
 [connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]

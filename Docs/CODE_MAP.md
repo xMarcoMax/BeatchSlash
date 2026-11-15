@@ -20,7 +20,7 @@ Documentazione degli strumenti: `Docs/BLENDER.md`, `Docs/GODOT.md` e `Docs/PIXEL
 
 | Nome | File | Ruolo |
 | --- | --- | --- |
-| `Formulas` | Scripts/Autoload/Formulas.gd | `calculate(type, wave, base)` scala nemiche/salute/danno con le ondate (fattori 1.6 / 1.25 / 1.05, cap 12); `direction_name(Vector2)` sceglie una delle 8 direzioni degli sprite (`up`, `down`, `left`, `right`, `up_right`, `up_left`, `down_right`, `down_left`), usata da Player e nemiche |
+| `Formulas` | Scripts/Autoload/Formulas.gd | `calculate(type, wave, base)` applica `ceil(base*(1+factor*(wave-1)/(12+wave-1)))`, fattori nemiche/salute/danno1.6/1.25/1.05. Il parametro chiamato cap=12 controlla la saturazione, non limita il numero di ondate; con basi5/100/10 i massimi arrotondati sono13/225/21. `direction_name(Vector2)` sceglie una delle8direzioni degli sprite, usata da Player e nemiche |
 | `SignalManager` | Scripts/Autoload/SignalManager.gd | bus di segnali globali (tabella sotto) |
 | `MusicManager` | Scripts/Autoload/MusicManager.gd | un AudioStreamPlayer; carica `Assets/Music/Menu/summer-funky-dance-314907.mp3` (unica musica del progetto, loop); `game_started` la ferma e in partita non c'è musica |
 | `Global` | Scripts/Autoload/Global.gd | `is_mobile`, `is_in_purchase` (blocca movimento e lanci durante gli acquisti), `purchase_just_closed` (evita che Esc chiuda anche la pausa) |
@@ -53,7 +53,7 @@ Documentazione degli strumenti: `Docs/BLENDER.md`, `Docs/GODOT.md` e `Docs/PIXEL
 | Objects/puff.tscn | nessuno | AnimatedSprite2D `Puff` (scala 4, z_index 1) con 6 frame 32x32 da `Assets/Effects/Puff/puff.png`, `autoplay`, 12 FPS; il segnale `animation_finished` è collegato al proprio `queue_free`, quindi si elimina da solo. Lo istanzia `enemy.gd._on_dead_timer_timeout` come figlio del livello |
 | Characters/boyfriend.tscn | boyfriend.gd (agganciato alla scena base) | CharacterBody2D, gruppo `target`; figlio `HitZone` (Area2D, raggio 185); `AnimatedSprite2D` scala 4, filtro nearest, offset (0, -5), `Assets/Characters/Boyfriend/boyfriend_frames.tres` (celle 64x64: idle, glance, admire, flex in 8 direzioni); collider 130x129 |
 | Objects/projectiles.tscn | projectiles.gd | Area2D `SandBall`, gruppo `sand_ball`; Timer `Used` (3 s) |
-| Objects/hud.tscn | hud.gd | HUD: ondata, punti, valuta, sconfitte/rimaste, barre fedeltà e moralità |
+| Objects/hud.tscn | hud.gd | HUD: ondata in alto a sinistra(9,9); PointsCurrency in alto a destra con margini9 e VBox BEGIN; DefeatedAndRemain in basso a destra con margini9 e VBox END. Quattro Label destre RIGHT. Barre a sinistra19, distanza dal fondo25/94; percorsi dei nodi conservati |
 | Objects/upgrades.tscn | upgrades.gd (agganciato alla scena base) | StaticBody2D del negozio: Shadow/Back/Shopkeeper/Front, 2 collisioni a terra (corpo/botte), Area2D frontale, GestureTimer |
 | Scenes/upgrades_purchase.tscn | upgrades_purchase.gd | pannello acquisti con tre tab (Giocatore, Partner, Bonus) |
 | Objects/Items/item.tscn | item.gd (`class_name Item`) | scheda di un oggetto in vendita (nome, immagine, descrizione) |

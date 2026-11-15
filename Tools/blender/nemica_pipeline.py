@@ -77,8 +77,8 @@ def flirt(t):
     P["thigh.L"].rotation_euler = (R(-4), 0, 0); P["thigh.R"].rotation_euler = (R(-4), 0, 0)
     P["shin.L"].rotation_euler = (R(18), 0, 0); P["shin.R"].rotation_euler = (R(18), 0, 0)
     pin_feet(REST_FEET)
-    # assi braccia (provati a vista): Z = abduzione (R +, L -), Z dell'avambraccio = piega verso il corpo (R -, L +)
-    P["upper_arm.R"].rotation_euler = (0, 0, R(30+105*a)); P["forearm.R"].rotation_euler = (0, 0, R(-(10+70*a)))
+    # Il gomito destro si chiude verso la testa: il segno opposto spingeva la mano fuori e in basso.
+    P["upper_arm.R"].rotation_euler = (R(-10), 0, R(100+12*a)); P["forearm.R"].rotation_euler = (0, 0, R(85+10*a))
     P["upper_arm.L"].rotation_euler = (R(-8), 0, R(-42)); P["forearm.L"].rotation_euler = (R(-10), 0, R(95))
     P["hair"].rotation_euler = (R(6+6*a+3*math.sin(2*t)), R(8*s), 0)
 

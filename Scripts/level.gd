@@ -73,7 +73,7 @@ func spawn_enemy():
 	if spawn_number > 0:
 		var spawn_point = spawn_area.calculate_spawn_point()
 		var spawn = enemy.instantiate()
-		spawn.position = spawn_point
+		spawn.position = to_local(spawn_point)
 		add_child(spawn)
 		spawn.pathfinder = pathfinder
 		spawn.set_spawn_values(target,

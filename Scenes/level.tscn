@@ -577,6 +577,7 @@ sources/1 = SubResource("TileSetAtlasSource_puxv4")
 
 [node name="Level" type="Node2D" unique_id=1773998555]
 y_sort_enabled = true
+position = Vector2(-392, 847)
 script = ExtResource("1_nesj5")
 
 [node name="UI" type="Node" parent="." unique_id=2008481078]
@@ -584,7 +585,6 @@ script = ExtResource("1_nesj5")
 [node name="HUD" parent="UI" unique_id=116837424 instance=ExtResource("2_c5jan")]
 
 [node name="NextWave" type="Label" parent="UI/HUD" unique_id=226276826]
-theme_type_variation = "AnnouncementLabel"
 visible = false
 anchors_preset = 5
 anchor_left = 0.5
@@ -594,12 +594,12 @@ offset_top = 19.0
 offset_right = 300.0
 offset_bottom = 77.0
 grow_horizontal = 2
+theme_type_variation = &"AnnouncementLabel"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Prossima ondata tra"
 horizontal_alignment = 1
 
 [node name="UpgradesInteract" type="RichTextLabel" parent="UI/HUD" unique_id=1765842406]
-theme_type_variation = "Prompt"
 visible = false
 anchors_preset = -1
 anchor_left = 0.5
@@ -612,6 +612,7 @@ offset_right = 330.848
 offset_bottom = 4.70401
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"Prompt"
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
 text = "Premi [color=a30000]F[/color] per acquistare potenziamenti"
@@ -627,7 +628,7 @@ visible = false
 visible = false
 
 [node name="World" type="Node2D" parent="." unique_id=1177215301]
-z_index = -1
+z_index = -2
 
 [node name="EnemySpawn" type="Area2D" parent="World" unique_id=621619788]
 position = Vector2(701, 347)

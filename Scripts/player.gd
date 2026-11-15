@@ -134,7 +134,7 @@ func shoot_sand(mouse_position):
 	var b: Area2D = ball.instantiate()
 	b.damage = damage
 	# The base Player scene can also be run directly with F6 (no scene owner).
-	var projectile_parent = owner if owner != null else get_tree().current_scene
+	var projectile_parent = owner if owner != null else get_parent()
 	projectile_parent.add_child(b)
 	ray_cast.look_at(get_global_mouse_position())
-	b.transform = ray_cast.global_transform
+	b.global_transform = ray_cast.global_transform

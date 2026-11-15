@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwccdi1diecof"]
+[gd_scene load_steps=7 format=3 uid="uid://bwccdi1diecof"]
 
 [ext_resource type="SpriteFrames" path="res://Assets/Characters/Player/player_frames.tres" id="1_frames"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_script"]
 [ext_resource type="PackedScene" path="res://Objects/projectiles.tscn" id="3_ball"]
 [ext_resource type="Texture2D" path="res://Assets/Characters/Player/player_moving_throw.png" id="4_moving_throw"]
+[ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="5_ground_shadow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(72, 120)
@@ -23,6 +24,9 @@ animation = &"idle_down"
 autoplay = "idle_down"
 offset = Vector2(0, -3)
 
+[node name="GroundShadow" type="Sprite2D" parent="AnimatedSprite2D"]
+script = ExtResource("5_ground_shadow")
+
 [node name="MovingThrow" type="Sprite2D" parent="."]
 visible = false
 texture_filter = 1
@@ -31,6 +35,9 @@ texture = ExtResource("4_moving_throw")
 hframes = 8
 vframes = 64
 offset = Vector2(0, -3)
+
+[node name="GroundShadow" type="Sprite2D" parent="MovingThrow"]
+script = ExtResource("5_ground_shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 17)

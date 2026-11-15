@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://do0n1cb3kqcvw" path="res://Scripts/boyfriend.gd" id="1_1rcs7"]
 [ext_resource type="SpriteFrames" path="res://Assets/Characters/Boyfriend/boyfriend_frames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="3_ground_shadow"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qqcdl"]
 radius = 185.043
@@ -26,6 +27,9 @@ sprite_frames = ExtResource("2_frames")
 animation = &"idle_down"
 autoplay = "idle_down"
 offset = Vector2(0, -5)
+
+[node name="GroundShadow" type="Sprite2D" parent="AnimatedSprite2D"]
+script = ExtResource("3_ground_shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1645032131]
 position = Vector2(0, 0.5)

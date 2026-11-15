@@ -1,31 +1,51 @@
 [gd_scene format=3 uid="uid://5262icj7jl87"]
 
-[ext_resource type="Texture2D" uid="uid://c67v2s8388bcm" path="res://Assets/icon.svg" id="1_5y66h"]
-[ext_resource type="Script" uid="uid://xiutgrolxo2x" path="res://Scripts/upgrades.gd" id="1_v6nlo"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w85gx"]
-radius = 94.0
-height = 276.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_40wq5"]
-size = Vector2(187, 100)
+[ext_resource type="Script" uid="uid://xiutgrolxo2x" path="res://Scripts/upgrades.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b6cubc5rlxlo0" path="res://Assets/Objects/Shop/shop_shadow.png" id="2_shadow"]
+[ext_resource type="Texture2D" uid="uid://bshhbg16mxo55" path="res://Assets/Objects/Shop/shop_back.png" id="3_back"]
+[ext_resource type="SpriteFrames" uid="uid://db26wnejjwyb8" path="res://Assets/Objects/Shop/shopkeeper_frames.tres" id="4_merchant"]
+[ext_resource type="Texture2D" uid="uid://dlgs3mghj4hnb" path="res://Assets/Objects/Shop/shop_front.png" id="5_front"]
 
 [node name="Upgrades" type="StaticBody2D" unique_id=207025446 groups=["upgrades"]]
-script = ExtResource("1_v6nlo")
+texture_filter = 1
+script = ExtResource("1_script")
 metadata/_edit_group_ = true
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1075985038]
+z_index = -1
+z_as_relative = false
+position = Vector2(35, -163)
+scale = Vector2(4, 4)
+texture = ExtResource("2_shadow")
+
+[node name="Back" type="Sprite2D" parent="." unique_id=2024142964]
+position = Vector2(35, -163)
+scale = Vector2(4, 4)
+texture = ExtResource("3_back")
+
+[node name="Shopkeeper" type="AnimatedSprite2D" parent="." unique_id=1016632336]
+position = Vector2(35, -163)
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("4_merchant")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Front" type="Sprite2D" parent="." unique_id=1142820316]
+position = Vector2(35, -163)
+scale = Vector2(4, 4)
+texture = ExtResource("5_front")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2130991682]
+polygon = PackedVector2Array(-178.788, -18.864, 165.652, 34.116, 240.272, -52.532, -104.168, -105.512)
+
 [node name="Area2D" type="Area2D" parent="." unique_id=1286750710]
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=291985563]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_w85gx")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=596296620]
+polygon = PackedVector2Array(-129.584, -11.296, 116.444, 26.548, 61.224, 90.664, -184.804, 52.82)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=759931288]
-modulate = Color(0.659655, 0.286013, 0.177668, 1)
-position = Vector2(0, -1)
-scale = Vector2(1.45313, 0.76062)
-texture = ExtResource("1_5y66h")
+[node name="GestureTimer" type="Timer" parent="." unique_id=371199302]
+one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=207615672]
-position = Vector2(-1.5, 1)
-shape = SubResource("RectangleShape2D_40wq5")
+[node name="barrel" type="CollisionPolygon2D" parent="." unique_id=1334836868]
+polygon = PackedVector2Array(-166.788, -12.31, -165.134, -20.298, -173.153, -27.565, -188.695, -32.165, -207.597, -32.864, -224.793, -29.475, -235.676, -22.906, -237.33, -14.918, -229.311, -7.651, -213.769, -3.051, -194.867, -2.352, -177.671, -5.741)

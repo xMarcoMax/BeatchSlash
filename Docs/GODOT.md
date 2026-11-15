@@ -20,6 +20,7 @@ Chiusura verificata dopo un nuovo avvio dell'editor: `project_run(mode="main", a
 - Client configurati dal pannello Godot AI: Claude Code (`~/.claude.json`), Codex (`~/.codex/config.toml`), Claude Desktop.
 - Claude Desktop: il plugin scrive in `...\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\claude_desktop_config.json`, ma l'app legge `...\AppData\Local\Claude-Data\claude_pzs8sxrjxfjjc\claude_desktop_config.json`: dopo aggiornamenti del plugin o cambi di porta (8000/9500) ricopiare a mano il blocco `"godot-ai"` nel file giusto. Nel pannello NON premere "Reconfigure" o "Configure all" per Claude Desktop (riscriverebbe la voce nel file sbagliato); "Rimuovi" su Claude Desktop è innocuo (toglie solo la copia inutilizzata), su Claude Code e Codex va evitato (cancella la connessione funzionante). Telemetria del plugin attiva di default, disattivabile dal pannello.
 - Ogni client ha la propria configurazione MCP: se lo strumento non è collegato, dirlo all'utente.
+- Connessione attuale verificata: `session_manage(list)` vede una sessione del progetto e `editor_state` restituisce ready, Godot4.7/plugin e server4.4.1. Codex e Godot usano HTTP8000/WS9500. Il precedente rapporto di porta occupata non dimostrava la causa della disconnessione; nessuna configurazione modificata né processo terminato per risolverla.
 
 ## 2. Flusso di lavoro
 
@@ -89,3 +90,86 @@ Prima di questa verifica controllare `get_tree().paused`: una sessione lasciata 
 La revisione successiva riguarda sei PNG: foglio nemica, foglio ragazzo e quattro atlanti del Player (cardinali/diagonali, inclusi entrambi i lanci in movimento). Il pass contorni usa OUTSIDE rispetto al braccio, ma resta dentro la sagoma opaca totale; il ragazzo aggiunge sopracciglia più leggere e occhi alzati1px. Sono modifiche RGB: mantenere dimensioni, alpha, regioni, SpriteFrames, scene e controller. Confrontare i sei canali alpha con i PNG di partenza prima del reimport, quindi verificare le texture effettivamente caricate; non basta controllare i file su disco.
 
 Lotto finale OUTSIDE e nuovo viso del ragazzo completati: sei PNG reimportati senza errori, canali alpha identici e metadati preservati. Verificati in un nuovo processo del livello i profili e le diagonali di Player/nemica, il profilo del ragazzo a occhi chiusi e il frontale `admire_down` a occhi aperti: pelle delle braccia leggibile e sopracciglia alleggerite. Player `walk_right` avanza dal frame0 al2 in0.26s e la texture importata resta48x48. Nemica `walk_down_left`: tre pixel EyeDark RGB(59,29,20) in ciascuno degli otto frame; suite `enemy_frames` finale1pass/0fail. Nessuna fixture salvata; prova fermata e gioco riavviato dal menu con autosave disattivato. Gli errori TileSet preesistenti restano fuori da questo intervento.
+
+## 8. Negozio animato e area frontale
+
+`Objects/upgrades.tscn` mantiene radice StaticBody2D e posizione nel livello(512,−950). Shadow/Back/Shopkeeper/Front condividono scala4, nearest e posizione(35,−163); risorse in `Assets/Objects/Shop/`. Il negozio è un solo elemento nell'ordinamento per y del livello. Un CollisionPolygon2D segue il corpo a terra e uno la botte; il tetto non determina le collisioni. Sgabelli e relativi nodi stool_left/stool_right rimossi su richiesta dell'utente per liberare l'accesso al bancone. Area2D frontale con layer0/mask1 e filtro gruppo player. Le coordinate derivano da `Tools/blender/shop_layout.json`.
+
+`Scripts/upgrades.gd` richiede prossimità e NextWaveTimer attivo per F. La prossimità resta registrata durante l'ondata; se inizia la pausa con Player già davanti, compare l'invito. Esc, uscita o fine pausa chiudono il pannello e azzerano Global.is_in_purchase. Esc conserva il comportamento purchase_just_closed di PauseMenu. Riferimenti UI/timer opzionali consentono l'anteprima standalone. Gli acquisti e la valuta hanno ancora i limiti già documentati nel contesto.
+
+GestureTimer one-shot: pausa casuale5–10s, primo gesto casuale fra clean_glass/wipe_counter, nessuna ripetizione consecutiva. animation_finished riporta idle e riavvia il timer. Con due gesti il divieto di ripetizione implica alternanza dopo la prima scelta; i tempi restano casuali. Le animazioni seguono la pausa ordinaria del gioco.
+
+### Verifica ripetibile
+
+- Suite `shop` in `tests/test_shop.gd`:3test superati. Il runner è nell'editor, il cui InputMap non include necessariamente buy_upgrades/esc: il test aggiunge solo le azioni assenti e poi le rimuove. La prima prova emetteva errori action missing e poteva saltare i rami; la suite corretta non aggiunge errori nel log. Rami che usano gli autoload verificati anche nel gioco reale.
+- Nuovo processo del livello: fermare solo la logica del livello e le nemiche della fixture, portare temporaneamente Player davanti al negozio e avviare NextWaveTimer. F fuori area non apre; davanti apre e blocca il movimento. Esc chiude senza aprire PauseMenu né mettere in pausa; uscita e fine timer chiudono e sbloccano. Dopo un teletrasporto attendere la sincronizzazione fisica prima di leggere overlaps: nella prova0.15s è bastato, due await physics_frame non davano sempre il segnale aggiornato.
+- Fixture SubViewport con World2D separato: copie del negozio e Player senza script/gruppi gameplay. Contatto provato da sinistra/destra/retro/fronte:4collisioni col negozio mantenute. Fixture eliminata al termine. Nel livello, griglia Pathfinder costruita e quattro celle interne al nuovo ingombro solide.
+- Dopo la rimozione degli sgabelli: reimport del solo shop_front.png senza errori, nuovo processo del livello con2shape owners sul negozio. Player guidato verso l'alto nei due corridoi prima occupati dagli sgabelli (x relativa−94 e50): raggiunge il corpo del bancone, fermandosi rispettivamente a y42.67 e64.82. Area frontale rileva il Player e F apre il pannello; screenshot verificato. Fixture di movimento rimossa fermando la prova.
+- Resource realmente caricato: idle8frame/5FPS loop, clean_glass e wipe_counter16frame/8FPS non loop, regioni160×160. Entrambi i gesti raggiungono frame5 dopo0.65s, poi idle con nuovo timer. Screenshot controllati sia con camera ingrandita temporanea sia a zoom0.5 ordinario; nessuna impostazione della fixture salvata.
+- La navigazione/salvataggio dell'editor ha riserializzato anche Boyfriend/SandBall/Theme. Confronto nativo con HEAD: identiche32animazioni del ragazzo,3del proiettile e43proprietà del tema. Ripristinate solo queste riscritture estranee, con copie recuperabili in Temp; nessun cambiamento funzionale ai tre asset.
+
+Godot4.7 e Godot AI4.4.1. Restano gli errori TileSet preesistenti e il playtest completo; non sono stati corretti in questo intervento. Il know-how generico sugli InputMap dei test è nella guida Godot condivisa.
+
+## 9. Ombre sotto tutti i personaggi
+
+Causa del difetto: Shadow del negozio era nello stesso ordinamento per y dell'edificio, quindi copriva un personaggio posizionato sopra la radice del negozio. Nei sei atlanti di Player/nemica/ragazzo l'ombra è incorporata nel PNG: un solo sprite non può ordinare diversamente corpo e ombra.
+
+Convenzione attuale sul canvas del mondo: World.z_index=−2; ombre.z_index=−1 con z_as_relative=false; corpi.z_index=0 e Y-sort esistente. `Objects/upgrades.tscn/Shadow` usa direttamente il livello ombre. In ogni AnimatedSprite2D di Player, Enemy e Boyfriend e nello Sprite2D MovingThrow del Player c'è un figlio Sprite2D GroundShadow con `Scripts/ground_shadow.gd`. Il componente eredita trasformazione e visibilità, copia frame/texture, centratura/offset/flip e, per gli Sprite2D, suddivisione e regione dell'atlante. Materiale del corpo standard assegnato soltanto se manca un materiale personalizzato.
+
+`Assets/Shaders/ground_split.gdshader` e i due ShaderMaterial condivisi separano per alpha: corpo≥0.5, ombra<0.5. COLOR resta invariato: mantiene texture e modulazione già applicate da Godot. Il materiale del figlio non eredita quello del padre. Lo shader hit_flash della nemica scarta anch'esso alpha<0.5, così il lampo bianco non colpisce l'ombra. Sono passaggi distinti della stessa texture: nessun atlante o frame rigenerato.
+
+### Nuovi personaggi e oggetti
+
+- Conservare il contratto grafico: alpha0/255 per trasparenza/corpo, alpha97/255 solo per l'ombra. Verificati tutti e sei gli atlanti correnti con Blender/numpy: nessun altro alpha. Gli atlanti SandBall sono solo0/255 e non richiedono il componente.
+- Nei personaggi, riusare le scene con GroundShadow o aggiungere quel figlio allo sprite sorgente. Un eventuale shader personalizzato del corpo deve scartare i pixel dell'ombra, come hit_flash; il componente conserva i materiali personalizzati.
+- Per un oggetto con texture ombra già separata, basta assegnare al suo nodo Z−1 assoluto. Corpi e mappa rispettano gli altri due livelli. Non mettere l'intero oggetto al livello ombre.
+- Se si introducono altre trasparenze nel corpo, la sola soglia alpha non basta: distinguere con una maschera o un asset ombra separato prima di usare il componente.
+
+### Prove concluse
+
+Suite `ground_shadows`:3/3; gate `enemy_frames`:1/1. La prima esecuzione leggeva una PackedScene Enemy precedente in cache; i test ora caricano scene con CACHE_MODE_IGNORE_DEEP. Il caricamento del livello nei test riproduce i già noti errori TileSet, non nuovi errori degli shader/helper.
+
+Prova pixel reale in SubViewport con World2D separato e Y-sort: immagine2×1 (rosso opaco e nero alpha97), sprite ingrandito32, rettangolo blu che viene prima del proiettore nello Y-sort, fondo bianco aZ−2. Dopo due frame_post_draw: corpo rosso sopra il blu; blu puro sopra l'ombra; ombra ancora visibile fuori dal rettangolo, RGB(0.6196,0.6196,0.6196). Fixture eliminata. Questo verifica l'ordine effettivo del nipote con Z assoluto, non soltanto i valori delle proprietà.
+
+Nel livello, screenshot del Player accanto al lato destro del negozio: ombra dell'edificio sotto piedi/corpo. Lanci in movimento cardinali e diagonali: stesso atlante/frame/offset per corpo e ombra, nessuna ombra fantasma del normale AnimatedSprite2D quando viene nascosto. Nemica colpita: flash=1 sul materiale del corpo, materiale ombra indipendente con shadow_only=true. Le fixture sono state fermate; collisioni, input, tempi e PNG preservati. Restano gli errori TileSet e il playtest completo già aperti.
+## 10. Braccio della nemica durante il flirt
+
+Correzione della posa in Blender, non del controller: reimport del solo `Assets/Characters/Enemy/enemy_spritesheet.png`, senza errori. Restano32animazioni/272regioni64×64; solo le96celle flirt sono cambiate. Walk/idle/dead identici al pixel, SpriteFrames e shader delle ombre invariati.
+
+Prova in un nuovo processo del livello con otto nemiche disposte attorno al ragazzo e movimento temporaneamente fermato: update_animation seleziona tutte le flirt_<dir> corrette;12frame/8FPS loop, avanzamento osservato e ombra del frame sincronizzata per ciascuna direzione. Screenshot delle otto viste verificato, senza il gomito destro rovesciato. Per creare le istanze di verifica aggiungerle al tree prima di set_spawn_values: quest'ultimo usa il ProgressBar inizializzato da @onready. Un primo eval che invertiva i passaggi è stato scartato e la prova riavviata; nessuna modifica al metodo di gameplay.
+
+Gate `enemy_frames`1/1 e `ground_shadows`3/3 superati. Self-check Blender su mesh, passo, occhi, piedi e braccio superati. Fixture di camera/posizioni/numero nemiche non salvata; prova fermata al termine. Restano i problemi TileSet preesistenti e il playtest completo.
+
+## 11. Origine del proiettile con livello spostato
+
+Il livello corrente ha posizione(-392,847). Prima del fix, al frame3 il Player era a(619,424), ma la palla a(227,1271): lo spostamento del livello veniva applicato una seconda volta da `b.transform = ray_cast.global_transform`. `Scripts/player.gd:shoot_sand` ora assegna `b.global_transform`. Nessun cambiamento alla posizione del livello, alla mira o al controller delle animazioni.
+
+`tests/test_player_projectile.gd` controlla origine globale, danno e avanzamento della palla con padre identità, traslato, ruotato e scalato. Richiede il runtime: nel runner editor viene saltato esplicitamente. Una fixture incompleta nell'editor incontrava MovingThrow assente e placeholder degli script non @tool/autoload; non era una prova valida del bug. Nel gioco la scena Player completa inizializza correttamente tutti i riferimenti.
+
+Con un nuovo processo del gioco avviato da Godot AI, eseguire tramite `editor_manage(op="game_eval")`:
+
+```gdscript
+var suite = load("res://tests/test_player_projectile.gd").new()
+suite.test_launch_uses_world_transform_under_transformed_parent()
+var result = {"failed": suite._failed, "message": suite._message, "assertions": suite._assertion_count}
+suite._free_tracked()
+return result
+```
+
+Prima del fix: failed=true. Dopo il fix e nuovo processo: failed=false,9assert. Gate `ground_shadows`:3/3,93assert. Nel livello originale, input di lancio da ferma e in movimento e InputEventMouseButton destro attraverso Input.parse_input_event: tutti rilasciano al frame3 con distanza palla/Player=0. Screenshot della palla accanto alla protagonista verificato; fixture fermata. Restano gli errori TileSet preesistenti.
+
+### Scena Player avviata direttamente
+
+Nel caso F6 l'owner è nullo e current_scene è il Player stesso: usare quest'ultimo come padre della palla la trascinava con il personaggio. Riproduzione: palla ferma, spostamento del solo Player di100px, spostamento indesiderato della palla di100px. Il fallback di `shoot_sand` ora usa `get_parent()`.
+
+Per la regressione avviare `res://Characters/player.tscn` con autosave=false e usare lo stesso game_eval sopra, chiamando `test_standalone_player_does_not_carry_released_projectile()` al posto del primo metodo.3assert, prima failed=true e dopo nuovo processo failed=false. Il test ripristina posizione e stato fisico del Player ed elimina la palla creata.
+
+## 12. Spawn nemiche e audit delle coordinate
+
+`enemy_spawn.gd` restituisce punti globali, ma `level.gd` li assegnava alla posizione locale della nemica: anche qui veniva riapplicata la traslazione(-392,847) del livello. `spawn_enemy` ora usa `spawn.position = to_local(spawn_point)` prima di add_child, preservando la posizione corretta già durante _ready.
+
+Avviare il livello in un nuovo processo. Tramite game_eval caricare `res://tests/test_enemy_spawn.gd`, chiamare `test_spawn_matches_sampled_world_point_in_each_area()`, restituire _failed/_message/_assertion_count e chiamare _free_tracked come in §11. Il test isola ciascuna delle tre aree, replica con lo stesso seed il campionamento per confrontare il punto estratto con la posizione effettiva, controlla l'appartenenza al rettangolo e il decremento del contatore. Ripristina aree e contatore; la prova altera il generatore casuale runtime, quindi fermare la fixture prima di tornare al gioco normale.24spawn,73assert: fallimento prima del fix, tutti superati dopo un nuovo processo. Gate lancio:9assert superati anche dopo il fix F6.
+
+Integrazione: due ondate attraverso _process,5+6nemiche,11spawn tutti nelle aree designate e contatore finale0. Posizioni rilevate al child_entered_tree prima del movimento. Screenshot panoramico con contorni temporanei dei tre rettangoli: origini delle nemiche all'interno. Nessuna area, camera o posizione di fixture salvata.
+
+Audit aggiuntivo di script e gerarchia: puff assegnato nello stesso spazio locale della nemica e allo stesso padre, errore globale misurato0; nemiche e ragazzo fratelli, quindi sottrazioni e distanze locali coerenti; AStar pronto e comprensivo di tutti i vertici globali delle tre aree di spawn. Movimento proiettile coerente con il suo transform locale; collisioni/prossimità e ombre ereditano le trasformazioni dei nodi. Nessun altro doppio offset attivo individuato. Il campionamento dei rettangoli e i loro bounds presuppongono assenza di scala/rotazione, rispettata nella scena attuale: rivederli se si cambiano tali trasformazioni.

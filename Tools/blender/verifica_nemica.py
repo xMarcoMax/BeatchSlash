@@ -39,6 +39,29 @@ def check_base_actions():
             if action is not None: bpy.data.actions.remove(action)
 
 
+def check_flirt_arms():
+    """Il braccio tra i capelli piega il gomito verso la testa, non verso l'esterno."""
+    min_lift, min_inward, max_head_distance = float('inf'), float('inf'), 0.0
+    try:
+        for frame in range(FLIRT_FRAMES):
+            clear_pose(); flirt(frame/FLIRT_FRAMES*math.tau)
+            bpy.context.view_layer.update()
+            pose = pb()
+            elbow, wrist = pose['forearm.R'].head, pose['hand.R'].head
+            head_center = (pose['head'].head+pose['head'].tail)*0.5
+            lift, inward = wrist.z-elbow.z, wrist.x-elbow.x
+            distance = (pose['hand.R'].tail-head_center).length
+            assert lift > pose['forearm.R'].length*0.5, f'Polso sotto il gomito nel flirt: {frame}'
+            assert inward > 0, f'Gomito piegato verso esterno nel flirt: {frame}'
+            assert distance < pose['head'].length, f'Mano lontana dai capelli nel flirt: {frame}'
+            min_lift, min_inward = min(min_lift,lift), min(min_inward,inward)
+            max_head_distance = max(max_head_distance,distance)
+    finally:
+        clear_pose(); idle(0)
+        bpy.context.view_layer.update()
+    return {'min_wrist_lift': min_lift, 'min_inward': min_inward, 'max_head_distance': max_head_distance}
+
+
 def check_enemy():
     """Controlla modello, IK del flirt e contratto dell'atlante usato da Godot."""
     global REST_FEET
@@ -149,7 +172,7 @@ def check_enemy():
         assert float(speed) == expected_speed and (loop in ('true', '1')) == expected_loop, f'Tempi o loop errati: {name}'
         seen.add(name)
     assert seen == set(expected), 'Animazioni mancanti'
-    return {'meshes': mesh_counts, 'max_foot_error': max_foot_error, 'base_actions': check_base_actions(),
+    return {'meshes': mesh_counts, 'max_foot_error': max_foot_error, 'flirt_arms': check_flirt_arms(), 'base_actions': check_base_actions(),
             'walk_eyes': check_walk_eyes(),
             'frames': checked_frames, 'animations': len(animations),
             'regions': checked_regions, 'atlas_shape': list(sheet.shape)}

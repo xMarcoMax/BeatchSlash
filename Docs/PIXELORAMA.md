@@ -38,3 +38,6 @@ Come si usa Pixelorama via MCP in questo progetto: installazione, metodo di dise
 
 - Pixelorama 1.2.3 collegato via MCP; aperti il render di prova e `Assets/Characters/Enemy/enemy_spritesheet.png` (768x2048, celle 64x64) per ispezione. `read_pixels` ha confermato palette e timbri di occhi/bocca nel render.
 - Tutte le correzioni condivise tra direzioni e frame sono nei sorgenti Blender: fronte e ciocche, volumi, bikini e passo. Nessun ritocco raster persistente e nessun nuovo `.pxo`; per rigenerare usare `Docs/BLENDER.md` §11.
+## 7. Ispezione del negoziante
+
+Pixelorama1.2.3/MCP collegato: aperto `Assets/Objects/Shop/shopkeeper.png` (2560×480, celle160×160) e letta una regione25×25 della prima posa con read_pixels. L'atlante contiene idle e due gesti su tre righe; l'edificio statico è separato. Nessun ritocco raster e nessun nuovo .pxo: geometria, volto e gesti sono riproducibili da `Tools/blender/shop_pipeline.py` e `shop.blend`. La composizione con tetto/tenda/bancone e la leggibilità finale sono verificate in Blender e Godot; Pixelorama mostra qui il solo livello del negoziante.

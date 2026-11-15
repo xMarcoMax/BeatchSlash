@@ -1,7 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://td3euiv6m8yc"]
 
 [ext_resource type="Texture2D" uid="uid://vpcf0t8khpsl" path="res://Assets/Projectiles/SandBall/sand_ball.png" id="1"]
-
 [ext_resource type="Texture2D" uid="uid://bg8i2boqyr8gb" path="res://Assets/Projectiles/SandBall/sand_ball_land.png" id="2"]
 
 [sub_resource type="AtlasTexture" id="Frame_0"]
@@ -145,7 +144,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("Land_7")
 }],
-"loop": false,
+"loop": 0,
 "name": &"land",
 "speed": 14.0
 }]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://rt8e7i8kcefv"]
+[gd_scene load_steps=7 format=3 uid="uid://rt8e7i8kcefv"]
 
 [ext_resource type="Script" uid="uid://brexcm5e22l0w" path="res://Scripts/enemy.gd" id="1_biwbq"]
 [ext_resource type="SpriteFrames" path="res://Assets/Characters/Enemy/enemy_frames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="3_ground_shadow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(72, 120)
@@ -24,6 +25,9 @@ scale = Vector2(4, 4)
 sprite_frames = ExtResource("2_frames")
 animation = &"walk_down"
 offset = Vector2(0, -3)
+
+[node name="GroundShadow" type="Sprite2D" parent="AnimatedSprite2D"]
+script = ExtResource("3_ground_shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 17)

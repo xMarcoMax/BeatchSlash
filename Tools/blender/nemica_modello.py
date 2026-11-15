@@ -148,6 +148,12 @@ def make_enemy(stage='all'):
         set_ramp(ramp, colors)
     info = make_girl(stage, concept_name='enemy')
     if stage in ('body', 'all'):
+        rig = bpy.data.objects['Rig']
+        # Mantiene il parent, ma consente al collo di avanzare nella posa seduta.
+        with bpy.context.temp_override(object=rig, active_object=rig, selected_objects=[rig], selected_editable_objects=[rig]):
+            bpy.ops.object.mode_set(mode='EDIT')
+            rig.data.edit_bones['head'].use_connect = False
+            bpy.ops.object.mode_set(mode='OBJECT')
         body = bpy.data.objects['Body']
         refine_enemy_body(body)
         cc = Concept(GIRL_CONCEPT, GIRL_H, girl_classify, 'enemy', axis_mask=girl_body_mask)

@@ -62,6 +62,71 @@ def check_flirt_arms():
     return {'min_wrist_lift': min_lift, 'min_inward': min_inward, 'max_head_distance': max_head_distance}
 
 
+def check_fall_arms():
+    """Durante la caduta le braccia pendono verso terra senza ruotare dietro al busto."""
+    min_upper_down, min_fore_down, max_depth = 1.0, 1.0, 0.0
+    min_hand_height = float('inf')
+    try:
+        for frame in range(FALL_FRAMES):
+            clear_pose(); fall(frame)
+            bpy.context.view_layer.update()
+            pose = pb()
+            for side in 'LR':
+                shoulder = pose['upper_arm.'+side].head
+                elbow = pose['forearm.'+side].head
+                wrist = pose['hand.'+side].head
+                upper_down = -(elbow-shoulder).normalized().z
+                fore_down = -(wrist-elbow).normalized().z
+                depth = abs(wrist.y-shoulder.y)
+                hand_height = pose['hand.'+side].tail.z
+                assert upper_down > 0.96, f'Braccio non verticale nella caduta: {side}/{frame}'
+                assert fore_down > 0.98, f'Avambraccio non verticale nella caduta: {side}/{frame}'
+                assert depth < 0.04, f'Mano dietro al busto nella caduta: {side}/{frame}'
+                assert hand_height > 0.0, f'Mano sotto la sabbia nella caduta: {side}/{frame}'
+                min_upper_down = min(min_upper_down, upper_down)
+                min_fore_down = min(min_fore_down, fore_down)
+                max_depth = max(max_depth, depth)
+                min_hand_height = min(min_hand_height, hand_height)
+    finally:
+        clear_pose(); idle(0)
+        bpy.context.view_layer.update()
+    return {'min_upper_down': min_upper_down, 'min_fore_down': min_fore_down,
+            'max_wrist_depth': max_depth, 'min_hand_height': min_hand_height}
+
+
+def check_seated_fall():
+    """Dopo l'impatto: busto raccolto, testa avanti, ginocchia alte e piedi sul terreno."""
+    min_knee_lift, min_head_forward, min_foot_height, min_neck_forward = 1.0, 1.0, 1.0, 1.0
+    try:
+        for frame in range(4, FALL_FRAMES):
+            clear_pose(); fall(frame)
+            bpy.context.view_layer.update()
+            pose = pb()
+            chest_axis = (pose['chest'].tail-pose['chest'].head).normalized()
+            head_forward = pose['head'].head.y-pose['head'].tail.y
+            neck_forward = pose['chest'].head.y-pose['head'].head.y
+            assert -0.35 < chest_axis.y < -0.15, f'Busto non raccolto in avanti da seduta: {frame}'
+            assert head_forward > 0.04, f'Testa arretrata da seduta: {frame}'
+            assert neck_forward > 0.08, f'Collo arretrato rispetto al torace: {frame}'
+            min_head_forward = min(min_head_forward, head_forward)
+            min_neck_forward = min(min_neck_forward, neck_forward)
+            for side in 'LR':
+                hip = pose['thigh.'+side].head
+                knee = pose['shin.'+side].head
+                ankle, toe = pose['foot.'+side].head, pose['foot.'+side].tail
+                lift = knee.z-hip.z
+                assert lift > 0.07, f'Ginocchio troppo basso da seduta: {side}/{frame}'
+                assert knee.z-ankle.z > 0.12, f'Gamba troppo distesa da seduta: {side}/{frame}'
+                assert 0.0 < min(ankle.z,toe.z) and max(ankle.z,toe.z) < 0.08, f'Piede fuori dal terreno: {side}/{frame}'
+                min_knee_lift = min(min_knee_lift,lift)
+                min_foot_height = min(min_foot_height,ankle.z,toe.z)
+    finally:
+        clear_pose(); idle(0)
+        bpy.context.view_layer.update()
+    return {'min_knee_lift': min_knee_lift, 'min_head_forward': min_head_forward,
+            'min_foot_height': min_foot_height, 'min_neck_forward': min_neck_forward}
+
+
 def check_enemy():
     """Controlla modello, IK del flirt e contratto dell'atlante usato da Godot."""
     global REST_FEET
@@ -172,7 +237,8 @@ def check_enemy():
         assert float(speed) == expected_speed and (loop in ('true', '1')) == expected_loop, f'Tempi o loop errati: {name}'
         seen.add(name)
     assert seen == set(expected), 'Animazioni mancanti'
-    return {'meshes': mesh_counts, 'max_foot_error': max_foot_error, 'flirt_arms': check_flirt_arms(), 'base_actions': check_base_actions(),
+    return {'meshes': mesh_counts, 'max_foot_error': max_foot_error, 'flirt_arms': check_flirt_arms(),
+            'fall_arms': check_fall_arms(), 'seated_fall': check_seated_fall(), 'base_actions': check_base_actions(),
             'walk_eyes': check_walk_eyes(),
             'frames': checked_frames, 'animations': len(animations),
             'regions': checked_regions, 'atlas_shape': list(sheet.shape)}

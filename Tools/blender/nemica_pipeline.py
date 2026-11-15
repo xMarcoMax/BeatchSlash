@@ -85,26 +85,28 @@ def flirt(t):
 
 # Caduta a sedere (morte): 8 frame, non in loop. Ogni riga:
 # (bacino giu', bacino indietro, spine X, chest X, head X, head Z, cosce X, cosce aperte Z, stinchi X,
-#  piedi X, braccia X (indietro +), braccia aperte Z, avambracci X, capelli X)
+#  piedi X, braccia X, apertura braccia Z, avambracci X, capelli X, collo avanti)
+# Le braccia compensano l'inclinazione del busto e restano distese verso terra.
 FALL_FRAMES = 8
 FALL = [
-    (0.00, 0.00,  -4,  -4,  -6,   0,    0,  4,   0,    0,  -25, 35, -30, 18),   # sussulto: braccia in alto
-    (-0.12, 0.02, -10, -6,  -8,   2,  -30,  5,  55,  -25,    0, 50, -20, 24),   # ginocchia che cedono
-    (-0.30, 0.08, -18, -8, -10,   4,  -58,  6,  35,   -5,   25, 60, -10, 30),   # busto indietro, braccia a ventaglio
-    (-0.50, 0.12, -22, -8,  -6,   5, -100,  8,  15,   25,   40, 45,  -5, 36),   # gambe all'aria prima dell'impatto
-    (-0.58, 0.12, -12, -4,   4,   4,  -86, 10,   0,  -12,   55, 25,   0, 12),   # impatto sulla sabbia
-    (-0.585, 0.12, -8, -2,   9,   6,  -84, 11,   4,  -14,   58, 20,   0,  4),   # rimbalzo
-    (-0.585, 0.12, -6, -1,   7,   5,  -84, 11,   5,  -14,   58, 20,   0,  1),   # assestamento
-    (-0.585, 0.12, -6,  0,   6,   6,  -84, 11,   5,  -14,   58, 20,   0,  0),   # seduta, stordita
+    (0.00, 0.00,  -4, -4,   0,   0,    0,  4,   0,    0,    8,-10,   0, 18, 0.000),   # sussulto, braccia in basso
+    (-0.12, 0.02, -8, -2,   6,   2,  -30,  5,  55,  -25,   10,-10,   0, 24, 0.014),   # ginocchia che cedono
+    (-0.30, 0.08,-12, -2,  12,   4,  -58,  6,  35,   -5,   14,-10,   0, 30, 0.028),   # busto indietro, testa raccolta
+    (-0.50, 0.12,-12, -2,  16,   5, -100,  8,  15,   25,   14,-10,   0, 36, 0.042),   # gambe all'aria prima dell'impatto
+    (-0.58, 0.12,  4,  8,  -4,   4, -110, 10,  50,   50,  -12,-10,   0, 12, 0.056),   # impatto, busto raccolto
+    (-0.585, 0.12, 6, 10,  -6,   6, -112, 11,  52,   55,  -16,-10,   0,  4, 0.070),   # rimbalzo, piedi sulla sabbia
+    (-0.585, 0.12, 6, 10,  -6,   5, -112, 11,  52,   55,  -16,-10,   0,  1, 0.070),   # assestamento
+    (-0.585, 0.12, 6, 10,  -8,   6, -112, 11,  52,   55,  -16,-10,   0,  0, 0.070),   # seduta raccolta, stordita
 ]
 
 def fall(i):
     """posa i (0..7) della caduta a sedere; l'ultima e' la posa che resta a terra"""
-    dy, dz, sp, ch, hd, hz, th, tz, sh, ft, ua, uz, fa, hr = FALL[i]
+    dy, dz, sp, ch, hd, hz, th, tz, sh, ft, ua, uz, fa, hr, head_forward = FALL[i]
     P = pb()
     P["hips"].location = (0, dy, dz)
     P["spine"].rotation_euler = (R(sp), 0, 0); P["chest"].rotation_euler = (R(ch), 0, 0)
     P["head"].rotation_euler = (R(hd), 0, R(hz))
+    P["head"].location = (0, 0, head_forward)   # Z locale punta avanti: corregge il collo, non solo il mento.
     for s, g in (("L", -1), ("R", 1)):
         P["thigh."+s].rotation_euler = (R(th), 0, R(g*tz)); P["shin."+s].rotation_euler = (R(sh), 0, 0)
         P["foot."+s].rotation_euler = (R(ft), 0, 0)

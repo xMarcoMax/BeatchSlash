@@ -15,4 +15,4 @@ Ogni frame contiene l'ombra a terra: proiezione verticale del corpo (sole a picc
 
 ## Comportamento
 
-Rilascio del proiettile al frame indice 3 (throw_release_frame in player.gd). La palla è visibile in mano nei frame 0-2. Gli ultimi due frame del lancio riportano il busto alla posa base (idle o passo corrente), quindi il ritorno all'animazione base è continuo.
+Rilascio del proiettile al frame indice 3 (throw_release_frame in player.gd). La palla è visibile in mano nei frame 0-2, tranne nelle viste di spalle (N, NE, NO) quando risulterebbe isolata in mezzo ai capelli (regola `ball_lost_in_hair` della pipeline). Gli ultimi due frame del lancio riportano il busto alla posa base (idle o passo corrente), quindi il ritorno all'animazione base è continuo.

@@ -212,6 +212,16 @@ Ragazzo: le sopracciglia apparivano doppie perché due piccole isole di material
 
 Per build lunghe si possono consumare i generatori con un `bpy.app.timers` temporaneo, un gruppo/posa per callback, conservando contatore, errore e risultato nel driver_namespace; non cambiare file o modello prima di `done`. La build completa aggiorna sei PNG: nemica, ragazzo e quattro atlanti del Player, inclusi i lanci in movimento. Dimensioni, layout e tempi restano invariati; mantenere i metadati SpriteFrames esistenti. Verifiche di importazione in `Docs/GODOT.md` §7.
 
+### Palla in mano sui capelli (lancio di spalle)
+
+Sintomo segnalato dall'utente: durante il lancio, al frame 1 con la ragazza di spalle, un puntino chiaro isolato in mezzo ai capelli rossi. Diagnosi: non era il braccio ma la `SandBall` (visibile nei frame 0-2, `BALL_FRAMES`); di spalle la mano resta dietro la chioma e rimane visibile solo la palla (20 pixel, centro della cella). Confronto render con palla visibile e nascosta: la differenza copriva esattamente quei pixel più la sua ombra a terra, semitrasparente.
+
+Correzione in `blender_pipeline.py`: `ball_lost_in_hair(img, bare)` considera i pixel opachi che cambiano tra i due render e controlla che almeno l'80% dell'anello di pixel intorno sia capelli (r > 1,5·g, contorno scuro compreso; i pixel trasparenti non contano); `render_throw()` rende un secondo frame senza palla solo per i frame con palla e le viste di spalle (`abs(yaw) > 100`: N, NE, NO) e usa quello senza palla se la funzione risponde vero. Con la posa statica la regola scatta solo al frame 1 di N, NE e NO; la palla sul fianco (frame 0) o oltre la sagoma resta. Non è un fix a mano di singoli pixel: vale per tutte le pose camminata/corsa.
+
+Rigenerati i quattro atlanti con `build_steps` (158 pose ciascuno, lotti da circa 40-55 s: cardinali 4 chiamate, diagonali 6). Confronto con copie di backup: cardinale 1 cella (20 px), diagonali 2 celle, lancio in movimento cardinale 16 celle (nord, 8 fasi × walk/run, colonna 1), lancio in movimento diagonale 44 celle (colonne 0-2, solo viste nord); nessun'altra cella cambiata, quindi la build è deterministica. Verificato in Godot: nessun puntino nei frame di `throw_up`, `throw_up_right`, `throw_up_left`; suite `shop` e `ground_shadows` 3/3.
+
+Ricorda: il namespace di Blender non persiste tra le chiamate, quindi `pose_combo` e `render_sprites` vanno ricaricati con `exec` della pipeline a ogni chiamata (un `NameError` su `pose_combo` ne è il segnale).
+
 ## 14. Negozio con negoziante
 
 Sorgenti `Tools/blender/shop.blend`, `shop_pipeline.py`, metadati `shop_layout.json`. Concept scelto: `Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png`; ritagli di riferimento frontale/laterale/posteriore in `Tools/blender/ref/ref_shop*.png`, Empty nascosti al render. Materiali toon ed elaborazione immagini riusano `concept_model.py` e `blender_pipeline.py`; gli altri modelli e atlanti non vengono rigenerati. Rig comune a17ossa con busto, testa e braccia adattati al gestore dietro il bancone.

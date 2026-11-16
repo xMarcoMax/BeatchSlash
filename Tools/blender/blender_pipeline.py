@@ -237,12 +237,28 @@ def render_pose(fn, t, ball=False, yaws=DIRY):
     return render_sprites(yaws)
 
 
+def ball_lost_in_hair(img, bare):
+    """True se la palla (pixel che cambiano tra img e bare) e' circondata dai capelli: di spalle la mano
+    resta dietro la chioma e la palla sembrerebbe un puntino chiaro isolato in mezzo ai capelli."""
+    m = np.any(img != bare, axis=-1) & (img[..., 3] > .9)      # solo pixel opachi: l'ombra a terra della palla e' semitrasparente
+    if not m.any(): return False
+    ring = np.zeros_like(m)
+    ring[1:] |= m[:-1]; ring[:-1] |= m[1:]; ring[:, 1:] |= m[:, :-1]; ring[:, :-1] |= m[:, 1:]
+    px = bare[ring & ~m]
+    return len(px) > 0 and np.mean((px[:, 3] > .5) & (px[:, 0] > 1.5*px[:, 1])) >= .8
+
 def render_throw(base_fn, t, i, static=False, yaws=DIRY):
     out = []
+    ball = bpy.data.objects["SandBall"]
     for yaw in yaws:
         pose_combo(base_fn, t, i, static=static, left_facing=yaw == -90)
-        bpy.data.objects["SandBall"].hide_render = i not in BALL_FRAMES
-        out.append(render_sprites([yaw])[0])
+        ball.hide_render = i not in BALL_FRAMES
+        img = render_sprites([yaw])[0]
+        if i in BALL_FRAMES and abs(yaw) > 100:        # di spalle (N e diagonali nord): la palla puo' finire sui capelli
+            ball.hide_render = True
+            bare = render_sprites([yaw])[0]
+            if ball_lost_in_hair(img, bare): img = bare
+        out.append(img)
     return out
 
 

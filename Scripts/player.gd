@@ -10,8 +10,10 @@ extends CharacterBody2D
 @export var damage = 10
 
 # Frame 3: the hand releases after 3 frames: 0.094 s at 32 FPS (fastest level), 0.375 s at 8 FPS (slowest).
-# A new press is ignored (no throw, no animation) until the whole previous throw animation has finished.
 @export_range(0, 7) var throw_release_frame: int = 3
+# A new press is ignored (no throw, no animation) until the previous throw reaches this point (frame + progress):
+# 5.5 is the arm about 30 degrees from the body, just before the arm-down frames 6-7.
+@export_range(0.0, 8.0) var throw_recovery_frame: float = 5.5
 signal throw_released
 
 # Target FPS of the throw_* animations per level, played as a fraction of the FPS authored in player_frames.tres.
@@ -74,7 +76,7 @@ func update_animation():
 func start_throw(mouse_position: Vector2):
 	if Global.is_in_purchase or ball == null:
 		return
-	if is_attacking:
+	if is_attacking and not _can_throw_again():
 		return
 	# Carry the current step into the throw, including its fractional progress.
 	# Rapid follow-up throws keep the running gait clock instead of restarting it.
@@ -93,6 +95,9 @@ func start_throw(mouse_position: Vector2):
 	animations.play(throw_animation, THROW_FPS_LEVELS[throw_speed_level] / authored_fps)
 	# Also supports release frame 0 when the animation was already on frame 0.
 	_on_animation_frame_changed()
+
+func _can_throw_again() -> bool:
+	return _throw_released and animations.frame + animations.frame_progress >= throw_recovery_frame
 
 func _on_animation_frame_changed():
 	_update_moving_throw(0.0)

@@ -9,15 +9,15 @@ extends Node2D
 @onready var next_wave: Label = $UI/HUD/NextWave
 @onready var next_wave_timer: Timer = $NextWaveTimer
 
-const base_enemy_health = 100
+const base_enemy_health = 60
 const base_enemy_damage = 10
-const base_enemy_number = 5
+const base_enemy_number = 3
 const base_enemy_points = 10
 const base_enemy_currency = 10
 
 var enemy = preload("res://Characters/enemy.tscn")
 var pathfinder := Pathfinder.new()
-var total_enemies = 5
+var total_enemies = base_enemy_number
 var wave = 1
 var defeated_total = 0
 var defeated_level = 0

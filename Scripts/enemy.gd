@@ -35,6 +35,7 @@ const DEAD_LINGER_TIME = 1.7
 const PUFF_COVER_TIME = 0.2
 const PUFF_OFFSET = Vector2(0, 8)
 const PUFF = preload("res://Objects/puff.tscn")
+const DAMAGE_TEXT_COLOR = Color(1.0, 0.92, 0.35)
 const HIT_FLASH_SHADER = preload("res://Assets/Characters/Enemy/hit_flash.gdshader")
 
 #Set by level.gd at spawn; without it the enemy walks straight to the target
@@ -231,6 +232,7 @@ func take_damage(amount, from_direction = Vector2.ZERO):
 	if hp <= 0:
 		return
 	hp -= amount
+	FloatingText.spawn(get_parent(), position + FloatingText.HEAD_OFFSET, "-%d" % amount, DAMAGE_TEXT_COLOR)
 	flash_left = HIT_FLASH_TIME
 	knockback = from_direction.normalized() * HIT_KNOCKBACK
 	if hp <= 0:

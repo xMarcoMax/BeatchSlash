@@ -10,6 +10,8 @@ extends CanvasLayer
 
 @onready var health_bar: ProgressBar = $HealthBar/Health
 @onready var shield_bar: ProgressBar = $ShieldBar/Shield
+@onready var health_value: Label = $HealthBar/Health/Value
+@onready var shield_value_label: Label = $ShieldBar/Shield/Value
 
 var hp_value
 var shield_value
@@ -22,6 +24,8 @@ func _ready():
 func _process(delta):
 	health_bar.value = hp_value
 	shield_bar.value = shield_value
+	health_value.text = "%d / %d" % [ceili(hp_value), health_bar.max_value]
+	shield_value_label.text = "%d / %d" % [ceili(shield_value), shield_bar.max_value]
 
 func set_wave(value):
 	wave_label.text = "Ondata n°: "+str(value)

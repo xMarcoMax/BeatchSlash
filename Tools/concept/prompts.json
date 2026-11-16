@@ -1,4 +1,5 @@
 {
+  "hud_icons_prompts": "Tools/concept/hud_icons_prompts.json",
   "item_icons": {
     "tool": "image_gen.imagegen (built-in)",
     "reference": ["Assets/Sprites/berry_smoothie.png", "Assets/Images/beatch-slash-cover-no-logo.png", "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"],

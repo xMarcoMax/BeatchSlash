@@ -4,6 +4,9 @@ extends CharacterBody2D
 const FLEX_HP_RATIO = 0.5
 #While morality holds he only glances at an attacker now and then, after a random pause in this range (seconds)
 const GLANCE_PAUSE = Vector2(2.5, 5.0)
+#Floating numbers use the colors of the HUD bars: blue = morality, red = fidelity
+const SHIELD_TEXT_COLOR = Color(0.35, 0.75, 1.0)
+const HEALTH_TEXT_COLOR = Color(1.0, 0.35, 0.35)
 
 @export var hp = 100
 @export var shield = 100
@@ -85,14 +88,20 @@ func _on_enemy_attack(damage):
 func calculate_health_values(damage):
 	if shield > 0:
 		# Never below 0: a negative shield would make a paid restore give back less than it promises
-		shield = max(shield - damage * (1.0 - guard_shield), 0)
+		var lost = mini(ceili(damage * (1.0 - guard_shield)), ceili(shield))
+		shield = max(shield - lost, 0)
+		show_change(-lost, SHIELD_TEXT_COLOR)
 	else:
-		hp -= damage * (1.0 - guard_health)
+		var lost = ceili(damage * (1.0 - guard_health))
+		hp -= lost
+		show_change(-lost, HEALTH_TEXT_COLOR)
 	SignalManager.update_health_shield.emit(hp, shield)
 
 func _apply_bonus(data: Dictionary):
 	if data["category"] != "Target":
 		return
+	var shield_before = shield
+	var hp_before = hp
 	match [data["effect"], data["sub_category"]]:
 		["restore", "Shield"]:
 			set_shield(max_shield * data["bonus"])
@@ -106,6 +115,8 @@ func _apply_bonus(data: Dictionary):
 			guard_shield += data["bonus"]
 		["guard", "Health"]:
 			guard_health += data["bonus"]
+	show_change(shield - shield_before, SHIELD_TEXT_COLOR)
+	show_change(hp - hp_before, HEALTH_TEXT_COLOR)
 	SignalManager.update_health_shield.emit(hp, shield)
 
 #A temporary guard ran out of waves
@@ -116,6 +127,11 @@ func _on_item_expired(data: Dictionary):
 		guard_shield -= data["bonus"]
 	else:
 		guard_health -= data["bonus"]
+
+#Number above his head with the change of a bar ("-10", "+25")
+func show_change(amount, color: Color):
+	if roundi(amount) != 0:
+		FloatingText.spawn(get_parent(), position + FloatingText.HEAD_OFFSET, "%+d" % roundi(amount), color)
 
 func set_hp(value):
 	hp += value

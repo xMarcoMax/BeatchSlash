@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var damage = 10
 
 # Frame 3: the hand releases after 3 frames: 0.094 s at 32 FPS (fastest level), 0.375 s at 8 FPS (slowest).
-# A new press may interrupt recovery after release, never the pending projectile.
+# A new press is ignored (no throw, no animation) until the whole previous throw animation has finished.
 @export_range(0, 7) var throw_release_frame: int = 3
 signal throw_released
 
@@ -74,7 +74,7 @@ func update_animation():
 func start_throw(mouse_position: Vector2):
 	if Global.is_in_purchase or ball == null:
 		return
-	if is_attacking and not _throw_released:
+	if is_attacking:
 		return
 	# Carry the current step into the throw, including its fractional progress.
 	# Rapid follow-up throws keep the running gait clock instead of restarting it.
@@ -85,8 +85,6 @@ func start_throw(mouse_position: Vector2):
 	var aim = mouse_position - global_position
 	if not aim.is_zero_approx():
 		last_animation = Formulas.direction_name(aim)
-	# Restart even the same Throw without waiting for its previous recovery.
-	is_attacking = false
 	animations.stop()
 	is_attacking = true
 	_throw_released = false

@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "icons": {
+    "health": {
+      "output": "Assets/Icons/health.png",
+      "subject_reference_was_previous_contents": true,
+      "references": [
+        "Assets/Icons/health.png",
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/Icons/sunscreen.png"
+      ],
+      "prompt": "Use case: stylized-concept. Recreate from scratch ONE official HUD icon for the Italian beach comedy game Beatch Slash!. Image 1 is the old pixelated icon used ONLY as SUBJECT IDENTITY reference: a solid bright red heart representing romantic fidelity. Images 2 and 3 are STRICT rendering-style references from the approved game icon set. Draw a single beautifully rounded full red-coral heart, symmetrical familiar heart silhouette with two generous lobes and tapered bottom point, bold clean warm dark-brown outline, rich saturated red fill, clean 3-4-tone cel shading, warm lighter coral upper-left planes and deep crimson lower-right planes, one or two broad cream highlights at upper left. Match the approved icons' exact polished clean hand-drawn cartoon illustration; broad simple readable shapes for a 46x46 HUD display. Almost frontal view with subtle illustrated volume; no excessive perspective. One centered complete heart occupying about 80 percent of a square canvas, even transparent margin, genuine transparent background. NO pixel art, no upscaling the old image, no photorealism, no plastic 3D render. No wings, ribbon, bandage, crack, shield, outer golden frame, words, letters, numbers, badge, decorative particles, cast shadow, glow, environment or watermark. Clean silhouette only."
+    },
+    "shield": {
+      "output": "Assets/Icons/shield.png",
+      "subject_reference_was_previous_contents": true,
+      "references": [
+        "Assets/Icons/shield.png",
+        "Assets/Icons/health.png",
+        "Assets/Icons/sunscreen.png"
+      ],
+      "prompt": "Use case: stylized-concept. Recreate from scratch ONE official HUD icon for the Italian beach comedy game Beatch Slash!, representing moral integrity. Input image 1 is the OLD PIXELATED SUBJECT IDENTITY reference only: a shield with a gold rim, turquoise blue face and red heart at center. Image 2 is the NEW approved heart icon: reproduce this same red-coral rounded heart as the central emblem. Image 3 is a strict approved rendering-style reference for the game's illustrated icon set. Draw a compact broad medieval-style heraldic SHIELD, symmetrical front view, gently raised shoulders and one tapered bottom point, thick warm golden-yellow outer rim and clean dark warm-brown exterior outline, rich turquoise/teal face, and a large centered bright red-coral HEART emblem with two rounded lobes and a pointed tip. Preserve the old symbol's visual meaning while completely redrawing it as smooth clean 2D cartoon illustration, NOT pixels. Match image 2 heart and image 3 style: bold simple forms, confident warm-brown linework, vivid colors, clearly bounded 3-4-tone cel shading, upper-left warm cream highlights and lower-right deeper planes. Gold rim must read as a thick simple bevel, turquoise face calm and uncluttered; red heart must be clearly distinct and readable at 46x46 HUD size. Nearly frontal view with subtle illustrated depth, no strong perspective. Entire shield centered on a square canvas, about 80-85 percent canvas occupancy with even transparent margins. Genuine transparent background. No pixel art, photorealism or plastic 3D render; no crosses, stars, wings, swords, lettering, numbers, extra badges, particles, cast shadow, glow, environment, watermark or frame around the icon."
+    }
+  }
+}

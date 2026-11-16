@@ -1,0 +1,10 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "references": [
+    "Assets/Icons/berry_smoothie.png",
+    "Assets/Icons/smash_course.png",
+    "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory icon for the beach game Beatch Slash!. Input images 1 and 2 are the approved inventory icon style references; input image 3 is the shop concept art style reference. Create a single slim crossword puzzle magazine in a slight three-quarter view, with a warm cream and light turquoise cover and coral trim. A large simple black-and-white crossword grid is the main readable image on its front cover. Place one short yellow-and-coral pencil diagonally across the magazine, integrated into the composition. Recognizable as a crossword magazine at 48x48 pixels. Match the exact polished 2D cartoon style of the approved inventory icons: confident dark warm-brown outlines, rounded bold forms, rich vivid colors, clearly bounded 3-4 tone cel shading, warm light from upper left. Center the entire object in a square canvas with 8-10% transparent margin. Genuine transparent background. No readable letters or words, no real magazine masthead, no logos, no characters, no numbers, no hearts or shields, no badge, no environment, no floor, no cast shadow and no halo. No pixel art, no photorealism, no 3D rendering.",
+  "output": "Assets/Icons/crosswords.png"
+}

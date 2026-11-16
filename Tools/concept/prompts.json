@@ -6,7 +6,7 @@
     "output": "Assets/Icons/berry_smoothie.png",
     "status": "Frullato approvato dall'utente e icona ufficiale del negozio; riferimento di stile per tutte le altre icone.",
     "original_subject_references_removed": true,
-    "catalog_prompts": ["Tools/concept/item_drinks_prompts.json", "Tools/concept/item_snacks_prompts.json", "Tools/concept/item_upgrades_prompts.json"]
+    "catalog_prompts": ["Tools/concept/item_drinks_prompts.json", "Tools/concept/item_snacks_prompts.json", "Tools/concept/item_upgrades_prompts.json", "Tools/concept/melting_ice_cream_prompt.json", "Tools/concept/beach_umbrella_prompt.json", "Tools/concept/crosswords_prompt.json"]
   },
   "tool": "image_gen.imagegen (built-in)",
   "reference": "spritesheet originale della protagonista (non più presente nel progetto)",

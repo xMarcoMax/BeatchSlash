@@ -12,6 +12,8 @@ signal attack_target
 signal item_target_purchased(data)
 signal item_player_purchased(data)
 signal item_bonus_purchased(data)
+#Un oggetto temporaneo ha finito le sue ondate: chi ne applicava l'effetto lo toglie
+signal item_expired(data)
 
 #Segnali per l'hud
 signal update_health_shield(health, shield)

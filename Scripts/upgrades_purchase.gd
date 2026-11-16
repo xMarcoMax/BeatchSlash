@@ -29,6 +29,7 @@ var item_list: Array = []
 func _ready():
 	#Set segnale disponibilità ogni 5 ondate del bonus di aumento danni
 	SignalManager.wave_purchase_item.connect(damage_item_availability)
+	SignalManager.wave_purchase_item.connect(_tick_temporary_items)
 	SignalManager.currency_changed.connect(_on_currency_changed)
 	SignalManager.update_health_shield.connect(_on_partner_health_changed)
 	load_item_file()
@@ -118,6 +119,15 @@ func damage_item_availability(wave):
 	damage_item.visible = (wave % 5) == 0
 	refresh_section(damage_item.get_parent().get_parent())
 
+# Fine ondata: gli oggetti temporanei attivi perdono un'ondata, a zero il loro effetto viene tolto
+func _tick_temporary_items(_wave):
+	for item: Item in item_list:
+		if item.waves_left > 0:
+			item.waves_left -= 1
+			if item.waves_left == 0:
+				SignalManager.item_expired.emit(item.get_data())
+	_refresh_items()
+
 func _on_button_pressed():
 	Global.is_in_purchase = false
 	Global.purchase_just_closed = true
@@ -152,6 +162,7 @@ func _purchase_item(item: Item):
 		return
 	item.purchases += 1
 	var data = item.get_data()
+	item.waves_left = data["duration"]
 	# Il cambio di valuta aggiorna tutte le schede, compreso il contatore di questa
 	Global.currency -= data["price"]
 
@@ -170,7 +181,7 @@ func load_item_file():
 
 	while not file.eof_reached():
 		var columns = file.get_csv_line(";")
-		if columns.size() < 11 or columns[0] == "":
+		if columns.size() < 12 or columns[0] == "":
 			continue
 		var row := {
 			"id": columns[0],
@@ -183,6 +194,7 @@ func load_item_file():
 			"price": int(columns[8]),
 			"max_purchases": int(columns[9]),
 			"effect": columns[10],
+		"duration": int(columns[11]),
 		}
 		if not tab_sections.has(row["category"]):
 			push_warning("item_list.csv: categoria sconosciuta '%s' per %s, riga ignorata" % [row["category"], row["id"]])

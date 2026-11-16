@@ -1,0 +1,10 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "references": [
+    "Assets/Icons/berry_smoothie.png",
+    "Assets/Icons/strawberry_milkshake.png",
+    "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+  ],
+  "prompt": "Use case: stylized-concept. Create one inventory icon for the Italian sunny beach comedy game Beatch Slash!. Images 1 and 2 are the strict visual-style references for the existing approved inventory icons; image 3 is a supporting reference for the game's beach kiosk world. Subject: one appetizing ice cream cone, golden waffle cone with a clearly visible diamond waffle pattern, topped by two rounded scoops of dark chocolate gelato, with a few soft melting drips down the ice cream and just onto the cone. Match the references' clean 2D hand-drawn cartoon illustration exactly: thick confident warm dark-brown outline, rounded charming forms, bold flat colors, clearly defined 3–4-tone cel shading, bright warm highlights from upper left, vivid yet harmonious summery palette. Slightly elevated three-quarter front view. The entire cone is one isolated, centered object in a square canvas with 8–10% transparent margin; recognizable when displayed at 48x48. True transparent background. No text, no logos, no numbers, no coins, no arrows, no badge, no frame, no scene, no floor, no cast shadow, no glow, no surrounding objects, no watermark. Smooth drawn contours: no pixel art, no photorealism, no plastic 3D rendering.",
+  "output": "Assets/Icons/melting_ice_cream.png"
+}

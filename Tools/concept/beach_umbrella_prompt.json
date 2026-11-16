@@ -1,0 +1,10 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "references": [
+    "Assets/Icons/berry_smoothie.png",
+    "Assets/Icons/sunscreen.png",
+    "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+  ],
+  "prompt": "Use case: stylized-concept. Create one official inventory icon for the sunny beach comedy game Beatch Slash!. Input image 1 berry_smoothie.png and input image 2 sunscreen.png are strict style references from the existing approved icon set; image 3 is supporting beach shop concept art. Subject: a single OPEN BEACH PARASOL with a generous rounded canopy divided into alternating coral red, warm cream, and turquoise panels, a gently scalloped rim, small top finial, and one short light wooden straight pole visible all the way to its bottom tip. Show a slightly elevated three-quarter front view, so the curved canopy reads clearly. Broad canopy and compact pole proportions for readability at 48x48. Match the exact clean hand-drawn 2D cartoon style of the approved inventory icons: warm dark-brown confident outlines, bold rounded shapes, saturated sunny colors, clean 3-4 tone cel shading, bright warm highlights from upper left. Center the complete parasol on a square canvas, generous 8-10 percent transparent margins, no clipping. Genuine transparent background. One isolated object only: no sand, no stand/base, no ground, no environment, no accessories, no cast shadow, no glow/halo, no text, numbers, logo, badge, shield, watermark, or border. Smooth illustrated contours matching the references, no pixel art, no photorealism, no 3D plastic rendering.",
+  "output": "Assets/Icons/beach_umbrella.png"
+}

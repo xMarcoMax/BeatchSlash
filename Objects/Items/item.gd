@@ -4,11 +4,13 @@ class_name Item
 
 signal purchase_requested(item: Item)
 
-# Riga del CSV: id, name, description, bonus, order, category, sub_category, price, max_purchases, effect
+# Riga del CSV: id, name, description, bonus, order, category, sub_category, price, max_purchases, effect, duration
 var data: Dictionary = {}
 var purchases := 0
 # Impostato dal negozio: l'effetto sarebbe nullo ora (es. barra già piena)
 var useless := false
+# Ondate che restano a un oggetto temporaneo (colonna duration del CSV); 0 = non attivo
+var waves_left := 0
 
 var item_name: Label
 var item_image: TextureRect
@@ -33,7 +35,7 @@ func is_maxed() -> bool:
 	return data["max_purchases"] > 0 and purchases >= data["max_purchases"]
 
 func can_buy(currency: int) -> bool:
-	return not is_maxed() and not useless and currency >= data["price"]
+	return not is_maxed() and not useless and waves_left == 0 and currency >= data["price"]
 
 # Aggiorna descrizione (con il contatore), prezzo e stato del pulsante
 func refresh(currency: int):
@@ -41,7 +43,10 @@ func refresh(currency: int):
 	item_description.text = data["description"]
 	if max_count > 0:
 		item_description.text += " (%d/%d)" % [purchases, max_count]
-	buy_button.text = "Max" if is_maxed() else "%d¢" % data["price"]
+	if waves_left > 0:
+		buy_button.text = "Attivo (%d)" % waves_left
+	else:
+		buy_button.text = "Max" if is_maxed() else "%d¢" % data["price"]
 	buy_button.disabled = not can_buy(currency)
 
 func get_data() -> Dictionary:

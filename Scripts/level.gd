@@ -115,11 +115,17 @@ func set_signals():
 	SignalManager.game_over.connect(_on_game_over)
 	SignalManager.defeated.connect(_on_defeated)
 	SignalManager.item_bonus_purchased.connect(_on_bonus_purchased)
+	SignalManager.item_expired.connect(_on_item_expired)
 
 # Acquisto Bonus: la percentuale si somma al moltiplicatore delle monete (1.0 = 100%)
 func _on_bonus_purchased(data: Dictionary):
 	if data["effect"] == "coin_bonus":
 		currency_multiplier += data["bonus"]
+
+# Un bonus temporaneo sulle monete è finito: si toglie la percentuale che aveva aggiunto
+func _on_item_expired(data: Dictionary):
+	if data["category"] == "Bonus" and data["effect"] == "coin_bonus":
+		currency_multiplier -= data["bonus"]
 
 func set_variables():
 	total_enemies = base_enemy_number

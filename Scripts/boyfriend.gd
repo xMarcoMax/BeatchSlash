@@ -17,6 +17,9 @@ var max_shield
 #Starting maximums: every "raise maximum" purchase adds a fraction of these, not of the current maximum
 var base_max_hp
 var base_max_shield
+#Fraction of incoming damage absorbed by temporary "guard" items, one per bar (0.5 = half the damage)
+var guard_shield = 0.0
+var guard_health = 0.0
 #Enemies inside the hit zone, i.e. attacking him
 var attackers: Array = []
 var glance_left = 0.0
@@ -27,6 +30,7 @@ func _ready():
 	base_max_hp = hp
 	base_max_shield = shield
 	SignalManager.item_target_purchased.connect(_apply_bonus)
+	SignalManager.item_expired.connect(_on_item_expired)
 	SignalManager.attack_target.connect(_on_enemy_attack)
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
@@ -81,9 +85,9 @@ func _on_enemy_attack(damage):
 func calculate_health_values(damage):
 	if shield > 0:
 		# Never below 0: a negative shield would make a paid restore give back less than it promises
-		shield = max(shield - damage, 0)
+		shield = max(shield - damage * (1.0 - guard_shield), 0)
 	else:
-		hp -= damage
+		hp -= damage * (1.0 - guard_health)
 	SignalManager.update_health_shield.emit(hp, shield)
 
 func _apply_bonus(data: Dictionary):
@@ -98,7 +102,20 @@ func _apply_bonus(data: Dictionary):
 			set_max_shield(roundi(base_max_shield * data["bonus"]))
 		["max", "Health"]:
 			set_max_hp(roundi(base_max_hp * data["bonus"]))
+		["guard", "Shield"]:
+			guard_shield += data["bonus"]
+		["guard", "Health"]:
+			guard_health += data["bonus"]
 	SignalManager.update_health_shield.emit(hp, shield)
+
+#A temporary guard ran out of waves
+func _on_item_expired(data: Dictionary):
+	if data["category"] != "Target" or data["effect"] != "guard":
+		return
+	if data["sub_category"] == "Shield":
+		guard_shield -= data["bonus"]
+	else:
+		guard_health -= data["bonus"]
 
 func set_hp(value):
 	hp += value

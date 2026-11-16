@@ -8,114 +8,133 @@ bg_color = Color(0.160784, 0.160784, 0.160784, 0.905882)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njbm1"]
 bg_color = Color(0.13, 0.13, 0.13, 1)
 
-[node name="UpgradesPurchase" type="CanvasLayer" unique_id=1911833783]
+[node name="UpgradesPurchase" type="CanvasLayer"]
 script = ExtResource("1_njbm1")
 
-[node name="Panel" type="Panel" parent="." unique_id=978963612]
-anchors_preset = -1
-anchor_left = 0.171007
-anchor_top = 0.101852
-anchor_right = 0.898438
-anchor_bottom = 0.828704
-offset_left = -38.0
-offset_top = 22.0
-offset_right = -38.0
-offset_bottom = 22.0
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -290.0
+offset_right = 450.0
+offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xats4")
 
-[node name="ShopName" type="Label" parent="Panel" unique_id=667777481]
-theme_type_variation = "ShopTitleLabel"
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 48.0
-grow_horizontal = 2
-text = "Nome Negozio SrL"
-horizontal_alignment = 1
-
-[node name="TabContainer" type="TabContainer" parent="Panel" unique_id=640416886]
+[node name="Margin" type="MarginContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 63.0
-offset_bottom = -70.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Layout" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ShopName" type="Label" parent="Panel/Margin/Layout"]
+layout_mode = 2
+theme_type_variation = "ShopTitleLabel"
+text = "Nome Negozio SrL"
+horizontal_alignment = 1
+
+[node name="CurrencyLabel" type="Label" parent="Panel/Margin/Layout/ShopName"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_type_variation = "ItemTitleLabel"
+text = "Valuta: 0¢"
+horizontal_alignment = 2
+
+[node name="TabContainer" type="TabContainer" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_njbm1")
 tab_alignment = 1
 current_tab = 0
 
-[node name="Player" type="Control" parent="Panel/TabContainer" unique_id=285992377]
+[node name="Player" type="ScrollContainer" parent="Panel/Margin/Layout/TabContainer"]
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Player" unique_id=1134513335]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Player/ScrollContainer" unique_id=87243826]
-layout_mode = 2
-columns = 4
-
-[node name="Target" type="Control" parent="Panel/TabContainer" unique_id=818570967]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Target" unique_id=1743554541]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Target/ScrollContainer" unique_id=707363366]
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/Layout/TabContainer/Player"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 4
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="Bonus" type="Control" parent="Panel/TabContainer" unique_id=958513725]
+[node name="PlayerSections" type="VBoxContainer" parent="Panel/Margin/Layout/TabContainer/Player/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Target" type="ScrollContainer" parent="Panel/Margin/Layout/TabContainer"]
 visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 1
+
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/Layout/TabContainer/Target"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="TargetSections" type="VBoxContainer" parent="Panel/Margin/Layout/TabContainer/Target/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+
+[node name="Bonus" type="ScrollContainer" parent="Panel/Margin/Layout/TabContainer"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Bonus" unique_id=678750103]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GridContainer" type="GridContainer" parent="Panel/TabContainer/Bonus/ScrollContainer" unique_id=982203339]
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/Layout/TabContainer/Bonus"]
 layout_mode = 2
-columns = 4
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="Button" type="Button" parent="Panel" unique_id=1496068442]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -57.0
-offset_top = -66.0
-offset_right = 57.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="BonusSections" type="VBoxContainer" parent="Panel/Margin/Layout/TabContainer/Bonus/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+
+[node name="Button" type="Button" parent="Panel/Margin/Layout"]
+custom_minimum_size = Vector2(140, 54)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Esci"
 
-[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/Margin/Layout/Button" to="." method="_on_button_pressed"]

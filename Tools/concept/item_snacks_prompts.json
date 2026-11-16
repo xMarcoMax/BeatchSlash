@@ -1,0 +1,31 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "icons": {
+    "energy_bar": {
+      "output": "Assets/Icons/energy_bar.png",
+      "references": [
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+      ],
+      "prompt": "Design a SQUARE 1:1 game inventory icon for Beatch Slash!, a sunny beach cartoon game. One sealed orange-red energy bar wrapper with crimped ends, as a compact horizontal rectangle angled slightly upward, golden-yellow central panel and a simple dark-outlined lightning bolt pictogram. The bar should occupy only the central 70% of the square width, leaving abundant transparent margins. Style-reference input 1 is the approved berry smoothie icon: clean hand-drawn illustrated cartoon, rich saturated colors, thick warm dark-brown outline, simple 3–4-tone cel shading, warm upper-left light; input 2 is the beach kiosk art direction. Real transparent background around the entire object. No words, no letters, no numbers, no logo, no glow, no shadow, no environment, no frame, no badge, no watermark, no pixel art, no photorealism, no 3D render. The object must be recognizable in a 48 by 48 pixel UI."
+    },
+    "rosemary_chips": {
+      "output": "Assets/Icons/rosemary_chips.png",
+      "references": [
+        "Assets/Sprites/rosemary_chips.png",
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+      ],
+      "prompt": "Create ONE polished illustrated inventory icon for the beach comedy game Beatch Slash!. Input 1 is the old pixel-art SUBJECT reference; reinterpret its shape and core colors in the art style of input 2, the approved berry smoothie icon. Input 3 is a supporting style reference for the sunny beach shop. Match input 2 closely: clean expressive hand-drawn cartoon illustration, warm dark-brown bold outlines, rounded lively shapes, rich saturated colors, clear cel shading in 3-4 tones, warm upper-left light. Slightly elevated three-quarter view. Single isolated object, centered on square canvas, all of it visible with generous margins. Strong simple silhouette readable at 48x48. Real transparent background. No text, no letters, no logos, no brand, no badge, no environment, no cast shadow, no watermark. Smooth illustrated contours, no pixel art, no photorealism, no 3D render. Subject: one cheerful golden-yellow bag of rosemary potato chips, matching the original yellow upright packet, with sealed crimped top and bottom and a prominent simple illustration of a deep-green rosemary sprig on the front. A couple of illustrated golden potato chip shapes can decorate the bag front. The sealed bag is one self-contained product."
+    },
+    "mint_candies": {
+      "output": "Assets/Icons/mint_candies.png",
+      "references": [
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png",
+        "Assets/Sprites/mint_candies.png"
+      ],
+      "prompt": "Create an isolated 2D inventory icon in the exact illustrated style of input 1, the approved berry smoothie: clean cartoon lines, bold dark-brown outlines, rich saturated colors, cel shading, upper-left lighting. Input 2 shows the beach kiosk art direction. A third reference is the old subject reference, but DO NOT copy any text or lettering from it. Square canvas with fully transparent background. Single object centered with ample clear empty margins on all sides, entire silhouette visible. CRITICAL: no words, no letters, no typography, no logo anywhere in the image. No glow, no cast shadow, no background, no border, no badge. Smooth illustration, not pixel art, no 3D render or photorealism. One upright light-green mint candy packet with a darker green side and sealed top, bearing a large pictorial decoration of mint leaves and two white round mints. Its front has no label area and absolutely no wording, letters, typography or printed characters."
+    }
+  }
+}

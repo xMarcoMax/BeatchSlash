@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://celeh084r2pcg"
-path="res://.godot/imported/energy_bar.png-88bf5110eaedc9c0c55095b3c701d4a1.ctex"
+uid="uid://dl4gh6b6mw30u"
+path="res://.godot/imported/berry_smoothie.png-afd50bf27de932f27898ef6c50154115.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/energy_bar.png"
-dest_files=["res://.godot/imported/energy_bar.png-88bf5110eaedc9c0c55095b3c701d4a1.ctex"]
+source_file="res://Assets/Icons/berry_smoothie.png"
+dest_files=["res://.godot/imported/berry_smoothie.png-afd50bf27de932f27898ef6c50154115.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

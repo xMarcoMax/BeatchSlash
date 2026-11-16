@@ -14,6 +14,9 @@ const GLANCE_PAUSE = Vector2(2.5, 5.0)
 
 var max_hp
 var max_shield
+#Starting maximums: every "raise maximum" purchase adds a fraction of these, not of the current maximum
+var base_max_hp
+var base_max_shield
 #Enemies inside the hit zone, i.e. attacking him
 var attackers: Array = []
 var glance_left = 0.0
@@ -21,6 +24,8 @@ var glance_left = 0.0
 func _ready():
 	max_hp = hp
 	max_shield = shield
+	base_max_hp = hp
+	base_max_shield = shield
 	SignalManager.item_target_purchased.connect(_apply_bonus)
 	SignalManager.attack_target.connect(_on_enemy_attack)
 	area.body_entered.connect(_on_body_entered)
@@ -75,21 +80,25 @@ func _on_enemy_attack(damage):
 
 func calculate_health_values(damage):
 	if shield > 0:
-		shield -= damage
+		# Never below 0: a negative shield would make a paid restore give back less than it promises
+		shield = max(shield - damage, 0)
 	else:
 		hp -= damage
 	SignalManager.update_health_shield.emit(hp, shield)
 
 func _apply_bonus(data: Dictionary):
-	if(data["category"] == "Target"):
-		var added_value
-		if(data["sub_category"] == "Shield"):
-			added_value = max_shield * data["bonus"]
-			set_shield(added_value)
-		elif data["sub_category"] == "Health":
-			added_value = max_hp * data["bonus"]
-			set_hp(added_value)
-		SignalManager.update_health_shield.emit(hp, shield)
+	if data["category"] != "Target":
+		return
+	match [data["effect"], data["sub_category"]]:
+		["restore", "Shield"]:
+			set_shield(max_shield * data["bonus"])
+		["restore", "Health"]:
+			set_hp(max_hp * data["bonus"])
+		["max", "Shield"]:
+			set_max_shield(roundi(base_max_shield * data["bonus"]))
+		["max", "Health"]:
+			set_max_hp(roundi(base_max_hp * data["bonus"]))
+	SignalManager.update_health_shield.emit(hp, shield)
 
 func set_hp(value):
 	hp += value
@@ -100,7 +109,12 @@ func set_shield(value):
 	if shield > max_shield:
 		shield = max_shield
 
+#Raising a maximum also fills the added amount
 func set_max_hp(value):
-	pass
+	max_hp += value
+	hp += value
+	SignalManager.update_max_health_shield.emit(max_hp, max_shield)
 func set_max_shield(value):
-	pass
+	max_shield += value
+	shield += value
+	SignalManager.update_max_health_shield.emit(max_hp, max_shield)

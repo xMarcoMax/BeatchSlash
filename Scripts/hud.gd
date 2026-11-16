@@ -16,6 +16,8 @@ var shield_value
 
 func _ready():
 	SignalManager.update_health_shield.connect(set_values)
+	SignalManager.update_max_health_shield.connect(set_max_values)
+	SignalManager.currency_changed.connect(set_currency)
 
 func _process(delta):
 	health_bar.value = hp_value
@@ -35,6 +37,10 @@ func set_points(value):
 
 func set_currency(value):
 	currency_label.text = "Valuta: "+str(value)+"¢"
+
+func set_max_values(max_health, max_shield):
+	health_bar.max_value = max_health
+	shield_bar.max_value = max_shield
 
 func set_values(health, shield):
 	hp_value = 0 if health < 0 else health

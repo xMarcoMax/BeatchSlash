@@ -1,0 +1,32 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "icons": [
+    {
+      "output": "Assets/Icons/lemon_granita.png",
+      "references": [
+        "Assets/Sprites/lemon_granita.png",
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+      ],
+      "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3–4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is subject identity, image 2 is the approved style reference, image 3 the concept style reference. Recreate the first reference: a turquoise-blue icy lemon granita in a tapered clear glass, mound of crushed ice, large yellow lemon slice on the rim and one red straw. Convey frosty texture with a few simple angular ice glints; keep silhouette coherent with the approved berry smoothie icon."
+    },
+    {
+      "output": "Assets/Icons/tonic_water.png",
+      "references": [
+        "Assets/Sprites/tonic_water.png",
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+      ],
+      "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3–4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is subject identity, image 2 is the approved style reference, image 3 the concept style reference. Recreate the first reference: a clear aqua-blue glass bottle of tonic water, long neck and bright golden yellow bottle cap, rounded shoulders and rectangular pale aqua label without any writing or symbols. A few clean bubbles visible inside. No extra objects."
+    },
+    {
+      "output": "Assets/Icons/strawberry_milkshake.png",
+      "references": [
+        "Assets/Sprites/strawberry_milkshake.png",
+        "Assets/Icons/berry_smoothie.png",
+        "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+      ],
+      "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3–4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is subject identity, image 2 is the approved style reference, image 3 the concept style reference. Recreate the first reference: a strawberry pink milkshake in a tall clear tapered glass, topped with a swirl of cream and one ripe red strawberry with green leaves, a blue bent straw. Convey fruity drink with a few simple speckles. Keep silhouette coherent with the approved berry smoothie icon."
+    }
+  ]
+}

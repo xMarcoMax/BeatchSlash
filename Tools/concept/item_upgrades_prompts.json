@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "references": [
+    "Assets/Icons/berry_smoothie.png",
+    "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
+  ],
+  "icons": {
+    "sunscreen": {
+      "output": "Assets/Icons/sunscreen.png",
+      "prompt": "Use case: stylized-concept. Asset type: inventory icon for a lighthearted beach game. Input image 1 is the approved reference for exact illustrative style, line weight and shading; image 2 provides supplementary beach game visual identity. Match the approved image's polished, clean hand-drawn cartoon style: confident dark warm brown outline, rounded shapes, vivid saturated colors, bold clean cel shading with three or four tones and warm upper-left highlights. Single isolated object, centered on a square canvas with at least 10% margin on every side, recognizable at 48x48. Show a gently elevated three-quarter view where appropriate. True transparent background. No text, logo, brand, badge, border, environment, floor, shadow, human hands, photorealism, 3D rendering or pixel art. Subject: a single beach sunscreen bottle, chunky friendly coral and cream squeeze tube, cap at bottom, its label displays a bold stylized golden sun symbol. Convey protection 50+ through its recognizable sunscreen shape and sun motif. Keep label as an image only with no numerals or letters."
+    },
+    "lucky_bracelet": {
+      "output": "Assets/Icons/lucky_bracelet.png",
+      "prompt": "Use case: stylized-concept. Asset type: inventory icon for a lighthearted beach game. Input image 1 is the approved reference for exact illustrative style, line weight and shading; image 2 provides supplementary beach game visual identity. Match the approved image's polished, clean hand-drawn cartoon style: confident dark warm brown outline, rounded shapes, vivid saturated colors, bold clean cel shading with three or four tones and warm upper-left highlights. Single isolated object, centered on a square canvas with at least 10% margin on every side, recognizable at 48x48. Show a gently elevated three-quarter view where appropriate. True transparent background. No text, logo, brand, badge, border, environment, floor, shadow, human hands, photorealism, 3D rendering or pixel art. Subject: a single lucky beach bracelet, a closed oval of interwoven turquoise and coral colored threads, with a small warm cream seashell charm attached in the foreground. Make the weave clear but simple, favor broad shapes and readability. No separate objects."
+    },
+    "smash_course": {
+      "output": "Assets/Icons/smash_course.png",
+      "prompt": "Use case: stylized-concept. Asset type: inventory icon for a lighthearted beach game. Input image 1 is the approved reference for exact illustrative style, line weight and shading; image 2 provides supplementary beach game visual identity. Match the approved image's polished, clean hand-drawn cartoon style: confident dark warm brown outline, rounded shapes, vivid saturated colors, bold clean cel shading with three or four tones and warm upper-left highlights. Single isolated object, centered on a square canvas with at least 10% margin on every side, recognizable at 48x48. Show a gently elevated three-quarter view where appropriate. True transparent background. No text, logo, brand, badge, border, environment, floor, shadow, human hands, photorealism, 3D rendering or pixel art. Subject: one compact illustrated beach volleyball coaching manual for a smashing lesson. Angled thick coral and golden book with a simple large beach volleyball and a bold curved action arrow printed on its front cover, no text or digits. Make the book unmistakable with visible page block, and keep the ball and arrow large and legible. No hands, no people, no scene, no other props."
+    },
+    "crab_piggy_bank": {
+      "output": "Assets/Icons/crab_piggy_bank.png",
+      "prompt": "Use case: stylized-concept. Asset type: inventory icon for a lighthearted beach game. Input image 1 is the approved reference for exact illustrative style, line weight and shading; image 2 provides supplementary beach game visual identity. Match the approved image's polished, clean hand-drawn cartoon style: confident dark warm brown outline, rounded shapes, vivid saturated colors, bold clean cel shading with three or four tones and warm upper-left highlights. Single isolated object, centered on a square canvas with at least 10% margin on every side, recognizable at 48x48. Show a gently elevated three-quarter view where appropriate. True transparent background. No text, logo, brand, badge, border, environment, floor, shadow, human hands, photorealism, 3D rendering or pixel art. Subject: a cheerful squat coral orange ceramic crab piggy bank, one chunky shiny golden coin partially inserted into the visible slot on its back. Friendly small eyes, two prominent raised claws and a simple recognizable crab silhouette. This is a coin bank, not a live crab; broad clean shapes and restrained highlights."
+    }
+  }
+}

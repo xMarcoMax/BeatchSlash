@@ -1,9 +1,13 @@
-﻿id;name;description;bonus;order;category;sub_category;image
-large_shield;Frullato ai Frutti di bosco;Ripristina il 100% della moralità del tuo partner;1;2;Target;Shield;berry_smoothie.png
-medium_shield;Granita al Limone;Ripristina il 50% della moralità del tuo partner;0.5;1;Target;Shield;lemon_granita.png
-little_shield;Acqua Tonica;Ripristina il 25% della moralità del tuo partner;0.25;0;Target;Shield;tonic_water.png
-large_health;Milkshake alla Fragola;Ripristina il 100% della fedeltà del tuo partner;1;2;Target;Health;strawberry_milkshake.png
-medium_health;Patatine al Rosmarino;Ripristina il 50% della fedeltà del tuo partner;0.5;1;Target;Health;rosemary_chips.png
-little_health;Caramelle alla menta;Ripristina il 25% della fedeltà del tuo partner;0.25;0;Target;Health;mint_candies.png
-damage_item;Barretta Energetica;Aumenta il danno del 20%;0.2;0;Player;Damage;energy_bar.png
-;;;;;;;
+﻿id;name;description;bonus;order;category;sub_category;image;price;max_purchases;effect
+large_shield;Frullato ai Frutti di bosco;Ripristina il 100% della moralità del tuo partner;1;2;Target;Shield;berry_smoothie.png;60;0;restore
+medium_shield;Granita al Limone;Ripristina il 50% della moralità del tuo partner;0.5;1;Target;Shield;lemon_granita.png;35;0;restore
+little_shield;Acqua Tonica;Ripristina il 25% della moralità del tuo partner;0.25;0;Target;Shield;tonic_water.png;20;0;restore
+max_shield;Crema Protezione 50+;Aumenta del 25% la moralità massima del tuo partner;0.25;3;Target;Shield;sunscreen.png;150;4;max
+large_health;Milkshake alla Fragola;Ripristina il 100% della fedeltà del tuo partner;1;2;Target;Health;strawberry_milkshake.png;60;0;restore
+medium_health;Patatine al Rosmarino;Ripristina il 50% della fedeltà del tuo partner;0.5;1;Target;Health;rosemary_chips.png;35;0;restore
+little_health;Caramelle alla menta;Ripristina il 25% della fedeltà del tuo partner;0.25;0;Target;Health;mint_candies.png;20;0;restore
+max_health;Braccialetto Portafortuna;Aumenta del 25% la fedeltà massima del tuo partner;0.25;3;Target;Health;lucky_bracelet.png;150;4;max
+damage_item;Barretta Energetica;Aumenta il danno del 20%;0.2;1;Player;Damage;energy_bar.png;100;0;damage
+throw_speed;Corso di Schiacciata;Aumenta la velocità di lancio della sabbia;1;0;Player;ThrowSpeed;smash_course.png;80;2;throw_speed
+coin_bonus;Salvadanaio a Forma di Granchio;Aumenta del 10% le monete guadagnate;0.1;0;Bonus;Coins;crab_piggy_bank.png;120;5;coin_bonus
+;;;;;;;;;;

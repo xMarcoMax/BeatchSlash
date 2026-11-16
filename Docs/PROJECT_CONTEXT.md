@@ -13,7 +13,7 @@ Non scrivere: cronologia, correzioni fatte, processo di realizzazione, come le c
 
 A fine intervento riscrivi le voci toccate, senza note datate. Confronta sempre con i file correnti, git status e le ultime istruzioni dell'utente.
 
-Ultimo aggiornamento: 15 novembre 2026.
+Ultimo aggiornamento: 16 novembre 2026.
 
 **Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script). Questo file descrive visione, specifiche, stile grafico e stato.
 
@@ -45,10 +45,10 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - Scripts/level.gd: ondate, spawn, punteggio, valuta, HUD e timer. Scripts/enemy.gd: movimento, attacchi, salute e morte. Scripts/boyfriend.gd: salute/scudo, bonus e scelta dell'animazione del ragazzo in base a moralità, fedeltà e nemiche che attaccano; set_max_hp() e set_max_shield() sono stub (pass).
 - Objects/projectiles.tscn e Scripts/projectiles.gd: proiettile Area2D (palla di sabbia).
 - Spawn nemiche nei tre rettangoli `World/EnemySpawn`: punto casuale globale convertito nello spazio locale del livello, così la traslazione del livello non altera l'area effettiva di generazione. I rettangoli correnti non hanno rotazione o scala.
-- Acquisti: Scripts/upgrades_purchase.gd e Files/item_list.csv (separatore `;`, categorie Player/Target/Bonus). Oggi funzionano solo gli oggetti che ripristinano moralità e fedeltà del ragazzo, senza spendere valuta.
+- Acquisti: Scripts/upgrades_purchase.gd e Files/item_list.csv (separatore `;`, 11 colonne: id, name, description, bonus, order, category, sub_category, image, price, max_purchases, effect; categorie Player/Target/Bonus; `max_purchases` 0 = illimitato; `image` è un file di Assets/Icons/ o un percorso `res://`). Ogni acquisto spende la valuta (`Global.currency`) a prezzo fisso dal CSV; il pulsante si disattiva se i soldi non bastano o se l'oggetto ha raggiunto il massimo. Effetti (colonna `effect`): `restore` (ripristina moralità/fedeltà in % del massimo), `max` (aumenta la soglia di moralità/fedeltà di una frazione del valore iniziale e riempie la parte aggiunta), `damage` (aggiunge una frazione del danno iniziale del Player), `throw_speed` (sale di un livello di velocità di lancio), `coin_bonus` (somma la percentuale al moltiplicatore delle monete). Prezzi attuali, provvisori e da tarare: ripristini 20/35/60¢, soglie 150¢ (max 4), Barretta Energetica 100¢, Corso di Schiacciata 80¢ (max 2), Crema Protezione 50+ e Braccialetto Portafortuna 150¢ (max 4, soglie), Salvadanaio a Forma di Granchio 120¢ (max 5). Tutti gli 11 oggetti usano icone illustrate ufficiali in Assets/Icons/.
 - Presenti menu, opzioni audio, tutorial, pausa (Esc) e game over.
 - Autoload: Formulas, SignalManager, MusicManager, Global. Global.is_in_purchase blocca movimento e nuovi lanci durante gli acquisti.
-- Progressione corrente: basi5nemiche/100salute/10danno; curve saturanti di `Formulas.calculate` con fattori1.6/1.25/1.05 e parametro denominatore12, massimi arrotondati13nemiche/225salute/21danno. Velocità della nemica100 e attacco ogni2s; ricompensa base5monete e10punti per sconfitta. Nessuna nuova curva di bilanciamento ancora concordata.
+- Progressione corrente: basi5nemiche/100salute/10danno; curve saturanti di `Formulas.calculate` con fattori1.6/1.25/1.05 e parametro denominatore12, massimi arrotondati13nemiche/225salute/21danno. Velocità della nemica100 e attacco ogni2s; ricompensa fissa di10monete (moltiplicata dal bonus monete del negozio) e10punti per sconfitta, senza crescita per ondata. Prezzi del negozio fissi (decisione dell'utente: eventuale aumento graduale solo ogni5 o10ondate, più avanti). Nessuna nuova curva di bilanciamento ancora concordata.
 - Gli script di Player, Boyfriend e Upgrades sono agganciati alle rispettive scene base (Characters/player.tscn, Characters/boyfriend.tscn, Objects/upgrades.tscn); level.tscn le istanzia senza override di script.
 - Files/item_list.csv è letto con FileAccess: il suo .import deve usare `importer="keep"` (Import As -> Keep File nel dock Import), altrimenti il CSV grezzo non entra negli export.
 
@@ -59,6 +59,7 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - Finestra: base logica1152×648, stretch `canvas_items`, aspect `keep`. Massimizzare o passare a schermo intero ingrandisce la stessa visuale; non allarga il mondo visibile. Proporzioni diverse introducono bande. Camera del livello invariata a zoom(0.5,0.5).
 - HUD ancorato agli angoli dell'area di gioco: ondata a9px da sinistra/alto; punti e valuta a9px da destra/alto, allineati RIGHT e raccolti in due righe; contatori nemiche a9px da destra/basso. Barre a19px da sinistra, fedeltà a25px dal fondo e moralità a94px. Misure logiche: lo stretch ingrandisce uniformemente anche i margini. L'utente conferma visuale fissa e bande sui formati diversi.
 - `Assets/Images/` contiene quattro risorse conservate su richiesta dell'utente per riferimenti e possibili usi futuri: `beatch-slash-logo-text-only.png` (logo solo testo), `beatch-slash-logo.png` (logo completo), `beatch-slash-cover-no-logo.png` (copertina con i personaggi attuali), `beatch-slash-cover-logo.png` (copertina con personaggi e logo). Nessun uso assegnato al momento; non eliminarle come risorse inutilizzate.
+- Icone ufficiali degli 11 item in `Assets/Icons/`: frullato ai frutti di bosco, granita al limone, acqua tonica, milkshake alla fragola, patatine al rosmarino, caramelle alla menta, barretta energetica, crema Protezione 50+, braccialetto portafortuna, corso di schiacciata e salvadanaio granchio. Stile illustrato di concept e copertine, contorno caldo scuro, colori vivi, cel shading e sfondo trasparente. Il frullato è il riferimento di stile approvato dall'utente; l'utente ha richiesto l'estensione a tutti gli item e la rimozione definitiva della cartella `Sprites`. Il CSV indica i PNG ufficiali; prompt e riferimenti in `Tools/concept/`. Gli sprite del mondo di gioco mantengono la pipeline pixel.
 
 ## Vincoli dell'utente
 
@@ -66,10 +67,11 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - Modificare il gameplay preesistente solo se strettamente necessario.
 - Scene e nodi possono essere riorganizzati e ottimizzati quando migliora la soluzione mantenendo lo stesso risultato visivo e funzionale. Non è richiesto conservare la struttura originale; verificare l'equivalenza dopo le modifiche.
 - Solo nearest-neighbor; mantenere lo stile visivo descritto sotto.
-- Lancio rapido e sincronizzato col braccio; la palla non deve partire prima del frame di rilascio.
+- Lancio sincronizzato col braccio; la palla non deve partire prima del frame di rilascio. La velocità di lancio parte bassa e si migliora solo comprandola nel negozio (decisione dell'utente).
+- Nomi e descrizioni dei nuovi oggetti del negozio: se l'utente non li indica, li sceglie l'agente rispettando ambientazione (spiaggia), tono ironico e contesto del gioco. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate a sport estivi; gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (es. un anello di fidanzamento).
 - **.vscode/settings.json è gestito dall'utente: non toccarlo.**
 - I commit li fa l'utente.
-- Errori noti di TileSet/tilemap e rifinitura del negozio sono rimandati a sessioni dedicate: non toccarli senza richiesta.
+- Errori noti di TileSet/tilemap e completamento del negozio (spesa della valuta, acquisti Giocatore e Bonus) sono rimandati a sessioni dedicate: non toccarli senza richiesta.
 
 ## Negozio: concept, modello e sprite
 
@@ -81,6 +83,8 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - Risorse in `Assets/Objects/Shop/`: `shop_shadow.png`, `shop_back.png`, `shop_front.png` (160×160 ciascuna), `shopkeeper.png` (2560×480, celle160×160) e `shopkeeper_frames.tres`. Scala4, nearest, contorno1px #3a1418, ombra alpha97/255. Edificio statico; piano del bancone dietro le braccia, bordo anteriore/tenda/tetto davanti al negoziante.
 - Animazioni: `idle`8frame/5FPS in loop (respiro leggero, palpebre); `clean_glass`16frame/8FPS e `wipe_counter`16frame/8FPS una volta. Tra i gesti pause casuali5–10s; nessuna ripetizione consecutiva, ritorno all'idle a fine gesto. Bere, cercare sotto il bancone e pulire a terra non sono inclusi.
 - `Objects/upgrades.tscn`: sostituita l'icona provvisoria, posizione nel livello conservata (512,−950); due collisioni per corpo del chiosco e botte, ricavate dall'ingombro a terra. Fronte libero dagli sgabelli per raggiungere il bancone. Area d'acquisto solo davanti al bancone. F richiede Player in area e pausa tra ondate; uscita, Esc o fine pausa chiudono il pannello e sbloccano il Player. Flusso della valuta e bonus invariato. Procedure e verifiche in `Docs/BLENDER.md` §14 e `Docs/GODOT.md` §8.
+- **Categorie degli acquisti (definizione dell'utente, vincolante per ogni nuovo oggetto):** **Giocatore** = acquisti e potenziamenti che riguardano direttamente la protagonista (danno aumentato, rapidità di lancio e simili). **Partner** = tutto ciò che riguarda il ragazzo: ripristino di moralità e fedeltà, aumento delle loro soglie massime e altro che verrà in mente. **Bonus** = acquisti e potenziamenti extra che non riguardano né il ragazzo né la ragazza, come il bonus alle monete guadagnate; alcuni potranno essere temporanei (solo l'ondata successiva, per un certo numero di ondate o con altri limiti). Nel CSV: Giocatore = `Player`, Partner = `Target`, Bonus = `Bonus`.
+- **Pannello acquisti (`Scenes/upgrades_purchase.tscn`):** finestra centrata 900×580 nella visuale 1152×648, tre tab (Giocatore, Partner, Bonus) a scorrimento verticale. Il tab Partner è diviso in sezioni per `sub_category` del CSV (Shield = Moralità, Health = Fedeltà); i tab Giocatore e Bonus, per scelta dell'utente, non hanno sezioni (una sola griglia ordinata per `order`) finché non ci saranno abbastanza oggetti da distinguere (da rivalutare con nuovi item, per esempio più oggetti Bonus temporanei); ogni sezione ha una freccia accanto al titolo che la comprime/espande e una griglia di schede compatte a 3 per riga (icona, nome, descrizione, pulsante col prezzo). Richiesta dell'utente: schede piccole per poter aggiungere molti oggetti per sezione. Il pulsante mostra il prezzo (colonna `price` del CSV) o "Max"; si disattiva se la valuta non basta. Nell'intestazione del pannello c'è il saldo "Valuta: X¢". Dettagli in `Docs/GODOT.md` §15; da far approvare all'utente in gioco.
 
 ## Player: specifiche
 
@@ -99,7 +103,7 @@ up = Nord, down = Sud, right = Est, left = Ovest.
 - player_moving_throw.png (384x3072): riga = azione*32 + direzione*8 + fase_del_passo; colonna = frame del lancio. Azioni Walk=0/Dash=1, direzioni N/S/E/W = 0..3. Durante i lanci in movimento: gambe dal passo corrente, busto dal lancio.
 - Lancio cardinale verso sinistra: preparazione alta del braccio destro, sinistro di accompagnamento vicino al corpo e arco dall'alto al basso. Vale da ferma, camminando e correndo; rilascio al frame3. La posa destra resta il riferimento invariato. Dettagli in `Docs/BLENDER.md` §12.
 - Movimento ui_left/right/up/down a 400; run (Spazio) porta a 800 e seleziona Dash. Asse dominante del movimento, precedenza orizzontale sulle diagonali esatte. Idle mantiene l'ultima direzione.
-- shoot_sand (tasto destro) avvia start_throw(); durante Throw il movimento continua. **throw_release_frame = 3**: la palla è in mano nei frame 0-2 e parte al 3; throw_released è emesso dopo lo spawn. A fine Throw torna Idle se fermo; in movimento riprende Walk/Dash dalla fase raggiunta.
+- shoot_sand (tasto destro) avvia start_throw(); durante Throw il movimento continua. **throw_release_frame = 3**: la palla è in mano nei frame 0-2 e parte al 3; throw_released è emesso dopo lo spawn. A fine Throw torna Idle se fermo; in movimento riprende Walk/Dash dalla fase raggiunta. **Velocità di lancio a 3 livelli** (`THROW_FPS_LEVELS` in player.gd, rispetto ai 32 FPS autorizzati): livello 0 (iniziale) 8 FPS, come la camminata; livello 1 16 FPS; livello 2 32 FPS, il lancio originale. Rilascio dopo 375/187/96 ms (misurati), cioè circa 2,7/5,3/10,4 lanci al secondo con clic ripetuti. Il livello sale con l'acquisto "Corso di Schiacciata".
 - Collider: RectangleShape2D 72x120, posizione (0, 17) (sprite 48x48 a scala 4; il bbox visibile è circa 80 px in larghezza e va da -95 a +77 in altezza). RayCast2D: scala (2, 2), target (50, 0).
 
 ## Palla di sabbia: specifiche
@@ -187,17 +191,18 @@ Stile pixel confermato per tutti i personaggi.
 
 ## Stato
 
-- **Fatto di recente:** la nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
+- **Fatto di recente:** sistema di acquisti completo (spesa della valuta, contatori, effetti di tutti gli oggetti) e velocità di lancio a tre livelli; il pannello del negozio è centrato, con sezioni comprimibili Moralità/Fedeltà nel solo tab Partner (Giocatore e Bonus senza sezioni) e schede a 3 per riga con prezzo (vedi Negozio). La nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
 - **Approvati dall'utente:** nuovo aspetto del Player, inclusi capelli e attaccatura; animazioni, diagonali, ombra e lanci in movimento, con la sola correzione richiesta alle gambe troppo divaricate in camminata/corsa. Approvati anche palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
-- **Incompleti o con errori noti:** negozio (solo gli oggetti per moralità e fedeltà funzionano, senza spendere valuta; gli acquisti Giocatore e Bonus non hanno effetto; set_max_hp() e set_max_shield() sono stub); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
+- **Incompleti o con errori noti:** negozio (prezzi provvisori; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
 
 ## Prossimi passi
 
 Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi, **rimuovere** quelli completati.
 
 
-- **Prossimo intervento sul negozio, rimandato a una sessione successiva:** sistemare l'interfaccia del pannello che presenta gli item in vendita. Non avviarlo adesso.
-- Completare poi il negozio: spesa della valuta e acquisti Giocatore e Bonus.
+- Negozio: prezzi definitivi nella colonna `price` del CSV; bonus temporanei (solo ondata successiva, per N ondate o altri limiti); nuovi oggetti per Giocatore, Partner e Bonus.
+- Formule di salute, danno e numero di nemiche (`Formulas.calculate`): oggi tutte e tre saturano e la difficoltà si appiattisce dopo l'ondata 20. Da rivedere con le indicazioni della ricerca (Brotato usa salute e danno lineari per ondata, con termine quadratico oltre un'ondata soglia in endless; costi esponenziali tipici degli idle con base 1,07-1,15; per la cadenza di fuoco rendimenti decrescenti e un minimo). Con ricompensa e prezzi fissi la crescita lineare è più prevedibile; verificare con un foglio di calcolo tempo di uccisione e tempo di sopravvivenza del ragazzo. Non ancora applicato.
+- Molto più avanti: rivedere le dimensioni delle schede del negozio quando saranno stati aggiunti nuovi oggetti, per verificare che stiano tutti nel pannello (3 per riga, schede min 240 px) o se vadano rimpicciolite.
 - Sistemare gli errori di TileSet e tilemap (non toccarli prima).
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
 - Ragazzo: capelli pettinati e cordino nel modello; animazione di fuga al game over (idea: scappa con l'ultima che lo ha attaccato). Animazioni idle/glance/admire/flex approvate dall'utente.

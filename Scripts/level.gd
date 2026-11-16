@@ -13,7 +13,7 @@ const base_enemy_health = 100
 const base_enemy_damage = 10
 const base_enemy_number = 5
 const base_enemy_points = 10
-const base_enemy_currency = 5
+const base_enemy_currency = 10
 
 var enemy = preload("res://Characters/enemy.tscn")
 var pathfinder := Pathfinder.new()
@@ -25,13 +25,12 @@ var spawn_number
 var remain
 
 var points = 0
-var currency = 0
 var point_multiplier
 var currency_multiplier
 
 #Set essential variables
 func _ready():
-	hud.set_values(target.shield, target.hp)
+	hud.set_values(target.hp, target.shield)
 	hud.set_wave(wave)
 	set_hud()
 	set_variables()
@@ -87,11 +86,10 @@ func _on_defeated():
 	defeated_level += 1
 	remain -= 1
 	points = points + (point_multiplier * base_enemy_points)
-	currency = currency + (currency_multiplier * base_enemy_currency)
+	Global.currency += roundi(currency_multiplier * base_enemy_currency)
 	hud.set_defeated(defeated_total)
 	hud.set_remain(remain)
 	hud.set_points(points)
-	hud.set_currency(currency)
 
 func _on_next_wave_timer_timeout():
 	next_wave.visible = false
@@ -116,16 +114,22 @@ func set_next_wave():
 func set_signals():
 	SignalManager.game_over.connect(_on_game_over)
 	SignalManager.defeated.connect(_on_defeated)
+	SignalManager.item_bonus_purchased.connect(_on_bonus_purchased)
+
+# Acquisto Bonus: la percentuale si somma al moltiplicatore delle monete (1.0 = 100%)
+func _on_bonus_purchased(data: Dictionary):
+	if data["effect"] == "coin_bonus":
+		currency_multiplier += data["bonus"]
 
 func set_variables():
 	total_enemies = base_enemy_number
 	spawn_number = base_enemy_number
 	remain = base_enemy_number
 	point_multiplier = 1
-	currency_multiplier = 1
+	currency_multiplier = 1.0
+	Global.currency = 0
 
 func set_hud():
 	hud.set_defeated(defeated_total)
 	hud.set_remain(total_enemies)
 	hud.set_points(points)
-	hud.set_currency(currency)

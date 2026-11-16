@@ -9,10 +9,16 @@ extends CharacterBody2D
 @onready var moving_throw: Sprite2D = $MovingThrow
 @export var damage = 10
 
-# Frame 3: hand releases at ~0.094 s with Throw at 32 FPS.
+# Frame 3: the hand releases after 3 frames: 0.094 s at 32 FPS (fastest level), 0.375 s at 8 FPS (slowest).
 # A new press may interrupt recovery after release, never the pending projectile.
 @export_range(0, 7) var throw_release_frame: int = 3
 signal throw_released
+
+# Target FPS of the throw_* animations per level, played as a fraction of the FPS authored in player_frames.tres.
+# Level 0 (start) = walk FPS, 1 = halfway, 2 = the original fast throw. The shop raises the level.
+const THROW_FPS_LEVELS = [8.0, 16.0, 32.0]
+var throw_speed_level = 0
+var damage_base
 
 # Atlas dei lanci in movimento: righe = azione*32 + direzione*8 + fase; ordine direzioni per atlas.
 const MOVING_THROW_DIAGONAL = preload("res://Assets/Characters/Player/player_diagonals_moving_throw.png")
@@ -28,6 +34,8 @@ var _moving_gait_phase: float = 0.0
 
 func _ready():
 	Global.is_in_purchase = false
+	damage_base = damage
+	SignalManager.item_player_purchased.connect(_on_item_purchased)
 	animations.frame_changed.connect(_on_animation_frame_changed)
 	animations.animation_finished.connect(_on_animation_finished)
 	animations.play("idle_" + last_animation)
@@ -39,6 +47,14 @@ func _physics_process(delta):
 		_update_moving_throw(delta)
 		update_animation()
 		move_and_slide()
+
+#Shop purchases for the player: damage adds a fraction of the starting damage, throw speed goes up one level
+func _on_item_purchased(data: Dictionary):
+	match data["effect"]:
+		"damage":
+			damage += roundi(damage_base * data["bonus"])
+		"throw_speed":
+			throw_speed_level = mini(throw_speed_level + 1, THROW_FPS_LEVELS.size() - 1)
 
 #Input events (shoot, attack, etc.)
 func _input(event):
@@ -74,7 +90,9 @@ func start_throw(mouse_position: Vector2):
 	animations.stop()
 	is_attacking = true
 	_throw_released = false
-	animations.play("throw_" + last_animation)
+	var throw_animation = "throw_" + last_animation
+	var authored_fps = animations.sprite_frames.get_animation_speed(throw_animation)
+	animations.play(throw_animation, THROW_FPS_LEVELS[throw_speed_level] / authored_fps)
 	# Also supports release frame 0 when the animation was already on frame 0.
 	_on_animation_frame_changed()
 
@@ -84,8 +102,10 @@ func _on_animation_frame_changed():
 		return
 	if animations.animation.begins_with("throw_") and animations.frame >= throw_release_frame:
 		_throw_released = true
+		# With the shop open the player cannot act: a throw already in progress ends without releasing the ball.
 		# Existing projectile/raycast logic remains in shoot_sand().
-		shoot_sand(get_global_mouse_position())
+		if not Global.is_in_purchase:
+			shoot_sand(get_global_mouse_position())
 		throw_released.emit()
 
 func _on_animation_finished():

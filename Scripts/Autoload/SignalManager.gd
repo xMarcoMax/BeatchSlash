@@ -15,6 +15,8 @@ signal item_bonus_purchased(data)
 
 #Segnali per l'hud
 signal update_health_shield(health, shield)
+signal update_max_health_shield(max_health, max_shield)
+signal currency_changed(value)
 signal purchase_item
 signal wave_purchase_item(wave)
 

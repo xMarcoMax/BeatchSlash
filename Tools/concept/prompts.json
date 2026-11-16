@@ -1,4 +1,13 @@
 {
+  "item_icons": {
+    "tool": "image_gen.imagegen (built-in)",
+    "reference": ["Assets/Sprites/berry_smoothie.png", "Assets/Images/beatch-slash-cover-no-logo.png", "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"],
+    "prompt": "Use case: style-transfer. Create one polished inventory icon for the Italian beach comedy game Beatch Slash!. Input image 1 (berry_smoothie.png) is the SUBJECT reference: recreate this mixed berry smoothie in a chunky tapered transparent glass, purple-pink blended berries, a few blueberries and mint leaves on the rim, one bent coral red drinking straw. Input image 2 (beatch-slash-cover-no-logo.png) and input image 3 (shop_with_shopkeeper_turnaround.png) are STYLE references: match their expressive clean hand-drawn cartoon illustration, confident dark warm-brown outlines, rounded exaggerated shapes, rich saturated colors, bold clean cel shading with 3-4 tones, warm highlights from upper left, charming sunny beach kiosk identity. Make a fresh illustrated version of this drink, not an upscale of the pixelated original. A slightly elevated three-quarter front view showing the oval rim and drink surface, centered single isolated object with a strong readable silhouette, simple broad glass reflections, delicious berry purple filling, dark teal blue berries, fresh green mint and coral straw. Square canvas, the entire object and straw visible with generous 10% padding. The icon must remain easy to identify at 48x48. True transparent background, no environment, no floor, no cast shadow, no border or badge, no text, no letters, no logo, no watermark. Smooth drawn contours matching the concept illustration references; no pixel blocks, no photorealism, no 3D plastic rendering.",
+    "output": "Assets/Icons/berry_smoothie.png",
+    "status": "Frullato approvato dall'utente e icona ufficiale del negozio; riferimento di stile per tutte le altre icone.",
+    "original_subject_references_removed": true,
+    "catalog_prompts": ["Tools/concept/item_drinks_prompts.json", "Tools/concept/item_snacks_prompts.json", "Tools/concept/item_upgrades_prompts.json"]
+  },
   "tool": "image_gen.imagegen (built-in)",
   "reference": "spritesheet originale della protagonista (non più presente nel progetto)",
   "prompts": [

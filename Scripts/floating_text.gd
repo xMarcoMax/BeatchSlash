@@ -6,8 +6,8 @@ const HEAD_OFFSET = Vector2(0, -130)
 const WIDTH = 200.0
 const RISE = 90.0
 const LIFETIME = 0.9
-# The level camera is zoomed to 0.5, so the size is doubled to read like the HUD text
-const FONT_SIZE = 60
+# The level camera is fixed and zoomed to 0.4, so the size is multiplied by 2.5 to read like the HUD text
+const FONT_SIZE = 75
 
 static func spawn(parent: Node, at: Vector2, value: String, color: Color):
 	var label := FloatingText.new()

@@ -13,7 +13,7 @@ Non scrivere: cronologia, correzioni fatte, processo di realizzazione, come le c
 
 A fine intervento riscrivi le voci toccate, senza note datate. Confronta sempre con i file correnti, git status e le ultime istruzioni dell'utente.
 
-Ultimo aggiornamento: 16 novembre 2026.
+Ultimo aggiornamento: 17 novembre 2026.
 
 **Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script). Questo file descrive visione, specifiche, stile grafico e stato.
 
@@ -58,7 +58,7 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 
 - Priorità dell'utente: interfaccia e menu attuali sono provvisori sul piano grafico. In questa fase devono funzionare, essere leggibili e posizionarsi correttamente; il miglioramento estetico è previsto in una fase successiva.
 - Tipografia: `Docs/FONTS.md` definisce ruoli e identità. Luckiest Guy per titoli e annunci; Fredoka per interfaccia e testo, con pesi Regular400/Medium500/SemiBold600/Bold700. Tema globale `Assets/UI/game_theme.tres`. Dimensioni logiche: titoli48, Game Over64, annunci/titolo negozio32, pulsanti26, tab22, HUD/tutorial/invito20, nomi oggetti18 e descrizioni16. Le misure sono adattate alla UI; quelle a1080p della guida sono indicative.
-- Finestra: base logica1152×648, stretch `canvas_items`, aspect `keep`. Massimizzare o passare a schermo intero ingrandisce la stessa visuale; non allarga il mondo visibile. Proporzioni diverse introducono bande. Camera del livello invariata a zoom(0.5,0.5).
+- Finestra: base logica1152×648, stretch `canvas_items`, aspect `keep`. Massimizzare o passare a schermo intero ingrandisce la stessa visuale; non allarga il mondo visibile. Proporzioni diverse introducono bande. **Camera del livello fissa** (decisione dell'utente, 17/11/2026): `Camera2D` figlia di `Level` in (800,−560) a zoom(0,4;0,4), area di mondo visibile 2880×1620 (prima: camera che seguiva il Player a zoom 0,5, 2304×1296). La base logica 1152×648 è invariata, perché tutta l'interfaccia è dimensionata su quella; l'inquadratura più ampia si ottiene con lo zoom. Sul livello attuale (mappa vecchia, pensata per la camera mobile) il Player può uscire dall'inquadratura: la nuova mappa sarà dimensionata sulla schermata fissa.
 - HUD ancorato agli angoli dell'area di gioco: ondata a9px da sinistra/alto; punti e valuta a9px da destra/alto, allineati RIGHT e raccolti in due righe; contatori nemiche a9px da destra/basso. Barre a19px da sinistra, fedeltà a25px dal fondo e moralità a94px. Misure logiche: lo stretch ingrandisce uniformemente anche i margini. L'utente conferma visuale fissa e bande sui formati diversi.
 - `Assets/Images/` contiene quattro risorse conservate su richiesta dell'utente per riferimenti e possibili usi futuri: `beatch-slash-logo-text-only.png` (logo solo testo), `beatch-slash-logo.png` (logo completo), `beatch-slash-cover-no-logo.png` (copertina con i personaggi attuali), `beatch-slash-cover-logo.png` (copertina con personaggi e logo). Nessun uso assegnato al momento; non eliminarle come risorse inutilizzate.
 - Icone ufficiali dei 14 item in `Assets/Icons/`: frullato ai frutti di bosco, granita al limone, acqua tonica, milkshake alla fragola, patatine al rosmarino, caramelle alla menta, barretta energetica, crema Protezione 50+, braccialetto portafortuna, corso di schiacciata, salvadanaio granchio, Gelato Fondente, Ombrellone e Settimana Enigmistica. Stile illustrato di concept e copertine, contorno caldo scuro, colori vivi, cel shading e sfondo trasparente. Il frullato è il riferimento di stile approvato dall'utente; l'utente ha richiesto l'estensione a tutti gli item e la rimozione definitiva della cartella `Sprites`. Il CSV indica i PNG ufficiali; prompt e riferimenti in `Tools/concept/`. Gli sprite del mondo di gioco mantengono la pipeline pixel.
@@ -76,6 +76,20 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora 
 - **.vscode/settings.json è gestito dall'utente: non toccarlo.**
 - I commit li fa l'utente.
 - Errori noti di TileSet/tilemap e completamento del negozio (spesa della valuta, acquisti Giocatore e Bonus) sono rimandati a sessioni dedicate: non toccarli senza richiesta.
+
+## Terreno: concept per il nuovo tileset
+
+- L'utente sta riprogettando da zero tileset e tilemap del livello attuale. In questa fase richiede solo i concept del terreno e degli elementi di scena, entrambi conservati in `Assets/ConceptArt/Terrain/`.
+- `Assets/ConceptArt/Terrain/terrain_concept.png`: tavola paesaggio 1536×1024 generata con ImageGen integrato, accettata dall'utente come concept. Sei gruppi: SABBIA (4 varianti), SABBIA BAGNATA (2), BATTIGIA (bordi e angoli con schiuma bianca), ACQUA (3), SCOGLIO ed ERBA con raccordi alla sabbia. Riferimenti ambientali: entrambe le copertine in `Assets/Images/`; prompt integrale in `Tools/concept/terrain_prompt.json`.
+- Direzione richiesta: cartoon solare delle copertine e delle icone, vista ortografica verticale, forme grandi per il futuro tileset manuale 16×16, quattro toni per materiale, luce dall'alto a sinistra, contorno #3a1418 solo su scogli e vegetazione. Sabbia: #8a6a3e #b8925a #e3c084 #f6e2b0. Nessun personaggio, logo o chiosco.
+- La tavola è un concept, non un atlante utilizzabile direttamente: palette esatta, assenza di sfumature/antialiasing e continuità dei raccordi non sono certificate. Tileset, tilemap e risorse runtime attuali restano invariati; i relativi errori noti restano aperti.
+
+## Elementi di scena: concept
+
+- `Assets/ConceptArt/Terrain/props_concept.png`: tavola 1536×1024 generata con ImageGen integrato usando le due copertine come riferimento ambientale; da approvare. Prompt di generazione e revisione delle proporzioni in `Tools/concept/props_prompt.json`.
+- Sei gruppi: PALME (alta, curva, giovane e sagoma separata dell'ombra della chioma); ROCCE (2 ciottoli, 2 massi medi, 1 grande, 1 formazione alta, arancio/sabbia con ombre blu-viola); FIORI (ibisco rosso, fiore giallo, gruppo rosa); CESPUGLI (4 varianti, incluse foglie larghe ed erba appuntita); CONCHIGLIE (spirale, cono, stella marina arancione, piccolo granchio); OGGETTI (ombrellone chiuso, surf piantato nella sabbia, tronco, cartello senza testo, telo, botte di legno con corda).
+- Vista rialzata di circa 25°, elementi isolati su fondo grigio caldo chiaro; fiori e dettagli di sabbia più piccoli dei grandi oggetti. Stile richiesto: cartoon solare delle copertine, quattro toni per materiale, luce dall'alto a sinistra, contorno #3a1418 da 1 pixel negli sprite finali, ombra piatta marrone circa 40% verso il basso a destra. Nessun personaggio, logo o chiosco.
+- Riferimento artistico per futuri sprite manuali alti circa 16–64 pixel: palette discreta, contorno, antialiasing e alpha delle ombre vanno applicati e verificati nella produzione degli sprite finali. Nessuna risorsa di gioco o scena modificata.
 
 ## Negozio: concept, modello e sprite
 
@@ -197,7 +211,17 @@ Stile pixel confermato per tutti i personaggi.
 
 - **Fatto di recente:** sistema di acquisti completo (spesa della valuta, contatori, effetti di tutti gli oggetti) e velocità di lancio a tre livelli; il pannello del negozio è centrato, con sezioni comprimibili Moralità/Fedeltà nel solo tab Partner (Giocatore e Bonus senza sezioni) e schede a 3 per riga con prezzo (vedi Negozio). La nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
 - **Approvati dall'utente:** nuovo aspetto del Player, inclusi capelli e attaccatura; animazioni, diagonali, ombra e lanci in movimento, con la sola correzione richiesta alle gambe troppo divaricate in camminata/corsa. Approvati anche palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
-- **Incompleti o con errori noti:** negozio (prezzi ridotti il 2026-11-17 dopo il primo playtest, con ricompensa fissa a 10¢ per nemica base e prezzi dei ripristini 20/35/60 invariati: massimi 100, danno 70, lancio 50, monete 80, ombrellone e settimana enigmistica 50, gelato 30; da riverificare con altro playtest; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
+- **Incompleti o con errori noti:** negozio (prezzi ridotti il 2026-11-17 dopo il primo playtest, con ricompensa fissa a 10¢ per nemica base e prezzi dei ripristini 20/35/60 invariati: massimi 100, danno 70, lancio 50, monete 80, ombrellone e settimana enigmistica 50, gelato 30; da riverificare con altro playtest; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti; il nuovo set è pronto ma non ancora in uso).
+
+## Terreno: nuovo TileSet (in corso, 17/11/2026)
+
+- **Decisione:** rifare da zero TileSet e livello. Il vecchio TileSet (`Assets/Tiles/sand.png`, `beach-desert.png`, circa 970 errori all'avvio) resta in uso e **non è ancora sostituito**; il nuovo set è un file a parte, `Level` e `level.tscn` non sono stati toccati.
+- **Concept:** `Assets/ConceptArt/Terrain/terrain_concept.png` (terreno) e `props_concept.png` (elementi di scena), prompt in `Tools/concept/terrain_prompt.json` e `props_prompt.json` (ImageGen di Codex, riferimento le due copertine).
+- **Risorse create:** `Assets/Tiles/terrain/terrain_atlas.png` (768×320, 12×5 tile da 64 px = 16 px d'arte a scala 4, alpha 0/255) e `Assets/Tiles/terrain/terrain_tileset.tres` (tile 64×64, un layer fisico `collision_layer` 1 come il vecchio, tre set di terreno a angoli: Sabbia/Acqua, Scoglio, Erba). Sorgenti in `Tools/pixelorama/`: `terrain_gen.py` (disegna l'atlante), `terrain_tileset_gen.py` (scrive il `.tres`), `terrain.pxo` (atlante in Pixelorama, da cui si esporta il PNG a scala 4). Riga 0: sabbia a-d, sabbia bagnata a-b, acqua a-c (c = acqua profonda, solo a mano). Righe 1-4: blocchi costa/scoglio/erba da 16 configurazioni ciascuno.
+- **Come sono fatte le tile:** colori fissi presi dal concept (4 toni per materiale, contorno #3a1418, luce dall'alto a sinistra); le transizioni sono calcolate in modo che la costa passi per il punto medio dei bordi, quindi tutte le 16 combinazioni di angoli si uniscono senza giunzioni visibili; i riempimenti sono periodici. Collisioni: acqua, battigia (solo la parte d'acqua) e scoglio; sabbia, erba e sabbia bagnata sono camminabili.
+- **Verificato:** il TileSet si carica senza errori (53 tile); dipingendo con i terreni in una fixture di gioco temporanea (poi fermata) costa, baia, scogli ed erba risultano continui; il Player a scala 4 e la palla di sabbia (contorno scuro) restano leggibili sulla sabbia nuova.
+- **Da approvare dall'utente** prima di procedere. **Non fatto:** elementi di scena (palme, rocce, fiori, cespugli, conchiglie, oggetti: sono sprite, non tile, richiedono ordinamento per y e `GroundShadow`), nuova mappa, sostituzione del vecchio set, dimensionare la nuova mappa sulla camera fissa (area visibile 2880×1620 px di mondo, circa 45×25 tile da 64).
+- **Uso dei terreni in Godot:** dipingere con un margine di una cella oltre l'area visibile (le celle più esterne della zona dipinta restano vuote). Vedi `Docs/GODOT.md` §19.
 
 ## Prossimi passi
 
@@ -207,7 +231,7 @@ Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi
 - Nome ufficiale del negozio: **"Chiosco da Sandro"** (scelto dall'utente il 2026-11-17, titolo del pannello in `Scenes/upgrades_purchase.tscn`, nodo `ShopName`). Il negoziante si chiama quindi Sandro. Idea futura: ogni tanto un fumetto sopra il negoziante con una battuta (non implementata).
 - Negozio: prezzi definitivi nella colonna `price` del CSV; altri bonus temporanei (durata in ondate già supportata, altri limiti no); nuovi oggetti per Giocatore, Partner e Bonus.
 - Molto più avanti: rivedere le dimensioni delle schede del negozio quando saranno stati aggiunti nuovi oggetti, per verificare che stiano tutti nel pannello (3 per riga, schede min 240 px) o se vadano rimpicciolite.
-- Sistemare gli errori di TileSet e tilemap (non toccarli prima).
+- Approvare il concept degli elementi di scena. Concept del terreno accettato; realizzazione del nuovo tileset 16×16, degli sprite degli elementi e rifacimento della tilemap previsti successivamente. Errori del TileSet attuale ancora aperti.
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
 - Ragazzo: animazione di fuga al game over, da fare più avanti (idea: scappa con l'ultima che lo ha attaccato). Aspetto e animazioni idle/glance/admire/flex approvati.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.

@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var speed = 400
 @export var ball : PackedScene
 @onready var ray_cast: RayCast2D = $RayCast2D
-@onready var camera: Camera2D = get_node_or_null("Camera2D")
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 @onready var moving_throw: Sprite2D = $MovingThrow
 @export var damage = 10

@@ -197,26 +197,25 @@ Stile pixel confermato per tutti i personaggi.
 
 - **Fatto di recente:** sistema di acquisti completo (spesa della valuta, contatori, effetti di tutti gli oggetti) e velocità di lancio a tre livelli; il pannello del negozio è centrato, con sezioni comprimibili Moralità/Fedeltà nel solo tab Partner (Giocatore e Bonus senza sezioni) e schede a 3 per riga con prezzo (vedi Negozio). La nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
 - **Approvati dall'utente:** nuovo aspetto del Player, inclusi capelli e attaccatura; animazioni, diagonali, ombra e lanci in movimento, con la sola correzione richiesta alle gambe troppo divaricate in camminata/corsa. Approvati anche palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
-- **Incompleti o con errori noti:** negozio (prezzi provvisori; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
+- **Incompleti o con errori noti:** negozio (prezzi ridotti il 2026-11-17 dopo il primo playtest, con ricompensa fissa a 10¢ per nemica base e prezzi dei ripristini 20/35/60 invariati: massimi 100, danno 70, lancio 50, monete 80, ombrellone e settimana enigmistica 50, gelato 30; da riverificare con altro playtest; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); TileSet della mappa (circa 970 errori all'avvio del livello, preesistenti).
 
 ## Prossimi passi
 
 Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi, **rimuovere** quelli completati.
 
 
+- Nome ufficiale del negozio: **"Chiosco da Sandro"** (scelto dall'utente il 2026-11-17, titolo del pannello in `Scenes/upgrades_purchase.tscn`, nodo `ShopName`). Il negoziante si chiama quindi Sandro. Idea futura: ogni tanto un fumetto sopra il negoziante con una battuta (non implementata).
 - Negozio: prezzi definitivi nella colonna `price` del CSV; altri bonus temporanei (durata in ondate già supportata, altri limiti no); nuovi oggetti per Giocatore, Partner e Bonus.
 - Molto più avanti: rivedere le dimensioni delle schede del negozio quando saranno stati aggiunti nuovi oggetti, per verificare che stiano tutti nel pannello (3 per riga, schede min 240 px) o se vadano rimpicciolite.
 - Sistemare gli errori di TileSet e tilemap (non toccarli prima).
 - Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
-- Ragazzo: capelli pettinati e cordino nel modello; animazione di fuga al game over (idea: scappa con l'ultima che lo ha attaccato). Animazioni idle/glance/admire/flex approvate dall'utente.
-- **Player: aspetto approvato e passo corretto.** Il turnaround resta il riferimento principale; costume da bagno da donna a due pezzi, corpo e capelli attuali approvati. Camminata e corsa hanno gambe più raccolte e minore rotazione del bacino, anche nei lanci in movimento. Idle, tempi e sincronismo preservati; lanci Ovest da ferma e in movimento con caricamento alto del destro. Anteprime del confronto e delle pose aperte in VS Code; nuova andatura da valutare dall'utente. Dettagli in `Docs/BLENDER.md` §8/12.
+- Ragazzo: animazione di fuga al game over, da fare più avanti (idea: scappa con l'ultima che lo ha attaccato). Aspetto e animazioni idle/glance/admire/flex approvati.
 - Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
-- Valutare la mira durante il lancio: posa scelta all'inizio e raycast al mouse al rilascio, muovendo il mouse possono divergere.
 - Playtest completo: menu -> ondate -> acquisti -> game over.
 - Restyling grafico di interfaccia e menu in una fase successiva alla funzionalità attuale.
 - Riordino cartelle (facoltativo, proposta in CODE_MAP.md, sezione Risorse).
 
-Verifica conclusa degli occhi della nemica, dei contorni delle braccia sui tre personaggi e del viso del ragazzo: sei atlanti finali reimportati, alpha e metadati preservati; controlli dei pixel, animazioni e screenshot in Godot superati. Dettagli in `Docs/BLENDER.md` §13 e `Docs/GODOT.md` §7. La valutazione estetica dell'utente resta aperta.
+Verifica conclusa degli occhi della nemica, dei contorni delle braccia sui tre personaggi e del viso del ragazzo: sei atlanti finali reimportati, alpha e metadati preservati; controlli dei pixel, animazioni e screenshot in Godot superati. Dettagli in `Docs/BLENDER.md` §13 e `Docs/GODOT.md` §7. Valutazione estetica e nuova andatura del Player approvate dall'utente (17/11/2026).
 
 ## Persistenza
 

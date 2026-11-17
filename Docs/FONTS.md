@@ -55,7 +55,7 @@ La risoluzione logica è 1152×648. Le dimensioni qui sotto sono pixel logici: c
 | Conto alla rovescia e titolo negozio | Luckiest Guy | 32 |
 | Pulsanti | Fredoka SemiBold 600 | 26 |
 | Tab del negozio | Fredoka SemiBold 600 | 22 |
-| HUD | Fredoka Bold 700 | 20 |
+| HUD | Fredoka Bold 700 | 18 |
 | Tutorial | Fredoka Medium 500 | 20 |
 | Invito al negozio | Fredoka SemiBold 600 | 20 |
 | Nomi oggetti | Fredoka SemiBold 600 | 18 |

@@ -590,9 +590,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -300.0
-offset_top = 19.0
+offset_top = 56.0
 offset_right = 300.0
-offset_bottom = 77.0
+offset_bottom = 114.0
 grow_horizontal = 2
 theme_type_variation = &"AnnouncementLabel"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -660,14 +660,14 @@ tile_map_data = PackedByteArray("AAAkAPT/AAAMAAgAAAAuAPP/AAAMAAgAAAAwANj/AQAGABs
 tile_set = SubResource("TileSet_4pl8q")
 
 [node name="Player" parent="." unique_id=230777973 instance=ExtResource("1_6bqah")]
-position = Vector2(1011, -423)
+position = Vector2(800, -380)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1943727975]
 position = Vector2(800, -560)
 zoom = Vector2(0.4, 0.4)
 
 [node name="Boyfriend" parent="." unique_id=511707435 instance=ExtResource("5_a1jco")]
-position = Vector2(804, -421)
+position = Vector2(800, -560)
 
 [node name="Upgrades" parent="." unique_id=1102380179 instance=ExtResource("12_pa6b8")]
 position = Vector2(512, -950)

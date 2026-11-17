@@ -1,17 +1,21 @@
 extends CanvasLayer
 
-@onready var wave_label: Label = $Wave
+# The bands cover the top and bottom of the screen: the play area (and the player) stays between them
+@onready var top_band: Panel = $TopBand
+@onready var bottom_band: Panel = $BottomBand
 
-@onready var points_label: Label = $PointsCurrency/Points
-@onready var currency_label: Label = $PointsCurrency/Currency
+@onready var wave_label: Label = %WaveValue
 
-@onready var defeated_label: Label = $DefeatedAndRemain/EnemyDefeated
-@onready var record_label: Label = $DefeatedAndRemain/EnemyRemain
+@onready var points_label: Label = %PointsValue
+@onready var currency_label: Label = %CurrencyValue
 
-@onready var health_bar: ProgressBar = $HealthBar/Health
-@onready var shield_bar: ProgressBar = $ShieldBar/Shield
-@onready var health_value: Label = $HealthBar/Health/Value
-@onready var shield_value_label: Label = $ShieldBar/Shield/Value
+@onready var defeated_label: Label = %DefeatedValue
+@onready var record_label: Label = %RemainValue
+
+@onready var health_bar: ProgressBar = %Health
+@onready var shield_bar: ProgressBar = %Shield
+@onready var health_value: Label = %HealthValue
+@onready var shield_value_label: Label = %ShieldValue
 
 var hp_value
 var shield_value
@@ -28,19 +32,19 @@ func _process(delta):
 	shield_value_label.text = "%d / %d" % [ceili(shield_value), shield_bar.max_value]
 
 func set_wave(value):
-	wave_label.text = "Ondata n°: "+str(value)
+	wave_label.text = str(value)
 
 func set_defeated(value):
-	defeated_label.text = "Nemici sconfitti: "+str(value)
+	defeated_label.text = str(value)
 
 func set_remain(value):
-	record_label.text = "Nemici rimasti: "+str(value)
+	record_label.text = str(value)
 
 func set_points(value):
-	points_label.text = "Punti: "+str(value)
+	points_label.text = str(value)
 
 func set_currency(value):
-	currency_label.text = "Valuta: "+str(value)+"¢"
+	currency_label.text = str(value)
 
 func set_max_values(max_health, max_shield):
 	health_bar.max_value = max_health

@@ -1,8 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgy5p47lpk3mu"]
+[gd_scene load_steps=15 format=3 uid="uid://cgy5p47lpk3mu"]
 
 [ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
 [ext_resource type="Texture2D" uid="uid://bm6hf4f20tt2k" path="res://Assets/Icons/health.png" id="3_gjuw2"]
 [ext_resource type="Texture2D" uid="uid://di3lr7owpeol2" path="res://Assets/Icons/shield.png" id="4_yhj4i"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/wave.png" id="5_wave"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/starfish.png" id="6_starfish"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/coin.png" id="7_coin"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/enemy_standing.png" id="8_standing"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/enemy_fallen.png" id="9_fallen"]
+[ext_resource type="Texture2D" path="res://Assets/UI/band_top.png" id="10_band_top"]
+[ext_resource type="Texture2D" path="res://Assets/UI/band_bottom.png" id="11_band_bottom"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r85nm"]
 bg_color = Color(0.73, 0, 0.0121665, 0.439216)
@@ -16,134 +23,156 @@ bg_color = Color(0, 0.509804, 1, 0.439216)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow4l2"]
 bg_color = Color(0, 0.509804, 1, 1)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_band_top"]
+texture = ExtResource("10_band_top")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_band_bottom"]
+texture = ExtResource("11_band_bottom")
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_2lhhg")
 
-[node name="Wave" type="Label" parent="."]
-theme_type_variation = "HudLabel"
-offset_left = 9.0
-offset_top = 9.0
-offset_right = 269.0
-offset_bottom = 34.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Ondata"
-
-[node name="PointsCurrency" type="VBoxContainer" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
+[node name="TopBand" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 44)
+anchors_preset = 10
 anchor_right = 1.0
-offset_left = -294.0
-offset_top = 9.0
-offset_right = -9.0
-offset_bottom = 63.0
-grow_horizontal = 0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_band_top")
 
-[node name="Points" type="Label" parent="PointsCurrency"]
-theme_type_variation = "HudLabel"
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Punti: 10"
-horizontal_alignment = 2
-
-[node name="Currency" type="Label" parent="PointsCurrency"]
-theme_type_variation = "HudLabel"
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Valuta: 5"
-horizontal_alignment = 2
-
-[node name="DefeatedAndRemain" type="VBoxContainer" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -460.0
-offset_top = -63.0
-offset_right = -9.0
-offset_bottom = -9.0
-grow_horizontal = 0
-grow_vertical = 0
-alignment = 2
-
-[node name="EnemyDefeated" type="Label" parent="DefeatedAndRemain"]
-theme_type_variation = "HudLabel"
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Donne sconfitte: 2"
-horizontal_alignment = 2
-
-[node name="EnemyRemain" type="Label" parent="DefeatedAndRemain"]
-theme_type_variation = "HudLabel"
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Rimasti: 5"
-horizontal_alignment = 2
-
-[node name="HealthBar" type="HBoxContainer" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 19.0
-offset_top = -71.0
-offset_right = 305.0
-offset_bottom = -25.0
-grow_vertical = 0
-
-[node name="Icon" type="TextureRect" parent="HealthBar"]
-layout_mode = 2
-texture = ExtResource("3_gjuw2")
-expand_mode = 2
-
-[node name="Health" type="ProgressBar" parent="HealthBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_r85nm")
-theme_override_styles/fill = SubResource("StyleBoxFlat_gjuw2")
-max_value = 1.0
-show_percentage = false
-
-[node name="Value" type="Label" parent="HealthBar/Health"]
+[node name="Margin" type="MarginContainer" parent="TopBand"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = "HudLabel"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-text = "100 / 100"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
 
-[node name="ShieldBar" type="HBoxContainer" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 19.0
-offset_top = -140.0
-offset_right = 305.0
-offset_bottom = -94.0
-grow_vertical = 0
-
-[node name="Icon" type="TextureRect" parent="ShieldBar"]
+[node name="Row" type="HBoxContainer" parent="TopBand/Margin"]
 layout_mode = 2
-texture = ExtResource("4_yhj4i")
-expand_mode = 2
 
-[node name="Shield" type="ProgressBar" parent="ShieldBar"]
+[node name="Wave" type="HBoxContainer" parent="TopBand/Margin/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="TopBand/Margin/Row/Wave"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_wave")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WaveValue" type="Label" parent="TopBand/Margin/Row/Wave"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 5
+text = "1"
+
+[node name="Points" type="HBoxContainer" parent="TopBand/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="TopBand/Margin/Row/Points"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_starfish")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PointsValue" type="Label" parent="TopBand/Margin/Row/Points"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 5
+text = "0"
+
+[node name="Currency" type="HBoxContainer" parent="TopBand/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Icon" type="TextureRect" parent="TopBand/Margin/Row/Currency"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("7_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CurrencyValue" type="Label" parent="TopBand/Margin/Row/Currency"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 5
+text = "0"
+
+[node name="BottomBand" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 44)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_band_bottom")
+
+[node name="Margin" type="MarginContainer" parent="BottomBand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 3
+
+[node name="Row" type="HBoxContainer" parent="BottomBand/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ShieldBar" type="HBoxContainer" parent="BottomBand/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="BottomBand/Margin/Row/ShieldBar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_yhj4i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Shield" type="ProgressBar" parent="BottomBand/Margin/Row/ShieldBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_yhj4i")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ow4l2")
 max_value = 1.0
 show_percentage = false
 
-[node name="Value" type="Label" parent="ShieldBar/Shield"]
+[node name="ShieldValue" type="Label" parent="BottomBand/Margin/Row/ShieldBar/Shield"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -151,9 +180,96 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
+theme_override_constants/outline_size = 5
 text = "100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HealthBar" type="HBoxContainer" parent="BottomBand/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="BottomBand/Margin/Row/HealthBar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_gjuw2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Health" type="ProgressBar" parent="BottomBand/Margin/Row/HealthBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_r85nm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gjuw2")
+max_value = 1.0
+show_percentage = false
+
+[node name="HealthValue" type="Label" parent="BottomBand/Margin/Row/HealthBar/Health"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="BottomBand/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Remain" type="HBoxContainer" parent="BottomBand/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="BottomBand/Margin/Row/Remain"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_standing")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemainValue" type="Label" parent="BottomBand/Margin/Row/Remain"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 5
+text = "0"
+
+[node name="Defeated" type="HBoxContainer" parent="BottomBand/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="BottomBand/Margin/Row/Defeated"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("9_fallen")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DefeatedValue" type="Label" parent="BottomBand/Margin/Row/Defeated"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_type_variation = "HudLabel"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 5
+text = "0"

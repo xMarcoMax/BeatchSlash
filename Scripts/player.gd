@@ -8,6 +8,13 @@ extends CharacterBody2D
 @onready var moving_throw: Sprite2D = $MovingThrow
 @export var damage = 10
 
+# Part of the screen between the HUD bands, in global coordinates (set by the level): the player cannot leave it.
+# The body extents are the visible sprite around its origin, so no part of the body goes under a band.
+var play_area := Rect2()
+const BODY_HALF_WIDTH = 40.0
+const BODY_TOP = 95.0
+const BODY_BOTTOM = 77.0
+
 # Frame 3: the hand releases after 3 frames: 0.094 s at 32 FPS (fastest level), 0.375 s at 8 FPS (slowest).
 @export_range(0, 7) var throw_release_frame: int = 3
 # A new press is ignored (no throw, no animation) until the previous throw reaches this point (frame + progress):
@@ -48,6 +55,8 @@ func _physics_process(delta):
 		_update_moving_throw(delta)
 		update_animation()
 		move_and_slide()
+		if play_area.has_area():
+			global_position = global_position.clamp(play_area.position + Vector2(BODY_HALF_WIDTH, BODY_TOP), play_area.end - Vector2(BODY_HALF_WIDTH, BODY_BOTTOM))
 
 #Shop purchases for the player: damage adds a fraction of the starting damage, throw speed goes up one level
 func _on_item_purchased(data: Dictionary):

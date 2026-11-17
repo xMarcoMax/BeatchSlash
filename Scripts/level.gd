@@ -30,6 +30,7 @@ var currency_multiplier
 
 #Set essential variables
 func _ready():
+	player.play_area = _play_area()
 	hud.set_values(target.hp, target.shield)
 	hud.set_wave(wave)
 	set_hud()
@@ -37,6 +38,14 @@ func _ready():
 	set_signals()
 	add_child(pathfinder)
 	pathfinder.build(_world_bounds())
+
+#Part of the fixed camera view left free by the HUD bands, in global coordinates
+func _play_area() -> Rect2:
+	var camera: Camera2D = $Camera2D
+	var view := get_viewport_rect().size / camera.zoom
+	var top: float = hud.top_band.custom_minimum_size.y / camera.zoom.y
+	var bottom: float = hud.bottom_band.custom_minimum_size.y / camera.zoom.y
+	return Rect2(camera.global_position - view / 2.0 + Vector2(0.0, top), view - Vector2(0.0, top + bottom))
 
 #Area covered by the map, the spawn zones and the target, in global coordinates
 func _world_bounds() -> Rect2:

@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="5_ground_shadow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
-size = Vector2(72, 120)
+size = Vector2(56, 48)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 3
@@ -40,7 +40,7 @@ offset = Vector2(0, -3)
 script = ExtResource("5_ground_shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 17)
+position = Vector2(0, 52)
 shape = SubResource("RectangleShape2D_faqlr")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

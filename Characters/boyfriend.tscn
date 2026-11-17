@@ -8,7 +8,7 @@
 radius = 185.043
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
-size = Vector2(130, 129)
+size = Vector2(64, 60)
 
 [node name="Boyfriend" type="CharacterBody2D" unique_id=955754217 groups=["target"]]
 script = ExtResource("1_1rcs7")
@@ -18,6 +18,7 @@ metadata/_edit_group_ = true
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone" unique_id=1361653321 groups=["target"]]
+position = Vector2(0, 54)
 shape = SubResource("CircleShape2D_qqcdl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=685208362]
@@ -32,5 +33,5 @@ offset = Vector2(0, -5)
 script = ExtResource("3_ground_shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1645032131]
-position = Vector2(0, 0.5)
+position = Vector2(0, 54)
 shape = SubResource("RectangleShape2D_faqlr")

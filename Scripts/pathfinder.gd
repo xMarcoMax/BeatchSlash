@@ -6,8 +6,8 @@ extends Node
 const CELL_SIZE := 40
 const MARGIN := 400.0
 ## Ingombro del collider della nemica (enemy.tscn): la cella è bloccata se lì toccherebbe un ostacolo.
-const PROBE_SIZE := Vector2(72, 120)
-const PROBE_OFFSET := Vector2(0, 17)
+const PROBE_SIZE := Vector2(56, 48)
+const PROBE_OFFSET := Vector2(0, 52)
 const FREE_CELL_SEARCH_RADIUS := 8
 ## Un corpo fermo (nemica che attacca, Player) blocca per questo percorso le celle entro questo raggio dal suo centro.
 const BLOCKER_RADIUS := 80.0

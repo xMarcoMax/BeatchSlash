@@ -1,8 +1,7 @@
 """Scrive Assets/Tiles/terrain/terrain_tileset.tres per l'atlante prodotto da terrain_gen.py (stesso layout).
 
 TileSet con tile 64x64 (atlante esportato a scala 4), una sola sorgente atlante, un layer fisico (collision_layer 1, come il vecchio
-TileSet) e tre set di terreno a angoli: 0 Sabbia/Acqua, 1 Scoglio, 2 Erba. Collisioni: acqua, battigia (solo la parte d'acqua)
-e scoglio. Le poligonali sono ricavate dalla stessa costa ideale (senza ondulazione) usata per disegnare le tile.
+TileSet) e un set di terreno a angoli: 0 Sabbia/Acqua. Collisioni: acqua e battigia (solo la parte d'acqua). Le poligonali sono ricavate dalla stessa costa ideale (senza ondulazione) usata per disegnare le tile.
 
 Uso:  python terrain_tileset_gen.py <percorso del .tres>
 """
@@ -102,10 +101,6 @@ def build():
         if cfg < 15:
             peers = [1 if cfg & BIT[i] else 0 for i in range(4)]
             lines += tile_lines(c, r, 0, 1 if len(peers_on) >= 2 else 0, peers, None, region_polygons(cfg))
-        # scoglio e erba: angolo presente = terreno 0, assente = vuoto (-1)
-        peers = [0 if cfg & BIT[i] else -1 for i in range(4)]
-        lines += tile_lines(4 + c, r, 1, 0, peers, None, region_polygons(cfg))
-        lines += tile_lines(8 + c, r, 2, 0, peers)
     return lines
 
 
@@ -128,12 +123,6 @@ terrain_set_0/terrain_0/name = "Sabbia"
 terrain_set_0/terrain_0/color = Color(0.96, 0.78, 0.48, 1)
 terrain_set_0/terrain_1/name = "Acqua"
 terrain_set_0/terrain_1/color = Color(0.12, 0.77, 0.76, 1)
-terrain_set_1/mode = 1
-terrain_set_1/terrain_0/name = "Scoglio"
-terrain_set_1/terrain_0/color = Color(0.94, 0.61, 0.36, 1)
-terrain_set_2/mode = 1
-terrain_set_2/terrain_0/name = "Erba"
-terrain_set_2/terrain_0/color = Color(0.33, 0.6, 0.13, 1)
 sources/0 = SubResource("TileSetAtlasSource_terrain")
 """
     with open(path, "w", encoding="utf-8", newline="\n") as f:

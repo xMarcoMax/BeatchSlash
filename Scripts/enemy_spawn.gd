@@ -10,7 +10,17 @@ func _ready():
 			spawn_areas.append(child)
 
 func calculate_spawn_point():
-	var spawn_area: CollisionShape2D = spawn_areas.pick_random()
+	# Wider zones get proportionally more spawns, so a short strip does not take a quarter of them
+	var total := 0.0
+	for area: CollisionShape2D in spawn_areas:
+		total += area.shape.size.x * area.shape.size.y
+	var pick := randf() * total
+	var spawn_area: CollisionShape2D = spawn_areas[-1]
+	for area: CollisionShape2D in spawn_areas:
+		pick -= area.shape.size.x * area.shape.size.y
+		if pick <= 0.0:
+			spawn_area = area
+			break
 	var shape = spawn_area.shape
 	var center = spawn_area.global_position
 	var size = shape.size/2.0

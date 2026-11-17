@@ -50,7 +50,7 @@ func _play_area() -> Rect2:
 #Area covered by the map, the spawn zones and the target, in global coordinates
 func _world_bounds() -> Rect2:
 	var bounds := Rect2(target.global_position, Vector2.ZERO)
-	for layer: TileMapLayer in [$World/Beach, $World/BeachEnvironment]:
+	for layer: TileMapLayer in [$World/TutorialMap/Ground]:
 		var tile := Vector2(layer.tile_set.tile_size)
 		var used := layer.get_used_rect()
 		bounds = bounds.merge(layer.get_global_transform() * Rect2(Vector2(used.position) * tile, Vector2(used.size) * tile))

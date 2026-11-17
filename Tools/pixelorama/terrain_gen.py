@@ -9,12 +9,11 @@ Uso:  python terrain_gen.py <cartella_di_uscita>
 Scrive terrain_atlas.png (16 px/tile), terrain_atlas_x4.png (64 px/tile, nearest) e terrain_preview.png (mappa di prova).
 Dipendenze: pillow, numpy (nel Python di sistema: pip install pillow numpy).
 
-Layout (col, riga) dell'atlante, 12 x 5 tile:
+Layout (col, riga) dell'atlante, 9 x 5 tile:
   riga 0: sabbia a..d (0-3), sabbia bagnata a,b (4-5), acqua a..c (6-8)
-  righe 1-4: blocco costa  (col 0-3)  sabbia/acqua, configurazione c in col = c % 4, riga = 1 + c // 4
-             blocco scoglio (col 4-7)  roccia su trasparente
-             blocco erba    (col 8-11) erba su trasparente
-  configurazione c = bit TL=1, TR=2, BR=4, BL=8 (angolo "dentro" la regione: acqua/roccia/erba).
+  righe 1-4: blocco costa (col 0-3) sabbia/acqua, configurazione c in col = c % 4, riga = 1 + c // 4
+  configurazione c = bit TL=1, TR=2, BR=4, BL=8 (angolo "dentro" la regione d'acqua).
+Scogli ed erba non fanno parte del terreno di base: saranno elementi di scena (sprite).
 """
 import math
 import os
@@ -32,10 +31,6 @@ PAL = {
     "D0": "#a8754a", "D1": "#c08c58",
     # acqua (4 toni) e schiuma
     "W0": "#0b9ca8", "W1": "#1fc5c3", "W2": "#4fdcd0", "W3": "#9ceee6", "F": "#fafcfb",
-    # roccia
-    "R0": "#7a5069", "R1": "#9c6b7c", "R2": "#ef9c5c", "R3": "#f8b878",
-    # erba
-    "G0": "#3f7a1c", "G1": "#549920", "G2": "#8fc01e", "G3": "#b5da3a",
 }
 
 
@@ -164,48 +159,8 @@ def water_tex(variant):
     return img
 
 
-ROCK_SEEDS = [(3.5, 4), (11.5, 2.5), (7, 11.5), (14, 10)]
-
-
-def rock_tex_px(x, y):
-    (d1, i1), (d2, _) = voronoi(ROCK_SEEDS, x + 0.5, y + 0.5)
-    if d2 - d1 < 1.3:
-        return "R1"
-    sx, sy = ROCK_SEEDS[i1]
-    dx, dy = wrap_signed(x + 0.5, sx), wrap_signed(y + 0.5, sy)
-    if dx + dy > 3.2:
-        return "R0"
-    if dx + dy < -2.0:
-        return "R3"
-    return "R2"
-
-
-def wrap_signed(a, b):
-    d = a - b
-    if d > T / 2:
-        d -= T
-    if d < -T / 2:
-        d += T
-    return d
-
-
-GRASS_TUFTS = [(3, 4), (11, 3), (7, 10), (14, 12), (2, 13)]
-
-
-def grass_tex_px(x, y):
-    for cx, cy in GRASS_TUFTS:
-        dx, dy = wrap_signed(x, cx), wrap_signed(y, cy)
-        if (dx, dy) == (0, 0) or (abs(dx) == 1 and dy == -1) or (abs(dx) == 2 and dy == -2):
-            return "G3" if dx <= 0 else "G2"
-        if (dx, dy) in ((0, 1), (0, 2), (-1, 1), (1, 1)):
-            return "G0"
-    return "G1"
-
-
 # ---------------------------------------------------------------- tile di transizione
 COAST_AMPS = [0.9, 0.35]
-ROCK_AMPS = [0.8, 0.0, 0.7, 0.0, 0.5]
-GRASS_AMPS = [0.4, 0.0, 1.1, 0.0, 0.6, 0.0, 0.5]
 
 
 def sand_base_px(x, y):
@@ -233,42 +188,8 @@ def coast_tile(cfg):
     return out
 
 
-def rock_tile(cfg):
-    out = np.empty((T, T), dtype=object)
-    for y in range(T):
-        for x in range(T):
-            s = region_s(cfg, x + 0.5, y + 0.5, ROCK_AMPS)
-            if s < 0:
-                k = None
-            elif s < 1.0:
-                k = "OUT"
-            elif s < 2.0:
-                k = "R1" if (x + y) % 2 == 0 or s < 1.5 else "R0"
-            else:
-                k = rock_tex_px(x, y)
-            out[y, x] = k
-    return out
-
-
-def grass_tile(cfg):
-    out = np.empty((T, T), dtype=object)
-    for y in range(T):
-        for x in range(T):
-            s = region_s(cfg, x + 0.5, y + 0.5, GRASS_AMPS)
-            if s < 0:
-                k = None
-            elif s < 1.0:
-                k = "OUT"
-            elif s < 2.0:
-                k = "G0"
-            else:
-                k = grass_tex_px(x, y)
-            out[y, x] = k
-    return out
-
-
 # ---------------------------------------------------------------- atlante
-COLS, ROWS = 12, 5
+COLS, ROWS = 9, 5
 
 
 def build_atlas():
@@ -283,8 +204,6 @@ def build_atlas():
         c, r = cfg % 4, 1 + cfg // 4
         if cfg < 15:
             tiles[(c, r)] = coast_tile(cfg)
-        tiles[(4 + c, r)] = rock_tile(cfg)
-        tiles[(8 + c, r)] = grass_tile(cfg)
     img = np.zeros((ROWS * T, COLS * T, 4), np.uint8)
     for (c, r), t in tiles.items():
         for y in range(T):
@@ -298,23 +217,13 @@ def tile_at(c, r):
 
 
 def preview(atlas):
-    """Mappa di prova 14x10: acqua con baia, battigia, scogli e cespugli su sabbia, per controllare le giunzioni."""
+    """Mappa di prova 14x10: acqua con baia e battigia su sabbia, per controllare le giunzioni."""
     W, H = 14, 10
     water = np.zeros((H + 1, W + 1), int)  # valori agli angoli
     for y in range(H + 1):
         for x in range(W + 1):
             if y <= 2 or (y <= 4 and 8 <= x <= 12):
                 water[y, x] = 1
-    rock = np.zeros((H + 1, W + 1), int)
-    for y in range(6, 9):
-        for x in range(2, 6):
-            rock[y, x] = 1
-    rock[7, 7] = rock[8, 8] = 1  # due angoli opposti
-    grass = np.zeros((H + 1, W + 1), int)
-    for y in range(6, 9):
-        for x in range(9, 13):
-            grass[y, x] = 1
-    grass[5, 11] = 1
     out = np.zeros((H * T, W * T, 4), np.uint8)
     rng = np.random.default_rng(3)
 
@@ -338,14 +247,6 @@ def preview(atlas):
                 blit(int(6 + rng.choice([0, 0, 1])), 0, x, y)
             else:
                 blit(cfg % 4, 1 + cfg // 4, x, y)
-    for y in range(H):
-        for x in range(W):
-            cr = cfg_of(rock, x, y)
-            if cr:
-                blit(4 + cr % 4, 1 + cr // 4, x, y)
-            cg = cfg_of(grass, x, y)
-            if cg:
-                blit(8 + cg % 4, 1 + cg // 4, x, y)
     return out
 
 

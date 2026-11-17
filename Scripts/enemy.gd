@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var dead_timer: Timer =$Timer/DeadTimer
 @onready var attack_cooldown: Timer =$Timer/AttackCooldown
 @onready var health: Label = $HP
-@onready var progress_bar: ProgressBar = $ProgressBar
+@onready var progress_bar: LiquidBar = $ProgressBar
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var speed = 100
@@ -79,21 +79,12 @@ func _process(delta):
 
 func set_healthbar_color():
 	var rateo = hp/progress_bar.max_value
-	var bgcolor = StyleBoxFlat.new()
-	var fillcolor = StyleBoxFlat.new()
-
 	if rateo >= 0.5:
-		bgcolor.bg_color = Color(0.00, 0.78, 0.00, 0.39)
-		fillcolor.bg_color = Color(0.00, 0.78, 0.00)
-	elif rateo < 0.5 and rateo >= 0.25:
-		bgcolor.bg_color = Color(0.80, 0.53, 0.00, 0.39)
-		fillcolor.bg_color = Color(0.80, 0.53, 0.00)
+		progress_bar.liquid_color = Color(0.2, 0.8, 0.2)
+	elif rateo >= 0.25:
+		progress_bar.liquid_color = Color(0.95, 0.62, 0.1)
 	else:
-		bgcolor.bg_color = Color(0.78, 0.00, 0.00, 0.39)
-		fillcolor.bg_color = Color(0.78, 0.00, 0.00)
-	progress_bar.add_theme_stylebox_override("background", bgcolor)
-	progress_bar.add_theme_stylebox_override("fill", fillcolor)
-	progress_bar.queue_redraw() 
+		progress_bar.liquid_color = Color(0.88, 0.12, 0.18)
 
 func attack():
 	SignalManager.attack_target.emit(damage)

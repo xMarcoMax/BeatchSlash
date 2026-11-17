@@ -1,17 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://rt8e7i8kcefv"]
+[gd_scene load_steps=6 format=3 uid="uid://rt8e7i8kcefv"]
 
 [ext_resource type="Script" uid="uid://brexcm5e22l0w" path="res://Scripts/enemy.gd" id="1_biwbq"]
 [ext_resource type="SpriteFrames" path="res://Assets/Characters/Enemy/enemy_frames.tres" id="2_frames"]
 [ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="3_ground_shadow"]
+[ext_resource type="Script" path="res://Scripts/liquid_bar.gd" id="4_liquid"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(72, 120)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtu5t"]
-bg_color = Color(0, 0.784314, 0, 0.392157)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sdfay"]
-bg_color = Color(0.00392157, 0.784314, 0, 1)
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -46,9 +41,10 @@ offset_left = -101.0
 offset_top = -136.0
 offset_right = 105.0
 offset_bottom = -106.0
-theme_override_styles/background = SubResource("StyleBoxFlat_rtu5t")
-theme_override_styles/fill = SubResource("StyleBoxFlat_sdfay")
 show_percentage = false
+script = ExtResource("4_liquid")
+liquid_color = Color(0.2, 0.8, 0.2, 1)
+border_width = 6.0
 
 [node name="HP" type="Label" parent="."]
 visible = false

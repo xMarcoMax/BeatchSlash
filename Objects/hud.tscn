@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cgy5p47lpk3mu"]
+[gd_scene load_steps=14 format=3 uid="uid://cgy5p47lpk3mu"]
 
 [ext_resource type="Script" uid="uid://oejtj147ekb4" path="res://Scripts/hud.gd" id="1_2lhhg"]
 [ext_resource type="Texture2D" uid="uid://bm6hf4f20tt2k" path="res://Assets/Icons/health.png" id="3_gjuw2"]
@@ -10,18 +10,7 @@
 [ext_resource type="Texture2D" path="res://Assets/Icons/enemy_fallen.png" id="9_fallen"]
 [ext_resource type="Texture2D" path="res://Assets/UI/band_top.png" id="10_band_top"]
 [ext_resource type="Texture2D" path="res://Assets/UI/band_bottom.png" id="11_band_bottom"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r85nm"]
-bg_color = Color(0.73, 0, 0.0121665, 0.439216)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjuw2"]
-bg_color = Color(0.73, 0, 0.0121665, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhj4i"]
-bg_color = Color(0, 0.509804, 1, 0.439216)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow4l2"]
-bg_color = Color(0, 0.509804, 1, 1)
+[ext_resource type="Script" path="res://Scripts/liquid_bar.gd" id="12_liquid"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_band_top"]
 texture = ExtResource("10_band_top")
@@ -30,6 +19,7 @@ texture = ExtResource("10_band_top")
 texture = ExtResource("11_band_bottom")
 
 [node name="HUD" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_2lhhg")
 
 [node name="TopBand" type="Panel" parent="."]
@@ -166,10 +156,10 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 24)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxFlat_yhj4i")
-theme_override_styles/fill = SubResource("StyleBoxFlat_ow4l2")
 max_value = 1.0
 show_percentage = false
+script = ExtResource("12_liquid")
+liquid_color = Color(0.1, 0.55, 0.95, 1)
 
 [node name="ShieldValue" type="Label" parent="BottomBand/Margin/Row/ShieldBar/Shield"]
 unique_name_in_owner = true
@@ -204,10 +194,10 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 24)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxFlat_r85nm")
-theme_override_styles/fill = SubResource("StyleBoxFlat_gjuw2")
 max_value = 1.0
 show_percentage = false
+script = ExtResource("12_liquid")
+liquid_color = Color(0.88, 0.12, 0.18, 1)
 
 [node name="HealthValue" type="Label" parent="BottomBand/Margin/Row/HealthBar/Health"]
 unique_name_in_owner = true

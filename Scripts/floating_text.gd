@@ -2,7 +2,9 @@ class_name FloatingText
 extends Label
 
 # Number that rises from a character and fades out: damage taken by an enemy, damage or healing of the boyfriend
-const HEAD_OFFSET = Vector2(0, -130)
+# The label's top-left corner starts here and the text is about 90 px tall: it begins just above the head
+# (and above the enemy health bar) so it never covers the sprite
+const HEAD_OFFSET = Vector2(0, -230)
 const WIDTH = 200.0
 const RISE = 90.0
 const LIFETIME = 0.9

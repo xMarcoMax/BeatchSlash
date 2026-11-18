@@ -89,6 +89,8 @@ def build():
     # riga 0: sabbia (a..d), sabbia bagnata (a,b), acqua (a..c)
     for col, prob in enumerate([1.0, 0.06, 0.06, 0.05]):
         lines += tile_lines(col, 0, 0, 0, [0, 0, 0, 0], prob)
+    for i in range(4, 22):  # sabbia extra (righe 5-6, 9 per riga), stesse regole delle prime quattro
+        lines += tile_lines((i - 4) % 9, 5 + (i - 4) // 9, 0, 0, [0, 0, 0, 0], 0.05)
     lines += tile_lines(4, 0)
     lines += tile_lines(5, 0)
     lines += tile_lines(6, 0, 0, 1, [1, 1, 1, 1], 1.0, full)

@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://Assets/Props/props_atlas.png" id="1_atlas"]
+[ext_resource type="Material" path="res://Assets/Shaders/ground_body.tres" id="2_body"]
+[ext_resource type="Material" path="res://Assets/Shaders/ground_shadow.tres" id="3_shadow"]
+
+[node name="umbrella_closed_pink" type="StaticBody2D" groups=["solid_prop"]]
+collision_layer = 1
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture_filter = 1
+z_index = -1
+z_as_relative = false
+position = Vector2(0, 52)
+scale = Vector2(4, 4)
+material = ExtResource("3_shadow")
+centered = false
+offset = Vector2(-7, -60)
+texture = ExtResource("1_atlas")
+region_enabled = true
+region_rect = Rect2(577, 0, 31, 69)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 52)
+scale = Vector2(4, 4)
+material = ExtResource("2_body")
+centered = false
+offset = Vector2(-7, -60)
+texture = ExtResource("1_atlas")
+region_enabled = true
+region_rect = Rect2(577, 0, 31, 69)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, 52)
+polygon = PackedVector2Array(-12, -8, 12, -8, 12, 4, 8, 8, 0, 8, -8, 4, -12, 0)

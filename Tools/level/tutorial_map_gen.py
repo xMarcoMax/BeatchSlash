@@ -31,15 +31,29 @@ def cfg(field, cx, cy):
     return (field(cx, cy) * 1 + field(cx + 1, cy) * 2 + field(cx + 1, cy + 1) * 4 + field(cx, cy + 1) * 8)
 
 
+# Sabbia: variante 0 liscia (colonna 0, riga 0), 1-3 in riga 0, 4-21 nelle righe 5-6 (vedi terrain_gen.py)
+SAND_TILES = [(i, 0) for i in range(4)] + [((i - 4) % 9, 5 + (i - 4) // 9) for i in range(4, 22)]
+
+
+def sand_variant(rng, sand, cx, cy):
+    """Per lo piu' sabbia liscia; un particolare solo se i vicini (sinistra, sopra, diagonali) non ne hanno, e mai la stessa variante."""
+    near = [sand.get(k, 0) for k in ((cx - 1, cy), (cx, cy - 1), (cx - 1, cy - 1), (cx + 1, cy - 1))]
+    if rng.random() < (0.7 if any(near) else 0.3):
+        return 0
+    return rng.choice([v for v in range(1, len(SAND_TILES)) if v not in near])
+
+
 def cells():
     ground = []
     rng = random.Random(7)
+    sand = {}  # variante di sabbia scelta per cella
     for cy in range(Y0, Y1 + 1):
         for cx in range(X0, X1 + 1):
             c = cfg(water, cx, cy)
             if c == 0:
-                col = rng.choices([0, 1, 2, 3], weights=[84, 5, 5, 6])[0]
-                ground.append((cx, cy, 0 + col, 0))
+                v = sand_variant(rng, sand, cx, cy)
+                sand[(cx, cy)] = v
+                ground.append((cx, cy) + SAND_TILES[v])
             elif c == 15:
                 ground.append((cx, cy, 6 + rng.choices([0, 1], weights=[7, 3])[0], 0))
             else:

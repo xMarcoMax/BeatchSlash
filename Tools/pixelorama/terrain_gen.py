@@ -10,7 +10,8 @@ Scrive terrain_atlas.png (16 px/tile), terrain_atlas_x4.png (64 px/tile, nearest
 Dipendenze: pillow, numpy (nel Python di sistema: pip install pillow numpy).
 
 Layout (col, riga) dell'atlante, 9 x 5 tile:
-  riga 0: sabbia a..d (0-3), sabbia bagnata a,b (4-5), acqua a..c (6-8)
+  riga 0: sabbia a..d (0-3; a = liscia), sabbia bagnata a,b (4-5), acqua a..c (6-8)
+  righe 5-6: sabbia extra (varianti 4..21, 9 per riga)
   righe 1-4: blocco costa (col 0-3) sabbia/acqua, configurazione c in col = c % 4, riga = 1 + c // 4
   configurazione c = bit TL=1, TR=2, BR=4, BL=8 (angolo "dentro" la regione d'acqua).
 Scogli ed erba non fanno parte del terreno di base: saranno elementi di scena (sprite).
@@ -94,36 +95,71 @@ def voronoi(seeds, x, y):
 
 
 # ---------------------------------------------------------------- texture di riempimento (toroidali)
+SAND_VARIANTS = 22  # 0 = sabbia liscia; 1..21 = sabbia con un solo particolare piccolo, lontano dai bordi (le tile restano combacianti)
+
+
+def _put(img, x0, y0, rows, keys):
+    for dy, row in enumerate(rows):
+        for dx, ch in enumerate(row):
+            if ch in keys:
+                img[y0 + dy, x0 + dx] = keys[ch]
+
+
+def _ripple(img, x0, y0, n, ph):
+    """Increspatura: tratto ondulato scuro lungo n pixel con bordo chiaro sotto."""
+    for i in range(n):
+        y = y0 + int(round(math.sin(ph + i * 0.8)))
+        img[y, x0 + i] = "S1"
+        if 0 < i < n - 1:
+            img[y + 1, x0 + i] = "S3"
+
+
+def _mound(img, cx, cy, rx, ry):
+    """Piccola duna: ellisse con luce in alto a sinistra (S3) e ombra in basso a destra (S1), centro lasciato liscio."""
+    for y in range(cy - ry - 1, cy + ry + 2):
+        for x in range(cx - rx - 1, cx + rx + 2):
+            d = math.hypot((x - cx) / rx, (y - cy) / ry)
+            if 0.55 < d <= 1.0:
+                lit = (x - cx) / rx + (y - cy) / ry
+                img[y, x] = "S3" if lit < -0.35 else ("S1" if lit > 0.35 else img[y, x])
+
+
 def sand_tex(variant):
+    """Sabbia a tinta unita con al massimo un particolare per tile (margine di 2 px): niente texture ripetuta su ogni tile.
+
+    Varianti: 1-5 increspature lunghe, 6-9 increspature doppie, 10-13 piccole dune, 14-15 luccichii, 16-17 sassolini,
+    18 conchiglia, 19-20 puntini sparsi, 21 sassolino con increspatura corta."""
     img = np.full((T, T), "S2", dtype=object)
-    rng = np.random.default_rng(10 + variant)
-    if variant == 3:  # onde di sabbia: due linee ondulate periodiche
-        for x in range(T):
-            for base_y in (4, 12):
-                y = int(round(base_y + 1.2 * math.sin(2 * math.pi * x / T + base_y)))
-                img[y % T, x] = "S1"
-                img[(y + 1) % T, x] = "S3"
+    if variant == 0:
         return img
-    for _ in range(4):  # nuvolette chiare
-        cx, cy, r = rng.integers(0, T), rng.integers(0, T), rng.uniform(1.8, 3.2)
-        for y in range(T):
-            for x in range(T):
-                if math.hypot(wrap_d(x, cx) * 1.0, wrap_d(y, cy) * 1.4) < r:
-                    img[y, x] = "S3"
-    for _ in range(5):  # puntini piu' scuri
-        x, y = rng.integers(0, T), rng.integers(0, T)
-        if img[y, x] == "S2":
-            img[y, x] = "S1"
-    stamps = {
-        1: (4, 8, [".AA.", "BAAB", ".BB."], {"A": "S0", "B": "D0"}),  # sassolino
-        2: (10, 5, [".FF.", "FCCF", ".FF."], {"F": "F", "C": "S3"}),  # conchiglia
-    }
-    if variant in stamps:
-        x0, y0, rows, keys = stamps[variant]
-        for dy, row in enumerate(rows):
-            for dx, ch in enumerate(row):
-                if ch in keys:
-                    img[(y0 + dy) % T, (x0 + dx) % T] = keys[ch]
+    rng = np.random.default_rng(100 + variant)
+    ph = rng.uniform(0, 6.28)
+    if variant <= 5:
+        n = int(rng.integers(9, 12))
+        _ripple(img, int(rng.integers(2, 14 - n)), int(rng.integers(4, 11)), n, ph)
+    elif variant <= 9:
+        n = int(rng.integers(7, 10))
+        x0 = int(rng.integers(2, 14 - n - 2))
+        _ripple(img, x0, int(rng.integers(3, 7)), n, ph)
+        _ripple(img, x0 + 2, int(rng.integers(9, 12)), n - 2, ph + 1.3)
+    elif variant <= 13:
+        rx, ry = int(rng.integers(4, 6)), int(rng.integers(2, 4))
+        _mound(img, int(rng.integers(rx + 2, 14 - rx)), int(rng.integers(ry + 3, 13 - ry)), rx, ry)
+    elif variant <= 15:
+        x0, y0 = int(rng.integers(2, 10)), int(rng.integers(3, 12))
+        for dx, dy in [(0, 0), (1, 1), (3, 0), (5, 2)][: 3 + variant % 2]:
+            img[y0 + dy, x0 + dx] = "S3"
+    elif variant <= 17:
+        x0, y0 = int(rng.integers(3, 10)), int(rng.integers(3, 11))
+        _put(img, x0, y0, [".AA.", "BAAB", ".BB."] if variant == 16 else ["AA", "BB"], {"A": "S0", "B": "D0"})
+    elif variant == 18:
+        _put(img, int(rng.integers(3, 10)), int(rng.integers(3, 11)), [".FF.", "FCCF", ".FF."], {"F": "F", "C": "S3"})
+    elif variant <= 20:
+        for _ in range(4):
+            img[int(rng.integers(3, 13)), int(rng.integers(3, 13))] = "S1"
+    else:
+        _put(img, 3, 3, ["AA", "BB"], {"A": "S0", "B": "D0"})
+        _ripple(img, 6, 10, 6, ph)
     return img
 
 
@@ -164,7 +200,7 @@ COAST_AMPS = [0.9, 0.35]
 
 
 def sand_base_px(x, y):
-    return "S3" if (x * 7 + y * 3) % 23 == 0 else "S2"
+    return "S2"
 
 
 def coast_tile(cfg):
@@ -189,13 +225,15 @@ def coast_tile(cfg):
 
 
 # ---------------------------------------------------------------- atlante
-COLS, ROWS = 9, 5
+COLS, ROWS = 9, 7
 
 
 def build_atlas():
     tiles = {}
     for i in range(4):
         tiles[(i, 0)] = sand_tex(i)
+    for i in range(4, SAND_VARIANTS):  # sabbia extra: righe 5-6, 9 per riga
+        tiles[((i - 4) % 9, 5 + (i - 4) // 9)] = sand_tex(i)
     for i in range(2):
         tiles[(4 + i, 0)] = damp_tex(i)
     for i in range(3):

@@ -14,38 +14,38 @@ metadata/_edit_group_ = true
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1075985038]
 z_index = -1
 z_as_relative = false
-position = Vector2(35, -163)
+position = Vector2(0, -166.12)
 scale = Vector2(4, 4)
 texture = ExtResource("2_shadow")
 
 [node name="Back" type="Sprite2D" parent="." unique_id=2024142964]
-position = Vector2(35, -163)
+position = Vector2(0, -166.12)
 scale = Vector2(4, 4)
 texture = ExtResource("3_back")
 
 [node name="Shopkeeper" type="AnimatedSprite2D" parent="." unique_id=1016632336]
-position = Vector2(35, -163)
+position = Vector2(0, -166.12)
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("4_merchant")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="Front" type="Sprite2D" parent="." unique_id=1142820316]
-position = Vector2(35, -163)
+position = Vector2(0, -166.12)
 scale = Vector2(4, 4)
 texture = ExtResource("5_front")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2130991682]
-polygon = PackedVector2Array(-178.788, -18.864, 165.652, 34.116, 240.272, -52.532, -104.168, -105.512)
+polygon = PackedVector2Array(-183.272, 26.556, 183.272, 26.556, 183.272, -84.092, -183.272, -84.092)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1286750710]
 collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=596296620]
-polygon = PackedVector2Array(-129.584, -11.296, 116.444, 26.548, 61.224, 90.664, -184.804, 52.82)
+polygon = PackedVector2Array(-130.908, 26.556, 130.908, 26.556, 130.908, 94.792, -130.908, 94.792)
 
 [node name="GestureTimer" type="Timer" parent="." unique_id=371199302]
 one_shot = true
 
 [node name="barrel" type="CollisionPolygon2D" parent="." unique_id=1334836868]
-polygon = PackedVector2Array(-166.788, -12.31, -165.134, -20.298, -173.153, -27.565, -188.695, -32.165, -207.597, -32.864, -224.793, -29.475, -235.676, -22.906, -237.33, -14.918, -229.311, -7.651, -213.769, -3.051, -194.867, -2.352, -177.671, -5.741)
+polygon = PackedVector2Array(-166.689, 12.54, -169.48, 18.468, -177.425, 23.494, -189.317, 26.852, -203.344, 28.031, -217.371, 26.852, -229.263, 23.494, -237.208, 18.468, -239.999, 12.54, -237.208, 6.612, -229.263, 1.586, -217.371, -1.772, -203.344, -2.951, -189.317, -1.772, -177.425, 1.586, -169.48, 6.612)

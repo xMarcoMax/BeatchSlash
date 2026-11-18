@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/wave_bonus_popup.gd" id="1_script"]
+
+[node name="WaveBonusPopup" type="Control"]
+process_mode = 1
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -6
+
+[node name="Title" type="Label" parent="Center/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"AnnouncementLabel"
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 34
+text = "Bonus ondata"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="Center/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"AnnouncementLabel"
+theme_override_colors/font_color = Color(1, 0.8, 0.28, 1)
+theme_override_colors/font_outline_color = Color(0.227, 0.078, 0.094, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 62
+text = "+0 monete"
+horizontal_alignment = 1

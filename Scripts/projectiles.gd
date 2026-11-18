@@ -26,20 +26,29 @@ func _physics_process(delta):
 		speed = maxf(speed - LAND_DECEL * delta, 0.0)
 	position = position + transform.x * speed * delta
 
-#Detects if the bullet hit an enemy
+#Detects if the bullet hit an enemy or something solid (shop, props): the ball bursts against it instead of flying through
 func _on_body_entered(body):
 	if is_impacting or is_landing:
 		return
-	if body.is_in_group("enemy") and body.hp > 0:
-		# Lock the hit before damage/death signals can trigger another contact.
-		is_impacting = true
-		set_physics_process(false)
-		set_deferred("monitoring", false)
-		set_deferred("monitorable", false)
-		$CollisionShape2D.set_deferred("disabled", true)
-		$Used.stop()
-		animations.play(&"impact")
+	if body.is_in_group("upgrades") or body.is_in_group("solid_prop"):
+		_impact()
+	elif body.is_in_group("enemy") and body.hp > 0:
+		_impact()
 		body.take_damage(damage, transform.x)
+
+# Lock the hit before damage/death signals can trigger another contact.
+func _impact():
+	is_impacting = true
+	set_physics_process(false)
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+	$CollisionShape2D.set_deferred("disabled", true)
+	$Used.stop()
+	animations.play(&"impact")
+
+#The enemy's Hurtbox (full-body area) receives hits; its body shape only sits at the feet
+func _on_area_entered(area):
+	_on_body_entered(area.get_parent())
 
 #End of the flight: the ball drops onto the sand and scatters (no more hits while it falls)
 func _on_used_timeout():

@@ -6,16 +6,24 @@ extends Node2D
 @onready var hud: CanvasLayer = $UI/HUD
 @onready var game_over: CanvasLayer = $UI/GameOver
 @onready var pause_menu: CanvasLayer = $UI/PauseMenu
-@onready var next_wave: Label = $UI/HUD/NextWave
+@onready var next_wave: RichTextLabel = $UI/HUD/NextWave
 @onready var next_wave_timer: Timer = $NextWaveTimer
 
-const base_enemy_health = 60
-const base_enemy_damage = 10
+const base_enemy_health = 50
+const base_enemy_damage = 5
 const base_enemy_number = 3
 const base_enemy_points = 10
-const base_enemy_currency = 10
+const base_enemy_currency = 18
+
+# Bonus di fine ondata sulle monete guadagnate nell'ondata (nessuna crescita per ondata: l'unica crescita è il bonus acquistabile):
+# fedeltà al massimo e moralità al massimo = +100%; moralità sotto il massimo e oltre il 50% = +50%;
+# moralità tra 0 (escluso) e il 50% (compreso) = +25%; moralità a 0 o fedeltà sotto il massimo = nessun bonus.
+const WAVE_BONUS_PERFECT = 1.0
+const WAVE_BONUS_GUARDED = 0.5
+const WAVE_BONUS_WEAK = 0.25
 
 var enemy = preload("res://Characters/enemy.tscn")
+var bonus_popup = preload("res://Objects/wave_bonus_popup.tscn").instantiate()
 var pathfinder := Pathfinder.new()
 var total_enemies = base_enemy_number
 var wave = 1
@@ -27,10 +35,12 @@ var remain
 var points = 0
 var point_multiplier
 var currency_multiplier
+var wave_currency = 0       # monete accreditate dalle nemiche nell'ondata in corso (gli acquisti non contano)
 
 #Set essential variables
 func _ready():
 	player.play_area = _play_area()
+	hud.add_child(bonus_popup)
 	hud.set_values(target.hp, target.shield)
 	hud.set_wave(wave)
 	set_hud()
@@ -69,13 +79,34 @@ func _process(delta):
 #Check if all enemies defeated and set timer to next wave
 func check_all_eliminated():
 	if(total_enemies == defeated_level and next_wave_timer.is_stopped()):
+		_award_wave_bonus()
 		next_wave.visible = true
 		next_wave_timer.start()
 		SignalManager.wave_purchase_item.emit(wave)
 		update_timer_text()
 
+# Quota di monete in più rispetto a quelle guadagnate nell'ondata, secondo lo stato del ragazzo a ondata finita.
+# La fedeltà al massimo è obbligatoria; con la moralità a zero non c'è bonus.
+func wave_bonus_rate() -> float:
+	if target.hp < target.max_hp:
+		return 0.0
+	if target.shield >= target.max_shield:
+		return WAVE_BONUS_PERFECT
+	if target.shield > target.max_shield * 0.5:
+		return WAVE_BONUS_GUARDED
+	if target.shield > 0:
+		return WAVE_BONUS_WEAK
+	return 0.0
+
+func _award_wave_bonus():
+	var rate = wave_bonus_rate()
+	var bonus = roundi(wave_currency * rate)
+	if bonus > 0:
+		Global.currency += bonus
+		bonus_popup.play("Bonus ondata +%d%%" % roundi(rate * 100), "+%d monete" % bonus)
+
 func update_timer_text():
-	next_wave.text = "Prossima ondata tra: " + str( ceili(next_wave_timer.time_left) )
+	next_wave.text = "[center]Prossima ondata tra: [color=#ffcc47]%d[/color][/center]" % ceili(next_wave_timer.time_left)
 
 func spawn_enemy():
 	if spawn_number > 0:
@@ -95,7 +126,9 @@ func _on_defeated():
 	defeated_level += 1
 	remain -= 1
 	points = points + (point_multiplier * base_enemy_points)
-	Global.currency += roundi(currency_multiplier * base_enemy_currency)
+	var earned = roundi(currency_multiplier * base_enemy_currency)
+	Global.currency += earned
+	wave_currency += earned
 	hud.set_defeated(defeated_total)
 	hud.set_remain(remain)
 	hud.set_points(points)
@@ -117,6 +150,7 @@ func set_next_wave():
 	hud.set_remain(remain)
 	spawn_number = total_enemies
 	defeated_level = 0
+	wave_currency = 0
 	if Global.is_in_purchase:
 		Global.is_in_purchase = false
 

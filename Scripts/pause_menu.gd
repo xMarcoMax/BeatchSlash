@@ -6,6 +6,10 @@ func _input(event):
 			_on_resume_pressed()
 		Global.purchase_just_closed = false
 
+func _on_restart_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scenes/level.tscn")
+
 func _on_back_menu_pressed():
 	get_tree().paused = false
 	MusicManager.load_menu_music()

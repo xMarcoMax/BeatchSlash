@@ -1,0 +1,148 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Objects/Props/palm_tall_a.tscn" id="1_palm_tall_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/palm_lean_b.tscn" id="2_palm_lean_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/palm_young_a.tscn" id="3_palm_young_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/bush_round_a.tscn" id="4_bush_round_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/flower_hibiscus_red.tscn" id="5_flower_hibiscus_red"]
+[ext_resource type="PackedScene" path="res://Objects/Props/palm_tall_b.tscn" id="6_palm_tall_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/flower_daisy_white.tscn" id="7_flower_daisy_white"]
+[ext_resource type="PackedScene" path="res://Objects/Props/bush_spiky_a.tscn" id="8_bush_spiky_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/flower_daisy_blue.tscn" id="9_flower_daisy_blue"]
+[ext_resource type="PackedScene" path="res://Objects/Props/palm_bent_b.tscn" id="10_palm_bent_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/bush_round_b.tscn" id="11_bush_round_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/bush_small_b.tscn" id="12_bush_small_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/flower_white_cluster.tscn" id="13_flower_white_cluster"]
+[ext_resource type="PackedScene" path="res://Objects/Props/bush_broad_b.tscn" id="14_bush_broad_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/sign_blank.tscn" id="15_sign_blank"]
+[ext_resource type="PackedScene" path="res://Objects/Props/rock_tall_a.tscn" id="16_rock_tall_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/rock_big_a.tscn" id="17_rock_big_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/rock_med_b.tscn" id="18_rock_med_b"]
+[ext_resource type="PackedScene" path="res://Objects/Props/rock_pebble_c.tscn" id="19_rock_pebble_c"]
+[ext_resource type="PackedScene" path="res://Objects/Props/shell_starfish.tscn" id="20_shell_starfish"]
+[ext_resource type="PackedScene" path="res://Objects/Props/shell_cone.tscn" id="21_shell_cone"]
+[ext_resource type="PackedScene" path="res://Objects/Props/shell_crab.tscn" id="22_shell_crab"]
+[ext_resource type="PackedScene" path="res://Objects/Props/log_a.tscn" id="23_log_a"]
+[ext_resource type="PackedScene" path="res://Objects/Props/umbrella_open_yellow.tscn" id="24_umbrella_open_yellow"]
+[ext_resource type="PackedScene" path="res://Objects/Props/towel_green.tscn" id="25_towel_green"]
+[ext_resource type="PackedScene" path="res://Objects/Props/surf_stripes_lean_l.tscn" id="26_surf_stripes_lean_l"]
+[ext_resource type="PackedScene" path="res://Objects/Props/umbrella_open_blue.tscn" id="27_umbrella_open_blue"]
+[ext_resource type="PackedScene" path="res://Objects/Props/towel_blue.tscn" id="28_towel_blue"]
+[ext_resource type="PackedScene" path="res://Objects/Props/umbrella_open_red.tscn" id="29_umbrella_open_red"]
+[ext_resource type="PackedScene" path="res://Objects/Props/towel_red.tscn" id="30_towel_red"]
+[ext_resource type="PackedScene" path="res://Objects/Props/umbrella_closed_pink.tscn" id="31_umbrella_closed_pink"]
+[ext_resource type="PackedScene" path="res://Objects/Props/surf_hibiscus_lean_r.tscn" id="32_surf_hibiscus_lean_r"]
+
+[node name="TutorialProps" type="Node2D"]
+y_sort_enabled = true
+
+[node name="palm_tall_a_1" parent="." instance=ExtResource("1_palm_tall_a")]
+position = Vector2(-1254.4, -602.4)
+
+[node name="palm_lean_b_1" parent="." instance=ExtResource("2_palm_lean_b")]
+position = Vector2(-1145.6, -512.8)
+
+[node name="palm_young_a_1" parent="." instance=ExtResource("3_palm_young_a")]
+position = Vector2(-1062.4, -576.8)
+
+[node name="bush_round_a_1" parent="." instance=ExtResource("4_bush_round_a")]
+position = Vector2(-1203.2, -461.6)
+
+[node name="flower_hibiscus_red_1" parent="." instance=ExtResource("5_flower_hibiscus_red")]
+position = Vector2(-1088, -436)
+
+[node name="palm_tall_b_1" parent="." instance=ExtResource("6_palm_tall_b")]
+position = Vector2(-652.8, -640.8)
+
+[node name="bush_round_a_2" parent="." instance=ExtResource("4_bush_round_a")]
+position = Vector2(-742.4, -666.4)
+
+[node name="flower_daisy_white_1" parent="." instance=ExtResource("7_flower_daisy_white")]
+position = Vector2(-678.4, -576.8)
+
+[node name="bush_spiky_a_1" parent="." instance=ExtResource("8_bush_spiky_a")]
+position = Vector2(-1395.2, -218.4)
+
+[node name="flower_daisy_blue_1" parent="." instance=ExtResource("9_flower_daisy_blue")]
+position = Vector2(-1331.2, -154.4)
+
+[node name="palm_tall_b_2" parent="." instance=ExtResource("6_palm_tall_b")]
+position = Vector2(-1318.4, 421.6)
+
+[node name="palm_bent_b_1" parent="." instance=ExtResource("10_palm_bent_b")]
+position = Vector2(-1190.4, 562.4)
+
+[node name="bush_round_b_1" parent="." instance=ExtResource("11_bush_round_b")]
+position = Vector2(-1382.4, 575.2)
+
+[node name="bush_small_b_1" parent="." instance=ExtResource("12_bush_small_b")]
+position = Vector2(-1088, 607.2)
+
+[node name="palm_lean_b_2" parent="." instance=ExtResource("2_palm_lean_b")]
+position = Vector2(-550.4, 645.6)
+
+[node name="bush_spiky_a_2" parent="." instance=ExtResource("8_bush_spiky_a")]
+position = Vector2(-422.4, 645.6)
+
+[node name="flower_white_cluster_1" parent="." instance=ExtResource("13_flower_white_cluster")]
+position = Vector2(-320, 600.8)
+
+[node name="palm_bent_b_2" parent="." instance=ExtResource("10_palm_bent_b")]
+position = Vector2(473.6, -704.8)
+
+[node name="bush_broad_b_1" parent="." instance=ExtResource("14_bush_broad_b")]
+position = Vector2(384, -717.6)
+
+[node name="sign_blank_1" parent="." instance=ExtResource("15_sign_blank")]
+position = Vector2(-96, -212)
+
+[node name="rock_tall_a_1" parent="." instance=ExtResource("16_rock_tall_a")]
+position = Vector2(1152, -519.2)
+
+[node name="rock_big_a_1" parent="." instance=ExtResource("17_rock_big_a")]
+position = Vector2(1248, -493.6)
+
+[node name="rock_med_b_1" parent="." instance=ExtResource("18_rock_med_b")]
+position = Vector2(1350.4, -468)
+
+[node name="rock_pebble_c_1" parent="." instance=ExtResource("19_rock_pebble_c")]
+position = Vector2(1056, -493.6)
+
+[node name="shell_starfish_1" parent="." instance=ExtResource("20_shell_starfish")]
+position = Vector2(1049.6, -615.2)
+
+[node name="shell_cone_1" parent="." instance=ExtResource("21_shell_cone")]
+position = Vector2(1401.6, -391.2)
+
+[node name="shell_crab_1" parent="." instance=ExtResource("22_shell_crab")]
+position = Vector2(1203.2, -391.2)
+
+[node name="log_a_1" parent="." instance=ExtResource("23_log_a")]
+position = Vector2(1280, -301.6)
+
+[node name="umbrella_open_yellow_1" parent="." instance=ExtResource("24_umbrella_open_yellow")]
+position = Vector2(1062.4, 63.2)
+
+[node name="towel_green_1" parent="." instance=ExtResource("25_towel_green")]
+position = Vector2(960, 140)
+
+[node name="surf_stripes_lean_l_1" parent="." instance=ExtResource("26_surf_stripes_lean_l")]
+position = Vector2(896, -0.8)
+
+[node name="umbrella_open_blue_1" parent="." instance=ExtResource("27_umbrella_open_blue")]
+position = Vector2(1267.2, 178.4)
+
+[node name="towel_blue_1" parent="." instance=ExtResource("28_towel_blue")]
+position = Vector2(1177.6, 268)
+
+[node name="umbrella_open_red_1" parent="." instance=ExtResource("29_umbrella_open_red")]
+position = Vector2(-806.4, 293.6)
+
+[node name="towel_red_1" parent="." instance=ExtResource("30_towel_red")]
+position = Vector2(-704, 376.8)
+
+[node name="umbrella_closed_pink_1" parent="." instance=ExtResource("31_umbrella_closed_pink")]
+position = Vector2(-627.2, 216.8)
+
+[node name="surf_hibiscus_lean_r_1" parent="." instance=ExtResource("32_surf_hibiscus_lean_r")]
+position = Vector2(-947.2, 357.6)

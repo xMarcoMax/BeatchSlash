@@ -17,7 +17,7 @@ CONCEPT = os.path.join(PROJECT, 'Assets', 'ConceptArt', 'Shop', 'shop_with_shopk
 SIZE = 160
 ORTHO = 2.2 * SIZE / 48
 ELEV = math.radians(25)
-YAW = math.radians(-20)
+YAW = 0.0  # vista frontale: bancone davanti (prima -20 gradi, quasi isometrica)
 TARGET_Z = 1.55
 TMP = tempfile.gettempdir()
 ANIMS = [('idle', 8, 5, True), ('clean_glass', 16, 8, False), ('wipe_counter', 16, 8, False)]
@@ -142,12 +142,12 @@ def building():
                 'Front' if y<0 else 'Back',.04)
         rod('FrontBrace',(side*1.84,-1.005,2.43),(side*1.36,-1.005,2.89),.075,'WoodLight')
         rod('SideBrace',(side*2.02,-.85,2.44),(side*2.02,-.3,2.91),.07,'WoodLight','Back')
-    box('FrontBase',(0,-1.0,.065),(4.08,.21,.13),'WoodLight')
-    box('FrontDarkGaps',(0,-1.0,.65),(3.95,.13,1.3),'WoodDark')
+    box('FrontBase',(0,-1.4,.065),(4.08,.21,.13),'WoodLight')
+    box('FrontDarkGaps',(0,-1.4,.65),(3.95,.13,1.3),'WoodDark')
     for i in range(12):
-        box('CounterPlank',(-1.81+i*.33,-1.09,.67),(.315,.14,1.23),'Wood' if i%3 else 'WoodLight')
-    box('CounterTop',(0,-1.16,1.35),(4.28,.66,.18),'WoodLight','Back',bevel=.045)
-    box('CounterLip',(0,-1.49,1.35),(4.28,.05,.18),'WoodLight',bevel=.025)
+        box('CounterPlank',(-1.81+i*.33,-1.49,.67),(.315,.14,1.23),'Wood' if i%3 else 'WoodLight')
+    box('CounterTop',(0,-1.38,1.35),(4.28,1.1,.18),'WoodLight','Back',bevel=.045)
+    box('CounterLip',(0,-1.93,1.35),(4.28,.05,.18),'WoodLight',bevel=.025)
     box('FrontHeader',(0,-1,2.91),(4.18,.24,.2),'WoodLight',bevel=.035)
     box('RearDoor',(.2,1.085,1.03),(1.19,.07,2.02),'WoodDark','Back')
     for i in range(5):
@@ -164,9 +164,9 @@ def building():
         cylinder('BottleNeck',(x,-.12,2.03),.045,.16,col,'Back',sides=10)
         cylinder('BottleCap',(x,-.12,2.12),.052,.04,'Cream','Back',sides=10)
     for x in (-1.18,-.73):
-        cylinder('JuiceCup',(x,-1.25,1.57),.09,.29,'Cream',top=.12,sides=12)
-        cylinder('JuiceFill',(x,-1.25,1.719),.10,.008,'Juice',sides=12)
-        curve('PinkStraw',[(x,-1.25,1.68),(x+.035,-1.25,1.94),(x+.15,-1.25,1.98)],.017,'Pink')
+        cylinder('JuiceCup',(x,-1.4,1.57),.09,.29,'Cream',top=.12,sides=12)
+        cylinder('JuiceFill',(x,-1.4,1.719),.10,.008,'Juice',sides=12)
+        curve('PinkStraw',[(x,-1.4,1.68),(x+.035,-1.4,1.94),(x+.15,-1.4,1.98)],.017,'Pink')
 
 
 def roof_point(side,u,t):
@@ -200,7 +200,7 @@ def roof():
         x0 = -1.88+i*3.76/7
         x1 = x0+3.76/7
         mat = 'Red' if i%2==0 else 'Cream'
-        mesh('AwningSlope',[(x0,-.98,3.09),(x1,-.98,3.09),(x1,-1.57,2.93),(x0,-1.57,2.93)],[(0,1,2,3)],mat)
+        mesh('AwningSlope',[(x0,-.98,2.87),(x1,-.98,2.87),(x1,-1.57,2.93),(x0,-1.57,2.93)],[(0,1,2,3)],mat)  # bordo alto sotto la paglia: il tetto lo copre con la sua frangia
         center = (x0+x1)/2
         verts = [(x0,-1.575,2.94),(x1,-1.575,2.94),(x1,-1.575,2.82)]
         verts += [(center+(x1-x0)/2*math.cos(a),-1.575,2.82-.14*math.sin(a))
@@ -403,7 +403,7 @@ def setup():
     # toon_mat usa il template Skin già caricato, senza cambiare i materiali dei personaggi.
     materials()
     building();roof();props();merchant()
-    ellipsoid('GroundShadow',(0,-.2,.005),(2.93,1.73,.003),'Ink','Shadow',segments=32)
+    ellipsoid('GroundShadow',(0,-.4,.005),(2.93,1.95,.003),'Ink','Shadow',segments=32)
     root.rotation_euler[2]=YAW
     camera=bpy.data.cameras.new('ShopCamera')
     obj=bpy.data.objects.new('ShopCamera',camera)
@@ -585,8 +585,8 @@ def build_steps():
     lines+=['[resource]','animations = ['+',\n'.join(anims)+']','']
     open(frames_path,'w',encoding='utf-8').write('\n'.join(lines))
     anchor=project_point((0,-1.18,0))
-    ground=[project_point(p) for p in [(-2.1,-1.4,0),(2.1,-1.4,0),(2.1,1.1,0),(-2.1,1.1,0)]]
-    interact=[project_point(p) for p in [(-1.5,-1.4,0),(1.5,-1.4,0),(1.5,-3.25,0),(-1.5,-3.25,0)]]
+    ground=[project_point(p) for p in [(-2.1,-1.9,0),(2.1,-1.9,0),(2.1,1.1,0),(-2.1,1.1,0)]]
+    interact=[project_point(p) for p in [(-1.5,-1.9,0),(1.5,-1.9,0),(1.5,-3.75,0),(-1.5,-3.75,0)]]
     meta={'cell':SIZE,'scale':4,'sprite_position':[(SIZE/2-anchor[0])*4,(SIZE/2-anchor[1])*4],
           'body_polygon':[[(p[i]-anchor[i])*4 for i in (0,1)] for p in ground],
           'interaction_polygon':[[(p[i]-anchor[i])*4 for i in (0,1)] for p in interact],

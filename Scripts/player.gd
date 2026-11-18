@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 
-@export var speed = 400
 @export var ball : PackedScene
 @onready var ray_cast: RayCast2D = $RayCast2D
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
@@ -26,6 +25,11 @@ signal throw_released
 # Level 0 (start) = walk FPS, 1 = halfway, 2 = the original fast throw. The shop raises the level.
 const THROW_FPS_LEVELS = [8.0, 16.0, 32.0]
 var throw_speed_level = 0
+
+# Walking speed per level (the run key doubles it): the player starts slower, the shop raises the level up to the old speed.
+const SPEED_LEVELS = [320.0, 360.0, 400.0]
+var speed_level = 0
+var speed = SPEED_LEVELS[0]
 var damage_base
 
 # Atlas dei lanci in movimento: righe = azione*32 + direzione*8 + fase; ordine direzioni per atlas.
@@ -58,13 +62,16 @@ func _physics_process(delta):
 		if play_area.has_area():
 			global_position = global_position.clamp(play_area.position + Vector2(BODY_HALF_WIDTH, BODY_TOP), play_area.end - Vector2(BODY_HALF_WIDTH, BODY_BOTTOM))
 
-#Shop purchases for the player: damage adds a fraction of the starting damage, throw speed goes up one level
+#Shop purchases for the player: damage adds a fraction of the starting damage, throw speed and walking speed go up one level
 func _on_item_purchased(data: Dictionary):
 	match data["effect"]:
 		"damage":
 			damage += roundi(damage_base * data["bonus"])
 		"throw_speed":
 			throw_speed_level = mini(throw_speed_level + 1, THROW_FPS_LEVELS.size() - 1)
+		"move_speed":
+			speed_level = mini(speed_level + 1, SPEED_LEVELS.size() - 1)
+			speed = SPEED_LEVELS[speed_level]
 
 #Input events (shoot, attack, etc.)
 func _input(event):
@@ -153,10 +160,7 @@ func _update_moving_throw(delta: float):
 #Input movement direction
 func get_input():
 	var direction = Input.get_vector("ui_left", "ui_right","ui_up","ui_down")
-	if (Input.is_action_pressed("run")):
-		nominal_speed = speed * 2
-	elif (Input.is_action_just_released("run")):
-		nominal_speed = speed
+	nominal_speed = speed * 2 if Input.is_action_pressed("run") else speed
 	velocity = direction * nominal_speed
 
 #Shooting sand ball

@@ -233,7 +233,7 @@ Leggere prima di toccare qualsiasi sprite. Tutte le nuove risorse grafiche (nemi
 
 - **Blender** (MCP `blender`): personaggi animati, modello 3D chibi con rig, renderizzato a pixel. Guida `Docs/BLENDER.md`.
 - **Pixelorama** (MCP `pixelorama`): oggetti piccoli, effetti, tile, ritocchi dentro la silhouette. Guida `Docs/PIXELORAMA.md`.
-- **GIMP** (MCP `gimp`): immagini raster che non sono sprite di personaggio. Crea, compone e ritocca direttamente loghi, copertine, icone e illustrazioni dell'interfaccia, sfondi, testo, correzioni di colore e tono, ritagli, ridimensionamenti ed esportazioni in blocco, senza dover passare da Codex. Non genera concept art con l'IA e non sostituisce Pixelorama nel pixel per pixel. Guida `Docs/GIMP.md`.
+- **GIMP** (MCP `gimp`): immagini raster che non sono sprite di personaggio. Crea, compone e ritocca direttamente loghi, copertine, icone e illustrazioni dell'interfaccia, sfondi, testo, correzioni di colore e tono, ritagli, ridimensionamenti ed esportazioni in blocco, senza dover passare da Codex. Non genera concept art con l'IA e non sostituisce Pixelorama nel pixel per pixel. Indicazione dell'utente: Claude userà GIMP direttamente per ogni immagine del gioco (loghi, sfondi, concept e altro), con Codex/ImageGen solo come riferimento; ancora da collaudare su un'immagine di gioco reale. Guida `Docs/GIMP.md`.
 - **Godot AI** (MCP `godot-ai`): scene, nodi, script, avvio, log, screenshot per verificare in gioco. Guida `Docs/GODOT.md`.
 - **ImageGen:** concept art e icone illustrate, usando i concept esistenti come riferimento. GIMP per rifinirle e comporle; Pixelorama solo se servono ritocchi o pixel art.
 - La skill condivisa `game-tools` instrada alle guide generiche; le regole di aggiornamento delle guide sono in `AGENTS.md`.
@@ -315,7 +315,7 @@ Sviluppi decisi, da avviare.
 - **Level design del tutorial:** rifinirlo.
 - **Export reale:** il catalogo degli oggetti deve entrare nel pacchetto e il negozio deve popolarsi.
 - **Playtest completo:** menu, ondate, acquisti (anche con il popup del bonus mentre il negozio è aperto), game over.
-- **Restyling grafico di interfaccia e menu**, dopo la fase funzionale.
+- **Restyling grafico di interfaccia e menu**, dopo la fase funzionale. Punto di partenza scelto dall'utente per lo sfondo del menù principale e le sue voci: la scena di spiaggia (cielo a gradiente, sole con alone, mare, battigia ondulata, palma) creata con GIMP, conservata come base. Sarà sviluppata con GIMP, con Codex/ImageGen come riferimento.
 
 ## 11. Idee future
 

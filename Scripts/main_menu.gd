@@ -1,11 +1,6 @@
 extends Control
 
 func _ready():
-	if(OS.has_feature("touchscreen")):
-		Global.is_mobile = true
-	else:
-		Global.is_mobile = false
-	
 	if !MusicManager.is_music_playing():
 		MusicManager.load_menu_music()
 

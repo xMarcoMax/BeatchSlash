@@ -1,6 +1,7 @@
 extends Node
 
-var is_mobile
+# Android e iOS, tablet compresi; falso su Windows, Linux e macOS anche con schermo touch
+var is_mobile := OS.has_feature("mobile")
 
 var is_in_purchase
 var purchase_just_closed

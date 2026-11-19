@@ -1,262 +1,297 @@
-# Beatch Slash! — contesto condiviso per Codex e Claude
+# Beatch Slash! — contesto del gioco
 
-## Regole di questo file (indicazione dell'utente)
+## Indice
 
-Serve a Codex e Claude per capire la situazione attuale e come procedere. Contiene solo:
+1. [Regole di questo file](#1-regole-di-questo-file): cosa ci va e cosa no.
+2. [Concept del gioco](#2-concept-del-gioco): visione dell'utente, tono, personaggi, idea di fondo.
+3. [Come funziona il gioco](#3-come-funziona-il-gioco): comandi, ondate, combattimento, ragazzo, economia, bonus di fine ondata, progressione.
+4. [Negozio](#4-negozio): Chiosco da Sandro, categorie, oggetti, prezzi, regole degli acquisti.
+5. [Mondo di gioco](#5-mondo-di-gioco): livello tutorial, inquadratura, terreno, elementi di scena.
+6. [Personaggi](#6-personaggi): aspetto di protagonista, nemica base, ragazzo, negoziante e chiosco.
+7. [Interfaccia](#7-interfaccia): HUD, popup, numeri fluttuanti, menu, tipografia, immagini.
+8. [Pipeline grafica e stile visivo](#8-pipeline-grafica-e-stile-visivo): strumenti, metodo di lavoro, regole di stile vincolanti.
+9. [Vincoli dell'utente](#9-vincoli-dellutente): regole di lavoro da rispettare sempre.
+10. [Stato attuale](#10-stato-attuale): stato di ogni punto di sviluppo.
+    - [10.1 Punti approvati](#101-punti-approvati): funzionamenti e comportamenti approvati, riferimento per gli sviluppi futuri.
+    - [10.2 Punti in lavorazione](#102-punti-in-lavorazione): sviluppi in corso, in test o in attesa di approvazione.
+    - [10.3 Punti aperti](#103-punti-aperti): sviluppi decisi e definiti, non ancora avviati.
+11. [Idee future](#11-idee-future): idee e concept su cui ragionare prima di formalizzarli.
 
-- situazione attuale e breve descrizione di cosa è stato fatto di recente (non la storia del progetto);
-- specifiche tecniche di ogni elemento, vecchie e nuove (parametri, layout dei file, valori, regole): servono a capire cosa toccare e analizzare;
-- vincoli e regole dell'utente (restano, scritti in modo conciso e non ambiguo);
-- "Prossimi passi": i punti aperti indicati dall'utente. Si aggiungono quando l'utente li dice; quelli completati o superati si **rimuovono** (nessuna voce barrata né storico).
+## 1. Regole di questo file
 
-Non scrivere: cronologia, correzioni fatte, processo di realizzazione, come le cose sono state integrate, resoconti di verifica. Il comportamento del codice sta in Docs/CODE_MAP.md.
+Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: concept completo, funzionamento, stato dei punti di sviluppo, idee future.
 
-A fine intervento riscrivi le voci toccate, senza note datate. Confronta sempre con i file correnti, git status e le ultime istruzioni dell'utente.
+- **Non è uno storico.** Niente date, cronologia, "prima era così", correzioni fatte, tentativi respinti, resoconti di verifica o titoli come "Terreno (17/11)". Ciò che spiega come funziona il gioco va nella sezione apposita; ciò che è solo storia non si scrive.
+- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GODOT.md`).
+- A ogni intervento riscrivere le voci toccate nella sezione giusta (vedi indice).
+- **Ciclo di vita dei punti di sviluppo.** Un punto sta sempre in una sola categoria; appena non rientra più nella sua definizione passa alla categoria successiva o sparisce:
+  1. **Idee future** (sezione 11): idee o concept su cui ragionare. Quando l'utente la approva e se ne definisce cosa deve fare, l'idea si sposta in Punti aperti e si cancella da qui.
+  2. **Punti aperti** (10.3): sviluppi decisi e definiti, non ancora avviati, che prima o poi si faranno. Quando l'utente decide di realizzarlo, il punto si sposta in Punti in lavorazione.
+  3. **Punti in lavorazione** (10.2): sviluppi in corso, in test o in attesa di valutazione e approvazione dell'utente.
+  4. **Punti approvati** (10.1): quando il punto è sviluppato, verificato, testato, corretto e funziona come vuole l'utente, si toglie da In lavorazione e si scrive qui come funzionamento approvato, soprattutto se è un riferimento utile per punti aperti o idee future collegati.
+- Ciò che un punto approvato cambia nel gioco si descrive anche nella sua sezione (3–7). Ogni dettaglio tecnico utile da conservare va in `Docs/CODE_MAP.md`.
 
-Ultimo aggiornamento: 17 novembre 2026.
+## 2. Concept del gioco
 
-**Per capire il codice leggi prima Docs/CODE_MAP.md** (mappa di flussi, autoload, segnali, scene e script). Questo file descrive visione, specifiche, stile grafico e stato.
-
-Nel progetto esistono solo le risorse in uso, senza suffissi di versione: non ricreare né citare versioni precedenti di sprite e strumenti.
-
-## Concept del gioco (visione dell'utente, da rispettare)
-
-Tono ironico e leggero. Tower defense a ondate, 2D top-down, ambientato per ora in un solo livello: una spiaggia (altri livelli possibili in futuro).
+Tono ironico e leggero. Tower defense a ondate, 2D top-down in pixel art, ambientato per ora in un solo livello: una spiaggia.
 
 - **Protagonista (Player):** una ragazza che difende il fidanzato lanciando palle di sabbia contro le altre ragazze finché non le sconfigge.
-- **Il fidanzato (Boyfriend, la "torre"):** un ragazzo bellissimo, per questo le altre ragazze della spiaggia se ne invaghiscono e vogliono portarselo via. Non si muove: è l'oggetto da difendere.
+- **Il fidanzato (il ragazzo, la "torre"):** un ragazzo bellissimo; per questo le altre ragazze della spiaggia se ne invaghiscono e vogliono portarselo via. Non si muove: è l'oggetto da difendere.
 - **Due valori di difesa del ragazzo:**
-  - **Moralità = scudo** (shield nel codice): la sua caratura morale e il rispetto per la fidanzata. I nemici intaccano prima questa.
-  - **Fedeltà = salute** (hp nel codice): entra in gioco quando la moralità è a zero e cala man mano che i nemici attaccano.
-  - Quando moralità e fedeltà sono a zero il ragazzo non è più fedele e scappa con le altre ragazze (idea da valutare: scappa con l'ultima che lo ha attaccato). È il game over.
-- **Come attaccano le nemiche:** non fanno danno fisico: pose, avances e movimenti sensuali verso il ragazzo; quando la moralità è a zero arrivano anche a toccarlo fisicamente.
-- **Reazioni del ragazzo (animazioni/sprite da prevedere):** con la moralità attiva guarda le ragazze con curiosità, senza malizia; a moralità zero le guarda con più interesse; infine cede e scappa.
-- **Ondate:** a ogni ondata il numero di nemiche aumenta gradualmente, così come la loro salute. Prevista una varietà di "classi" di nemiche, da quelle molto resistenti e che fanno molto danno ma lente (movimento e frequenza di attacco) a quelle fragili e veloci con danno costante nel tempo, con un ampio range intermedio. Per ora nel gioco c'è una sola nemica base con azioni standard, da migliorare aggiungendo i diversi tipi.
-- **Bilanciamento e bonus futuri:** valutare insieme la progressione delle nemiche e i potenziamenti acquistabili: aumento del danno del Player, dei massimi di moralità/fedeltà e altri bonus da definire. Queste richieste non fissano ancora coefficienti o nuove formule.
-- **Numeri sulle barre e numeri fluttuanti (richiesta dell'utente):** le barre HUD di moralità e fedeltà mostrano "valore / massimo" al centro (testo bianco con contorno nero). Quando una nemica subisce un colpo sale e svanisce un numero giallo ("-10") sopra la sua testa; quando il ragazzo perde o recupera, il numero ("-13", "+25") è azzurro se riguarda la moralità e rosso se riguarda la fedeltà, gli stessi colori delle barre. Il numero compare anche per ripristini e rialzi di massimo. Il danno subito dal ragazzo è sempre intero (arrotondato per eccesso dopo le protezioni di Ombrellone/Settimana Enigmistica).
-- **Nemiche iniziali e formule (decise con l'utente):** base 3 nemiche (era 5) e 60 di salute (era 100) per rendere facili i primi lanci con la velocità di lancio iniziale lenta. Misurato in gioco: le nemiche appaiono a circa 1500-1900 px dal ragazzo e camminano a 100 px/s, quindi arrivano dopo 15-19 s; con 100 di salute e 10 di danno servivano 30 lanci (30 s al livello 0), con 60 ne servono 18. Le vecchie curve saturanti (massimi 13 nemiche/225 salute/21 danno) sono state sostituite perché il giocatore cresce senza limite (lancio ×4, danno +20% ogni 5 ondate) e dopo l'ondata 15 il gioco sarebbe diventato troppo facile. Da ritoccare dopo prove di gioco vere; resta da pensare l'aumento dei prezzi ogni 5-10 ondate, perché a ondata 20 si guadagnano circa 140¢ a ondata contro prezzi fissi.
-- **Valuta e negozio:** a fine ondata si guadagnano monete (nel contesto di gioco, quelle perse dalle ragazze sconfitte). Tra un'ondata e l'altra passano circa 20 secondi, durante i quali la protagonista può andare in un negozietto sulla spiaggia per comprare potenziamenti, ricaricare moralità e fedeltà del ragazzo e altri bonus tipici del genere.
-- **Idee future (non decise):** ondate infinite oppure un limite; modalità di sfida diverse; obiettivi o una campagna; altri livelli.
-- **Per la grafica:** le nemiche sono ragazze in spiaggia più belle della protagonista, con la chioma voluminosa del concept (Assets/ConceptArt/Player/player_turnaround.png) e colori variabili di capelli, occhi, costume e pelle; ogni classe può avere un aspetto distinto.
-- **Stile delle avances:** le nemiche restano sempre vestite (costumi da spiaggia), niente nudità. Le pose sono ammiccanti e ironiche, in stile fumettistico e volutamente esagerate (sguardi, baci, capelli, appoggiarsi, braccio al collo). A moralità zero arrivano a toccare il ragazzo in modo sensuale ma ironico (contatto breve e comico, con cuoricini ed espressioni esagerate). Deve essere sempre evidente che le ragazze ci provano attivamente.
+  - **Moralità** (lo scudo): la sua caratura morale e il rispetto per la fidanzata. Le nemiche intaccano prima questa.
+  - **Fedeltà** (la salute): entra in gioco quando la moralità è a zero e cala man mano che le nemiche attaccano.
+  - Quando moralità e fedeltà sono a zero il ragazzo non è più fedele e scappa con le altre ragazze: è il game over.
+- **Come attaccano le nemiche:** non fanno danno fisico. Fanno pose, avances e movimenti sensuali verso il ragazzo; quando la moralità è a zero arrivano anche a toccarlo.
+- **Stile delle avances:** le nemiche restano sempre vestite (costumi da spiaggia), niente nudità. Pose ammiccanti e ironiche, fumettistiche e volutamente esagerate (sguardi, baci, capelli, appoggiarsi, braccio al collo). A moralità zero il contatto è sensuale ma ironico: breve e comico, con cuoricini ed espressioni esagerate. Deve essere sempre evidente che le ragazze ci provano attivamente.
+- **Reazioni del ragazzo:** con la moralità attiva guarda le ragazze con curiosità, senza malizia; a moralità zero le guarda con più interesse; infine cede e scappa.
+- **Nemiche:** ragazze in spiaggia più belle della protagonista, con la chioma voluminosa e colori variabili di capelli, occhi, costume e pelle. Sono previste diverse "classi": da quelle molto resistenti, con molto danno ma lente (movimento e frequenza di attacco), a quelle fragili e veloci con danno costante, con un ampio range intermedio. Ogni classe può avere un aspetto distinto. Oggi esiste solo la nemica base.
+- **Valuta:** le monete sono quelle perse dalle ragazze sconfitte.
 
-## Gioco e struttura
+## 3. Come funziona il gioco
 
-- Gioco 2D top-down da spiaggia, pixel art; Godot **4.7 stable**, renderer Mobile.
-- Menu principale -> Scenes/level.tscn. Difesa a ondate: il Player lancia palle di sabbia contro i nemici diretti al partner Boyfriend; la morte del partner causa game over.
-- Scripts/level.gd: ondate, spawn, punteggio, valuta, HUD e timer. Scripts/enemy.gd: movimento, attacchi, salute e morte. Scripts/boyfriend.gd: salute/scudo, bonus e scelta dell'animazione del ragazzo in base a moralità, fedeltà e nemiche che attaccano; set_max_hp() e set_max_shield() sono stub (pass).
-- Objects/projectiles.tscn e Scripts/projectiles.gd: proiettile Area2D (palla di sabbia).
-- Spawn nemiche nei tre rettangoli `World/EnemySpawn`: punto casuale globale convertito nello spazio locale del livello, così la traslazione del livello non altera l'area effettiva di generazione. I rettangoli correnti non hanno rotazione o scala.
-- Acquisti: Scripts/upgrades_purchase.gd e Files/item_list.csv (separatore `;`, 12 colonne: id, name, description, bonus, order, category, sub_category, image, price, max_purchases, effect, duration; categorie Player/Target/Bonus; `max_purchases` 0 = illimitato; `image` è un file di Assets/Icons/ o un percorso `res://`). Ogni acquisto spende la valuta (`Global.currency`) a prezzo fisso dal CSV; il pulsante si disattiva se i soldi non bastano o se l'oggetto ha raggiunto il massimo. Effetti (colonna `effect`): `restore` (ripristina moralità/fedeltà in % del massimo), `max` (aumenta la soglia di moralità/fedeltà di una frazione del valore iniziale e riempie la parte aggiunta), `damage` (aggiunge una frazione del danno iniziale del Player), `throw_speed` (sale di un livello di velocità di lancio), `move_speed` (sale di un livello di velocità di movimento), `coin_bonus` (somma la percentuale al moltiplicatore delle monete). Prezzi attuali, provvisori e da tarare: ripristini 20/35/60¢, soglie 150¢ (max 4), Barretta Energetica 100¢, Corso di Schiacciata 80¢ (max 2), Crema Protezione 50+ e Braccialetto Portafortuna 150¢ (max 4, soglie), Salvadanaio a Forma di Granchio 120¢ (max 5). 14 oggetti usano icone illustrate ufficiali in Assets/Icons/; **Infradito Conchiglia** (`move_speed`, Player/MoveSpeed, 50¢ come Corso di Schiacciata, max 2) usa per ora come segnaposto il logo di Godot (`res://Assets/icon.svg`): l'utente farà l'immagine con Codex (ideale: infradito rosa a conchiglia con cuoricino e alette), poi mettere il file in Assets/Icons/ e il nome nella colonna `image`. Velocità di movimento: il Player parte a 320 e sale a 360 e 400 (la velocità di prima) con due acquisti; la corsa (tasto `run`) la raddoppia ancora. **Oggetti temporanei** (colonna `duration` = ondate di durata, 0 = permanente): comprati nella pausa tra due ondate, valgono dall'ondata successiva e scadono alla fine dell'ultima ondata di durata. Finché sono attivi il pulsante mostra "Attivo (ondate rimaste)" ed è disattivato, quindi non si sommano. Presenti: Gelato Fondente (40¢, Bonus, raddoppia le monete nella prossima ondata, `coin_bonus` +1.0 per 1 ondata), Ombrellone (70¢, Partner/Moralità, dimezza la perdita di moralità per 3 ondate, effetto `guard` 0.5) e Settimana Enigmistica (70¢, Partner/Fedeltà, dimezza la perdita di fedeltà per 3 ondate, `guard` 0.5). Prezzi provvisori; icone ufficiali `melting_ice_cream.png`, `beach_umbrella.png` e `crosswords.png` nello stesso stile illustrato approvato.
-- Presenti menu, opzioni audio, tutorial, pausa (Esc) e game over.
-- Autoload: Formulas, SignalManager, MusicManager, Global. Global.is_in_purchase blocca movimento e nuovi lanci durante gli acquisti.
-- Progressione corrente: basi 3 nemiche / 50 salute / 5 danno (`base_enemy_number`, `base_enemy_health`, `base_enemy_damage` in level.gd); `Formulas.calculate` ha tre andamenti separati e senza tetto, con n = ondata − 1: nemiche = base + parte intera di 0,6·n; salute = base·(1 + 0,12·n + 0,004·n²); danno = base·(1 + 0,05·n), tutti arrotondati per eccesso tranne le nemiche. Coefficienti come costanti in cima a Formulas.gd. Valori: ondata 1 = 3 nemiche/50/5, ondata 5 = 5/78/6, ondata 10 = 8/121/8, ondata 20 = 14/237/10, ondata 30 = 20/393/13. Velocità della nemica 100 e attacco ogni 1,4 s (`AttackCooldown` in enemy.tscn).
-- Gli script di Player, Boyfriend e Upgrades sono agganciati alle rispettive scene base (Characters/player.tscn, Characters/boyfriend.tscn, Objects/upgrades.tscn); level.tscn le istanzia senza override di script.
-- Files/item_list.csv è letto con FileAccess: il suo .import deve usare `importer="keep"` (Import As -> Keep File nel dock Import), altrimenti il CSV grezzo non entra negli export.
+### Comandi
 
-## Interfaccia, finestra e immagini disponibili
+- Movimento con le frecce (o tasti configurati e gamepad); Spazio tenuto premuto fa correre (velocità doppia).
+- Tasto destro del mouse: lancio della palla di sabbia verso il puntatore.
+- F: apre il negozio, solo davanti al bancone e durante la pausa tra due ondate.
+- Esc: chiude il negozio oppure apre e chiude la pausa.
 
-- Priorità dell'utente: interfaccia e menu attuali sono provvisori sul piano grafico. In questa fase devono funzionare, essere leggibili e posizionarsi correttamente; il miglioramento estetico è previsto in una fase successiva.
-- Tipografia: `Docs/FONTS.md` definisce ruoli e identità. Luckiest Guy per titoli e annunci; Fredoka per interfaccia e testo, con pesi Regular400/Medium500/SemiBold600/Bold700. Tema globale `Assets/UI/game_theme.tres`. Dimensioni logiche: titoli48, Game Over64, annunci/titolo negozio32, pulsanti26, tab22, HUD/tutorial/invito20, nomi oggetti18 e descrizioni16. Le misure sono adattate alla UI; quelle a1080p della guida sono indicative.
-- Finestra: base logica1152×648, stretch `canvas_items`, aspect `keep`. Massimizzare o passare a schermo intero ingrandisce la stessa visuale; non allarga il mondo visibile. Proporzioni diverse introducono bande. **Camera del livello fissa** (decisione dell'utente, 17/11/2026): `Camera2D` figlia di `Level` in (800,−560) a zoom(0,4;0,4), area di mondo visibile 2880×1620 (prima: camera che seguiva il Player a zoom 0,5, 2304×1296). La base logica 1152×648 è invariata, perché tutta l'interfaccia è dimensionata su quella; l'inquadratura più ampia si ottiene con lo zoom. Sul livello attuale (mappa vecchia, pensata per la camera mobile) il Player può uscire dall'inquadratura: la nuova mappa sarà dimensionata sulla schermata fissa. **Posizioni iniziali (17/11/2026, richiesta dell'utente):** il ragazzo è al centro della schermata, in (800,−560) coordinate del livello come la camera, e il Player parte davanti a lui, in (800,−380).
-- **HUD a bande (17/11/2026, richiesta dell'utente):** due bande a tutta larghezza, in alto e in basso, alte 44 px logici (prima 56, ridotte su richiesta), così HUD e Player non si sovrappongono. In alto: ondata (sinistra), punti (centro), valuta (destra); in basso: barre di moralità e fedeltà (200×24 con icona 32×32) a sinistra, nemiche rimaste e sconfitte a destra. Le voci mostrano solo il numero accanto all'icona. **Bande e icone applicate (17/11/2026):** bande in legno `Assets/UI/band_top.png` e `band_bottom.png` (3456×132 = 3× la banda 1152×44), ricavate da `Tools/pixelorama/hud_bands_gen.py` dalle immagini di Codex conservate in `Assets/ConceptArt/Hud/` (ritaglio centrale senza chiodi, ripetuto specchiando una copia sì e una no: giunzioni invisibili) e scurite al 72% di luminosità su richiesta dell'utente (`DARKEN` nello script); icone `Assets/Icons/wave.png` (ondata), `starfish.png` (punti), `coin.png` (valuta), `enemy_standing.png` (rimaste), `enemy_fallen.png` (sconfitte), PNG 1254×1254 trasparenti, prompt in `Tools/concept/hud_band_prompts.json`. Le icone di moralità e fedeltà restano quelle approvate. **L'utente ha un dubbio sulle bande e vuole vederle in azione.** **Barre a tubo di liquido (17/11/2026, richiesta dell'utente):** moralità (blu) e fedeltà (rossa) dell'HUD e salute delle nemiche (verde/arancio/rosso) sono ora tubi di vetro con liquido, riflessi e fronte ondulato, disegnati da uno shader (`Assets/Shaders/liquid_bar.gdshader`) tramite `Scripts/liquid_bar.gd` (`LiquidBar`), senza immagini: si svuotano piano piano. Aspetto da far approvare all'utente. **Correzione al Game Over:** la fedeltà restava a 10/100 perché l'albero andava in pausa prima dell'aggiornamento della barra; ora l'HUD ha `process_mode` sempre attivo e scende a 0 (da riverificare quando si farà la scenetta di Game Over del ragazzo). Il Player non può uscire dalla zona tra le bande: `level.gd:_play_area()` calcola il rettangolo visibile dalla camera fissa meno le bande e lo passa a `player.play_area`, che lo applica con un clamp dopo `move_and_slide()` (margini del corpo 40/95/77 px).
-- `Assets/Images/` contiene quattro risorse conservate su richiesta dell'utente per riferimenti e possibili usi futuri: `beatch-slash-logo-text-only.png` (logo solo testo), `beatch-slash-logo.png` (logo completo), `beatch-slash-cover-no-logo.png` (copertina con i personaggi attuali), `beatch-slash-cover-logo.png` (copertina con personaggi e logo). Nessun uso assegnato al momento; non eliminarle come risorse inutilizzate.
-- Icone ufficiali dei 14 item in `Assets/Icons/`: frullato ai frutti di bosco, granita al limone, acqua tonica, milkshake alla fragola, patatine al rosmarino, caramelle alla menta, barretta energetica, crema Protezione 50+, braccialetto portafortuna, corso di schiacciata, salvadanaio granchio, Gelato Fondente, Ombrellone e Settimana Enigmistica. Stile illustrato di concept e copertine, contorno caldo scuro, colori vivi, cel shading e sfondo trasparente. Il frullato è il riferimento di stile approvato dall'utente; l'utente ha richiesto l'estensione a tutti gli item e la rimozione definitiva della cartella `Sprites`. Il CSV indica i PNG ufficiali; prompt e riferimenti in `Tools/concept/`. Gli sprite del mondo di gioco mantengono la pipeline pixel.
+### Player
 
-## Vincoli dell'utente
+- Velocità di movimento a tre livelli; si sale comprando l'Infradito Conchiglia. La corsa raddoppia la velocità del livello attuale.
+- La protagonista non può uscire dallo schermo di gioco.
+- **Lancio:** la palla parte quando il braccio la lancia; si può lanciare anche camminando e correndo.
+- **Velocità di lancio a tre livelli**, si sale solo comprando il Corso di Schiacciata (decisione dell'utente): lenta (come la camminata), media, veloce.
+- Non si può lanciare di nuovo finché il gesto precedente non è quasi finito.
+- Danno iniziale della palla: 10.
+- La palla colpisce una nemica in qualunque punto del corpo e scoppia; scoppia anche contro il chiosco e gli ostacoli. Se non colpisce nulla, ricade sulla sabbia e si disfa.
 
-- Icone HUD nello stesso stile illustrato approvato degli item: `Assets/Icons/health.png` è il cuore rosso corallo della fedeltà; `Assets/Icons/shield.png` è lo scudo turchese con bordo oro e cuore rosso della moralità. Entrambe PNG trasparenti 1254×1254, contorni marrone caldo e luce dall'alto a sinistra. Nell'HUD a bande sono nelle TextureRect 32×32; nomi, percorsi, posizione delle barre e logica dei valori sono invariati. Prompt in `Tools/concept/hud_icons_prompts.json`.
+### Nemiche e ondate
 
-- Collisioni (CollisionShape2D) e RayCast2D possono essere modificati se serve per adattarli alla grafica o al gioco; dopo ogni modifica verificare in gioco (Godot AI).
-- Modificare il gameplay preesistente solo se strettamente necessario.
-- Scene e nodi possono essere riorganizzati e ottimizzati quando migliora la soluzione mantenendo lo stesso risultato visivo e funzionale. Non è richiesto conservare la struttura originale; verificare l'equivalenza dopo le modifiche.
-- Solo nearest-neighbor; mantenere lo stile visivo descritto sotto.
-- Lancio sincronizzato col braccio; la palla non deve partire prima del frame di rilascio. La velocità di lancio parte bassa e si migliora solo comprandola nel negozio (decisione dell'utente).
-- Nomi e descrizioni dei nuovi oggetti del negozio: se l'utente non li indica, li sceglie l'agente rispettando ambientazione (spiaggia), tono ironico e contesto del gioco. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate a sport estivi; gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (es. un anello di fidanzamento).
-- **.vscode/settings.json è gestito dall'utente: non toccarlo.**
-- I commit li fa l'utente.
-- Errori noti di TileSet/tilemap e completamento del negozio (spesa della valuta, acquisti Giocatore e Bonus) sono rimandati a sessioni dedicate: non toccarli senza richiesta.
+- Le nemiche nascono fuori dall'inquadratura, da tutti i lati tranne il mare, e camminano verso il ragazzo aggirando ostacoli e altre nemiche.
+- Ognuna punta a un proprio posto attorno al ragazzo, così non si ammassano; non si urtano tra loro.
+- Arrivata al suo posto, la nemica "flirta" e attacca a intervalli regolari.
+- Colpita, lampeggia e arretra appena. Sconfitta, cade a sedere e sparisce in uno sbuffo di sabbia.
+- Ogni sconfitta dà 10 punti e 18 monete (più l'eventuale bonus sulle monete).
+- **Ondata 1:** 3 nemiche con 50 di salute (5 colpi da 10) e 5 di danno per attacco.
+- **Progressione senza tetto:** a ogni ondata crescono gradualmente il numero di nemiche, la loro salute e, più piano, il loro danno.
+- Le monete per nemica **non crescono** con le ondate: l'unica crescita è il bonus acquistabile.
+- Quando cade l'ultima nemica parte una pausa di circa 20 secondi con il conto alla rovescia della prossima ondata; in questa pausa si può usare il negozio.
 
-## Terreno: concept per il nuovo tileset
+### Il ragazzo
 
-- L'utente sta riprogettando da zero tileset e tilemap del livello attuale. In questa fase richiede solo i concept del terreno e degli elementi di scena, entrambi conservati in `Assets/ConceptArt/Terrain/`.
-- `Assets/ConceptArt/Terrain/terrain_concept.png`: tavola paesaggio 1536×1024 generata con ImageGen integrato, accettata dall'utente come concept. Sei gruppi: SABBIA (4 varianti), SABBIA BAGNATA (2), BATTIGIA (bordi e angoli con schiuma bianca), ACQUA (3), SCOGLIO ed ERBA con raccordi alla sabbia. Riferimenti ambientali: entrambe le copertine in `Assets/Images/`; prompt integrale in `Tools/concept/terrain_prompt.json`.
-- Direzione richiesta: cartoon solare delle copertine e delle icone, vista ortografica verticale, forme grandi per il futuro tileset manuale 16×16, quattro toni per materiale, luce dall'alto a sinistra, contorno #3a1418 solo su scogli e vegetazione. Sabbia: #8a6a3e #b8925a #e3c084 #f6e2b0. Nessun personaggio, logo o chiosco.
-- La tavola è un concept, non un atlante utilizzabile direttamente: palette esatta, assenza di sfumature/antialiasing e continuità dei raccordi non sono certificate. Tileset, tilemap e risorse runtime attuali restano invariati; i relativi errori noti restano aperti.
+- Moralità e fedeltà partono da 100. Ogni attacco toglie prima moralità; solo quando è a zero toglie fedeltà. L'eccedenza di un colpo sulla moralità non passa alla fedeltà.
+- Fedeltà a zero: game over.
+- **Comportamento** (regole dell'utente):
+  - nessuna nemica che attacca: fermo al sole, mani sui fianchi, occhi chiusi;
+  - moralità sopra zero (qualunque fedeltà): stessa posa, con ogni tanto un'occhiata curiosa verso una nemica;
+  - moralità a zero e fedeltà sopra metà: si sporge ad ammirare la nemica più vicina, mano al mento;
+  - moralità a zero e fedeltà a metà o meno: si mette in mostra con il doppio bicipite.
 
-## Elementi di scena: concept
+### Bonus di fine ondata
 
-- `Assets/ConceptArt/Terrain/props_concept.png`: tavola 1536×1024 generata con ImageGen integrato usando le due copertine come riferimento ambientale; da approvare. Prompt di generazione e revisione delle proporzioni in `Tools/concept/props_prompt.json`.
-- Sei gruppi: PALME (alta, curva, giovane e sagoma separata dell'ombra della chioma); ROCCE (2 ciottoli, 2 massi medi, 1 grande, 1 formazione alta, arancio/sabbia con ombre blu-viola); FIORI (ibisco rosso, fiore giallo, gruppo rosa); CESPUGLI (4 varianti, incluse foglie larghe ed erba appuntita); CONCHIGLIE (spirale, cono, stella marina arancione, piccolo granchio); OGGETTI (ombrellone chiuso, surf piantato nella sabbia, tronco, cartello senza testo, telo, botte di legno con corda).
-- Vista rialzata di circa 25°, elementi isolati su fondo grigio caldo chiaro; fiori e dettagli di sabbia più piccoli dei grandi oggetti. Stile richiesto: cartoon solare delle copertine, quattro toni per materiale, luce dall'alto a sinistra, contorno #3a1418 da 1 pixel negli sprite finali, ombra piatta marrone circa 40% verso il basso a destra. Nessun personaggio, logo o chiosco.
-- Riferimento artistico per futuri sprite manuali alti circa 16–64 pixel: palette discreta, contorno, antialiasing e alpha delle ombre vanno applicati e verificati nella produzione degli sprite finali. Nessuna risorsa di gioco o scena modificata.
+Quando cade l'ultima nemica, il gioco premia la difesa con una quota delle monete guadagnate nell'ondata dalle sconfitte (gli acquisti non contano; il bonus del negozio sulle monete è già incluso):
 
-## Negozio: concept, modello e sprite
+- la fedeltà deve essere al massimo, altrimenti nessun bonus;
+- moralità al massimo: +100%;
+- moralità sotto il massimo e oltre il 50%: +50%;
+- moralità tra 0 (escluso) e il 50% (compreso): +25% (il caso "esattamente 50%" non è stato specificato dall'utente ed è trattato così);
+- moralità a 0: nessun bonus.
 
-- Due tavole alternative in `Assets/ConceptArt/Shop/`: `shop_turnaround.png` (solo chiosco) e `shop_with_shopkeeper_turnaround.png` (stesso chiosco con negoziante). Entrambe 1536×1024, con fronte, lato destro, retro e tre quarti anteriore rialzato. Prompt integrali in `Tools/concept/prompts.json`, voce `shop`, generati con ImageGen integrato.
-- Riferimento richiesto dall'utente: il negozio sulla sinistra di entrambe le copertine in `Assets/Images/`. Identità ripresa: legno caldo, tetto di paglia dorata, tenda rossa e crema a bordo smerlato, lanterna ambrata, mensola con bottiglie, bancone con bibite, due sgabelli, tavola da surf crema/rossa con ibisco e botte con corda sul lato sinistro del cliente. Lato chiuso e retro con porta sono proposte ricostruttive delle parti non visibili nelle copertine; le tavole sono riferimenti artistici, non disegni quotati.
-- Negoziante approvato: gestore maturo e ordinario, viso allungato con naso pronunciato, tratti morbidi e piccoli segni d'età, senza baffi; pelle abbronzata, capelli mossi brizzolati e schiariti dal sole, cappello di paglia con fascia petrolio, camicia hawaiana corallo a grandi motivi crema aperta su una canotta chiara. Fermo dentro il chiosco, avambracci sul bancone; nascosto dalle pareti nelle viste laterale e posteriore. Figura ridotta di circa un quarto rispetto alla proposta precedente, con spazio libero sopra il cappello: la tenda è sul piano anteriore e il cappello resta sotto il suo bordo, senza sovrapporsi al tessuto. Vincoli dell'utente: identità da chiosco sulla spiaggia, cappello mantenuto, viso meno da bel ragazzo, dimensioni credibili rispetto all'edificio; evitare viso tondo con baffi simile a Super Mario.
-- **L'utente ha approvato concept, modello e sprite del negozio con negoziante e richiesto di rimuovere gli sgabelli per arrivare direttamente al bancone.** Gli sgabelli restano nelle tavole concept come riferimento iniziale, ma sono assenti da modello, sprite, metadati e collisioni attuali.
-- Sorgenti: `Tools/blender/shop.blend`, `shop_pipeline.py` e `shop_layout.json`; riferimenti del concept in `Tools/blender/ref/ref_shopfront.png`, `ref_shopside.png`, `ref_shopback.png`. Negoziante con il rig comune a 17 ossa, adattato al busto dietro il bancone. Orientamento del chiosco −20°, camera a 25°, stessa densità di pixel dei personaggi. La sporgenza anteriore del tetto lascia visibili tenda, cappello e gesti.
-- Risorse in `Assets/Objects/Shop/`: `shop_shadow.png`, `shop_back.png`, `shop_front.png` (160×160 ciascuna), `shopkeeper.png` (2560×480, celle160×160) e `shopkeeper_frames.tres`. Scala4, nearest, contorno1px #3a1418, ombra alpha97/255. Edificio statico; piano del bancone dietro le braccia, bordo anteriore/tenda/tetto davanti al negoziante.
-- Animazioni: `idle`8frame/5FPS in loop (respiro leggero, palpebre); `clean_glass`16frame/8FPS e `wipe_counter`16frame/8FPS una volta. Tra i gesti pause casuali5–10s; nessuna ripetizione consecutiva, ritorno all'idle a fine gesto. Bere, cercare sotto il bancone e pulire a terra non sono inclusi.
-- `Objects/upgrades.tscn`: sostituita l'icona provvisoria, posizione nel livello conservata (512,−950); due collisioni per corpo del chiosco e botte, ricavate dall'ingombro a terra. Fronte libero dagli sgabelli per raggiungere il bancone. Area d'acquisto solo davanti al bancone. F richiede Player in area e pausa tra ondate; uscita, Esc o fine pausa chiudono il pannello e sbloccano il Player. Flusso della valuta e bonus invariato. Procedure e verifiche in `Docs/BLENDER.md` §14 e `Docs/GODOT.md` §8.
-- **Categorie degli acquisti (definizione dell'utente, vincolante per ogni nuovo oggetto):** **Giocatore** = acquisti e potenziamenti che riguardano direttamente la protagonista (danno aumentato, rapidità di lancio e simili). **Partner** = tutto ciò che riguarda il ragazzo: ripristino di moralità e fedeltà, aumento delle loro soglie massime e altro che verrà in mente. **Bonus** = acquisti e potenziamenti extra che non riguardano né il ragazzo né la ragazza, come il bonus alle monete guadagnate; alcuni potranno essere temporanei (solo l'ondata successiva, per un certo numero di ondate o con altri limiti). Nel CSV: Giocatore = `Player`, Partner = `Target`, Bonus = `Bonus`.
-- **Pannello acquisti (`Scenes/upgrades_purchase.tscn`):** finestra centrata 900×580 nella visuale 1152×648, tre tab (Giocatore, Partner, Bonus) a scorrimento verticale. Il tab Partner è diviso in sezioni per `sub_category` del CSV (Shield = Moralità, Health = Fedeltà); i tab Giocatore e Bonus, per scelta dell'utente, non hanno sezioni (una sola griglia ordinata per `order`) finché non ci saranno abbastanza oggetti da distinguere (da rivalutare con nuovi item, per esempio più oggetti Bonus temporanei); ogni sezione ha una freccia accanto al titolo che la comprime/espande e una griglia di schede compatte a 3 per riga (icona, nome, descrizione, pulsante col prezzo). Richiesta dell'utente: schede piccole per poter aggiungere molti oggetti per sezione. Il pulsante mostra il prezzo (colonna `price` del CSV) o "Max"; si disattiva se la valuta non basta. Nell'intestazione del pannello c'è il saldo "Valuta: X¢". Dettagli in `Docs/GODOT.md` §15; da far approvare all'utente in gioco.
+Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello schermo con la percentuale e le monete guadagnate; non blocca il gioco.
 
-## Player: specifiche
+### Game over e menu
 
-Characters/player.tscn: AnimatedSprite2D con Assets/Characters/Player/player_frames.tres e nodo MovingThrow (Sprite2D, hframes 8, vframes 64) con player_moving_throw.png. Scala (4, 4), offset (0, -3), filtro nearest. CharacterBody2D in modalità Floating (`motion_mode = 1`): le nemiche non trascinano il Player come piattaforme mobili.
+- Al game over il gioco si ferma e compare il pannello con Ricomincia, Torna al Menù, Esci.
+- Menu principale con Nuova partita, Opzioni (volume e muto), Tutorial. Pausa con Esc: Riprendi, Ricomincia, Torna al Menù.
+- La musica (unico brano, in loop) suona nel menu; in partita non c'è musica.
 
-| Righe di player_spritesheet.png | Animazioni | Frame | FPS | Loop |
+## 4. Negozio
+
+- Nome ufficiale: **"Chiosco da Sandro"**; il negoziante si chiama Sandro. È un chiosco sulla spiaggia, in alto a sinistra del ragazzo.
+- Si apre con F stando davanti al bancone, solo durante la pausa tra le ondate. Mentre il pannello è aperto il Player non si muove e non lancia. Uscire dall'area, premere Esc o la fine della pausa lo chiudono.
+- **Pannello:** mostra le monete disponibili e divide gli oggetti in tre gruppi: Giocatore, Partner, Bonus. Ogni oggetto ha icona, nome, descrizione e prezzo, in schede piccole per poterne aggiungere molti (richiesta dell'utente). Partner è diviso in Moralità e Fedeltà; Giocatore e Bonus, per scelta dell'utente, non sono suddivisi finché non ci saranno abbastanza oggetti.
+- **Regole d'acquisto:** prezzo fisso; non si può comprare se le monete non bastano, se l'oggetto ha raggiunto il massimo di acquisti o se è inutile (un ripristino con la barra già piena).
+- **Categorie** (definizione dell'utente, vincolante per ogni nuovo oggetto):
+  - **Giocatore:** potenziamenti della protagonista (danno, rapidità di lancio, movimento e simili).
+  - **Partner:** tutto ciò che riguarda il ragazzo: ripristino di moralità e fedeltà, aumento dei loro massimi e altro.
+  - **Bonus:** extra che non riguardano né il ragazzo né la ragazza, come il bonus sulle monete; alcuni possono essere temporanei.
+- **Oggetti temporanei:** comprati nella pausa, valgono dall'ondata successiva per il numero di ondate indicato. Finché sono attivi non si possono ricomprare, quindi non si sommano.
+- **Oggetti attuali** (prezzi provvisori, da tarare con i playtest):
+
+| Oggetto | Categoria | Effetto | Prezzo | Massimo |
 | --- | --- | --- | --- | --- |
-| 0-3 | idle_up, idle_down, idle_right, idle_left | 6 | 5 | Sì |
-| 4-7 | walk_up, walk_down, walk_right, walk_left | 8 | 8 | Sì |
-| 8-11 | dash_up, dash_down, dash_right, dash_left | 8 | 12 | Sì |
-| 12-15 | throw_up, throw_down, throw_right, throw_left | 8 | 32 | No |
+| Acqua Tonica | Partner / Moralità | ripristina il 25% della moralità | 20¢ | illimitato |
+| Granita al Limone | Partner / Moralità | ripristina il 50% | 35¢ | illimitato |
+| Frullato ai Frutti di Bosco | Partner / Moralità | ripristina il 100% | 60¢ | illimitato |
+| Crema Protezione 50+ | Partner / Moralità | massimo +25% del valore iniziale (riempie la parte aggiunta) | 100¢ | 4 |
+| Ombrellone | Partner / Moralità | dimezza la perdita di moralità per 3 ondate | 50¢ | temporaneo |
+| Caramelle alla Menta | Partner / Fedeltà | ripristina il 25% della fedeltà | 20¢ | illimitato |
+| Patatine al Rosmarino | Partner / Fedeltà | ripristina il 50% | 35¢ | illimitato |
+| Milkshake alla Fragola | Partner / Fedeltà | ripristina il 100% | 60¢ | illimitato |
+| Braccialetto Portafortuna | Partner / Fedeltà | massimo +25% del valore iniziale | 100¢ | 4 |
+| Settimana Enigmistica | Partner / Fedeltà | dimezza la perdita di fedeltà per 3 ondate | 50¢ | temporaneo |
+| Barretta Energetica | Giocatore | danno +20% del danno iniziale; in vendita solo ogni 5 ondate | 70¢ | illimitato |
+| Corso di Schiacciata | Giocatore | un livello di velocità di lancio in più | 50¢ | 2 |
+| Infradito Conchiglia | Giocatore | un livello di velocità di movimento in più | 50¢ | 2 |
+| Salvadanaio a Forma di Granchio | Bonus | monete +10% | 80¢ | 5 |
+| Gelato Fondente | Bonus | monete raddoppiate nella prossima ondata | 30¢ | temporaneo (1 ondata) |
 
-up = Nord, down = Sud, right = Est, left = Ovest.
+- **Icone degli oggetti:** illustrate, nello stile di concept e copertine (contorno caldo scuro, colori vivi, cel shading). Il frullato è il riferimento di stile approvato. L'Infradito Conchiglia usa per ora un segnaposto: l'utente farà l'immagine con Codex (ideale: infradito rosa a conchiglia con cuoricino e alette).
+- **Nuovi oggetti:** se l'utente non li indica, nomi e descrizioni li sceglie l'agente rispettando spiaggia, tono ironico e contesto. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate agli sport estivi. Gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (per esempio un anello di fidanzamento).
 
-- **Diagonali:** gli stessi 4 gruppi con suffissi `_up_right` (NE), `_up_left` (NW), `_down_right` (SE), `_down_left` (SW) in player_frames.tres. Atlanti: Assets/Characters/Player/player_diagonals_spritesheet.png (righe = gruppo*4 + direzione NE,NW,SE,SW; stessi frame e FPS) e player_diagonals_moving_throw.png (righe = azione*32 + direzione*8 + fase). Rigenerazione: `build_diagonals()` in Tools/blender/blender_pipeline.py (yaw Root NE 135, NW -135, SE 45, SW -45). La scelta tra 8 direzioni sta in `Formulas.direction_name()` (diagonale se l'asse minore > 0.414 del maggiore), usata per movimento, mira del lancio e nemici. Durante i lanci in movimento MovingThrow cambia texture tra atlante cardinale e diagonale.
-- player_moving_throw.png (384x3072): riga = azione*32 + direzione*8 + fase_del_passo; colonna = frame del lancio. Azioni Walk=0/Dash=1, direzioni N/S/E/W = 0..3. Durante i lanci in movimento: gambe dal passo corrente, busto dal lancio.
-- Lancio cardinale verso sinistra: preparazione alta del braccio destro, sinistro di accompagnamento vicino al corpo e arco dall'alto al basso. Vale da ferma, camminando e correndo; rilascio al frame3. La posa destra resta il riferimento invariato. Dettagli in `Docs/BLENDER.md` §12.
-- Movimento ui_left/right/up/down a 400; run (Spazio) porta a 800 e seleziona Dash. Asse dominante del movimento, precedenza orizzontale sulle diagonali esatte. Idle mantiene l'ultima direzione.
-- shoot_sand (tasto destro) avvia start_throw(); durante Throw il movimento continua. **throw_release_frame = 3**: la palla è in mano nei frame 0-2 (di spalle, quando finisce in mezzo ai capelli, viene tolta dallo sprite: era il puntino chiaro segnalato dall'utente, vedi `Docs/BLENDER.md` §12) e parte al 3; throw_released è emesso dopo lo spawn. A fine Throw torna Idle se fermo; in movimento riprende Walk/Dash dalla fase raggiunta. **Velocità di lancio a 3 livelli** (`THROW_FPS_LEVELS` in player.gd, rispetto ai 32 FPS autorizzati): livello 0 (iniziale) 8 FPS, come la camminata; livello 1 16 FPS; livello 2 32 FPS, il lancio originale. Rilascio dopo 375/187/96 ms (misurati). Un nuovo clic è ignorato (nessun lancio, nessuna animazione) finché il lancio precedente non arriva a `throw_recovery_frame` = 5,5 (frame + avanzamento): il braccio è a circa 30° dal corpo, poco prima dei frame 6-7 in cui è già abbassato e il personaggio sembra fermo (frame 4 braccio teso in avanti, 5 circa 45°, 6 circa 15°). Intervallo minimo tra due lanci misurato: circa 690 ms / 345 ms / 175 ms ai tre livelli (1,45 / 2,9 / 5,7 lanci al secondo). Richiesta dell'utente: prima un clic dopo il rilascio faceva ripartire l'animazione, poi si aspettava la fine completa (1 s / 0,5 s / 0,25 s), ritenuta troppo lunga. Il livello sale con l'acquisto "Corso di Schiacciata".
-- Collider: RectangleShape2D 56x48 ai piedi, posizione (0, 52) (prima 72x120 in (0, 17); sprite 48x48 a scala 4, bbox visibile circa 88 px in larghezza da -92 a +76 in altezza). Vedi sezione Collisioni dei personaggi. RayCast2D: scala (2, 2), target (50, 0).
+## 5. Mondo di gioco
 
-## Palla di sabbia: specifiche
+- **Livello tutorial:** l'unico livello attuale, con level design semplice per imparare i comandi, ispirato alle copertine. La mappa è più grande dell'inquadratura e le nemiche arrivano da tutti i lati tranne il mare.
+- **Inquadratura fissa** (decisione dell'utente): la camera non segue il Player e mostra l'intera spiaggia giocabile. Il ragazzo sta al centro dello schermo, il Player parte davanti a lui.
+- **Terreno:** solo sabbia, battigia (con la sabbia bagnata) e mare con le sue profondità. Scogli ed erba non sono terreno (scartati dall'utente: "vanno bene per un platform 2D", e i personaggi ci passerebbero sopra); rocce, alberi, fiori e simili sono elementi di scena. La sabbia ha particolari sparsi a caso (increspature, piccole dune, luccichii, sassolini, conchiglie, puntini), mai uguali accanto. Il mare forma una baia in alto a destra.
+- **Elementi di scena:** disposizione ispirata a una spiaggia libera italiana, con pochi elementi e un criterio (richiesta dell'utente):
+  - macchia di palme con cespugli e fiori ai piedi sul lato opposto al mare (in alto a sinistra, dietro il chiosco, a sinistra, in basso a sinistra, in basso);
+  - punta della baia con gruppo di scogli; ciottoli e conchiglie sulla linea delle mareggiate; un tronco spiaggiato lungo la riva;
+  - due soli gruppi di ombrelloni: a destra due aperti con due teli e una tavola; in basso a sinistra uno aperto e uno chiuso con telo e tavola;
+  - il centro libero.
+- **Solidi e decorazioni:** palme, rocce medie e grandi, cespugli, ombrelloni, tavole piantate, tronchi, botti e cartello bloccano personaggi e palle di sabbia. Ciottoli, conchiglie, fiori, palme giovani, teli e tavole sdraiate sono decorazioni a terra, calpestabili.
+- **Granchio:** si muove (un animaletto non deve essere fermo: richiesta dell'utente). Non è calpestabile.
+- Regola di disposizione: gli ostacoli non stanno troppo vicini tra loro né al chiosco, così le nemiche non si incastrano.
 
-- Assets/Projectiles/SandBall/sand_ball.png (celle 24x24) e sand_ball_frames.tres: flight 4 frame 12 FPS loop; impact 4 frame 26 FPS una volta; land 8 frame 14 FPS una volta (texture separata sand_ball_land.png, vedi sotto).
-- In projectiles.tscn l'AnimatedSprite2D ha scale (2, 2): il nodo eredita scala 2 dal RayCast2D, quindi 1 pixel = 4 px a schermo come il Player.
-- Lo spawn copia la trasformazione globale del RayCast2D dopo l'inserimento nella scena: origine sul Player anche quando il livello è spostato, ruotato o scalato. Tempi di rilascio, velocità e danno restano quelli correnti.
-- La palla è indipendente dal Player dopo il rilascio anche avviando direttamente la scena base con F6: senza owner viene aggiunta al padre del Player.
-- Lo sprite ruota con la direzione di lancio: l'impatto è disegnato verso +x (il nemico) e simmetrico in verticale; projectiles.gd imposta flip_v quando il lancio va a sinistra, così la luce resta in alto. Ogni nuovo proiettile o effetto che ruota con la mira va disegnato con la stessa regola.
-- Collider RectangleShape2D 24x22 in posizione (1, 0), sulla testa della palla (coordinate locali, il nodo eredita scala 2).
-- Danno immediato una sola volta al contatto con un nemico vivo; la palla si ferma e sparisce a fine impatto. I colpi mancati, dopo 3 s di volo, cadono sulla sabbia: animazione `land` (8 frame 24x24, 14 FPS, una volta) da Assets/Projectiles/SandBall/sand_ball_land.png (sorgenti Tools/pixelorama/sand_ball_land.pxo e sand_ball_land_gen.py): la palla si rimpicciolisce di poco (3 frame), si schiaccia a terra, scoppia in granelli e si dissolve in granelli scuri visibili sulla sabbia. Simmetrica, quindi vale per ogni direzione di lancio. Mentre cade non colpisce più e rallenta fino a fermarsi.
+## 6. Personaggi
 
-## Nemica base: specifiche
+### Protagonista
 
-- Sorgenti: Tools/blender/nemica.blend, ricostruito da base_personaggio.blend sul turnaround approvato con `nemica_modello.py:make_enemy()`. Riusa corpo regolare, testa e visual hull del Player; chioma viola lunga e liscia, ciocche alle tempie, bikini smeraldo triangolare con lacci e fiocchi ai fianchi. Volumi morbidi di seno e glutei continui nel corpo. `nemica_pipeline.py` genera atlante e SpriteFrames; procedura in Docs/BLENDER.md §11.
-- Palette: capelli viola #2a1240 #4b2a78 #7043a1 #a97fd9; costume smeraldo #16503a #25805a #3db57d #8de0b4; pelle e viso invariati rispetto al Player.
-- Occhi stabili nelle diagonali anteriori: il singolo occhio leggibile mantiene il timbro2x3 con riflesso, sulla pelle sopra la bocca. Frontale con due occhi e profili con uno1x3. Parametri di selezione e verifica in `Docs/BLENDER.md` §13.
-- Atlante enemy_spritesheet.png: **768x2048, celle 64x64**, 12 colonne, 32 righe; righe = gruppo*8 + direzione. Camera `ORTHO = 2.2*64/48`: stessa scala di pixel del Player, con margine per capelli e caduta. Gruppi: walk (righe 0-7, 8 frame), flirt (8-15, 12 frame), idle (16-23, 6 frame, riusa idle() del Player), dead (24-31, 8 frame: caduta a sedere, `fall()` in nemica_pipeline.py, tabella `FALL` di 8 pose; gambe all'aria, impatto, rimbalzo, seduta stordita). Ordine direzioni: up, down, right, left, up_right, up_left, down_right, down_left.
-- Assets/Characters/Enemy/enemy_frames.tres: `walk_<dir>` 8 FPS, `flirt_<dir>` 8 FPS, `idle_<dir>` 5 FPS, tutte in loop; `dead_<dir>` 12 FPS, una volta sola (resta sull'ultimo frame). La pipeline scrive tutte le 32 animazioni insieme all'atlante, inclusa la morte, mantenendo lo UID esistente della risorsa. Tutte le regioni sono 64x64 anche nel riferimento caricato dall'editor, coerenti con la texture 768x2048. `build_enemy_steps()` permette la stessa build in lotti MCP.
-- Il passo riusa gambe, bacino e busto del Player: cosce ±1.5°, rotazione Y del bacino massima 3°. Il busto eredita le rotazioni del Player (spine Y ±5°, chest Y ±4°); braccia e chioma mantengono il gesto della nemica. Attaccatura frontale più piena alle tempie, con guance libere di profilo, coerente con il turnaround. Anche le action walk/run/attack_walk/attack_run della base generica hanno il passo raccolto; geometria e rig a riposo sono invariati. Il flirt è la posa da ferma davanti al ragazzo: piedi fissi a terra (IK `pin_feet()` su coscia e stinco), peso che passa da una gamba all'altra con bacino che si sposta, si abbassa e ruota, busto in contro-movimento, mano sinistra sul fianco e destra vicino alla tempia/ai capelli, testa inclinata. Il braccio destro ha spalla X−10°/Z100–112° e avambraccio Z+85–95°: gomito piegato verso la testa, polso sopra il gomito; movimento raccolto senza piega rovesciata. Correzione richiesta dall'utente per il braccio storto nel flirt. Le96celle di attacco nelle otto direzioni usano questa posa; walk/idle/dead e tempi restano invariati.
-- Characters/enemy.tscn: CharacterBody2D in modalità Floating (`motion_mode = 1`), senza trasporto da pavimenti mobili; AnimatedSprite2D scala 4, offset (0, -3); barra salute spostata in alto di 40 px; collider 72x120 in (0, 17). La logica che sceglie flirt, idle e walk sta in enemy.gd `update_animation()` (vedi CODE_MAP.md).
-- Posa della caduta approvata dall'utente: braccia distese verso il basso, busto raccolto senza petto inarcato, collo e testa avanzati, gambe piegate con ginocchia sollevate e piedi vicini alla sabbia. `FALL` in `nemica_pipeline.py` contiene le8pose; l'osso head conserva il parent chest ma permette la traslazione del collo. Sorgente `nemica.blend` e ricostruzione `nemica_modello.py` coerenti. Le64celle dead nelle otto direzioni usano questa posa; ritmo12FPS e ultimo frame fermo.
-- Colpita e morte: lampo bianco 0,1 s con shader `Assets/Characters/Enemy/hit_flash.gdshader` (solo pixel opachi, l'ombra non cambia), piccolo rinculo e stordimento di 0,15 s (non durante il flirt). Alla morte cade a sedere nella direzione in cui guardava, resta a terra circa 1 s e sparisce in un "puff": `Objects/puff.tscn`, nuvoletta di 6 frame 32x32 (scala 4) disegnata in Pixelorama con palette sabbia #fff6e8 #f6e2b0 #e3c084 e contorno #3a1418 (sorgenti: Tools/pixelorama/puff.pxo e puff_gen.py; sheet Assets/Effects/Puff/puff.png). Cresce, copre il corpo al picco e si scioglie in sbuffi più piccoli. Niente particelle di Godot (`CPUParticles2D`/`GPUParticles2D`): l'idea dei granelli di sabbia non è stata realizzata.
-- Concept: Assets/ConceptArt/Enemies/enemy_turnaround.png (1536x1024, fronte/profilo destro/retro); look generale approvato dall'utente. Prompt in Tools/concept/prompts.json, voce enemy_base. Donna adulta atletica e formosa, proporzioni chibi, vita definita, seno e glutei leggermente più pieni rispetto alla protagonista senza eccessi. Capelli viola lunghi e lisci fino alla vita bassa, braccia libere nella vista posteriore; bikini smeraldo a triangolo con lacci sopra e ai fianchi, slip sgambato. Modello e sprite attuali derivano da questo concept e sono approvati, compresi passo raccolto, busto e attaccatura.
+- Ragazza della spiaggia del concept: chioma rossa voluminosa, costume turchese.
 
-## Ragazzo: concept
+### Nemica base
 
-- Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png: tavola 1536x1024, fronte/profilo destro/retro, nello stile dei turnaround Player e nemica; prompt in Tools/concept/prompts.json, voce boyfriend. **Concept approvato dall'utente.**
-- Specifiche richieste: adulto leggermente più alto delle ragazze, atletico e robusto senza eccessi muscolari; viso bello e affascinante, occhi verdi, pelle moderatamente abbronzata; capelli corti castano scuro, taglio ordinato con lati corti e parte superiore pettinata lateralmente, ispirato al taglio di George Clooney.
-- Barba corta castana su mento e mandibola, ispirata al riferimento di Can Yaman: spazio di pelle libera sotto il labbro inferiore con piccolo pizzetto triangolare centrale rivolto in basso. Collanina sottile da spiaggia, piccole perline scure con accenti rosso/giallo/verde d'ispirazione giamaicana.
-- Costume richiesto: bermuda fino a metà ginocchio. Colore scelto: terracotta caldo (riferimento #B85B41), con cordino chiaro, in una palette ispirata ai toni Autunno dell'armocromia.
-- Per i concept è sufficiente ImageGen con i turnaround esistenti come riferimento; Pixelorama serve solo quando sono necessari ritocchi o pixel art.
+- Donna adulta atletica e formosa, proporzioni chibi, vita definita, seno e glutei un po' più pieni della protagonista senza eccessi. Capelli viola lunghi e lisci fino alla vita bassa; bikini smeraldo a triangolo con lacci e fiocchi ai fianchi, slip sgambato.
 
-## Ragazzo: sprite (in lavorazione, render di prova da approvare)
+### Ragazzo
 
-- Modello ricostruito dal concept (Tools/blender/ragazzo.blend, `ragazzo_pipeline.py`; procedura e parametri in `Docs/BLENDER.md` §6-7).
-- **Altezza dal concept (priorità dell'utente):** rapporto delle altezze dei due turnaround, 879/759 = 1.158. Cella **64x64** (non 48x48) con la stessa scala di pixel del Player; figura circa 48 px (righe 5-53), piedi alla riga 53.
-- Viso a pixel: di fronte occhi2x2 (scuro + riflesso, riga bassa verde), di profilo1x2 a2px dal bordo del viso. Occhi alzati di un ulteriore pixel nel timbro, sopracciglia piatte2x1 #6b3a26 sulla riga subito sopra; eliminate le piccole sopracciglia dipinte sulla testa che si sommavano al timbro. Bocca2px #b5483a frontale e1px laterale; bocca, barba e marcatori3D conservano le quote precedenti, già corrette per la camera inclinata. Occhi chiusi dell'idle preservati. Procedura riproducibile in `Docs/BLENDER.md` §13.
-- Palette (dai colori del concept): pelle #8f4a2c #c97847 #e99d63 #f8b47a; capelli e barba #2b140c #4d2a1e #6b3a26 #9b573b; bermuda #6e2818 #9e3f2c #c4553a #dd7050; occhi #1f3319 / #4e7a34; perline #1e0d07 con #c0392b #e8c547 #2e8b45.
-- **Modello approvato dall'utente** (nota dell'utente: davanti sembra senza collo, accettato). Ancora da fare: capelli con la forma pettinata del concept (oggi la sagoma è giusta ma la superficie è liscia), cordino dei bermuda. Tools/pixelorama/boyfriend.pxo contiene un ritocco a mano del modello precedente, superato.
-- **Animazioni (richiesta dell'utente)**, `build_boyfriend()` scrive Assets/Characters/Boyfriend/boyfriend_spritesheet.png e boyfriend_frames.tres; 8 direzioni come le nemiche:
-  - `idle` (6 frame, 5 FPS, loop): fermo al sole, mani sui fianchi, mento alzato, occhi chiusi (`EYES_CLOSED`), respira solo il busto.
-    Gomiti più bassi e raccolti; mani rivolte verso il basso, vicine ai fianchi. La stessa posa di appoggio è condivisa con glance e con il braccio sinistro di admire.
-  - `glance` (8 frame, 8 FPS, una volta): corpo sempre rivolto in basso come l'idle, testa (fino a 90°) e busto (al massimo 30°) girati per un attimo verso la direzione della nemica, poi tornano; occhiata curiosa senza attenzione.
-  - `admire` (8 frame, 6 FPS, loop): rivolto verso la nemica, sporto in avanti, testa inclinata, mano destra al mento, sinistra sul fianco, ondeggia.
-  - `flex` (8 frame, 8 FPS, loop): rivolto verso la nemica, doppio bicipite col petto in fuori a impulsi.
-- Regole di scelta (utente): con moralità > 0 sempre lo stesso comportamento (idle con occhiate ogni 2,5-5 s), qualunque sia la fedeltà; con moralità a 0 dipende dalla fedeltà: sopra metà `admire`, a metà o meno `flex`. Senza nemiche che attaccano: idle. Verificato in gioco (sequenza glance -> admire a moralità 0 -> flex a fedeltà 50). Da far approvare all'utente in gioco.
+- Adulto leggermente più alto delle ragazze, atletico e robusto senza eccessi muscolari; viso bello, occhi verdi, pelle moderatamente abbronzata.
+- Capelli corti castano scuro, lati corti e parte superiore pettinata di lato (ispirazione: George Clooney). Barba corta castana su mento e mandibola con pelle libera sotto il labbro e piccolo pizzetto triangolare (ispirazione: Can Yaman).
+- Collanina sottile da spiaggia con perline scure e accenti rosso, giallo, verde d'ispirazione giamaicana. Bermuda fino a metà ginocchio, terracotta caldo con cordino chiaro (toni Autunno dell'armocromia).
 
-## Pipeline grafica e stile visivo - LEGGERE PRIMA DI TOCCARE SPRITE
+### Negoziante (Sandro)
 
-Tutte le nuove risorse grafiche (nemici, ragazzo, oggetti, effetti) devono seguire questo stile e questi strumenti. Strumenti MCP del progetto: **Blender** (personaggi animati), **Pixelorama** (pixel art a mano, effetti, ritocchi), **Godot AI** (editor e gioco: scene, nodi, script, avvio, log, screenshot per verificare in gioco).
+- Gestore maturo e ordinario: viso allungato con naso pronunciato, tratti morbidi e piccoli segni d'età, senza baffi; pelle abbronzata, capelli mossi brizzolati schiariti dal sole, cappello di paglia con fascia petrolio, camicia hawaiana corallo a grandi motivi crema aperta su una canotta chiara.
+- Sta dietro il bancone e ogni tanto pulisce bicchieri e bancone.
+- Vincoli dell'utente: identità da chiosco sulla spiaggia, cappello mantenuto, viso non da bel ragazzo, dimensioni credibili rispetto all'edificio; evitare il viso tondo con baffi simile a Super Mario.
 
-### Strumenti (guide operative dedicate)
+### Chiosco
 
-Il catalogo della skill è estendibile: Blender, Godot e Pixelorama sono la dotazione iniziale. Quando viene usato un nuovo programma tramite MCP, l'agente aggiunge la guida generica, la voce nel catalogo e la guida locale; un nuovo backend dello stesso programma integra la guida esistente distinguendo le proprie API. Anche le nuove guide seguono l'aggiornamento obbligatorio e la separazione tra know-how generico e dettagli del progetto.
+- Legno caldo, tetto di paglia dorata, tenda rossa e crema a bordo smerlato, lanterna ambrata, mensola con bottiglie, bancone con bibite, tavola da surf crema e rossa con ibisco e botte con corda sul lato sinistro. Niente sgabelli: si arriva direttamente al bancone (richiesta dell'utente).
 
-Server MCP attesi: `blender`, `pixelorama`, `godot-ai`, con i programmi aperti. La skill condivisa `game-tools`, in `C:\Users\stefa\.agent-knowledge\game-tools\SKILL.md`, instrada alle tre guide generiche in `references/`. Codex e Claude Code usano la stessa copia. Le tre guide locali esistenti restano dedicate al progetto: leggere quella pertinente prima dell'uso e aggiornarla con le nuove lezioni verificate; trasferire obbligatoriamente il know-how riutilizzabile nei riferimenti della skill in forma generica. Le scelte di stile di questo progetto restano vincolanti qui:
+## 7. Interfaccia
 
-- **Blender** (personaggi animati: modello 3D chibi + rig renderizzato a pixel): `Docs/BLENDER.md`. Sorgenti in `Tools/blender/` (base comune `base_personaggio.blend`, un .blend e uno script per personaggio).
-- **Pixelorama** (oggetti piccoli, effetti, icone, ritocchi dentro la silhouette): `Docs/PIXELORAMA.md`. Sorgenti in `Tools/pixelorama/`.
-- **Godot AI** (scene, nodi, script, avvio, log, screenshot per verificare in gioco): `Docs/GODOT.md`.
-- Cartella `Tools/` versionata in Git (sorgenti grafici; `.gitignore` esclude `.blend1` e `__pycache__`) e ignorata da Godot. Prompt dei concept in `Tools/concept/prompts.json`; concept art in `Assets/ConceptArt/<soggetto>/` (ignorata da Godot). Per ogni nuovo elemento con sprite: sorgenti in `Tools/` e prompt in `Tools/concept/`.
+- **Priorità dell'utente:** interfaccia e menu sono provvisori sul piano grafico. Ora devono funzionare, essere leggibili e posizionati bene; il restyling estetico verrà dopo.
+- **HUD a bande:** due bande in legno scuro a tutta larghezza, in alto e in basso, così HUD e gioco non si sovrappongono. In alto: ondata (sinistra), punti (centro), monete (destra). In basso: barre di moralità e fedeltà a sinistra, nemiche rimaste e sconfitte a destra. Le voci mostrano solo un'icona e il numero.
+- **Barre:** tubi di vetro con liquido che si svuotano piano piano: moralità blu, fedeltà rossa. Sulle barre del ragazzo c'è "valore / massimo".
+- **Icone dell'HUD:** illustrate come quelle degli oggetti. Fedeltà: cuore rosso corallo. Moralità: scudo turchese con bordo oro e cuore rosso. Ondata, stella marina (punti), moneta, nemica in piedi (rimaste), nemica a terra (sconfitte).
+- **Numeri fluttuanti:** sopra la testa di una nemica colpita sale e svanisce il danno subito. Sopra il ragazzo compaiono perdite e recuperi, del colore della barra interessata; anche per ripristini e aumenti dei massimi.
+- **Conto alla rovescia:** "Prossima ondata tra: N" sotto la banda alta, nello stile del popup del bonus.
+- **Tipografia:** Luckiest Guy per titoli e annunci; Fredoka per interfaccia e testo. Ruoli, pesi e misure in `Docs/FONTS.md`.
+- **Immagini conservate:** logo solo testo, logo completo, copertina con i personaggi, copertina con personaggi e logo. Nessun uso assegnato; non eliminarle come inutilizzate.
 
-### Modalità di lavoro per un nuovo personaggio (indicazione dell'utente)
+## 8. Pipeline grafica e stile visivo
 
-1. **Il turnaround è il riferimento principale del modello 3D.** Si porta in Blender come immagini di riferimento (fronte, profilo, retro) allineate al modello, e il personaggio si ricostruisce sopra: sagome di busto, braccia, gambe, testa e capelli adattate alle viste, zone di colore (pelle, capelli, barba, costume) prese dal concept. Non si deforma a occhio un modello esistente.
-2. **Coerenza con gli altri personaggi:** stesso rig, materiali toon, camera, contorno, occhi a pixel e ombra della protagonista e delle nemiche; la scala viene dal confronto dei concept (altezze relative come nei turnaround).
-3. **Dopo ogni revisione del modello**, mostrare all'utente sia il render del modello sia lo sprite 2D generato (posa base nelle 4 direzioni, ingrandimento nearest), aprendoli direttamente in VS Code. Mostrare le anteprime man mano, senza aspettare il risultato finale.
-4. **Pixelorama solo per ritoccare lo sprite risultante**, dentro la silhouette (ciocche, viso, dettagli del costume, linee muscolari), se serve.
-5. **Le correzioni di forma e proporzione tornano nel modello:** si usa lo sprite ritoccato come riferimento per rifare correttamente il modello, così ogni frame delle animazioni esce già giusto e coerente tra le direzioni. Non ridisegnare a mano la silhouette vista per vista (le direzioni diventano incoerenti: N/S ed E/O sembrano persone diverse).
+Leggere prima di toccare qualsiasi sprite. Tutte le nuove risorse grafiche (nemiche, ragazzo, oggetti, effetti) seguono questo stile e questi strumenti. Percorsi di concept, sorgenti e risorse: `Docs/CODE_MAP.md`, sezione Risorse grafiche.
+
+### Strumenti
+
+- **Blender** (MCP `blender`): personaggi animati, modello 3D chibi con rig, renderizzato a pixel. Guida `Docs/BLENDER.md`.
+- **Pixelorama** (MCP `pixelorama`): oggetti piccoli, effetti, tile, ritocchi dentro la silhouette. Guida `Docs/PIXELORAMA.md`.
+- **Godot AI** (MCP `godot-ai`): scene, nodi, script, avvio, log, screenshot per verificare in gioco. Guida `Docs/GODOT.md`.
+- **ImageGen:** concept art e icone illustrate, usando i concept esistenti come riferimento. Pixelorama solo se servono ritocchi o pixel art.
+- La skill condivisa `game-tools` instrada alle guide generiche; le regole di aggiornamento delle guide sono in `AGENTS.md`.
+- Per ogni nuovo elemento con sprite: concept, prompt e sorgenti conservati nel progetto (dove: CODE_MAP).
+
+### Metodo per un nuovo personaggio (indicazione dell'utente)
+
+1. **Il turnaround è il riferimento principale del modello 3D:** le viste (fronte, profilo, retro) si allineano al modello e il personaggio si ricostruisce sopra, con zone di colore prese dal concept. Non si deforma a occhio un modello esistente.
+2. **Coerenza con gli altri personaggi:** stesso rig, materiali toon, camera, contorno, occhi a pixel e ombra; la scala viene dal confronto dei concept (altezze relative come nei turnaround).
+3. **Dopo ogni revisione del modello** mostrare all'utente il render del modello e lo sprite generato (posa base nelle 4 direzioni, ingrandimento nearest), aprendoli in VS Code. Mostrare le anteprime man mano, senza aspettare il risultato finale.
+4. **Pixelorama solo per ritoccare lo sprite** dentro la silhouette (ciocche, viso, dettagli del costume, linee muscolari).
+5. **Le correzioni di forma e proporzione tornano nel modello:** lo sprite ritoccato è il riferimento per correggere il modello, così ogni fotogramma esce giusto e coerente tra le direzioni. Non ridisegnare a mano la silhouette vista per vista.
 
 ### Regole di stile (vincolanti)
 
-Stile pixel confermato per tutti i personaggi.
+- Pixel art per tutto il mondo di gioco; icone e illustrazioni dell'interfaccia sono invece nello stile illustrato delle copertine.
+- Player in celle 48×48; ragazzo e nemica in celle 64×64 alla stessa scala di pixel (ragazzo più alto, nel rapporto dei turnaround: 1,158). In gioco 1 pixel d'arte = 4 pixel a schermo, filtro nearest; proiettili ed effetti alla stessa densità.
+- Pixel interi, nessun anti-aliasing, nessuna semitrasparenza tranne l'ombra. Toon a 4 toni con luce fissa dall'alto a sinistra; vista dall'alto a 25°. Tutto è visto di fronte, anche gli edifici (niente viste quasi isometriche).
+- Contorno esterno 1 px #3a1418.
+- **Palette Player:** pelle #9c5536 #d9864f #faaf72 #ffc994; capelli #5e1c1f #912a2a #d13d3b #ec6a52; costume #4f7f88 #6a9ea6 #96cbcf #c4eef0.
+- **Palette sabbia:** #8a6a3e #b8925a #e3c084 #f6e2b0.
+- **Palette nemica base:** capelli #2a1240 #4b2a78 #7043a1 #a97fd9; costume #16503a #25805a #3db57d #8de0b4; pelle e viso come il Player.
+- **Palette ragazzo:** pelle #8f4a2c #c97847 #e99d63 #f8b47a; capelli e barba #2b140c #4d2a1e #6b3a26 #9b573b; bermuda #6e2818 #9e3f2c #c4553a #dd7050; occhi #1f3319 / #4e7a34; perline #1e0d07 con #c0392b #e8c547 #2e8b45.
+- **Occhi** non renderizzati ma timbrati a pixel: 2×3 (scuro + riflesso in alto a destra, riga bassa più chiara); nei profili un solo occhio 1×3; la nemica tiene un occhio 2×3 nelle diagonali anteriori. Sguardo dolce, mai inclinato (inclinato sembra arrabbiato). Bocca 2 px #c25a4a solo di fronte. Ragazzo: occhi 2×2 di fronte (scuro + riflesso, riga bassa verde) e 1×2 di profilo, sopracciglia piatte 2×1 #6b3a26, bocca #b5483a.
+- **Braccia leggibili** nelle viste laterali e diagonali: contorno 1 px sul busto dove il braccio lo nasconde, senza anelli sull'attaccatura della spalla.
+- **Ombra:** proiezione verticale del corpo, #3a1418 semitrasparente, più piccola quando i piedi sono in aria. Nessuna ombra può coprire un personaggio.
+- **Elementi di scena:** stessa densità di pixel dei tile, 4 toni, luce dall'alto a sinistra, contorno #3a1418, ombra incorporata.
+- **Proporzioni:** chibi ma vicine al concept (testa grande, corpo non troppo schiacciato).
+- **Animazioni:** l'idle muove solo il busto, con piedi e bacino fermi (non deve "saltellare"); nella camminata Nord/Sud le gambe sono leggermente divaricate ma non troppo; ogni animazione d'attacco chiude il ciclo tornando alla posa base.
+- Ogni proiettile o effetto che ruota con la mira va disegnato verso destra e simmetrico in verticale, così la luce resta in alto anche lanciando a sinistra.
 
-- Player in celle 48x48; ragazzo e nemica in celle 64x64, alla stessa scala di pixel (ragazzo più alto dal concept; nemica con margine per capelli e caduta). In gioco scala 4 con filtro nearest. Proiettili/effetti in celle più piccole con scala tale che 1 pixel = 4 px a schermo come il Player.
-- Pixel interi, nessun anti-aliasing, nessuna semitrasparenza tranne l'ombra; toon a 4 toni con luce fissa dall'alto a sinistra; camera dall'alto a 25° (impostazioni tecniche in `Docs/BLENDER.md` §4).
-- Palette Player: pelle #9c5536 #d9864f #faaf72 #ffc994; capelli #5e1c1f #912a2a #d13d3b #ec6a52; costume #4f7f88 #6a9ea6 #96cbcf #c4eef0; sabbia #8a6a3e #b8925a #e3c084 #f6e2b0. Contorno esterno 1 px #3a1418.
-- Occhi NON renderizzati: si timbrano a pixel dopo il render (2x3: scuro + riflesso in alto a destra, riga bassa più chiara; nei profili un solo occhio1x3). La nemica mantiene un occhio2x3 nelle diagonali anteriori, vincolato alla pelle. Sguardo dolce, mai inclinato (inclinato sembra arrabbiata). Bocca2px #c25a4a solo di fronte.
-- Braccia leggibili nelle viste laterali e diagonali di Player, nemica e ragazzo: contorno1px #3a1418 sul busto dove il braccio lo nasconde, esterno al braccio per conservarne la pelle e limitato all'interno della sagoma opaca totale. Sagoma esterna e ombra restano quelle del render3D; nessun anello disegnato sull'attaccatura della spalla. Layout, tempi, scene e controller invariati.
-- Ombra: proiezione verticale del corpo (Root scalato a z=0.002), #3a1418 alpha97/255, più piccola quando i piedi sono in aria. Nei PNG dei personaggi resta incorporata, ma in Godot è disegnata separatamente dal corpo tramite `GroundShadow`: terreno aZ−3, decalcomanie dei props aZ−2, ombre aZ−1 assoluto, corpi aZ0 ordinati per y. Vale per Player, lanci in movimento, nemica e ragazzo; anche l'ombra già separata del negozio usa Z−1 assoluto. Nessuna ombra può coprire un personaggio, neppure se l'oggetto che la proietta viene dopo nello Y-sort.
-- Contratto alpha dei personaggi: solo0/97/255, semitrasparenza riservata all'ombra; `Assets/Shaders/ground_split.gdshader` separa corpo(alpha≥0.5) e ombra(alpha<0.5) senza cambiare PNG, palette, frame o tempi. `Scripts/ground_shadow.gd` mantiene texture, frame, offset e flip sincronizzati con lo sprite sorgente ed eredita trasformazione/visibilità. I nuovi personaggi devono conservare questa separazione di rendering; procedure in `Docs/GODOT.md` §9.
-- Proporzioni: chibi ma vicine al concept (testa grande, corpo non troppo schiacciato). Capelli compatti nel Player per leggibilità a 48 px.
-- Animazioni: l'idle muove solo il busto con piedi e bacino fermi (non deve "saltellare"); nella camminata Nord/Sud le gambe vanno leggermente divaricate per distinguerle; ogni animazione d'attacco deve chiudere il ciclo tornando alla posa base.
+## 9. Vincoli dell'utente
 
-## Stato
+- Collisioni e RayCast2D si possono modificare se serve per adattarli alla grafica o al gioco; verificare poi in gioco.
+- Modificare il gameplay esistente solo se strettamente necessario.
+- Scene e nodi si possono riorganizzare e ottimizzare se il risultato visivo e funzionale resta lo stesso; verificare l'equivalenza.
+- Solo filtro nearest; rispettare lo stile della sezione 8.
+- Nel progetto restano solo le risorse in uso, senza suffissi di versione; non ricreare né citare versioni precedenti.
+- `.vscode/settings.json` è gestito dall'utente: non toccarlo.
+- I commit li fa l'utente.
 
-- **Fatto di recente:** sistema di acquisti completo (spesa della valuta, contatori, effetti di tutti gli oggetti) e velocità di lancio a tre livelli; il pannello del negozio è centrato, con sezioni comprimibili Moralità/Fedeltà nel solo tab Partner (Giocatore e Bonus senza sezioni) e schede a 3 per riga con prezzo (vedi Negozio). La nemica base ha walk, flirt, idle, colpita (lampo bianco, rinculo, stordimento) e morte (caduta a sedere, poi puff) in 8 direzioni, collegate a enemy.tscn e enemy.gd; i colpi mancati cadono sulla sabbia e si disperdono (animazione `land`). Le nemiche seguono un percorso verso un proprio posto sul bordo dell'area del ragazzo (A* su griglia in `Scripts/pathfinder.gd`, posti e separazione in `enemy.gd`), non si urtano tra loro (layer di collisione 2) e il livello ordina gli sprite per y.
-- **Approvati dall'utente:** nuovo aspetto del Player, inclusi capelli e attaccatura; animazioni, diagonali, ombra e lanci in movimento, con la sola correzione richiesta alle gambe troppo divaricate in camminata/corsa. Approvati anche palla di sabbia, aspetto e animazioni della nemica base (walk, flirt, idle, colpita, morte con puff), pathfinding con posti attorno al ragazzo, collisioni tra nemiche, ordine di disegno per y, caduta a terra dei colpi mancati.
-- **Incompleti o con errori noti:** negozio (prezzi ridotti il 2026-11-17 dopo il primo playtest, con ricompensa fissa a 10¢ per nemica base e prezzi dei ripristini 20/35/60 invariati: massimi 100, danno 70, lancio 50, monete 80, ombrellone e settimana enigmistica 50, gelato 30; da riverificare con altro playtest; nessun bonus temporaneo ancora; nessun playtest completo del bilanciamento); nessun errore noto di TileSet (il vecchio è stato eliminato il 17/11/2026).
+## 10. Stato attuale
 
-## Terreno: nuovo TileSet e mappa tutorial (17/11/2026)
+### 10.1 Punti approvati
 
-- **Decisioni dell'utente:** il tileset nuovo piace; rifare tilemap e mappa di gioco da zero, **senza cancellare quanto esiste**: il vecchio livello è nascosto e inerte. La mappa attuale è un **livello tutorial** (level design semplice, per imparare i comandi), ispirata alle copertine, più grande dell'inquadratura, con nemiche che nascono da tutti i lati. L'utente ha poi scartato scogli ed erba come tile ("vanno bene per un platform 2d", e nemiche e Player ci passano sopra): **il terreno di base contiene solo sabbia, battigia (con la sabbia bagnata) e mare con le sue profondità**; rocce, alberi, fiori e simili saranno elementi di scena (sprite) da creare dopo.
-- **Concept:** `Assets/ConceptArt/Terrain/terrain_concept.png` e `props_concept.png`, prompt in `Tools/concept/terrain_prompt.json` e `props_prompt.json`.
-- **Tileset:** `Assets/Tiles/terrain/terrain_atlas.png` (576×320: 9×5 tile da 64 px = 16 px d'arte a scala 4) e `terrain_tileset.tres` (tile 64×64, un layer fisico `collision_layer` 1, un solo set di terreno a angoli Sabbia/Acqua; 23 tile). Riga 0: sabbia a-d, sabbia bagnata a-b, acqua a-c (c = acqua profonda, da mettere a mano); righe 1-4: costa a 16 configurazioni. Collisioni: acqua e battigia (parte d'acqua). Sorgenti: `Tools/pixelorama/terrain_gen.py` (atlante), `terrain_tileset_gen.py` (`.tres`), `terrain.pxo`.
-- **Mappa:** `Scenes/tutorial_map.tscn` (un solo `TileMapLayer` `Ground`, 62×42 tile = 3968×2688 px, cioè 8 tile oltre l'inquadratura per lato), scritta da `Tools/level/tutorial_map_gen.py` (baia a gradini in alto a destra, sabbia con varianti; solo sabbia e mare). Istanziata in `World/TutorialMap` in (800,−560), il centro della camera, quindi l'origine della mappa coincide con un angolo di tile al centro dello schermo. Posizioni di camera, ragazzo, Player e negozio invariate.
-- **Vecchia mappa eliminata (richiesta dell'utente, 17/11/2026):** tolti da `level.tscn` il vecchio TileSet (cinque sottorisorse), i layer `Beach` e `BeachEnvironment`, il nodo `OldMap` con le tre vecchie zone di spawn e le loro forme, e cestinate le immagini collegate `Assets/Tiles/sand.png` e `beach-desert.png` (con i `.import`; recuperabili dal cestino o da git). La scena è passata da circa 223 KB a 5 KB e **gli errori del vecchio TileSet all'avvio del livello sono spariti**. Non resta nessun altro riferimento nel progetto.
-- **Spawn:** `World/EnemySpawn` ha quattro strisce (sinistra, destra, alto, basso) subito fuori dall'inquadratura, a 160–360 px dal bordo, con peso proporzionale all'area; quella in alto si ferma prima della baia e quella a destra parte sotto la baia, quindi dall'angolo in alto a destra (mare) non nasce nessuna nemica. Verificato su 3000 campioni: nessun punto dentro l'inquadratura, su tile solide o fuori mappa (distribuzione: basso 32%, sinistra 30%, alto 20%, destra 18%); in una prova accelerata le tre nemiche arrivano ai loro posti attorno al ragazzo.
-- **Collisioni dei personaggi (17/11/2026, richiesta dell'utente: la ragazza deve potersi avvicinare al ragazzo "come due persone vicine, ma non troppo"):** le forme sono ora impronte ai piedi, non più rettangoli alti quanto il corpo. Player e nemica 56×48 in (0,52); ragazzo 64×60 in (0,54) (prima 130×129 in (0, 0,5)); `Pathfinder.PROBE_SIZE/PROBE_OFFSET` allineati a 56×48 in (0,52). Distanze minime tra Player e ragazzo (origine a origine): 60 px di lato, 52 px da dietro, 56 px da davanti (prima circa 100 e 125). Il `HitZone` del ragazzo (raggio 185) è centrato ai piedi in (0,54), perché con le forme ai piedi il cerchio a metà corpo faceva fermare le nemiche da nord molto più lontano che da sud: misurate otto nemiche a 45° tra loro, tutte attaccano a 198–210 px dall'origine del ragazzo, da nord e da sud a 198.
-- **Bug colpi alle nemiche corretto (18/11/2026):** con la forma ai piedi i proiettili attraversavano il corpo e colpivano solo i piedi. Aggiunta alla nemica un'Area2D `Hurtbox` (layer 2, 72×172 in (0,−10), da 8 px sotto la cima dei capelli ai piedi: a 72×120 un colpo ad altezza testa passava sopra, a 72×180 colpiva l'aria sopra la testa) dedicata a ricevere i colpi; `projectiles.gd` gestisce anche `area_entered`. La forma fisica ai piedi resta, quindi la ragazza può ancora avvicinarsi al ragazzo come prima. Verificato in gioco: colpo a testa e ai piedi va a segno, il colpo con il centro della palla a −108 px dall'origine non colpisce, a −105 px sì (la palla tocca visivamente i capelli già a −116). Da confermare dall'utente giocando.
-- **Sabbia rifatta (18/11/2026, richiesta dell'utente: troppo uniforme, con i puntini ripetuti su ogni tile):** la texture non è più periodica su ogni tile. `Tools/pixelorama/terrain_gen.py`: 22 varianti di sabbia (0 liscia, 1-21 con un solo particolare piccolo a 2 px dai bordi: increspature, piccole dune, luccichii, sassolini, conchiglia, puntini); le 18 nuove sono nelle righe 5-6 dell'atlante, che passa a 9×7 tile (144×112 px, 576×448 esportato); le tile di costa hanno la sabbia liscia (tolto il luccichio periodico). `terrain_tileset_gen.py` registra le nuove tile (le precedenti non cambiano: il diff del `.tres` è solo di aggiunte). `tutorial_map_gen.py` sceglie le varianti a caso con sabbia liscia dove i vicini hanno già un particolare e mai la stessa variante accanto; mappa riscritta (la baia è identica). Atlante passato da Pixelorama (`terrain.pxo`, `export_png` scala 4: nessuna differenza dallo script) e reimportato. Da far approvare dall'utente; se risulta ancora troppo piatta, alzare la densità in `sand_variant` o aggiungere variazioni di tono su più tile.
-- **Elementi di scena (18/11/2026, richiesta dell'utente: partire dal concept `props_concept.png` nello stile dei tile, con varianti, un'ambientazione credibile):** `Tools/pixelorama/props_gen.py` disegna a codice 82 sprite (pixel d'arte, 4 toni, luce in alto a sinistra, contorno #3a1418, ombra incorporata alpha 97): 9 palme (alta, inclinata, piegata, giovane; tre toni di verde; ribaltamenti), 10 rocce (ciottoli, piccole, medie, grandi, alta; arancio/viola e sabbia), 9 fiori (ibisco rosso/arancio/rosa, margherite gialla/bianca/azzurra, tre grappoli), 8 cespugli (foglie larghe, tonde, appuntite, piccoli), 7 conchiglie e animaletti, 7 ombrelloni chiusi e 7 aperti (calotta a spicchi con luce per spicchio, cima, festoni, asta e calotta inclinate), 10 tavole da surf (piantate dritte, inclinate a sinistra/destra, sdraiate, 4 disegni), 2 tronchi, cartello senza testo (piccolo), 2 botti, 7 teli. Atlante `Assets/Props/props_atlas.png` (640×286, esportato da Pixelorama a scala 1, `Tools/pixelorama/props.pxo`), metadati in `Tools/pixelorama/props.json`. `Tools/level/props_gen.py` posiziona 37 elementi (tabella `LAYOUT`, coordinate in tile dal centro della camera) e scrive `Scenes/tutorial_props.tscn`, istanziata in `Level/Props` in (800, −560): disposizione ispirata a una spiaggia libera italiana (richiesta dell'utente 18/11/2026: troppi elementi e senza criterio): macchia di palme con cespugli e fiori ai piedi sul lato opposto al mare (in alto a sinistra, dietro il negozio, a sinistra, in basso a sinistra, in basso), punta della baia con gruppo di scogli, ciottoli e conchiglie sulla linea delle mareggiate e un tronco spiaggiato lungo la riva, due soli gruppi di ombrelloni (a destra due aperti con due teli e una tavola; a sinistra in basso uno aperto e uno chiuso con telo e tavola), il centro libero. Ricerca: le fonti trovate (ISPRA, schede habitat, articoli) danno la zonazione mare, linea delle mareggiate, sabbia aperta, macchia/duna; le foto non erano leggibili dallo strumento di ricerca, quindi i criteri sono ricavati da quelle descrizioni. Solidi (25): palme, rocce medie/grandi, cespugli, ombrelloni, tavole piantate, tronchi, botti, cartello; hanno un poligono d'appoggio ricavato dal corpo dello sprite (inviluppo convesso delle ultime righe opache), non un quadratino; la palla di sabbia scoppia contro di loro (gruppo `solid_prop`). Ordinamento per y: i nodi stanno 52 px sopra i piedi, come i personaggi, e un personaggio dietro una calotta o una chioma ne è coperto (verificato). Ciottoli, conchiglie, fiori, palme giovani, teli e tavole sdraiate non sono solidi e sono decalcomanie sul livello del terreno (Z −2 assoluto, `World` portato a −3): prima, essendo ordinati per y come gli altri, una stella marina copriva i piedi di un personaggio posto appena sopra di lei, e i teli non si vedevano affatto perché il Y-sort li disegnava prima della mappa. Tronchi delle palme ora partono verticali dalla base, così il ciuffo d'erba resta in linea. Granchio animato (richiesta dell'utente 18/11/2026: un animaletto non deve essere fermo): `shell_crab` è ora quattro fotogrammi `shell_crab_0..3` (riposo, chela sinistra alzata e occhi su, chela destra alzata, solo occhi su) in celle identiche con lo stesso punto d'appoggio; `Tools/level/props_gen.py` (tabella `ANIMS`) lo scrive come due `AnimatedSprite2D` (corpo e ombra) con lo stesso `SpriteFrames` (6 voci con durate relative, 3 fps, ciclo di circa 3,3 s, `autoplay`). Su richiesta dell'utente non è calpestabile: è un solido (gruppo `solid_prop`, poligono d'appoggio dal fotogramma 0, 26 solidi in tutto; verificato con `test_move` di una nemica) pur restando una decalcomania per l'ordine di disegno. Verificato in gioco: i fotogrammi scorrono 0→5 e corpo e ombra restano sincronizzati. Mappa, props e granchio approvati dall'utente il 18/11/2026 (prime versioni con 114 e 57 elementi giudicate troppo piene). Bug segnalato dall'utente: una nemica restava incastrata tra l'ombrellone chiuso e il negozio; tolto l'ombrellone, il cartello spostato a (-1,5, -2,5) e una regola in `props_gen.py`: nessuna coppia di solidi a meno di ~2,5 tile (tranne i gruppi di palme e scogli ai bordi) e niente solidi vicino al negozio. Verifica in gioco: tre nemiche partite da sopra, a destra e a sinistra del negozio sono arrivate al ragazzo.
-- **Un file per ogni prop (richiesta dell'utente 18/11/2026, per riusarli in altri livelli):** `python Tools/level/props_gen.py <radice>` ora scrive anche una scena per ogni sprite in `Objects/Props/<nome>.tscn` (79: palme, rocce, fiori, cespugli, conchiglie, ombrelloni, tavole, tronchi, botti, cartello, teli, granchio animato) e `Scenes/tutorial_props.tscn` si limita a istanziarle nelle posizioni di `LAYOUT`. Ogni scena ha già sprite, ombra, collisione (solidi: StaticBody2D, gruppo `solid_prop`) e livelli Z giusti; l'origine sta 52 px sopra i piedi (come i personaggi), quindi per mettere i piedi in (X, Y) si posiziona l'istanza in (X, Y − 52). Verificato in gioco: stessa immagine di prima, 37 nodi, 26 solidi tutti bloccanti, granchio animato. Lo script ha tre modi: senza flag scrive solo le scene dei props nuovi (non tocca nulla di esistente); `--scenes` riscrive tutte le scene dei props (dopo un cambio di atlante); `--layout` riscrive `tutorial_props.tscn` e rifiuta se esiste, salvo `--force`. Così i ritocchi a mano alla disposizione restano finché non si chiede il contrario.
-- **Da fare:** rifinire il level design; eventuali transizioni tra profondità del mare.
-## Economia (decisioni dell'utente del 18/11/2026)
+Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli sviluppi futuri.
 
-- Perché: con 3 nemiche il ragazzo restava presto solo con la fedeltà e le monete bastavano appena per una cura del 25%. Pressione ridotta (danno base 10 → 5 con attacco ogni 1,4 s invece di 2 s, cioè circa 3,6 danni al secondo contro i 3,5 della versione da 7 danni ogni 2 s: scelta dell'utente perché 7 "stonava" all'inizio; salute base 60 → 50, quindi 5 lanci da 10) e monete per nemica 10 → 18 (`base_enemy_currency`), **senza crescita per ondata**: l'unica crescita delle monete è il bonus acquistabile (`coin_bonus`). Ogni sconfitta dà anche 10 punti. Prezzi del negozio fissi e invariati, da rivalutare dopo le prove (decisione precedente dell'utente: un eventuale aumento graduale solo ogni 5 o 10 ondate, più avanti).
-- **Bonus di fine ondata** (`level.gd`: `wave_currency`, `wave_bonus_rate()`, `_award_wave_bonus()`; ): valutato quando l'ultima nemica dell'ondata cade, sulle monete accreditate dalle nemiche in quell'ondata (gli acquisti non contano; il bonus del negozio sulle monete è già dentro). La fedeltà deve essere al massimo, altrimenti nessun bonus. Con fedeltà al massimo: moralità al massimo +100% (50 guadagnate → 50 in più, 100 in tutto); moralità sotto il massimo e strettamente oltre il 50%: +50% (50 → 25 in più); moralità strettamente sotto il 50%: +25% (50 → 12,5 → 13 in più); moralità a 0: nessun bonus (approvato dall'utente). Moralità esattamente al 50%: caso non specificato, trattato come +25% (il +50% richiede "strettamente maggiore del 50%"). Costanti `WAVE_BONUS_PERFECT` 1,0, `WAVE_BONUS_GUARDED` 0,5, `WAVE_BONUS_WEAK` 0,25. Il bonus è annunciato da un **popup** al centro dello schermo (`Objects/wave_bonus_popup.tscn` + `Scripts/wave_bonus_popup.gd`, richiesto dall'utente il 18/11/2026): due righe ("Bonus ondata +N%" crema, "+X monete" oro, contorno bordeaux come l'HUD, font Luckiest Guy) che entrano con l'uscita al contrario in due fasi da 0,3 s (richiesta esplicita dell'utente): 1) da un punto al centro crescono fino a 1,7 volte la dimensione normale ruotando verso sinistra fino a −42°, scala e rotazione arrivano al massimo insieme; 2) da lì tornano alla dimensione normale e dritte con curva lineare uguale per scala e rotazione, quindi il rimpicciolimento dura esattamente quanto il raddrizzamento (il "rimbalzo"). Con il picco a 1,1 e poi a 1,35 il rimpicciolimento non si vedeva: a −52° la scritta occupa in orizzontale il 62% della sua larghezza, quindi raddrizzandosi la sua larghezza a schermo cresceva (1,35 × 0,62 ≈ 0,83 → 1). Il 19/11/2026 l'utente ha scelto un picco più grande: con 2,0 a −52° (larghezza da 1,24 a 1) ha confermato che è il comportamento voluto, poi ha chiesto picco e inclinazione un po' minori: ora 1,7 a −42° (larghezza da 1,26 a 1). **Entrata approvata dall'utente il 19/11/2026** (1,7 a −42°, 0,3 + 0,3 s); tasto di prova temporaneo rimosso. Regola: tenere scala × cos(angolo) ben sopra 1, altrimenti il rimpicciolimento non si vede. Dissolvenza in entrata di soli 0,08 s. Versioni precedenti respinte: crescita nascosta da un bug (i Container azzerano scala e rotazione dei figli, vedi Docs/GODOT.md) e poi `TRANS_BACK` unico sulla scala con la rotazione separata, che arrivava a dimensione piena subito e poi ruotava quasi ferma; restano 2 s, poi avanzano di poco e vengono risucchiate verso il centro dissolvendosi (0,6 s, uscita approvata dall'utente). Font 34 e 62. Il popup compare solo se il bonus è maggiore di 0 e non blocca il gioco né i clic; sotto il conto alla rovescia (`NextWave`) resta solo "Prossima ondata tra: N" con testo crema e secondi oro (stessa palette del popup; l'utente ha in mente un'animazione anche per il countdown, per ora solo un'idea).
-- Verificato in gioco: tutti i casi di `wave_bonus_rate()`, ondata 2 con 54 monete guadagnate e moralità 70/100 = +27, totale 81; il popup è stato verificato con screenshot (crescita con rotazione, scritta dritta ferma, uscita con avanzamento e dissolvenza, valori di scala e alpha campionati passo per passo con `Tween.custom_step`). Non ancora provato con il gioco giocato davvero né con il negozio aperto.
+- **Protagonista:** aspetto e movimenti; velocità di lancio che parte bassa e cresce solo comprandola.
+- **Palla di sabbia:** lancio, impatto e caduta dei colpi mancati.
+- **Nemica base:** aspetto, movimenti, flirt, caduta con sbuffo; percorso verso un proprio posto attorno al ragazzo; le nemiche non si urtano tra loro.
+- **Ragazzo:** aspetto e movimenti.
+- **Chiosco e negoziante:** concept, aspetto e gesti; senza sgabelli. Nome "Chiosco da Sandro". Categorie Giocatore, Partner, Bonus come definite nella sezione 4.
+- **Economia di base:** valori dell'ondata 1, monete fisse per nemica senza crescita per ondata, prezzi fissi.
+- **Bonus di fine ondata:** regole della sezione 3 e animazione del popup.
+- **Mondo:** inquadratura fissa con il ragazzo al centro; terreno di sola sabbia, battigia e mare; mappa del tutorial; elementi di scena e loro disposizione; granchio animato.
+- **Interfaccia:** bande in legno scurite, icone dell'HUD, barre a tubo, numeri fluttuanti.
+- **Icone degli oggetti:** stile illustrato, con il frullato come riferimento.
 
-## Prossimi passi
+### 10.2 Punti in lavorazione
 
-Punti aperti indicati dall'utente. L'utente li aggiorna: aggiungere quelli nuovi, **rimuovere** quelli completati.
+Sviluppi in corso, in test o in attesa di valutazione e approvazione.
 
+- **Chiosco frontale:** versione vista di fronte con bancone più profondo, e sua posizione; da far approvare (l'utente può chiedere di spostarlo). L'utente aveva segnalato un errore sotto il bancone: se lo vede ancora, chiedergli di descriverlo.
+- **Pannello del negozio:** da far approvare in gioco.
+- **Colpi sul corpo intero della nemica:** da confermare giocando.
+- **Comportamento del ragazzo in gioco:** da far approvare.
 
-- Nome ufficiale del negozio: **"Chiosco da Sandro"** (scelto dall'utente il 2026-11-17, titolo del pannello in `Scenes/upgrades_purchase.tscn`, nodo `ShopName`). Il negoziante si chiama quindi Sandro. Idea futura: ogni tanto un fumetto sopra il negoziante con una battuta (non implementata).
-- Negozio: prezzi definitivi nella colonna `price` del CSV; altri bonus temporanei (durata in ondate già supportata, altri limiti no); nuovi oggetti per Giocatore, Partner e Bonus.
-- Molto più avanti: rivedere le dimensioni delle schede del negozio quando saranno stati aggiunti nuovi oggetti, per verificare che stiano tutti nel pannello (3 per riga, schede min 240 px) o se vadano rimpicciolite.
-- Terreno: eventuali transizioni tra profondità del mare.
-- Negozio: sprite rifatto frontale il 18/11/2026 (richiesta dell'utente: stonava, quasi isometrico, con personaggi e terreno visti di fronte): `YAW = 0` in `Tools/blender/shop_pipeline.py`, tre immagini statiche e atlante del negoziante rigenerati dallo stesso `shop.blend` (stesse animazioni `idle`, `clean_glass`, `wipe_counter`, `check()` superato), sprite in (0, −166,12), piano del bancone esteso in profondità (da 0,66 a 1,1; richiesta dell'utente: sembrava solo un bordo con i bicchieri appoggiati), collisione a rettangolo 367×111 ai piedi, area frontale rettangolare davanti al bancone, ellisse del barile in (−203, 12,5); tendina infilata sotto la frangia del tetto (prima una linea retta netta tra tetto e tendina). Posizione nel livello invariata (in alto a sinistra del ragazzo); da far approvare all'utente, che può ancora chiedere di spostarlo. Le palle di sabbia ora scoppiano contro il negozio (gruppo `upgrades`) invece di attraversarlo. L'utente aveva segnalato anche un errore nell'area rossa sotto il bancone (screenshot): nel gioco avviato dall'editor con le forme di collisione visibili quella zona è il disegno di debug del poligono dell'area frontale e della collisione, ora rettangolari; se l'errore era un altro, chiedere all'utente di descriverlo.
-- Coda delle nemiche attorno al ragazzo (richiesta dell'utente, da fare più avanti): quando intorno al ragazzo c'è già il numero massimo di nemiche, quelle nuove devono fermarsi appena sono vicine al gruppo, con l'animazione idle, e rimettersi in moto solo quando si libera un posto. Oggi `enemy.gd:_pick_slot()` cerca un posto libero sull'anello e, se non lo trova, torna a un posto già occupato (`base + SLOT_STEP`); manca un limite esplicito al numero di posti, la sosta a distanza dal gruppo e la ripartenza.
-- Varianti di colore e classi di nemiche (la nemica base è completa: walk, flirt, idle, colpita, morte).
-- Ragazzo: animazione di fuga al game over, da fare più avanti (idea: scappa con l'ultima che lo ha attaccato). Aspetto e animazioni idle/glance/admire/flex approvati.
-- Provare un export reale: Files/item_list.csv deve essere nel pacchetto e il negozio deve popolarsi.
-- Playtest completo: menu -> ondate -> acquisti -> game over.
-- Restyling grafico di interfaccia e menu in una fase successiva alla funzionalità attuale.
-- Riordino cartelle (facoltativo, proposta in CODE_MAP.md, sezione Risorse).
-- Idea (utente, da implementare in futuro): rigenerazione leggera di moralità e fedeltà tra un'ondata e l'altra (per esempio +10%), come bonus acquistabile oppure come regalo.
-- Idea (utente, da implementare in futuro): **regali di fine ondata**: ogni tot ondate il giocatore sceglie un bonus tra alcuni proposti; sono bonus che non si possono comprare nel negozio e si ottengono solo così (la rigenerazione leggera è uno dei candidati). Da definire: ogni quante ondate, quanti bonus proposti, elenco dei regali e interfaccia di scelta.
+### 10.3 Punti aperti
 
-Verifica conclusa degli occhi della nemica, dei contorni delle braccia sui tre personaggi e del viso del ragazzo: sei atlanti finali reimportati, alpha e metadati preservati; controlli dei pixel, animazioni e screenshot in Godot superati. Dettagli in `Docs/BLENDER.md` §13 e `Docs/GODOT.md` §7. Valutazione estetica e nuova andatura del Player approvate dall'utente (17/11/2026). Approvati dall'utente anche camera fissa, bande in legno scurite, icone dell'HUD, barre a tubo e posizione dei numeri fluttuanti (17/11/2026).
+Sviluppi decisi, da avviare.
 
-## Persistenza
+- **Coda delle nemiche attorno al ragazzo:** quando i posti attorno a lui sono tutti occupati, le nuove nemiche si fermano appena vicine al gruppo, in attesa, e ripartono quando si libera un posto.
+- **Varianti di colore e classi di nemiche** (vedi concept, sezione 2).
+- **Fuga del ragazzo al game over:** scenetta in cui cede e scappa.
+- **Ragazzo:** capelli con la forma pettinata del concept; cordino dei bermuda.
+- **Negozio:** prezzi definitivi; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei; immagine dell'Infradito Conchiglia (la fa l'utente con Codex).
+- **Negozio, quando ci saranno molti oggetti:** verificare che le schede stiano nel pannello o rimpicciolirle; rivalutare la suddivisione di Giocatore e Bonus.
+- **Bilanciamento:** dopo i playtest, valutare insieme progressione delle nemiche e potenziamenti acquistabili (danno della protagonista, massimi di moralità e fedeltà, altri bonus). Il giocatore cresce senza limite, quindi le nemiche non hanno tetto. Prezzi fissi; un eventuale aumento graduale solo ogni 5 o 10 ondate, più avanti.
+- **Level design del tutorial:** rifinirlo.
+- **Export reale:** il catalogo degli oggetti deve entrare nel pacchetto e il negozio deve popolarsi.
+- **Playtest completo:** menu, ondate, acquisti (anche con il popup del bonus mentre il negozio è aperto), game over.
+- **Restyling grafico di interfaccia e menu**, dopo la fase funzionale.
 
-Per riprendere il Player dopo l'intervento Codex sul lavoro di Claude: `Docs/BLENDER.md` §8, "Ripresa del lavoro condiviso con Claude", elenca sorgenti e atlanti toccati, parti precedenti mantenute, verifiche e limiti. L'aspetto attuale è approvato; la correzione dell'andatura è applicata e verificata, in attesa della valutazione visiva dell'utente. Le altre modifiche presenti nel working tree non sono automaticamente attribuibili a questo intervento.
+## 11. Idee future
 
-Questo file sta in Docs/PROJECT_CONTEXT.md, versionato in Git; Docs/ è ignorata da Godot (.gdignore). Accanto: Docs/CODE_MAP.md (codice) e le guide degli strumenti Docs/BLENDER.md, Docs/PIXELORAMA.md, Docs/GODOT.md. AGENTS.md (Codex) nella radice contiene le regole fisse e rimanda qui; CLAUDE.md (Claude Code) importa AGENTS.md con `@AGENTS.md`, quindi le regole si modificano solo in AGENTS.md. Entrambi vengono letti automaticamente all'avvio della sessione. Ambiente .sprite-tools-env (Pillow/NumPy) escluso da Git/Godot. Tools/ è versionata in Git (sorgenti .blend, script e prompt) e invisibile a Godot (.gdignore).
+Idee e concept su cui ragionare prima di formalizzarli e spostarli nei punti aperti.
+
+- Ondate infinite oppure un limite; modalità di sfida diverse; obiettivi o campagna; altri livelli.
+- Il ragazzo, al game over, scappa con l'ultima nemica che lo ha attaccato.
+- Rigenerazione leggera di moralità e fedeltà tra le ondate (per esempio +10%), come oggetto acquistabile o come regalo.
+- **Regali di fine ondata:** ogni tot ondate il giocatore sceglie un bonus tra alcuni proposti; si ottengono solo così, non nel negozio (la rigenerazione leggera è un candidato). Da definire: frequenza, quanti bonus proposti, elenco e interfaccia di scelta.
+- Bonus temporanei con limiti diversi dal numero di ondate.
+- Animazione del conto alla rovescia della prossima ondata.
+- Ogni tanto un fumetto sopra Sandro con una battuta.
+- Transizioni tra le profondità del mare.
+- Riordino delle cartelle del progetto (proposta in CODE_MAP).

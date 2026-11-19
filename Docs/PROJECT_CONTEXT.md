@@ -32,6 +32,40 @@ Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: 
 - Ciò che un punto approvato cambia nel gioco si descrive anche nella sua sezione (3–7). Ogni dettaglio tecnico utile da conservare va in `Docs/CODE_MAP.md`.
 
 ## 2. Concept del gioco
+# Beatch Slash! — contesto del gioco
+
+## Indice
+
+1. [Regole di questo file](#1-regole-di-questo-file): cosa ci va e cosa no.
+2. [Concept del gioco](#2-concept-del-gioco): visione dell'utente, tono, personaggi, idea di fondo.
+3. [Come funziona il gioco](#3-come-funziona-il-gioco): comandi, ondate, combattimento, ragazzo, economia, bonus di fine ondata, progressione.
+4. [Negozio](#4-negozio): Chiosco da Sandro, categorie, oggetti, prezzi, regole degli acquisti.
+5. [Mondo di gioco](#5-mondo-di-gioco): livello tutorial, inquadratura, terreno, elementi di scena.
+6. [Personaggi](#6-personaggi): aspetto di protagonista, nemica base, ragazzo, negoziante e chiosco.
+7. [Interfaccia](#7-interfaccia): HUD, popup, numeri fluttuanti, menu, tipografia, immagini.
+8. [Pipeline grafica e stile visivo](#8-pipeline-grafica-e-stile-visivo): strumenti, metodo di lavoro, regole di stile vincolanti.
+9. [Vincoli dell'utente](#9-vincoli-dellutente): regole di lavoro da rispettare sempre.
+10. [Stato attuale](#10-stato-attuale): stato di ogni punto di sviluppo.
+    - [10.1 Punti approvati](#101-punti-approvati): funzionamenti e comportamenti approvati, riferimento per gli sviluppi futuri.
+    - [10.2 Punti in lavorazione](#102-punti-in-lavorazione): sviluppi in corso, in test o in attesa di approvazione.
+    - [10.3 Punti aperti](#103-punti-aperti): sviluppi decisi e definiti, non ancora avviati.
+11. [Idee future](#11-idee-future): idee e concept su cui ragionare prima di formalizzarli.
+
+## 1. Regole di questo file
+
+Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: concept completo, funzionamento, stato dei punti di sviluppo, idee future.
+
+- **Non è uno storico.** Niente date, cronologia, "prima era così", correzioni fatte, tentativi respinti, resoconti di verifica o titoli come "Terreno (17/11)". Ciò che spiega come funziona il gioco va nella sezione apposita; ciò che è solo storia non si scrive.
+- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GODOT.md`).
+- A ogni intervento riscrivere le voci toccate nella sezione giusta (vedi indice).
+- **Ciclo di vita dei punti di sviluppo.** Un punto sta sempre in una sola categoria; appena non rientra più nella sua definizione passa alla categoria successiva o sparisce:
+  1. **Idee future** (sezione 11): idee o concept su cui ragionare. Quando l'utente la approva e se ne definisce cosa deve fare, l'idea si sposta in Punti aperti e si cancella da qui.
+  2. **Punti aperti** (10.3): sviluppi decisi e definiti, non ancora avviati, che prima o poi si faranno. Quando l'utente decide di realizzarlo, il punto si sposta in Punti in lavorazione.
+  3. **Punti in lavorazione** (10.2): sviluppi in corso, in test o in attesa di valutazione e approvazione dell'utente.
+  4. **Punti approvati** (10.1): quando il punto è sviluppato, verificato, testato, corretto e funziona come vuole l'utente, si toglie da In lavorazione e si scrive qui come funzionamento approvato, soprattutto se è un riferimento utile per punti aperti o idee future collegati.
+- Ciò che un punto approvato cambia nel gioco si descrive anche nella sua sezione (3–7). Ogni dettaglio tecnico utile da conservare va in `Docs/CODE_MAP.md`.
+
+## 2. Concept del gioco
 
 Tono ironico e leggero. Tower defense a ondate, 2D top-down in pixel art, ambientato per ora in un solo livello: una spiaggia.
 

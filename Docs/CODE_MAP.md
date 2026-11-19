@@ -28,14 +28,14 @@
 Regola categorica dell'utente. Questo file descrive **solo il funzionamento tecnico attuale** del codice e di ogni sua parte: scene, nodi, script, segnali, autoload, risorse, valori, flussi, punti fragili. Ogni dettaglio tecnico del progetto sta qui e solo qui.
 
 - **Non è uno storico:** niente date, "prima era così", correzioni fatte, tentativi o resoconti di verifica.
-- Concept, regole di gioco viste dal giocatore, stato dei punti di sviluppo e idee future stanno in `Docs/PROJECT_CONTEXT.md`. Le procedure degli strumenti stanno in `Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GODOT.md`.
+- Concept, regole di gioco viste dal giocatore, stato dei punti di sviluppo e idee future stanno in `Docs/PROJECT_CONTEXT.md`. Le procedure degli strumenti stanno in `Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GIMP.md`, `Docs/GODOT.md`.
 - Se cambi segnali, scene, autoload, flussi o valori, aggiorna la sezione giusta (vedi indice) nello stesso intervento. Verificare sempre contro i file reali.
 
 ## 2. Generale
 
 - GDScript, Godot 4.7 stable, renderer Mobile. Scena principale: `Scenes/main_menu.tscn`. Tutto il testo in gioco è in italiano.
 - Cartelle: `Scenes/` (scene principali e UI), `Characters/` (Player, nemica, ragazzo), `Objects/` (proiettile, HUD, negozio, puff, popup, `Items/` con scena e script della scheda, `Props/`), `Scripts/` (script, `Autoload/`), `Assets/` (grafica, font, musica, shader, tema), `Files/` (dati: `item_list.csv`), `tests/` (suite Godot AI), `Tools/` (sorgenti grafici e generatori, versionata in Git, ignorata da Godot con `.gdignore`), `Docs/` (documentazione, ignorata da Godot).
-- Documentazione degli strumenti: `Docs/BLENDER.md`, `Docs/GODOT.md`, `Docs/PIXELORAMA.md`; know-how generico nella skill `game-tools` (`C:\Users\stefa\.agent-knowledge\game-tools\SKILL.md`). Tipografia: `Docs/FONTS.md`. Regole fisse per gli agenti: `AGENTS.md` (Claude Code lo importa da `CLAUDE.md`).
+- Documentazione degli strumenti: `Docs/BLENDER.md`, `Docs/GIMP.md`, `Docs/GODOT.md`, `Docs/PIXELORAMA.md`; know-how generico nella skill `game-tools` (`C:\Users\stefa\.agent-knowledge\game-tools\SKILL.md`). Tipografia: `Docs/FONTS.md`. Regole fisse per gli agenti: `AGENTS.md` (Claude Code lo importa da `CLAUDE.md`).
 - Ambiente Python `.sprite-tools-env` (Pillow, NumPy) per gli script di `Tools/`, escluso da Git e da Godot. `.gitignore` esclude anche `*.tmp`, `*.blend1`, `__pycache__`.
 
 ## 3. Flusso di gioco
@@ -215,7 +215,7 @@ Gli script di `Player`, `Boyfriend` e `Upgrades` sono agganciati alle scene base
 
 ## 18. Risorse grafiche e sorgenti
 
-Regola generale: concept art in `Assets/ConceptArt/<soggetto>/` (ignorata da Godot), prompt in `Tools/concept/`, sorgenti Blender in `Tools/blender/` (base comune `base_personaggio.blend`, codice comune `concept_model.py`, un `.blend` e uno script per personaggio, riferimenti in `Tools/blender/ref/`), sorgenti Pixelorama in `Tools/pixelorama/`, generatori del livello in `Tools/level/`. Procedure in `Docs/BLENDER.md` e `Docs/PIXELORAMA.md`.
+Regola generale: concept art in `Assets/ConceptArt/<soggetto>/` (ignorata da Godot), prompt in `Tools/concept/`, sorgenti Blender in `Tools/blender/` (base comune `base_personaggio.blend`, codice comune `concept_model.py`, un `.blend` e uno script per personaggio, riferimenti in `Tools/blender/ref/`), sorgenti Pixelorama in `Tools/pixelorama/`, generatori del livello in `Tools/level/`. Procedure in `Docs/BLENDER.md`, `Docs/PIXELORAMA.md` e `Docs/GIMP.md`.
 
 - **Player** (`Assets/Characters/Player/`): concept `Assets/ConceptArt/Player/player_turnaround.png`. `player_spritesheet.png` (celle 48×48) e `player_frames.tres`: righe 0–3 `idle_*` (6 frame, 5 FPS, loop), 4–7 `walk_*` (8, 8 FPS, loop), 8–11 `dash_*` (8, 12 FPS, loop), 12–15 `throw_*` (8, 32 FPS, una volta); direzioni up, down, right, left. Diagonali in `player_diagonals_spritesheet.png` (righe = gruppo*4 + NE, NW, SE, SW; stessi frame e FPS), animazioni `<gruppo>_up_right`, `_up_left`, `_down_right`, `_down_left`. `player_moving_throw.png` (384×3072) e `player_diagonals_moving_throw.png`: riga = azione*32 + direzione*8 + fase, azioni Walk 0 / Dash 1. Sorgenti: `personaggio_modello.py` ricostruisce `personaggio.blend` dal turnaround; `blender_pipeline.py` genera i quattro atlanti (`build_all()`, `build_diagonals()` con yaw NE 135, NW −135, SE 45, SW −45, `build_steps()` a lotti per MCP); `render_throw()` usa `KEYS_LEFT` per la vista Ovest, `check_left_throw()` la verifica; `pose_combo` compone i lanci in movimento. La palla in mano di spalle è tolta dallo sprite dove finisce tra i capelli. Contenuto: idle muove solo il busto; lancio con preparazione alta del braccio e arco dall'alto al basso, verso Ovest con il braccio destro anatomico sopra la chioma; rilascio al frame 3.
 - **Contorni delle braccia:** `Tools/blender/sprite_contours.py:ArmContours`, usato da `render_sprites()` nelle sei viste laterali e diagonali dei tre personaggi (Freestyle, tratto 1 px esterno al braccio, limitato alla sagoma opaca).

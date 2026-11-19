@@ -22,7 +22,7 @@
 Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: concept completo, funzionamento, stato dei punti di sviluppo, idee future.
 
 - **Non è uno storico.** Niente date, cronologia, "prima era così", correzioni fatte, tentativi respinti, resoconti di verifica o titoli come "Terreno (17/11)". Ciò che spiega come funziona il gioco va nella sezione apposita; ciò che è solo storia non si scrive.
-- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GODOT.md`).
+- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GIMP.md`, `Docs/GODOT.md`).
 - A ogni intervento riscrivere le voci toccate nella sezione giusta (vedi indice).
 - **Ciclo di vita dei punti di sviluppo.** Un punto sta sempre in una sola categoria; appena non rientra più nella sua definizione passa alla categoria successiva o sparisce:
   1. **Idee future** (sezione 11): idee o concept su cui ragionare. Quando l'utente la approva e se ne definisce cosa deve fare, l'idea si sposta in Punti aperti e si cancella da qui.
@@ -56,7 +56,7 @@ Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: 
 Regola categorica dell'utente. Questo file descrive **il gioco com'è adesso**: concept completo, funzionamento, stato dei punti di sviluppo, idee future.
 
 - **Non è uno storico.** Niente date, cronologia, "prima era così", correzioni fatte, tentativi respinti, resoconti di verifica o titoli come "Terreno (17/11)". Ciò che spiega come funziona il gioco va nella sezione apposita; ciò che è solo storia non si scrive.
-- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GODOT.md`).
+- **Niente dettagli tecnici.** Nodi, scene, script, file, percorsi, costanti, segnali, collisioni e layout degli atlanti stanno **solo** in `Docs/CODE_MAP.md`. Le procedure degli strumenti stanno nelle guide (`Docs/BLENDER.md`, `Docs/PIXELORAMA.md`, `Docs/GIMP.md`, `Docs/GODOT.md`).
 - A ogni intervento riscrivere le voci toccate nella sezione giusta (vedi indice).
 - **Ciclo di vita dei punti di sviluppo.** Un punto sta sempre in una sola categoria; appena non rientra più nella sua definizione passa alla categoria successiva o sparisce:
   1. **Idee future** (sezione 11): idee o concept su cui ragionare. Quando l'utente la approva e se ne definisce cosa deve fare, l'idea si sposta in Punti aperti e si cancella da qui.
@@ -233,8 +233,9 @@ Leggere prima di toccare qualsiasi sprite. Tutte le nuove risorse grafiche (nemi
 
 - **Blender** (MCP `blender`): personaggi animati, modello 3D chibi con rig, renderizzato a pixel. Guida `Docs/BLENDER.md`.
 - **Pixelorama** (MCP `pixelorama`): oggetti piccoli, effetti, tile, ritocchi dentro la silhouette. Guida `Docs/PIXELORAMA.md`.
+- **GIMP** (MCP `gimp`): immagini raster che non sono sprite di personaggio. Crea, compone e ritocca direttamente loghi, copertine, icone e illustrazioni dell'interfaccia, sfondi, testo, correzioni di colore e tono, ritagli, ridimensionamenti ed esportazioni in blocco, senza dover passare da Codex. Non genera concept art con l'IA e non sostituisce Pixelorama nel pixel per pixel. Guida `Docs/GIMP.md`.
 - **Godot AI** (MCP `godot-ai`): scene, nodi, script, avvio, log, screenshot per verificare in gioco. Guida `Docs/GODOT.md`.
-- **ImageGen:** concept art e icone illustrate, usando i concept esistenti come riferimento. Pixelorama solo se servono ritocchi o pixel art.
+- **ImageGen:** concept art e icone illustrate, usando i concept esistenti come riferimento. GIMP per rifinirle e comporle; Pixelorama solo se servono ritocchi o pixel art.
 - La skill condivisa `game-tools` instrada alle guide generiche; le regole di aggiornamento delle guide sono in `AGENTS.md`.
 - Per ogni nuovo elemento con sprite: concept, prompt e sorgenti conservati nel progetto (dove: CODE_MAP).
 

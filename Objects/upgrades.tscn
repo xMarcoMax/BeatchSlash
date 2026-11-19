@@ -14,38 +14,38 @@ metadata/_edit_group_ = true
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1075985038]
 z_index = -1
 z_as_relative = false
-position = Vector2(0, -166.12)
+position = Vector2(0, -126.12)
 scale = Vector2(4, 4)
 texture = ExtResource("2_shadow")
 
 [node name="Back" type="Sprite2D" parent="." unique_id=2024142964]
-position = Vector2(0, -166.12)
+position = Vector2(0, -126.12)
 scale = Vector2(4, 4)
 texture = ExtResource("3_back")
 
 [node name="Shopkeeper" type="AnimatedSprite2D" parent="." unique_id=1016632336]
-position = Vector2(0, -166.12)
+position = Vector2(0, -126.12)
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("4_merchant")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="Front" type="Sprite2D" parent="." unique_id=1142820316]
-position = Vector2(0, -166.12)
+position = Vector2(0, -126.12)
 scale = Vector2(4, 4)
 texture = ExtResource("5_front")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2130991682]
-polygon = PackedVector2Array(-183.272, 26.556, 183.272, 26.556, 183.272, -84.092, -183.272, -84.092)
+polygon = PackedVector2Array(-183.272, 66.556, 183.272, 66.556, 183.272, -44.092, -183.272, -44.092)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1286750710]
 collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=596296620]
-polygon = PackedVector2Array(-130.908, 26.556, 130.908, 26.556, 130.908, 94.792, -130.908, 94.792)
+polygon = PackedVector2Array(-130.908, 66.556, 130.908, 66.556, 130.908, 134.792, -130.908, 134.792)
 
 [node name="GestureTimer" type="Timer" parent="." unique_id=371199302]
 one_shot = true
 
 [node name="barrel" type="CollisionPolygon2D" parent="." unique_id=1334836868]
-polygon = PackedVector2Array(-166.689, 12.54, -169.48, 18.468, -177.425, 23.494, -189.317, 26.852, -203.344, 28.031, -217.371, 26.852, -229.263, 23.494, -237.208, 18.468, -239.999, 12.54, -237.208, 6.612, -229.263, 1.586, -217.371, -1.772, -203.344, -2.951, -189.317, -1.772, -177.425, 1.586, -169.48, 6.612)
+polygon = PackedVector2Array(-166.689, 52.54, -169.48, 58.468, -177.425, 63.494, -189.317, 66.852, -203.344, 68.031, -217.371, 66.852, -229.263, 63.494, -237.208, 58.468, -239.999, 52.54, -237.208, 46.612, -229.263, 41.586, -217.371, 38.228, -203.344, 37.049, -189.317, 38.228, -177.425, 41.586, -169.48, 46.612)

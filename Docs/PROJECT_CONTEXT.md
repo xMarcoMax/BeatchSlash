@@ -171,8 +171,7 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 | Salvadanaio a Forma di Granchio | Bonus | monete +10% | 80¢ | 5 |
 | Gelato Fondente | Bonus | monete raddoppiate nella prossima ondata | 30¢ | temporaneo (1 ondata) |
 
-- **Icone degli oggetti:** illustrate, nello stile di concept e copertine (contorno caldo scuro, colori vivi, cel shading). Il frullato è il riferimento di stile approvato. L'Infradito Conchiglia usa per ora un segnaposto: l'utente farà l'immagine con Codex (ideale: infradito rosa a conchiglia con cuoricino e alette).
-- **Nuovi oggetti:** se l'utente non li indica, nomi e descrizioni li sceglie l'agente rispettando spiaggia, tono ironico e contesto. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate agli sport estivi. Gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (per esempio un anello di fidanzamento).
+- **Icone degli oggetti:** illustrate, nello stile di concept e copertine (contorno caldo scuro, colori vivi, cel shading). Il frullato è il riferimento di stile approvato.- **Nuovi oggetti:** se l'utente non li indica, nomi e descrizioni li sceglie l'agente rispettando spiaggia, tono ironico e contesto. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate agli sport estivi. Gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (per esempio un anello di fidanzamento).
 
 ## 5. Mondo di gioco
 
@@ -296,20 +295,17 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 
 Sviluppi in corso, in test o in attesa di valutazione e approvazione.
 
-- **Chiosco frontale:** versione vista di fronte con bancone più profondo, e sua posizione; da far approvare (l'utente può chiedere di spostarlo). L'utente aveva segnalato un errore sotto il bancone: se lo vede ancora, chiedergli di descriverlo.
-- **Pannello del negozio:** da far approvare in gioco.
-- **Colpi sul corpo intero della nemica:** da confermare giocando.
-- **Comportamento del ragazzo in gioco:** da far approvare.
+- **Chiosco frontale:** versione vista di fronte con bancone più profondo, e sua posizione; da far approvare (l'utente può chiedere di spostarlo).
 
 ### 10.3 Punti aperti
 
 Sviluppi decisi, da avviare.
 
+- **Bilanciamento urgente del negozio (primo punto, da riprendere):** al primo playtest i potenziamenti del Giocatore per velocità di movimento e velocità di lancio sono già acquistabili nella prima e nella seconda ondata, troppo presto. L'utente li vuole disponibili non prima della quarta o quinta ondata. Direzione scelta: alzare i prezzi di questi potenziatori (non aumentare danni o velocità d'attacco delle nemiche). In più, per gli oggetti acquistabili più volte con un massimo, ogni acquisto successivo deve costare più del precedente (ipotesi: +50%, fattore da decidere); da verificare se già previsto, altrimenti da aggiungere. Questo prevale sul punto "Prezzi fissi" delle regole d'acquisto, da riscrivere quando si decide.
 - **Coda delle nemiche attorno al ragazzo:** quando i posti attorno a lui sono tutti occupati, le nuove nemiche si fermano appena vicine al gruppo, in attesa, e ripartono quando si libera un posto.
 - **Varianti di colore e classi di nemiche** (vedi concept, sezione 2).
 - **Fuga del ragazzo al game over:** scenetta in cui cede e scappa.
-- **Ragazzo:** capelli con la forma pettinata del concept; cordino dei bermuda.
-- **Negozio:** prezzi definitivi; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei; immagine dell'Infradito Conchiglia (la fa l'utente con Codex).
+- **Negozio:** prezzi definitivi; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei.
 - **Negozio, quando ci saranno molti oggetti:** verificare che le schede stiano nel pannello o rimpicciolirle; rivalutare la suddivisione di Giocatore e Bonus.
 - **Bilanciamento:** dopo i playtest, valutare insieme progressione delle nemiche e potenziamenti acquistabili (danno della protagonista, massimi di moralità e fedeltà, altri bonus). Il giocatore cresce senza limite, quindi le nemiche non hanno tetto. Prezzi fissi; un eventuale aumento graduale solo ogni 5 o 10 ondate, più avanti.
 - **Level design del tutorial:** rifinirlo.

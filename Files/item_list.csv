@@ -9,7 +9,7 @@ little_health;Caramelle alla menta;Ripristina il 25% della fedeltà del tuo part
 max_health;Braccialetto Portafortuna;Aumenta del 25% la fedeltà massima del tuo partner;0.25;3;Target;Health;lucky_bracelet.png;100;4;max;0
 damage_item;Barretta Energetica;Aumenta il danno del 20%;0.2;1;Player;Damage;energy_bar.png;70;0;damage;0
 throw_speed;Corso di Schiacciata;Aumenta la velocità di lancio della sabbia;1;0;Player;ThrowSpeed;smash_course.png;50;2;throw_speed;0
-move_speed;Infradito Conchiglia;Aumenta la velocità di movimento;1;2;Player;MoveSpeed;res://Assets/icon.svg;50;2;move_speed;0
+move_speed;Infradito Conchiglia;Aumenta la velocità di movimento;1;2;Player;MoveSpeed;shell_flip_flops.png;50;2;move_speed;0
 coin_bonus;Salvadanaio a Forma di Granchio;Aumenta del 10% le monete guadagnate;0.1;0;Bonus;Coins;crab_piggy_bank.png;80;5;coin_bonus;0
 ombrellone;Ombrellone;Dimezza la perdita di moralità per 3 ondate;0.5;4;Target;Shield;beach_umbrella.png;50;0;guard;3
 crosswords;Settimana Enigmistica;Dimezza la perdita di fedeltà per 3 ondate;0.5;4;Target;Health;crosswords.png;50;0;guard;3

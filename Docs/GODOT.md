@@ -97,6 +97,8 @@ Lotto finale OUTSIDE e nuovo viso del ragazzo completati: sei PNG reimportati se
 
 `Scripts/upgrades.gd` richiede prossimità e NextWaveTimer attivo per F. La prossimità resta registrata durante l'ondata; se inizia la pausa con Player già davanti, compare l'invito. Esc, uscita o fine pausa chiudono il pannello e azzerano Global.is_in_purchase. Esc conserva il comportamento purchase_just_closed di PauseMenu. Riferimenti UI/timer opzionali consentono l'anteprima standalone. Gli acquisti e la valuta hanno ancora i limiti già documentati nel contesto.
 
+Ordinamento per y: l'origine del chiosco sta 40 px sopra quella usata da `shop_layout.json` (istanza in (512, −990), sprite a y −126,12, poligoni +40 in y). Se la pipeline Blender rigenera il chiosco, riapplicare lo scarto di 40 px: con l'origine più in basso il chiosco copre la protagonista quando questa è premuta contro il bancone. Verifica: in gioco portare il Player contro il bordo anteriore; la sua y relativa al chiosco deve restare positiva (38,6) e la protagonista restare visibile davanti al legno.
+
 GestureTimer one-shot: pausa casuale5–10s, primo gesto casuale fra clean_glass/wipe_counter, nessuna ripetizione consecutiva. animation_finished riporta idle e riavvia il timer. Con due gesti il divieto di ripetizione implica alternanza dopo la prima scelta; i tempi restano casuali. Le animazioni seguono la pausa ordinaria del gioco.
 
 ### Verifica ripetibile

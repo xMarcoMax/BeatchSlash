@@ -123,7 +123,7 @@ zoom = Vector2(0.4, 0.4)
 position = Vector2(800, -560)
 
 [node name="Upgrades" parent="." unique_id=1102380179 instance=ExtResource("12_pa6b8")]
-position = Vector2(512, -950)
+position = Vector2(512, -990)
 
 [node name="Props" parent="." instance=ExtResource("14_tutorial_props")]
 position = Vector2(800, -560)

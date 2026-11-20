@@ -94,7 +94,7 @@ position = Vector2(473.6, -704.8)
 position = Vector2(384, -717.6)
 
 [node name="sign_blank_1" parent="." instance=ExtResource("15_sign_blank")]
-position = Vector2(-96, -212)
+position = Vector2(512, -372)
 
 [node name="rock_tall_a_1" parent="." instance=ExtResource("16_rock_tall_a")]
 position = Vector2(1152, -519.2)

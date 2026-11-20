@@ -55,8 +55,8 @@ LAYOUT = [
     ("palm_lean_b", -8.6, 10.9), ("bush_spiky_a", -6.6, 10.9), ("flower_white_cluster", -5.0, 10.2),
     # --- in alto
     ("palm_bent_b", 7.4, -10.2), ("bush_broad_b", 6.0, -10.4),
-    # --- davanti al negozio
-    ("sign_blank", -1.5, -2.5),
+    # --- cartello sulla sabbia aperta in alto a destra, lontano dal ragazzo e dalle traiettorie delle nemiche
+    ("sign_blank", 8.0, -5.0),
     # --- punta della baia: scogli a gruppo, ciottoli e conchiglie sulla linea delle mareggiate, tronco spiaggiato lungo la riva
     ("rock_tall_a", 18.0, -7.3), ("rock_big_a", 19.5, -6.9), ("rock_med_b", 21.1, -6.5), ("rock_pebble_c", 16.5, -6.9),
     ("shell_starfish", 16.4, -8.8), ("shell_cone", 21.9, -5.3), ("shell_crab", 18.8, -5.3), ("log_a", 20.0, -3.9),

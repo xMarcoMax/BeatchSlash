@@ -36,6 +36,7 @@ script = ExtResource("1_nesj5")
 
 [node name="NextWave" type="RichTextLabel" parent="UI/HUD" unique_id=226276826]
 visible = false
+clip_contents = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

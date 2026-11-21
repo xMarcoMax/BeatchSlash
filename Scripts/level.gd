@@ -16,11 +16,11 @@ const base_enemy_points = 10
 const base_enemy_currency = 18
 
 # Bonus di fine ondata sulle monete guadagnate nell'ondata (nessuna crescita per ondata: l'unica crescita è il bonus acquistabile):
-# fedeltà al massimo e moralità al massimo = +100%; moralità sotto il massimo e oltre il 50% = +50%;
-# moralità tra 0 (escluso) e il 50% (compreso) = +25%; moralità a 0 o fedeltà sotto il massimo = nessun bonus.
-const WAVE_BONUS_PERFECT = 1.0
-const WAVE_BONUS_GUARDED = 0.5
-const WAVE_BONUS_WEAK = 0.25
+# fedeltà al massimo e moralità al massimo = +50%; moralità sotto il massimo e oltre il 50% = +25%;
+# moralità tra 0 (escluso) e il 50% (compreso) = +10%; moralità a 0 o fedeltà sotto il massimo = nessun bonus.
+const WAVE_BONUS_PERFECT = 0.5
+const WAVE_BONUS_GUARDED = 0.25
+const WAVE_BONUS_WEAK = 0.1
 
 var enemy = preload("res://Characters/enemy.tscn")
 var bonus_popup = preload("res://Objects/wave_bonus_popup.tscn").instantiate()

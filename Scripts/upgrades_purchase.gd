@@ -23,13 +23,10 @@ const HEADER_COLOR_PROPERTIES := ["font_color", "font_hover_color", "font_presse
 }
 
 var arrow_icons: Dictionary = {}
-var damage_item: Item
 var item_list: Array = []
 
 func _ready():
-	#Set segnale disponibilità ogni 5 ondate del bonus di aumento danni
-	SignalManager.wave_purchase_item.connect(damage_item_availability)
-	SignalManager.wave_purchase_item.connect(_tick_temporary_items)
+	SignalManager.wave_purchase_item.connect(_on_wave_finished)
 	SignalManager.currency_changed.connect(_on_currency_changed)
 	SignalManager.update_health_shield.connect(_on_partner_health_changed)
 	load_item_file()
@@ -109,19 +106,11 @@ func arrow_icon(expanded: bool) -> ImageTexture:
 		arrow_icons[expanded] = ImageTexture.create_from_image(img)
 	return arrow_icons[expanded]
 
-# La sezione si nasconde quando nessun oggetto al suo interno è visibile
-func refresh_section(section: Control):
-	section.visible = section.get_node("Items").get_children().any(func(c): return c.visible)
-
-func damage_item_availability(wave):
-	if damage_item == null:
-		return
-	damage_item.visible = (wave % 5) == 0
-	refresh_section(damage_item.get_parent().get_parent())
-
-# Fine ondata: gli oggetti temporanei attivi perdono un'ondata, a zero il loro effetto viene tolto
-func _tick_temporary_items(_wave):
+# Fine ondata: ogni oggetto conosce l'ondata appena finita (sblocchi, attese e prezzi dipendono da lei);
+# gli oggetti temporanei attivi perdono un'ondata, a zero il loro effetto viene tolto
+func _on_wave_finished(wave: int):
 	for item: Item in item_list:
+		item.wave = wave
 		if item.waves_left > 0:
 			item.waves_left -= 1
 			if item.waves_left == 0:
@@ -160,11 +149,13 @@ func _is_useless(item: Item) -> bool:
 func _purchase_item(item: Item):
 	if not item.can_buy(Global.currency):
 		return
+	var cost := item.price() # prima del conteggio: il prezzo dipende dagli acquisti già fatti
 	item.purchases += 1
+	item.bought_wave = item.wave
 	var data = item.get_data()
 	item.waves_left = data["duration"]
 	# Il cambio di valuta aggiorna tutte le schede, compreso il contatore di questa
-	Global.currency -= data["price"]
+	Global.currency -= cost
 
 	match data["category"]:
 		"Player":
@@ -181,7 +172,7 @@ func load_item_file():
 
 	while not file.eof_reached():
 		var columns = file.get_csv_line(";")
-		if columns.size() < 12 or columns[0] == "":
+		if columns.size() < 15 or columns[0] == "":
 			continue
 		var row := {
 			"id": columns[0],
@@ -194,7 +185,10 @@ func load_item_file():
 			"price": int(columns[8]),
 			"max_purchases": int(columns[9]),
 			"effect": columns[10],
-		"duration": int(columns[11]),
+			"duration": int(columns[11]),
+			"min_wave": int(columns[12]),
+			"every": int(columns[13]),
+			"cooldown": int(columns[14]),
 		}
 		if not tab_sections.has(row["category"]):
 			push_warning("item_list.csv: categoria sconosciuta '%s' per %s, riga ignorata" % [row["category"], row["id"]])
@@ -203,8 +197,6 @@ func load_item_file():
 		var item: Item = item_scene.instantiate()
 		item.init_nodes()
 		item.setup(row, get_image(columns[7]), Global.currency)
-		if row["id"] == "damage_item":
-			damage_item = item
 		item_list.append(item)
 
 # Il CSV indica un file di Assets/Icons/ oppure un percorso res:// completo

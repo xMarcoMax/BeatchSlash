@@ -127,9 +127,9 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down in pixel art, ambien
 Quando cade l'ultima nemica, il gioco premia la difesa con una quota delle monete guadagnate nell'ondata dalle sconfitte (gli acquisti non contano; il bonus del negozio sulle monete è già incluso):
 
 - la fedeltà deve essere al massimo, altrimenti nessun bonus;
-- moralità al massimo: +100%;
-- moralità sotto il massimo e oltre il 50%: +50%;
-- moralità tra 0 (escluso) e il 50% (compreso): +25% (il caso "esattamente 50%" non è stato specificato dall'utente ed è trattato così);
+- moralità al massimo: +50%;
+- moralità sotto il massimo e oltre il 50%: +25%;
+- moralità tra 0 (escluso) e il 50% (compreso): +10% (il caso "esattamente 50%" non è stato specificato dall'utente ed è trattato così);
 - moralità a 0: nessun bonus.
 
 Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello schermo con la percentuale e le monete guadagnate; non blocca il gioco.
@@ -145,31 +145,37 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 - Nome ufficiale: **"Chiosco da Sandro"**; il negoziante si chiama Sandro. È un chiosco sulla spiaggia, in alto a sinistra del ragazzo.
 - Si apre con F stando davanti al bancone, solo durante la pausa tra le ondate. Mentre il pannello è aperto il Player non si muove e non lancia. Uscire dall'area, premere Esc o la fine della pausa lo chiudono.
 - **Pannello:** mostra le monete disponibili e divide gli oggetti in tre gruppi: Giocatore, Partner, Bonus. Ogni oggetto ha icona, nome, descrizione e prezzo, in schede piccole per poterne aggiungere molti (richiesta dell'utente). Partner è diviso in Moralità e Fedeltà; Giocatore e Bonus, per scelta dell'utente, non sono suddivisi finché non ci saranno abbastanza oggetti.
-- **Regole d'acquisto:** prezzo fisso; non si può comprare se le monete non bastano, se l'oggetto ha raggiunto il massimo di acquisti o se è inutile (un ripristino con la barra già piena).
+- **Regole d'acquisto:** non si può comprare se le monete non bastano, se l'oggetto ha raggiunto il massimo di acquisti, se è inutile (un ripristino con la barra già piena) o se non è ancora acquistabile per sblocco o attesa (vedi sotto).
+- **Prezzi crescenti** (prezzi sempre a cifre tonde, multipli di 5, con aumento composto del 25%):
+  - Gli oggetti **acquistabili sempre** (senza massimo) salgono del 25% a ogni multiplo di 5 ondate finite: dalla pausa dopo l'ondata 5 costano il 25% in più, dopo la 10 circa il 56% in più, e così via.
+  - Gli oggetti **con un massimo di acquisti** hanno un calcolo a parte: il prezzo sale del 25% a ogni livello già comprato (il secondo costa il 25% più del primo, il terzo il 25% più del secondo) e non dipende dall'ondata.
+- **Sblocchi per ondata:** gli oggetti con massimo sono potenziamenti e bonus, per questo costano più della media e si sbloccano solo avanzando: "dall'ondata X" significa nella pausa tra l'ondata X e la X+1. Prima dello sblocco la scheda è visibile ma non acquistabile, con un tooltip che dice da quando lo sarà. Lo sblocco vale per l'oggetto, non per ogni livello.
+- **Sandro avvisa e ringrazia:** nella pausa dopo un'ondata multipla di 5, quando i prezzi salgono, nel fumetto di Sandro compare "Da oggi i prezzi sono aumentati del 25%!" (la percentuale è quella dell'aumento). Resta finché non si apre il negozio (interagire con lui, anche senza comprare) o non finisce la pausa. Quando si chiude il negozio, in qualunque modo, Sandro dice per circa 3 secondi "Grazie per l'acquisto!" se si è comprato almeno un oggetto in quella visita, altrimenti "Grazie per la visita!".
+- **Disponibilità periodica:** la Barretta Energetica è acquistabile solo nelle pause dopo un'ondata multipla di 5; se non la si compra bisogna aspettare il multiplo successivo. Il Gelato Fondente si sblocca dopo l'ondata 5 e resta acquistabile finché non lo si compra; se lo si compra nella pausa dopo l'ondata X, funziona nell'ondata X+1, non è acquistabile nella pausa dopo la X+1 e lo torna a essere dopo la X+2, e così via. Le due schede restano visibili ma non acquistabili, con un tooltip che dice tra quante ondate potranno essere comprate.
 - **Categorie** (definizione dell'utente, vincolante per ogni nuovo oggetto):
   - **Giocatore:** potenziamenti della protagonista (danno, rapidità di lancio, movimento e simili).
   - **Partner:** tutto ciò che riguarda il ragazzo: ripristino di moralità e fedeltà, aumento dei loro massimi e altro.
   - **Bonus:** extra che non riguardano né il ragazzo né la ragazza, come il bonus sulle monete; alcuni possono essere temporanei.
 - **Oggetti temporanei:** comprati nella pausa, valgono dall'ondata successiva per il numero di ondate indicato. Finché sono attivi non si possono ricomprare, quindi non si sommano.
-- **Oggetti attuali** (prezzi provvisori, da tarare con i playtest):
+- **Oggetti attuali** (prezzi base e sblocchi provvisori, da tarare con i playtest; i prezzi crescenti si applicano come descritto sopra):
 
-| Oggetto | Categoria | Effetto | Prezzo | Massimo |
-| --- | --- | --- | --- | --- |
-| Acqua Tonica | Partner / Moralità | ripristina il 25% della moralità | 20¢ | illimitato |
-| Granita al Limone | Partner / Moralità | ripristina il 50% | 35¢ | illimitato |
-| Frullato ai Frutti di Bosco | Partner / Moralità | ripristina il 100% | 60¢ | illimitato |
-| Crema Protezione 50+ | Partner / Moralità | massimo +25% del valore iniziale (riempie la parte aggiunta) | 100¢ | 4 |
-| Ombrellone | Partner / Moralità | dimezza la perdita di moralità per 3 ondate | 50¢ | temporaneo |
-| Caramelle alla Menta | Partner / Fedeltà | ripristina il 25% della fedeltà | 20¢ | illimitato |
-| Patatine al Rosmarino | Partner / Fedeltà | ripristina il 50% | 35¢ | illimitato |
-| Milkshake alla Fragola | Partner / Fedeltà | ripristina il 100% | 60¢ | illimitato |
-| Braccialetto Portafortuna | Partner / Fedeltà | massimo +25% del valore iniziale | 100¢ | 4 |
-| Settimana Enigmistica | Partner / Fedeltà | dimezza la perdita di fedeltà per 3 ondate | 50¢ | temporaneo |
-| Barretta Energetica | Giocatore | danno +20% del danno iniziale; in vendita solo ogni 5 ondate | 70¢ | illimitato |
-| Corso di Schiacciata | Giocatore | un livello di velocità di lancio in più | 50¢ | 2 |
-| Infradito Conchiglia | Giocatore | un livello di velocità di movimento in più | 50¢ | 2 |
-| Salvadanaio a Forma di Granchio | Bonus | monete +10% | 80¢ | 5 |
-| Gelato Fondente | Bonus | monete raddoppiate nella prossima ondata | 30¢ | temporaneo (1 ondata) |
+| Oggetto | Categoria | Effetto | Prezzo base | Massimo | Sblocco |
+| --- | --- | --- | --- | --- | --- |
+| Acqua Tonica | Partner / Moralità | ripristina il 25% della moralità | 30¢ | illimitato | subito |
+| Granita al Limone | Partner / Moralità | ripristina il 50% | 50¢ | illimitato | subito |
+| Frullato ai Frutti di Bosco | Partner / Moralità | ripristina il 100% | 90¢ | illimitato | subito |
+| Crema Protezione 50+ | Partner / Moralità | massimo +25% del valore iniziale (riempie la parte aggiunta) | 200¢ | 4 | dopo l'ondata 5 |
+| Ombrellone | Partner / Moralità | dimezza la perdita di moralità per 3 ondate | 80¢ | temporaneo | subito |
+| Caramelle alla Menta | Partner / Fedeltà | ripristina il 25% della fedeltà | 30¢ | illimitato | subito |
+| Patatine al Rosmarino | Partner / Fedeltà | ripristina il 50% | 50¢ | illimitato | subito |
+| Milkshake alla Fragola | Partner / Fedeltà | ripristina il 100% | 90¢ | illimitato | subito |
+| Braccialetto Portafortuna | Partner / Fedeltà | massimo +25% del valore iniziale | 200¢ | 4 | dopo l'ondata 5 |
+| Settimana Enigmistica | Partner / Fedeltà | dimezza la perdita di fedeltà per 3 ondate | 80¢ | temporaneo | subito |
+| Barretta Energetica | Giocatore | danno +20% del danno iniziale | 100¢ | illimitato | pause dopo ondate multiple di 5 |
+| Corso di Schiacciata | Giocatore | un livello di velocità di lancio in più | 200¢ | 2 | dopo l'ondata 5 |
+| Infradito Conchiglia | Giocatore | un livello di velocità di movimento in più | 150¢ | 2 | dopo l'ondata 4 |
+| Salvadanaio a Forma di Granchio | Bonus | monete +10% | 200¢ | 5 | dopo l'ondata 10 |
+| Gelato Fondente | Bonus | monete raddoppiate nella prossima ondata | 80¢ | temporaneo (1 ondata) | dopo l'ondata 5, poi una pausa saltata dopo ogni acquisto |
 
 - **Icone degli oggetti:** illustrate, nello stile di concept e copertine (contorno caldo scuro, colori vivi, cel shading). Il frullato è il riferimento di stile approvato.- **Nuovi oggetti:** se l'utente non li indica, nomi e descrizioni li sceglie l'agente rispettando spiaggia, tono ironico e contesto. Devono essere cose plausibili in un baretto o bancarella di spiaggia o legate agli sport estivi. Gli oggetti acquistabili più volte non devono essere cose che nella realtà si comprano una volta sola (per esempio un anello di fidanzamento).
 
@@ -207,6 +213,7 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 
 - Gestore maturo e ordinario: viso allungato con naso pronunciato, tratti morbidi e piccoli segni d'età, senza baffi; pelle abbronzata, capelli mossi brizzolati schiariti dal sole, cappello di paglia con fascia petrolio, camicia hawaiana corallo a grandi motivi crema aperta su una canotta chiara.
 - Sta dietro il bancone e ogni tanto pulisce bicchieri e bancone.
+- **Fumetto di Sandro:** Sandro parla con un fumetto crema dal contorno bordeaux, in un solo pezzo con la sua coda sottile e allungata, che parte dalla zona della bocca di Sandro; il corpo si apre a destra, sopra il bancone (sopra il chiosco non c'è spazio). Dice l'avviso dell'aumento dei prezzi e i ringraziamenti (vedi sezione 4); è anche la base per le battute future.
 - Vincoli dell'utente: identità da chiosco sulla spiaggia, cappello mantenuto, viso non da bel ragazzo, dimensioni credibili rispetto all'edificio; evitare il viso tondo con baffi simile a Super Mario.
 
 ### Chiosco
@@ -284,8 +291,8 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 - **Palla di sabbia:** lancio, impatto e caduta dei colpi mancati.
 - **Nemica base:** aspetto, movimenti, flirt, caduta con sbuffo; percorso verso un proprio posto attorno al ragazzo; le nemiche non si urtano tra loro.
 - **Ragazzo:** aspetto e movimenti.
-- **Chiosco e negoziante:** concept, aspetto e gesti; senza sgabelli. Nome "Chiosco da Sandro". Categorie Giocatore, Partner, Bonus come definite nella sezione 4.
-- **Economia di base:** valori dell'ondata 1, monete fisse per nemica senza crescita per ondata, prezzi fissi.
+- **Chiosco e negoziante:** concept, aspetto e gesti; senza sgabelli; versione frontale con bancone più profondo e relativa posizione. Nome "Chiosco da Sandro". Categorie Giocatore, Partner, Bonus come definite nella sezione 4.
+- **Economia di base:** valori dell'ondata 1, monete fisse per nemica senza crescita per ondata.
 - **Bonus di fine ondata:** regole della sezione 3 e animazione del popup.
 - **Mondo:** inquadratura fissa con il ragazzo al centro; terreno di sola sabbia, battigia e mare; mappa del tutorial; elementi di scena e loro disposizione; granchio animato.
 - **Interfaccia:** bande in legno scurite, icone dell'HUD, barre a tubo, numeri fluttuanti.
@@ -295,19 +302,20 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 
 Sviluppi in corso, in test o in attesa di valutazione e approvazione.
 
-- **Chiosco frontale:** versione vista di fronte con bancone più profondo, e sua posizione; da far approvare (l'utente può chiedere di spostarlo).
+- **Fumetto di Sandro:** avviso dell'aumento dei prezzi e ringraziamenti (sezione 4); da far approvare il fumetto (grafica, dimensione, posizione, durata dei ringraziamenti).
+- **Bilanciamento del negozio:** prezzi più alti a cifre tonde, aumento del 25% ogni 5 ondate per gli oggetti acquistabili sempre, aumento del 25% per livello per quelli con massimo, sblocchi per ondata, Barretta e Gelato con disponibilità periodica (sezione 4); da provare in partita, tarando prezzi e ondate di sblocco.
 
 ### 10.3 Punti aperti
 
 Sviluppi decisi, da avviare.
 
-- **Bilanciamento urgente del negozio (primo punto, da riprendere):** al primo playtest i potenziamenti del Giocatore per velocità di movimento e velocità di lancio sono già acquistabili nella prima e nella seconda ondata, troppo presto. L'utente li vuole disponibili non prima della quarta o quinta ondata. Direzione scelta: alzare i prezzi di questi potenziatori (non aumentare danni o velocità d'attacco delle nemiche). In più, per gli oggetti acquistabili più volte con un massimo, ogni acquisto successivo deve costare più del precedente (ipotesi: +50%, fattore da decidere); da verificare se già previsto, altrimenti da aggiungere. Questo prevale sul punto "Prezzi fissi" delle regole d'acquisto, da riscrivere quando si decide.
+- **Ondata difficile ogni 5 ondate (punto principale):** ogni quinta ondata più dura (nemiche più forti o veloci, oppure una nemica boss); chiusa l'ondata si sbloccano cose nuove e salgono i prezzi del negozio. Da definire difficoltà, boss e ricompense.
 - **Coda delle nemiche attorno al ragazzo:** quando i posti attorno a lui sono tutti occupati, le nuove nemiche si fermano appena vicine al gruppo, in attesa, e ripartono quando si libera un posto.
 - **Varianti di colore e classi di nemiche** (vedi concept, sezione 2).
 - **Fuga del ragazzo al game over:** scenetta in cui cede e scappa.
-- **Negozio:** prezzi definitivi; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei.
+- **Negozio:** prezzi definitivi dopo i playtest; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei.
 - **Negozio, quando ci saranno molti oggetti:** verificare che le schede stiano nel pannello o rimpicciolirle; rivalutare la suddivisione di Giocatore e Bonus.
-- **Bilanciamento:** dopo i playtest, valutare insieme progressione delle nemiche e potenziamenti acquistabili (danno della protagonista, massimi di moralità e fedeltà, altri bonus). Il giocatore cresce senza limite, quindi le nemiche non hanno tetto. Prezzi fissi; un eventuale aumento graduale solo ogni 5 o 10 ondate, più avanti.
+- **Bilanciamento:** dopo i playtest, valutare insieme progressione delle nemiche e potenziamenti acquistabili (danno della protagonista, massimi di moralità e fedeltà, altri bonus). Il giocatore cresce senza limite, quindi le nemiche non hanno tetto.
 - **Level design del tutorial:** rifinirlo.
 - **Export reale:** il catalogo degli oggetti deve entrare nel pacchetto e il negozio deve popolarsi.
 - **Playtest completo:** menu, ondate, acquisti (anche con il popup del bonus mentre il negozio è aperto), game over.
@@ -324,6 +332,6 @@ Idee e concept su cui ragionare prima di formalizzarli e spostarli nei punti ape
 - **Regali di fine ondata:** ogni tot ondate il giocatore sceglie un bonus tra alcuni proposti; si ottengono solo così, non nel negozio (la rigenerazione leggera è un candidato). Da definire: frequenza, quanti bonus proposti, elenco e interfaccia di scelta.
 - Bonus temporanei con limiti diversi dal numero di ondate.
 - Animazione del conto alla rovescia della prossima ondata.
-- Ogni tanto un fumetto sopra Sandro con una battuta.
+- Battute e freddure brevi che Sandro dice ogni tanto, a caso, nel suo fumetto (frasi da scrivere, frequenza da decidere).
 - Transizioni tra le profondità del mare.
 - Riordino delle cartelle del progetto (proposta in CODE_MAP).

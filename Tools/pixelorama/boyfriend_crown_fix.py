@@ -1,8 +1,9 @@
 """Corregge i pixel di pelle isolati sulla chioma del ragazzo (Assets/Characters/Boyfriend/boyfriend_spritesheet.png).
 
-Nei frame in cui il ragazzo muove la testa (glance, admire, flex) compare, sulla sommita' della testa, un pixel del colore della
-pelle circondato dai capelli. Lo script lo sostituisce col colore dei capelli piu' frequente tra i suoi quattro vicini (escluso il
-contorno, se ce ne sono altri). Tocca solo pixel opachi dentro la sagoma, quindi alpha, ombra e metadati restano identici.
+Nei frame in cui il ragazzo muove la testa (glance, admire, flex) compaiono, sulla sommita' della testa, uno o due pixel del
+colore della pelle circondati dai capelli. Lo script cerca i gruppi (4-connessi) di al piu' MAX_SPOT pixel di pelle nelle prime
+CROWN_MAX_Y righe di ogni cella i cui vicini fuori dal gruppo sono tutti capelli, contorno o trasparenti, e li sostituisce col
+colore dei capelli piu' frequente tra quei vicini (escluso il contorno, se ce ne sono altri). Tocca solo pixel opachi dentro la sagoma, quindi alpha, ombra e metadati restano identici.
 
 Va rilanciato dopo ogni rigenerazione dell'atlante da Blender (`build_boyfriend()`), finche' la causa non e' corretta nel modello.
 
@@ -18,6 +19,7 @@ from PIL import Image
 
 OUTLINE = (58, 20, 24)
 CROWN_MAX_Y = 12  # sotto questa riga (dentro la cella 64x64) c'e' solo chioma; piu' in basso ci sono viso e orecchie
+MAX_SPOT = 4      # un gruppo di pelle piu' grande e' viso, orecchio o attaccatura dei capelli, non un puntino
 
 
 def is_skin(p):
@@ -39,18 +41,31 @@ def main(root, dry):
     fixed = []
     for x0, y0 in set(regions.values()):
         cell = img[y0:y0 + 64, x0:x0 + 64]
+        seen = set()
         for y in range(1, CROWN_MAX_Y + 1):
             for x in range(1, 63):
-                if not is_skin(cell[y, x]):
+                if (x, y) in seen or not is_skin(cell[y, x]):
                     continue
-                near = [cell[y - 1, x], cell[y + 1, x], cell[y, x - 1], cell[y, x + 1]]
-                if not all(is_hair(q) for q in near):
+                spot, todo = {(x, y)}, [(x, y)]
+                while todo:
+                    px, py = todo.pop()
+                    for nx, ny in ((px + 1, py), (px - 1, py), (px, py + 1), (px, py - 1)):
+                        if (nx, ny) not in spot and 0 <= nx < 64 and 0 <= ny < 64 and is_skin(cell[ny, nx]):
+                            spot.add((nx, ny))
+                            todo.append((nx, ny))
+                seen |= spot
+                if len(spot) > MAX_SPOT or max(py for _, py in spot) > CROWN_MAX_Y:
                     continue
-                colors = Counter(tuple(int(v) for v in q[:3]) for q in near)
+                near = [cell[ny, nx] for px, py in spot for nx, ny in ((px + 1, py), (px - 1, py), (px, py + 1), (px, py - 1))
+                        if (nx, ny) not in spot]
+                if not all(q[3] == 0 or is_hair(q) for q in near):
+                    continue
+                colors = Counter(tuple(int(v) for v in q[:3]) for q in near if q[3] == 255)
                 inner = {c: n for c, n in colors.items() if c != OUTLINE}
                 new = max(inner or colors, key=(inner or colors).get)
-                fixed.append((x0 // 64, y0 // 64, x, y, tuple(int(v) for v in cell[y, x][:3]), new))
-                cell[y, x, :3] = new
+                for px, py in spot:
+                    fixed.append((x0 // 64, y0 // 64, px, py, tuple(int(v) for v in cell[py, px][:3]), new))
+                    cell[py, px, :3] = new
     print(len(fixed), "pixel corretti")
     if not dry:
         Image.fromarray(img).save(sheet)

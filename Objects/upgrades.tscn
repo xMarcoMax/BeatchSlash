@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bshhbg16mxo55" path="res://Assets/Objects/Shop/shop_back.png" id="3_back"]
 [ext_resource type="SpriteFrames" uid="uid://db26wnejjwyb8" path="res://Assets/Objects/Shop/shopkeeper_frames.tres" id="4_merchant"]
 [ext_resource type="Texture2D" uid="uid://dlgs3mghj4hnb" path="res://Assets/Objects/Shop/shop_front.png" id="5_front"]
+[ext_resource type="Script" path="res://Scripts/shop_balloon.gd" id="6_balloon"]
 
 [node name="Upgrades" type="StaticBody2D" unique_id=207025446 groups=["upgrades"]]
 texture_filter = 1
@@ -46,6 +47,13 @@ polygon = PackedVector2Array(-130.908, 66.556, 130.908, 66.556, 130.908, 134.792
 
 [node name="GestureTimer" type="Timer" parent="." unique_id=371199302]
 one_shot = true
+
+[node name="Balloon" type="Node2D" parent="."]
+visible = false
+z_index = 100
+texture_filter = 2
+position = Vector2(10, -106)
+script = ExtResource("6_balloon")
 
 [node name="barrel" type="CollisionPolygon2D" parent="." unique_id=1334836868]
 polygon = PackedVector2Array(-166.689, 52.54, -169.48, 58.468, -177.425, 63.494, -189.317, 66.852, -203.344, 68.031, -217.371, 66.852, -229.263, 63.494, -237.208, 58.468, -239.999, 52.54, -237.208, 46.612, -229.263, 41.586, -217.371, 38.228, -203.344, 37.049, -189.317, 38.228, -177.425, 41.586, -169.48, 46.612)

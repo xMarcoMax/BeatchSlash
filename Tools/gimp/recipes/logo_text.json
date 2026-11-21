@@ -1,0 +1,38 @@
+{
+  "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_logo_text.xcf",
+  "reference_layer": "reference",
+  "export_png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-logo-text-only.png",
+  "font": "Luckiest Guy Regular",
+  "glyph_size": 400,
+  "analysis": {"dark_max": 110, "alpha_min": 128, "min_area": 300},
+  "fit_step": 4,
+  "letters": [
+    {"ch": "B", "ids": [4], "word": "beatch", "split": 165},
+    {"ch": "E", "ids": [6], "word": "beatch", "split": 162},
+    {"ch": "A", "ids": [5], "word": "beatch", "split": 170},
+    {"ch": "T", "ids": [2], "word": "beatch", "split": 152},
+    {"ch": "C", "ids": [3], "word": "beatch", "split": 165},
+    {"ch": "H", "ids": [1], "word": "beatch", "split": 166},
+    {"ch": "S", "ids": [12], "word": "slash", "split": 130},
+    {"ch": "L", "ids": [13], "word": "slash", "split": 128},
+    {"ch": "A", "ids": [11], "word": "slash", "split": 143},
+    {"ch": "S", "ids": [9], "word": "slash", "split": 138},
+    {"ch": "H", "ids": [10], "word": "slash", "split": 150},
+    {"ch": "!", "ids": [8, 14], "word": "slash", "split": 150}
+  ],
+  "words": {
+    "beatch": {"top": "#fdd726", "upper_end": "#fdbd15", "lower_start": "#fd9e02", "bottom": "#fd8c01",
+               "rim_light": "#fff3a6", "rim_dark": "#e06a00", "halo": "#fff1a0",
+               "light_shift": [4, 5], "light_blur": 1.2, "light_opacity": 90, "halo_opacity": 55},
+    "slash": {"top": "#fc6444", "upper_end": "#fd4836", "lower_start": "#fb3832", "bottom": "#ec1a2c",
+              "rim_light": "#ffb3ad", "rim_dark": "#b8101e", "halo": "#ffc9c4",
+              "light_shift": [9, 10], "light_blur": 3.0, "light_opacity": 80, "halo_opacity": 35}
+  },
+  "word_order": ["beatch", "slash"],
+  "blend": 9,
+  "band_overlap": 3,
+  "rim_dark": {"shift": [-7, -8], "blur": 2.5, "opacity": 55},
+  "outline": {"dark": "#2d0600", "grow": 22, "shift": [4, 8], "light": "#f6f2e9", "light_grow": 12},
+  "keep_hole_ids": [7],
+  "highlights": {"min": 175, "span": 50, "color": "#fffffc", "halo_grow": 5, "halo_feather": 10}
+}

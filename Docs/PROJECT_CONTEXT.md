@@ -239,7 +239,7 @@ Leggere prima di toccare qualsiasi sprite. Tutte le nuove risorse grafiche (nemi
 
 - **Blender** (MCP `blender`): personaggi animati, modello 3D chibi con rig, renderizzato a pixel. Guida `Docs/BLENDER.md`.
 - **Pixelorama** (MCP `pixelorama`): oggetti piccoli, effetti, tile, ritocchi dentro la silhouette. Guida `Docs/PIXELORAMA.md`.
-- **GIMP** (MCP `gimp`): immagini raster che non sono sprite di personaggio. Crea, compone e ritocca direttamente loghi, copertine, icone e illustrazioni dell'interfaccia, sfondi, testo, correzioni di colore e tono, ritagli, ridimensionamenti ed esportazioni in blocco, senza dover passare da Codex. Non genera concept art con l'IA e non sostituisce Pixelorama nel pixel per pixel. Indicazione dell'utente: Claude userà GIMP direttamente per ogni immagine del gioco (loghi, sfondi, concept e altro), con Codex/ImageGen solo come riferimento; ancora da collaudare su un'immagine di gioco reale. Guida `Docs/GIMP.md`.
+- **GIMP** (MCP `gimp`): immagini raster che non sono sprite di personaggio. Crea, compone e ritocca direttamente loghi, copertine, icone e illustrazioni dell'interfaccia, sfondi, testo, correzioni di colore e tono, ritagli, ridimensionamenti ed esportazioni in blocco, senza dover passare da Codex. Non genera concept art con l'IA e non sostituisce Pixelorama nel pixel per pixel. Indicazione dell'utente: Claude userà GIMP direttamente per ogni immagine del gioco (loghi, sfondi, concept e altro), con Codex/ImageGen solo come riferimento. Metodo scelto dall'utente: le immagini generate da Codex si ricalcano in GIMP il più possibile uguali, a livelli separati, così restano identiche nel tempo, si modificano aggiungendo o togliendo elementi e i loro pezzi (personaggi delle copertine, sfondi, decorazioni) si riusano in altre immagini senza le variazioni che Codex introdurrebbe rigenerandole. **Regola fissa dell'utente sul ricalco:** l'originale entra solo come riferimento (livello nascosto per i confronti) e ogni elemento si ridisegna da zero, nella stessa posizione e il più possibile uguale; non si ritagliano pezzi dell'originale per incollarli nella nuova immagine, né si usa l'originale come maschera da completare. Si possono riusare solo elementi già ricreati da zero (per esempio il logo solo testo dentro il logo completo). Metodo scelto: contorni misurati col codice sul riferimento e ridisegnati come tracciati vettoriali; colori, sfumature, luci e ombre dipinti da capo. I testi usano i font del progetto (Luckiest Guy, Fredoka), installati anche sul PC perché GIMP li veda. Guida `Docs/GIMP.md`.
 - **Godot AI** (MCP `godot-ai`): scene, nodi, script, avvio, log, screenshot per verificare in gioco. Guida `Docs/GODOT.md`.
 - **ImageGen:** concept art e icone illustrate, usando i concept esistenti come riferimento. GIMP per rifinirle e comporle; Pixelorama solo se servono ritocchi o pixel art.
 - La skill condivisa `game-tools` instrada alle guide generiche; le regole di aggiornamento delle guide sono in `AGENTS.md`.
@@ -297,12 +297,14 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 - **Mondo:** inquadratura fissa con il ragazzo al centro; terreno di sola sabbia, battigia e mare; mappa del tutorial; elementi di scena e loro disposizione; granchio animato.
 - **Interfaccia:** bande in legno scurite, icone dell'HUD, barre a tubo, numeri fluttuanti.
 - **Icone degli oggetti:** stile illustrato, con il frullato come riferimento.
+- **Logo solo testo:** ricreato in GIMP a livelli (lettere in Luckiest Guy disposte e inclinate come nell'originale, contorno scuro e bordo crema, gradienti giallo-arancio e corallo-rosso con lo stacco lucido sfumato da una dissolvenza corta, bordi interni chiari, riflessi bianchi).
 
 ### 10.2 Punti in lavorazione
 
 Sviluppi in corso, in test o in attesa di valutazione e approvazione.
 
 - **Fumetto di Sandro:** avviso dell'aumento dei prezzi e ringraziamenti (sezione 4); da far approvare il fumetto (grafica, dimensione, posizione, durata dei ringraziamenti).
+- **Ricalco in GIMP del logo completo:** si ricrea da zero l'intero logo (sole con nuvole, due palme, foglie, ibisco, schizzi d'acqua, onde, isolotto di sabbia, conchiglia, stella marina, raggi), ogni elemento nella posizione dell'originale, con al centro il logo solo testo già ricreato. Il PNG del logo completo è ancora l'originale di Codex finché la ricostruzione non è approvata.
 - **Bilanciamento del negozio:** prezzi più alti a cifre tonde, aumento del 25% ogni 5 ondate per gli oggetti acquistabili sempre, aumento del 25% per livello per quelli con massimo, sblocchi per ondata, Barretta e Gelato con disponibilità periodica (sezione 4); da provare in partita, tarando prezzi e ondate di sblocco.
 
 ### 10.3 Punti aperti

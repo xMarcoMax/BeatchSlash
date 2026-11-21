@@ -238,6 +238,7 @@ Regola generale: concept art in `Assets/ConceptArt/<soggetto>/` (ignorata da God
 - **Bande dell'HUD:** `Assets/UI/band_top.png` e `band_bottom.png` generate da `Tools/pixelorama/hud_bands_gen.py` dalle immagini in `Assets/ConceptArt/Hud/` (ritaglio centrale senza chiodi, ripetuto specchiando una copia sì e una no, luminosità al 72% con `DARKEN`).
 - **Base dello sfondo del menù:** `Assets/ConceptArt/MenuBackground/menu_background_base.png` (960×540, ignorata da Godot) con sorgente a livelli `Tools/gimp/menu_background.xcf` (livelli: sky, sun, sea, sand, palm). Nessun uso nel codice; il menù attuale non la usa.
 - **Immagini conservate** in `Assets/Images/`: `beatch-slash-logo-text-only.png`, `beatch-slash-logo.png`, `beatch-slash-cover-no-logo.png`, `beatch-slash-cover-logo.png`. Nessun uso nel codice.
+- **Ricalco del logo solo testo:** `Tools/gimp/beatch_slash_logo_text.xcf` (1448×1086, stessa tela di `beatch-slash-logo-text-only.png`), ricostruzione a livelli in GIMP del logo di Codex: un tracciato per lettera in Luckiest Guy, contorni, riempimenti, bordi interni e riflessi su livelli separati, più il PNG originale come livello nascosto `reference`. Generato dagli script Python-Fu in `Tools/gimp/trace/` (`analyze`, `fit`, `horizon`, `build`, `render`, `details`, `holes`, eseguiti in quest'ordine nella console di `call_api`). Non ancora esportato in `Assets/`; nessun uso nel codice. Livelli e procedura in `Docs/GIMP.md`.
 - `Tools/pixelorama/boyfriend.pxo` è un ritocco di un modello superato, non usato.
 
 ## 19. Test

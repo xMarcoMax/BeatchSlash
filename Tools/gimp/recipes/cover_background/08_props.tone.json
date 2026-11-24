@@ -1,0 +1,209 @@
+{
+ "reference": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/ref_nologo_canvas.png",
+ "sigma": 1.0,
+ "min_area": 6,
+ "tolerance": 0.4,
+ "areas": [
+  {
+   "box": [
+    255,
+    640,
+    445,
+    818
+   ],
+   "subject_part": "_barrel",
+   "background": [
+    "#78b7f7"
+   ],
+   "tones": [
+    {
+     "name": "barrel_t00",
+     "sample": "#603928",
+     "paint": "#623826"
+    },
+    {
+     "name": "barrel_t01",
+     "sample": "#764737",
+     "paint": "#794634"
+    },
+    {
+     "name": "barrel_t02",
+     "sample": "#904f31",
+     "paint": "#944e2d"
+    },
+    {
+     "name": "barrel_t03",
+     "sample": "#90574f",
+     "paint": "#93554c"
+    },
+    {
+     "name": "barrel_t04",
+     "sample": "#8e5e60",
+     "paint": "#905c5e"
+    },
+    {
+     "name": "barrel_t05",
+     "sample": "#ba6432",
+     "paint": "#bf632d"
+    },
+    {
+     "name": "barrel_t06",
+     "sample": "#ad7b7b",
+     "paint": "#af7979"
+    },
+    {
+     "name": "barrel_t07",
+     "sample": "#d97533",
+     "paint": "#e0742c"
+    },
+    {
+     "name": "barrel_t08",
+     "sample": "#cc7d4c",
+     "paint": "#d17c47"
+    },
+    {
+     "name": "barrel_t09",
+     "sample": "#dc935e",
+     "paint": "#e19259"
+    },
+    {
+     "name": "barrel_t10",
+     "sample": "#f99b38",
+     "paint": "#ff9b32"
+    },
+    {
+     "name": "barrel_t11",
+     "sample": "#f3a35e",
+     "paint": "#f9a358"
+    },
+    {
+     "name": "barrel_t12",
+     "sample": "#fbc886",
+     "paint": "#ffc982"
+    },
+    {
+     "name": "barrel_t13",
+     "sample": "#fde2ab",
+     "paint": "#ffe3a9"
+    }
+   ],
+   "clip": [
+    [
+     276,
+     669,
+     288,
+     663,
+     320,
+     660,
+     360,
+     659,
+     395,
+     661,
+     406,
+     666,
+     414,
+     673,
+     422,
+     684,
+     429,
+     698,
+     431,
+     725,
+     427,
+     746,
+     420,
+     756,
+     419,
+     780,
+     417,
+     800,
+     400,
+     804,
+     300,
+     804,
+     282,
+     800,
+     274,
+     780,
+     270,
+     750,
+     270,
+     715,
+     272,
+     690
+    ]
+   ],
+   "extend": [
+    [
+     276,
+     669,
+     288,
+     663,
+     320,
+     660,
+     360,
+     659,
+     395,
+     661,
+     406,
+     666,
+     414,
+     673,
+     422,
+     684,
+     429,
+     698,
+     431,
+     725,
+     427,
+     746,
+     420,
+     756,
+     419,
+     780,
+     417,
+     800,
+     400,
+     804,
+     300,
+     804,
+     282,
+     800,
+     274,
+     780,
+     270,
+     750,
+     270,
+     715,
+     272,
+     690
+    ]
+   ],
+   "exclude": [
+    {
+     "mask": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/work/s39/barrel_leaf_mask.png"
+    },
+    {
+     "poly": [
+      250,
+      758,
+      340,
+      758,
+      346,
+      818,
+      250,
+      818
+     ]
+    }
+   ],
+   "patch": [
+    {
+     "image": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/08_props.patch.png"
+    }
+   ],
+   "edge_blend": [
+    0.5
+   ]
+  }
+ ]
+}

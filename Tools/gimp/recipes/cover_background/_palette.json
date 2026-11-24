@@ -1,0 +1,1510 @@
+{
+ "_about": "Palettes per material sampled from beatch-slash-cover-logo.png (target style) and beatch-slash-cover-no-logo.png (source). Coordinates are in 1672x941 image space (not canvas). Tool: game-tools/scripts/gimp/sample_palette.py. Roles: base=dominant tone, shade=hard cut shadow, deep=darkest shadow, light/highlight=lit tones. Outline thickness measured on skeleton, +-1 px. shift = mean HSV logo minus no-logo (dh degrees, ds, dv): apply to no-logo tones to approach logo tones.",
+ "style": {
+  "outline_thickness_px_mean": 2.0,
+  "outline_thickness_px_range": [
+   1.3,
+   3.0
+  ],
+  "outline_thickness_nologo_mean_px": 2.5,
+  "outline_color_typical": "#52322c",
+  "outline_color_note": "warm dark brown #4c2d2f-#58372e on warm materials (wood, kiosk, rocks, shells); dark green #305130/#3e501a on leaves; dark crimson #4c0414 on hibiscus. Never pure black. Thin (1.5-3 px) on the environment, thicker on trunk and big foreground leaves. Sky, clouds, sea, sand, foam, island canopy have no outline.",
+  "shade_hardness": {
+   "edge_transition_px_logo": 3.48,
+   "edge_transition_px_nologo": 3.43,
+   "reading": "shadows are hard-cut cel shapes; edge ramp about 3 px (image softness), draw with a 1-2 px feather, never a long gradient. Gradients only on sky, far sea and lantern glow."
+  },
+  "saturation_mean": {
+   "logo": 0.683,
+   "nologo": 0.518,
+   "ratio": 1.32
+  },
+  "value_mean": {
+   "logo": 0.856,
+   "nologo": 0.861
+  },
+  "stroke_notes": [
+   "Logo cover = more saturated and contrasted: sky ultramarine (#0180fa, S 0.85 vs no-logo 0.61), sea intense cyan (S 0.89-0.98 vs 0.65-0.80), vegetation yellow-green (H 76-80) instead of olive (H 60-65).",
+   "Sand is paler and creamier (#fdca8f, low contrast, few pits) vs the orange no-logo sand (#f9aa69); wet sand is pink-beige.",
+   "Rocks: big smooth lit salmon planes with sharp cool violet shadow facets, thin dark outline (about 2 px), orange speckle.",
+   "Fills are flat campiture + hard shadow + one light tone + a highlight; details are short strokes (specks 2-3 px, streaks 9-40 px).",
+   "Sea: thin white horizontal reflections and foam bands with cool-pink underside; sky and far sea are outline-free.",
+   "Wood/straw are very saturated orange (S 0.67-0.68), cream highlight #fdd49c on edges, dark brown separators 1-2 px."
+  ]
+ },
+ "materials": {
+  "cielo": {
+   "where_logo": [
+    580,
+    0,
+    1672,
+    525
+   ],
+   "where_nologo": [
+    430,
+    0,
+    1672,
+    300
+   ],
+   "outline": null,
+   "deep": "#0180fa",
+   "shade": "#018cfd",
+   "base": "#31a2fd",
+   "light": "#71c6fd",
+   "highlight": "#87d2fd",
+   "mean_hsv_logo": {
+    "h": 206.7,
+    "s": 0.845,
+    "v": 0.984
+   },
+   "gradient": {
+    "direction": "top to bottom",
+    "stops": [
+     {
+      "y": 0,
+      "hex": "#0180fa"
+     },
+     {
+      "y": 52,
+      "hex": "#018cfd"
+     },
+     {
+      "y": 105,
+      "hex": "#0f92fd"
+     },
+     {
+      "y": 157,
+      "hex": "#1d98fd"
+     },
+     {
+      "y": 210,
+      "hex": "#31a2fd"
+     },
+     {
+      "y": 262,
+      "hex": "#48aefd"
+     },
+     {
+      "y": 315,
+      "hex": "#52b4fd"
+     },
+     {
+      "y": 367,
+      "hex": "#56b8f7"
+     },
+     {
+      "y": 420,
+      "hex": "#71c6fd"
+     },
+     {
+      "y": 472,
+      "hex": "#87d2fd"
+     }
+    ],
+    "horizon_y": 526,
+    "note": "median of blue sky pixels per 52 px band"
+   },
+   "texture": "Vertical gradient, flat, no texture. Ultramarine at the top to pale cyan at the horizon (see gradient).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 2.4,
+    "dark_specks_per_10k_px": 3.1,
+    "speck_diam_px": 2.4,
+    "edge_transition_px": 3.36
+   },
+   "nologo": {
+    "base": "#66a8fc",
+    "shade": "#5b9efc",
+    "light": "#81bffc",
+    "mean_hsv": {
+     "h": 214.1,
+     "s": 0.61,
+     "v": 0.985
+    },
+    "gradient": {
+     "stops": [
+      {
+       "y": 0,
+       "hex": "#5497fc"
+      },
+      {
+       "y": 30,
+       "hex": "#579afc"
+      },
+      {
+       "y": 60,
+       "hex": "#5b9efc"
+      },
+      {
+       "y": 90,
+       "hex": "#60a3fc"
+      },
+      {
+       "y": 120,
+       "hex": "#66a8fc"
+      },
+      {
+       "y": 150,
+       "hex": "#6aacfc"
+      },
+      {
+       "y": 180,
+       "hex": "#70b1fc"
+      },
+      {
+       "y": 210,
+       "hex": "#75b5fc"
+      },
+      {
+       "y": 240,
+       "hex": "#78b7fc"
+      },
+      {
+       "y": 270,
+       "hex": "#81bffc"
+      }
+     ],
+     "horizon_y": 413
+    }
+   },
+   "shift": {
+    "dh": -7.4,
+    "ds": 0.235,
+    "dv": -0.001
+   }
+  },
+  "nuvole": {
+   "where_logo": [
+    [
+     730,
+     45,
+     935,
+     100
+    ],
+    [
+     1100,
+     455,
+     1400,
+     510
+    ]
+   ],
+   "where_nologo": [
+    [
+     870,
+     40,
+     1060,
+     140
+    ],
+    [
+     1400,
+     0,
+     1672,
+     190
+    ]
+   ],
+   "outline": null,
+   "deep": "#b6cbf8",
+   "shade": "#c0d7fa",
+   "base": "#d3e0f5",
+   "light": "#e5e6ef",
+   "highlight": "#f1eae9",
+   "mean_hsv_logo": {
+    "h": 229.5,
+    "s": 0.175,
+    "v": 0.964
+   },
+   "texture": "Soft flat lavender-white shapes, no outline, rounded cumulus: lavender shade #b6cbf8/#c0d7fa on the underside, white #f1eae9 on top. Low saturation (S 0.18).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.0,
+    "dark_specks_per_10k_px": 0.0,
+    "speck_diam_px": null,
+    "edge_transition_px": null
+   },
+   "nologo": {
+    "base": "#fdedd7",
+    "shade": "#d7d0ed",
+    "light": "#fdedd7",
+    "deep": "#bac6ef",
+    "mean_hsv": {
+     "h": 313.0,
+     "s": 0.123,
+     "v": 0.953
+    }
+   },
+   "shift": {
+    "dh": -83.5,
+    "ds": 0.052,
+    "dv": 0.011
+   },
+   "note": "No-logo clouds are cream/warm (#fdedd7/#d7d0ed); logo clouds are white-lavender: recolour towards blue-lavender. dh in shift is unreliable (S below 0.2)."
+  },
+  "mare_lontano": {
+   "where_logo": [
+    [
+     1000,
+     527,
+     1130,
+     560
+    ],
+    [
+     1405,
+     530,
+     1672,
+     580
+    ]
+   ],
+   "where_nologo": [
+    1380,
+    415,
+    1672,
+    452
+   ],
+   "outline": null,
+   "deep": "#0082e4",
+   "shade": "#018de7",
+   "base": "#01b2ee",
+   "light": "#55baee",
+   "highlight": "#f6f1ed",
+   "mean_hsv_logo": {
+    "h": 201.0,
+    "s": 0.983,
+    "v": 0.915
+   },
+   "gradient": {
+    "direction": "horizon darker (#0082e4) to cyan #01b2ee in about 50 px"
+   },
+   "texture": "Dark ultramarine band at the horizon (#0082e4) lightening to cyan; thin white horizontal reflections 9-32 px long (about 5 per 100x100), plus 2-3 px light flecks (about 12 per 100x100); white horizon line 1-2 px.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 11.9,
+    "dark_specks_per_10k_px": 0.0,
+    "speck_diam_px": 2.5,
+    "edge_transition_px": 3.25
+   },
+   "nologo": {
+    "base": "#2285da",
+    "shade": "#2285da",
+    "light": "#36a8e2",
+    "mean_hsv": {
+     "h": 205.4,
+     "s": 0.8,
+     "v": 0.867
+    }
+   },
+   "shift": {
+    "dh": -4.4,
+    "ds": 0.183,
+    "dv": 0.048
+   }
+  },
+  "mare_vicino": {
+   "where_logo": [
+    1000,
+    580,
+    1672,
+    700
+   ],
+   "where_nologo": [
+    [
+     930,
+     455,
+     1050,
+     500
+    ],
+    [
+     1330,
+     555,
+     1672,
+     605
+    ]
+   ],
+   "outline": null,
+   "deep": "#0082e4",
+   "shade": "#02a3d6",
+   "base": "#04c2ea",
+   "light": "#1fcbe8",
+   "highlight": "#5ed3e6",
+   "mean_hsv_logo": {
+    "h": 190.8,
+    "s": 0.892,
+    "v": 0.885
+   },
+   "gradient": {
+    "direction": "far (y580) to shore (y670): darker to lighter",
+    "stops": [
+     {
+      "y": 580,
+      "hex": "#01c1ec"
+     },
+     {
+      "y": 610,
+      "hex": "#03b5e1"
+     },
+     {
+      "y": 640,
+      "hex": "#20cce5"
+     },
+     {
+      "y": 670,
+      "hex": "#4ccae2"
+     }
+    ]
+   },
+   "texture": "Cyan bands (#02a3d6 dark, #04c2ea mid, #1fcbe8 light) lighter towards the shore; white horizontal streaks 10-43 px (about 4-5 per 100x100), 3 px flecks (about 9 per 100x100).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 9.2,
+    "dark_specks_per_10k_px": 0.6,
+    "speck_diam_px": 5.0,
+    "edge_transition_px": 3.38
+   },
+   "nologo": {
+    "base": "#5ac1d2",
+    "shade": "#46b0c7",
+    "light": "#3cbbdf",
+    "mean_hsv": {
+     "h": 191.1,
+     "s": 0.65,
+     "v": 0.812
+    }
+   },
+   "shift": {
+    "dh": -0.3,
+    "ds": 0.242,
+    "dv": 0.073
+   }
+  },
+  "schiuma_onde": {
+   "where_logo": [
+    1000,
+    640,
+    1672,
+    730
+   ],
+   "where_nologo": [
+    930,
+    480,
+    1672,
+    610
+   ],
+   "outline": null,
+   "deep": "#e1b8b6",
+   "shade": "#e1dfde",
+   "base": "#f6f1ed",
+   "light": "#f6f1ed",
+   "highlight": "#ffffff",
+   "water_tint": "#b6e0e6",
+   "mean_hsv_logo": {
+    "h": 26.3,
+    "s": 0.076,
+    "v": 0.936
+   },
+   "texture": "Wavy cream-white bands 8-40 px high (#f6f1ed) with a cool pink-lavender shadow underside (#e1b8b6/#e1dfde) and translucent aqua gaps (#b6e0e6); thin horizontal wave crests 9-22 px long, about 30 per 100x100, slightly tilted (about 5 deg).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.0,
+    "dark_specks_per_10k_px": 173.2,
+    "speck_diam_px": 2.3,
+    "edge_transition_px": 3.45
+   },
+   "nologo": {
+    "base": "#fbf3ee",
+    "shade": "#e4e2e4",
+    "light": "#fbf3ee",
+    "mean_hsv": {
+     "h": 18.8,
+     "s": 0.088,
+     "v": 0.951
+    }
+   },
+   "shift": {
+    "dh": 7.5,
+    "ds": -0.012,
+    "dv": -0.015
+   }
+  },
+  "sabbia_asciutta": {
+   "where_logo": [
+    [
+     1100,
+     760,
+     1320,
+     860
+    ],
+    [
+     1330,
+     810,
+     1440,
+     880
+    ]
+   ],
+   "where_nologo": [
+    [
+     1130,
+     690,
+     1430,
+     740
+    ],
+    [
+     1270,
+     880,
+     1438,
+     941
+    ]
+   ],
+   "outline": null,
+   "deep": "#f5995f",
+   "shade": "#fcae72",
+   "base": "#fdca8f",
+   "light": "#fdca8f",
+   "highlight": "#fdca8f",
+   "pits": "#be7049",
+   "pits2": "#db8a5b",
+   "mean_hsv_logo": {
+    "h": 30.2,
+    "s": 0.476,
+    "v": 0.987
+   },
+   "texture": "Almost flat pale cream (#fdca8f, 59%) with soft peach patches (#fcae72/#fdbf81) and small darker pits/footprints (#f5995f, #be7049): about 12 dark specks 2-3 px per 100x100, a few streaks 9-28 px.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.7,
+    "dark_specks_per_10k_px": 11.7,
+    "speck_diam_px": 2.8,
+    "edge_transition_px": 3.59
+   },
+   "nologo": {
+    "base": "#f9aa69",
+    "shade": "#fb9d59",
+    "light": "#fdcb88",
+    "mean_hsv": {
+     "h": 29.1,
+     "s": 0.561,
+     "v": 0.975
+    }
+   },
+   "shift": {
+    "dh": 1.1,
+    "ds": -0.085,
+    "dv": 0.012
+   }
+  },
+  "sabbia_bagnata": {
+   "where_logo": [
+    1100,
+    722,
+    1320,
+    750
+   ],
+   "where_nologo": [
+    1180,
+    660,
+    1430,
+    685
+   ],
+   "outline": null,
+   "deep": "#e2a89c",
+   "shade": "#e2a89c",
+   "base": "#e1b3ad",
+   "light": "#f0d7d0",
+   "highlight": "#f0d7d0",
+   "warm_patch": "#fcb17e",
+   "mean_hsv_logo": {
+    "h": 12.2,
+    "s": 0.247,
+    "v": 0.911
+   },
+   "texture": "Pinkish-beige strip (#e1b3ad) with lighter horizontal glints 9-31 px (about 40 per 100x100) and a slightly warmer patch (#fcb17e). Cool/pink compared to dry sand.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 141.9,
+    "dark_specks_per_10k_px": 12.2,
+    "speck_diam_px": 2.5,
+    "edge_transition_px": 3.55
+   },
+   "nologo": {
+    "base": "#fd9d57",
+    "shade": "#ea7c3f",
+    "light": "#faab70",
+    "mean_hsv": {
+     "h": 21.1,
+     "s": 0.55,
+     "v": 0.944
+    }
+   },
+   "shift": {
+    "dh": -8.9,
+    "ds": -0.303,
+    "dv": -0.033
+   },
+   "note": "No-logo zone is more orange than the logo wet strip: logo wet sand is cooler and paler."
+  },
+  "roccia": {
+   "where_logo": [
+    [
+     1130,
+     518,
+     1405,
+     622
+    ],
+    [
+     1370,
+     626,
+     1672,
+     812
+    ],
+    [
+     1450,
+     472,
+     1672,
+     525
+    ]
+   ],
+   "where_nologo": [
+    [
+     1392,
+     442,
+     1672,
+     558
+    ],
+    [
+     1446,
+     596,
+     1672,
+     804
+    ],
+    [
+     1377,
+     296,
+     1672,
+     415
+    ]
+   ],
+   "outline": {
+    "color": "#553d37",
+    "thickness_px": 2.6
+   },
+   "deep": "#7f4c41",
+   "shade": "#bc7463",
+   "base": "#f49b68",
+   "light": "#fbba8a",
+   "highlight": "#fcc192",
+   "shade_cool": "#926982",
+   "shade_cool_deep": "#6d5b7b",
+   "shade_cool_light": "#9e80a1",
+   "mean_hsv_logo": {
+    "h": 7.7,
+    "s": 0.447,
+    "v": 0.79
+   },
+   "texture": "Faceted planes: lit salmon (#f49b68/#fbba8a, 59%) with sharp-edged cool violet shadow facets (#6d5b7b, #926982, #9e80a1) and warm brown shadow (#bc7463, #7f4c41); small dark specks 2-3 px (about 30 per 100x100), orange dots as light grain, a few thin cracks 10-26 px. Top edge lit, one side in cool shade.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 1.6,
+    "dark_specks_per_10k_px": 29.5,
+    "speck_diam_px": 2.0,
+    "edge_transition_px": 3.3
+   },
+   "nologo": {
+    "base": "#faa762",
+    "shade": "#c18774",
+    "light": "#fbc28e",
+    "mean_hsv": {
+     "h": 4.3,
+     "s": 0.41,
+     "v": 0.759
+    },
+    "outline": {
+     "color": "#584338",
+     "thickness_px": 2.7
+    }
+   },
+   "shift": {
+    "dh": 3.4,
+    "ds": 0.037,
+    "dv": 0.031
+   },
+   "note": "Logo rocks have cool violet shade facets; no-logo similar but warmer. Outline about 3 px in no-logo."
+  },
+  "vegetazione_isole": {
+   "where_logo": [
+    1370,
+    424,
+    1672,
+    470
+   ],
+   "where_nologo": [
+    [
+     1408,
+     250,
+     1672,
+     304
+    ],
+    [
+     915,
+     296,
+     1030,
+     350
+    ]
+   ],
+   "outline": null,
+   "deep": "#467959",
+   "shade": "#598353",
+   "base": "#abaf31",
+   "light": "#d0c11c",
+   "highlight": "#d0c11c",
+   "mid": "#8b9f42",
+   "mean_hsv_logo": {
+    "h": 80.2,
+    "s": 0.626,
+    "v": 0.648
+   },
+   "texture": "Rounded bushy canopy in flat patches: dark teal-green (#467959) at the bottom, olive (#598353/#72914b), yellow-green (#abaf31) and bright yellow (#d0c11c) on top; no outline, bumpy silhouette with 6-12 px lobes.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.0,
+    "dark_specks_per_10k_px": 2.4,
+    "speck_diam_px": 2.3,
+    "edge_transition_px": 3.69
+   },
+   "nologo": {
+    "base": "#ada851",
+    "shade": "#909556",
+    "light": "#c2b448",
+    "mean_hsv": {
+     "h": 59.9,
+     "s": 0.514,
+     "v": 0.674
+    }
+   },
+   "shift": {
+    "dh": 20.3,
+    "ds": 0.112,
+    "dv": -0.026
+   }
+  },
+  "legno": {
+   "where_logo": [
+    [
+     20,
+     200,
+     55,
+     330
+    ],
+    [
+     25,
+     575,
+     150,
+     690
+    ]
+   ],
+   "where_nologo": [
+    [
+     38,
+     135,
+     68,
+     290
+    ],
+    [
+     35,
+     545,
+     160,
+     650
+    ],
+    [
+     165,
+     520,
+     240,
+     640
+    ]
+   ],
+   "outline": {
+    "color": "#58372e",
+    "thickness_px": 1.9
+   },
+   "deep": "#85452e",
+   "shade": "#b05935",
+   "base": "#e97430",
+   "light": "#f99946",
+   "highlight": "#fdd49c",
+   "mean_hsv_logo": {
+    "h": 22.0,
+    "s": 0.684,
+    "v": 0.788
+   },
+   "texture": "Planks/poles in saturated orange (#e97430) with shade stripes (#b05935, #85452e) and highlight (#f99946/#fdd49c) on the left edge; grain lines 1-2 px, 8-17 px long (about 5 per 100x100), vertical on poles/barrel staves; dark knots 2 px. Barrel hoops are violet-grey on the logo cover.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 8.5,
+    "dark_specks_per_10k_px": 18.6,
+    "speck_diam_px": 2.3,
+    "edge_transition_px": 3.55
+   },
+   "nologo": {
+    "base": "#d87433",
+    "shade": "#b0623a",
+    "light": "#fb9d3d",
+    "mean_hsv": {
+     "h": 23.2,
+     "s": 0.667,
+     "v": 0.722
+    },
+    "outline": {
+     "color": "#5f3928",
+     "thickness_px": 2.0
+    }
+   },
+   "shift": {
+    "dh": -1.2,
+    "ds": 0.017,
+    "dv": 0.066
+   }
+  },
+  "paglia": {
+   "where_logo": [
+    0,
+    95,
+    230,
+    150
+   ],
+   "where_nologo": [
+    30,
+    45,
+    260,
+    95
+   ],
+   "outline": {
+    "color": "#61382b",
+    "thickness_px": 1.5
+   },
+   "deep": "#92502d",
+   "shade": "#d2713f",
+   "base": "#fdb75d",
+   "light": "#fdc269",
+   "highlight": "#fdc269",
+   "mid": "#fb914a",
+   "warm": "#f48042",
+   "mean_hsv_logo": {
+    "h": 28.8,
+    "s": 0.665,
+    "v": 0.967
+   },
+   "texture": "Overlapping straw bundles in orange-yellow (#fdb75d base, #fb914a mid, #d2713f shadow) with jagged pointed tips along the lower edge, 8-17 px long, dark gap (#92502d) between rows; straw strands 1-2 px lines 9-17 px at 20-70 deg, about 2 per 100x100.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.0,
+    "dark_specks_per_10k_px": 6.0,
+    "speck_diam_px": 4.8,
+    "edge_transition_px": 3.46
+   },
+   "nologo": {
+    "base": "#fdbb51",
+    "shade": "#fa9e4a",
+    "light": "#fdc157",
+    "mean_hsv": {
+     "h": 32.7,
+     "s": 0.692,
+     "v": 0.937
+    },
+    "outline": {
+     "color": "#543222",
+     "thickness_px": 2.6
+    }
+   },
+   "shift": {
+    "dh": -3.9,
+    "ds": -0.027,
+    "dv": 0.03
+   }
+  },
+  "tenda_righe": {
+   "where_logo": [
+    120,
+    205,
+    185,
+    275
+   ],
+   "where_nologo": [
+    180,
+    160,
+    350,
+    215
+   ],
+   "outline": {
+    "color": "#4c2d2f",
+    "thickness_px": 2.0
+   },
+   "deep": "#993c37",
+   "shade": "#993c37",
+   "base": "#f74b50",
+   "light": "#fccb90",
+   "highlight": "#fdead0",
+   "stripe_cream": "#fdead0",
+   "stripe_red": "#f74b50",
+   "cream_shade": "#fccb90",
+   "red_shade": "#993c37",
+   "mean_hsv_logo": {
+    "h": 3.3,
+    "s": 0.531,
+    "v": 0.748
+   },
+   "texture": "Diagonal stripes about 20-25 px wide, alternating red #f74b50 and cream #fdead0, red shade #993c37, cream shade #fccb90; scalloped bottom edge with 1.5-2 px dark outline #4c2d2f.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 5.8,
+    "dark_specks_per_10k_px": 34.5,
+    "speck_diam_px": 2.8,
+    "edge_transition_px": 3.38
+   },
+   "nologo": {
+    "base": "#eb5d54",
+    "shade": "#994637",
+    "light": "#fbc58d",
+    "cream": "#fdebc6",
+    "mean_hsv": {
+     "h": 16.9,
+     "s": 0.518,
+     "v": 0.83
+    },
+    "outline": {
+     "color": "#593326",
+     "thickness_px": 2.7
+    }
+   },
+   "shift": {
+    "dh": -13.6,
+    "ds": 0.013,
+    "dv": -0.082
+   }
+  },
+  "lanterna": {
+   "where_logo": [
+    78,
+    240,
+    128,
+    290
+   ],
+   "where_nologo": [
+    108,
+    175,
+    162,
+    232
+   ],
+   "outline": {
+    "color": "#502f2d",
+    "thickness_px": 2.0
+   },
+   "deep": "#8f4022",
+   "shade": "#c1571d",
+   "base": "#fdc326",
+   "light": "#fddb71",
+   "highlight": "#fddb71",
+   "edge_glow": "#f56914",
+   "mid_glow": "#fb8f10",
+   "mean_hsv_logo": {
+    "h": 33.6,
+    "s": 0.772,
+    "v": 0.92
+   },
+   "texture": "Glowing paper lantern: centre pale yellow #fddb71, edge orange #fb8f10/#f56914, 1-2 px dark-orange ribs (#c1571d), 3 vertical + 2 horizontal ribs, dark cap #8f4022.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 4.2,
+    "dark_specks_per_10k_px": 0.0,
+    "speck_diam_px": 3.2,
+    "edge_transition_px": 3.79
+   },
+   "nologo": {
+    "base": "#fdd668",
+    "shade": "#f8841f",
+    "light": "#fdd668",
+    "mean_hsv": {
+     "h": 33.0,
+     "s": 0.742,
+     "v": 0.879
+    },
+    "outline": {
+     "color": "#553121",
+     "thickness_px": 1.7
+    }
+   },
+   "shift": {
+    "dh": 0.6,
+    "ds": 0.03,
+    "dv": 0.041
+   }
+  },
+  "vetro_bottiglie": {
+   "where_logo": [
+    60,
+    308,
+    170,
+    335
+   ],
+   "where_nologo": [
+    90,
+    252,
+    215,
+    300
+   ],
+   "outline": {
+    "color": "#463235",
+    "thickness_px": 1.5
+   },
+   "deep": "#7a4f35",
+   "shade": "#7a4f35",
+   "base": "#a26739",
+   "light": "#f3b47f",
+   "highlight": "#f3b47f",
+   "blue": "#296388",
+   "purple": "#8b4e67",
+   "amber": "#a26739",
+   "confidence": "low: tiny in logo cover, mostly dark interior",
+   "mean_hsv_logo": {
+    "h": 348.7,
+    "s": 0.362,
+    "v": 0.335
+   },
+   "texture": "Tiny bottles (about 15 px) with tinted bodies: blue #296388, purple #8b4e67, amber #a26739, small cream highlight #f3b47f; sits in dark wood interior #7a4f35. Low confidence (the area is mostly dark).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 80.8,
+    "dark_specks_per_10k_px": 282.8,
+    "speck_diam_px": 2.4,
+    "edge_transition_px": 3.38
+   },
+   "nologo": {
+    "base": "#ad6c31",
+    "shade": "#8e5233",
+    "light": "#f8dca8",
+    "teal": "#467178",
+    "mean_hsv": {
+     "h": 13.6,
+     "s": 0.493,
+     "v": 0.462
+    },
+    "outline": {
+     "color": "#533731",
+     "thickness_px": 3.4
+    }
+   },
+   "shift": {
+    "dh": -24.9,
+    "ds": -0.131,
+    "dv": -0.127
+   },
+   "note": "Very small in the logo cover; the no-logo zone is larger."
+  },
+  "tavola_surf": {
+   "where_logo": [
+    10,
+    380,
+    75,
+    520
+   ],
+   "where_nologo": [
+    10,
+    330,
+    95,
+    500
+   ],
+   "outline": {
+    "color": "#58372e",
+    "thickness_px": 2.0
+   },
+   "deep": "#ea604e",
+   "shade": "#fab689",
+   "base": "#fdd3a3",
+   "light": "#fdd3a3",
+   "highlight": "#fdd3a3",
+   "accent_red": "#fb4643",
+   "accent_red_light": "#fb8665",
+   "mean_hsv_logo": {
+    "h": 16.3,
+    "s": 0.548,
+    "v": 0.966
+   },
+   "texture": "Cream board (#fdd3a3) with coral stripe/flower (#fb4643) and peach shade (#fab689); outline 2-3 px dark brown. Large flat colour areas, no grain.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 2.3,
+    "dark_specks_per_10k_px": 4.5,
+    "speck_diam_px": 1.6,
+    "edge_transition_px": 3.26
+   },
+   "nologo": {
+    "base": "#fdd89a",
+    "shade": "#ec934e",
+    "light": "#fdd89a",
+    "accent_red": "#ea5443",
+    "mean_hsv": {
+     "h": 25.5,
+     "s": 0.551,
+     "v": 0.926
+    },
+    "outline": {
+     "color": "#545630",
+     "thickness_px": 3.1
+    }
+   },
+   "shift": {
+    "dh": -9.2,
+    "ds": -0.003,
+    "dv": 0.04
+   },
+   "note": "Outline colour taken from legno (measured value contaminated by adjacent foliage)."
+  },
+  "palma_tronco": {
+   "where_logo": [
+    165,
+    25,
+    215,
+    95
+   ],
+   "where_nologo": [
+    355,
+    85,
+    385,
+    140
+   ],
+   "outline": {
+    "color": "#4f3328",
+    "thickness_px": 3.0
+   },
+   "deep": "#7d3b2a",
+   "shade": "#7d3b2a",
+   "base": "#904430",
+   "light": "#ae5234",
+   "highlight": "#fa7f3c",
+   "mid": "#db6736",
+   "mean_hsv_logo": {
+    "h": 14.6,
+    "s": 0.666,
+    "v": 0.6
+   },
+   "texture": "Orange-brown segmented trunk: base #904430, shadow #7d3b2a, lit segments #ae5234 and orange rim #fa7f3c, ring lines every 15-25 px, dark outline 3 px.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 0.0,
+    "dark_specks_per_10k_px": 24.9,
+    "speck_diam_px": 2.1,
+    "edge_transition_px": 3.21
+   },
+   "nologo": {
+    "base": "#985645",
+    "shade": "#794535",
+    "light": "#fa9943",
+    "mean_hsv": {
+     "h": 17.6,
+     "s": 0.602,
+     "v": 0.688
+    },
+    "outline": {
+     "color": "#4d352f",
+     "thickness_px": 3.0
+    }
+   },
+   "shift": {
+    "dh": -3.0,
+    "ds": 0.064,
+    "dv": -0.088
+   }
+  },
+  "palma_fronde": {
+   "where_logo": [
+    [
+     235,
+     0,
+     320,
+     95
+    ],
+    [
+     0,
+     0,
+     130,
+     60
+    ]
+   ],
+   "where_nologo": [
+    300,
+    0,
+    400,
+    60
+   ],
+   "outline": {
+    "color": "#305130",
+    "thickness_px": 2.5
+   },
+   "deep": "#6e751f",
+   "shade": "#878618",
+   "base": "#a29911",
+   "light": "#cfba03",
+   "highlight": "#e4c403",
+   "mid": "#bda90a",
+   "mean_hsv_logo": {
+    "h": 75.7,
+    "s": 0.736,
+    "v": 0.545
+   },
+   "texture": "Fronds with yellow-green lit side (#e4c403/#cfba03/#a29911) and dark green (#6e751f) / teal-green outline #305130 on the shade side; leaflets 15-25 px with veins 1-2 px (about 7 per 100x100, angle follows the leaf).",
+   "measured_texture": {
+    "light_specks_per_10k_px": 12.1,
+    "dark_specks_per_10k_px": 63.5,
+    "speck_diam_px": 2.0,
+    "edge_transition_px": 3.16
+   },
+   "nologo": {
+    "base": "#bfa728",
+    "shade": "#887e2f",
+    "light": "#bfa728",
+    "mean_hsv": {
+     "h": 64.8,
+     "s": 0.58,
+     "v": 0.493
+    },
+    "outline": {
+     "color": "#404f35",
+     "thickness_px": 2.9
+    }
+   },
+   "shift": {
+    "dh": 10.9,
+    "ds": 0.156,
+    "dv": 0.052
+   }
+  },
+  "foglie_primo_piano": {
+   "where_logo": [
+    [
+     0,
+     525,
+     50,
+     640
+    ],
+    [
+     20,
+     870,
+     150,
+     941
+    ],
+    [
+     1441,
+     765,
+     1672,
+     941
+    ]
+   ],
+   "where_nologo": [
+    [
+     10,
+     830,
+     180,
+     935
+    ],
+    [
+     0,
+     470,
+     55,
+     560
+    ],
+    [
+     1545,
+     820,
+     1672,
+     935
+    ]
+   ],
+   "outline": {
+    "color": "#3e501a",
+    "thickness_px": 2.5
+   },
+   "deep": "#4f6319",
+   "shade": "#6b7514",
+   "base": "#8c8e05",
+   "light": "#aba404",
+   "highlight": "#fcd303",
+   "mid": "#c0b203",
+   "mean_hsv_logo": {
+    "h": 75.8,
+    "s": 0.793,
+    "v": 0.476
+   },
+   "texture": "Broad leaves: olive-green base #8c8e05, shade #6b7514 and dark #4f6319, light #aba404, yellow highlight stripe along the midrib #fcd303; dark green outline #3e501a 2.5-3 px; central rib darker line 1-2 px.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 16.5,
+    "dark_specks_per_10k_px": 0.0,
+    "speck_diam_px": 2.0,
+    "edge_transition_px": 3.5
+   },
+   "nologo": {
+    "base": "#6f6c26",
+    "shade": "#6f6c26",
+    "light": "#b39e23",
+    "mean_hsv": {
+     "h": 62.1,
+     "s": 0.581,
+     "v": 0.411
+    },
+    "outline": {
+     "color": "#4d4d27",
+     "thickness_px": 3.4
+    }
+   },
+   "shift": {
+    "dh": 13.7,
+    "ds": 0.212,
+    "dv": 0.065
+   }
+  },
+  "ibisco": {
+   "where_logo": [
+    0,
+    700,
+    170,
+    870
+   ],
+   "where_nologo": [
+    5,
+    665,
+    125,
+    805
+   ],
+   "outline": {
+    "color": "#4c0414",
+    "thickness_px": 2.0
+   },
+   "deep": "#8e0d23",
+   "shade": "#d00f2b",
+   "base": "#fa2b32",
+   "light": "#fc584b",
+   "highlight": "#fc584b",
+   "mean_hsv_logo": {
+    "h": 357.4,
+    "s": 0.832,
+    "v": 0.869
+   },
+   "texture": "Red petals #fa2b32 with dark crimson shade #d00f2b/#8e0d23 in the centre and folds, light coral #fc584b highlights; thick dark outline #4c0414 about 2 px; yellow stamen with orange tip.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 1.5,
+    "dark_specks_per_10k_px": 22.9,
+    "speck_diam_px": 2.0,
+    "edge_transition_px": 3.59
+   },
+   "nologo": {
+    "base": "#fb503d",
+    "shade": "#e13c37",
+    "light": "#fc7254",
+    "mean_hsv": {
+     "h": 4.0,
+     "s": 0.748,
+     "v": 0.848
+    },
+    "outline": {
+     "color": "#4f1b1b",
+     "thickness_px": 3.3
+    }
+   },
+   "shift": {
+    "dh": -6.6,
+    "ds": 0.084,
+    "dv": 0.021
+   }
+  },
+  "conchiglie": {
+   "where_logo": [
+    [
+     1270,
+     832,
+     1332,
+     862
+    ],
+    [
+     204,
+     892,
+     284,
+     934
+    ]
+   ],
+   "where_nologo": [
+    [
+     1477,
+     797,
+     1542,
+     823
+    ],
+    [
+     386,
+     864,
+     475,
+     907
+    ]
+   ],
+   "outline": {
+    "color": "#652b1e",
+    "thickness_px": 1.5
+   },
+   "deep": "#8a3e23",
+   "shade": "#c76945",
+   "base": "#f4b88a",
+   "light": "#fdebd7",
+   "highlight": "#fdebd7",
+   "stripe": "#f18d5b",
+   "mean_hsv_logo": {
+    "h": 24.2,
+    "s": 0.454,
+    "v": 0.892
+   },
+   "texture": "Scallop shell: cream #fdebd7 with peach/coral radial stripes (#f18d5b, #c76945) and brown base #8a3e23; 1-2 px dark brown outline #652b1e.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 9.6,
+    "dark_specks_per_10k_px": 5.8,
+    "speck_diam_px": 2.0,
+    "edge_transition_px": 3.78
+   },
+   "nologo": {
+    "base": "#f6b780",
+    "shade": "#ee8c51",
+    "light": "#fdecd1",
+    "mean_hsv": {
+     "h": 27.6,
+     "s": 0.455,
+     "v": 0.912
+    }
+   },
+   "shift": {
+    "dh": -3.4,
+    "ds": -0.001,
+    "dv": -0.02
+   },
+   "note": "Zone covers both shells."
+  },
+  "stella_marina": {
+   "where_logo": [
+    1109,
+    865,
+    1212,
+    923
+   ],
+   "where_nologo": [
+    1192,
+    858,
+    1309,
+    927
+   ],
+   "outline": {
+    "color": "#5f1d0e",
+    "thickness_px": 1.5
+   },
+   "deep": "#8f391a",
+   "shade": "#d64e0d",
+   "base": "#fb7a07",
+   "light": "#f9b56d",
+   "highlight": "#f9b56d",
+   "mean_hsv_logo": {
+    "h": 24.9,
+    "s": 0.832,
+    "v": 0.869
+   },
+   "texture": "Orange star #fb7a07, lighter arm centre #f9b56d, shadow #d64e0d/#8f391a; cream dots 2-3 px along each arm, about 120 per 100x100; outline 1-2 px #5f1d0e.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 129.5,
+    "dark_specks_per_10k_px": 4.5,
+    "speck_diam_px": 2.1,
+    "edge_transition_px": 3.87
+   },
+   "nologo": {
+    "base": "#f8813c",
+    "shade": "#cb5c2e",
+    "light": "#fcba73",
+    "mean_hsv": {
+     "h": 24.1,
+     "s": 0.681,
+     "v": 0.856
+    },
+    "outline": {
+     "color": "#5b2714",
+     "thickness_px": 1.5
+    }
+   },
+   "shift": {
+    "dh": 0.8,
+    "ds": 0.151,
+    "dv": 0.013
+   }
+  },
+  "corda": {
+   "where_logo": [
+    75,
+    570,
+    150,
+    640
+   ],
+   "where_nologo": [
+    90,
+    535,
+    170,
+    605
+   ],
+   "outline": {
+    "color": "#582e18",
+    "thickness_px": 1.3
+   },
+   "deep": "#a8764f",
+   "shade": "#fac386",
+   "base": "#fdd399",
+   "light": "#fdddaa",
+   "highlight": "#fde7bc",
+   "mean_hsv_logo": {
+    "h": 35.1,
+    "s": 0.377,
+    "v": 0.99
+   },
+   "texture": "Twisted rope in cream (#fdd399 base, #fac386 shadow, #fde7bc highlight), twist lines 1-2 px dark brown #582e18 at about 45 deg every 8-10 px.",
+   "measured_texture": {
+    "light_specks_per_10k_px": 36.5,
+    "dark_specks_per_10k_px": 36.5,
+    "speck_diam_px": 1.8,
+    "edge_transition_px": null
+   },
+   "nologo": {
+    "base": "#fddea2",
+    "shade": "#fbc98a",
+    "light": "#fde7b7",
+    "mean_hsv": {
+     "h": 38.9,
+     "s": 0.354,
+     "v": 0.988
+    },
+    "outline": {
+     "color": "#613d29",
+     "thickness_px": 1.2
+    }
+   },
+   "shift": {
+    "dh": -3.8,
+    "ds": 0.023,
+    "dv": 0.002
+   }
+  },
+  "bevande": {
+   "where_logo": null,
+   "where_nologo": [
+    140,
+    350,
+    230,
+    400
+   ],
+   "absent_in_logo": true,
+   "nologo": {
+    "base": "#fdb01e",
+    "shade": "#eb7a1e",
+    "light": "#f7dbc5",
+    "mean_hsv": {
+     "h": 14.1,
+     "s": 0.51,
+     "v": 0.718
+    },
+    "outline": {
+     "color": "#4d3531",
+     "thickness_px": 2.0
+    }
+   },
+   "proposed_logo_palette": {
+    "deep": "#de6b2e",
+    "shade": "#eb7a1e",
+    "base": "#fdb01e",
+    "light": "#fddb71",
+    "highlight": "#f7dbc5",
+    "outline": "#502f2d 2 px",
+    "note": "derived, not measured on the logo cover: no-logo juice tones, brighter like lanterna/legno"
+   },
+   "texture": "Glass cups (cream #f7dbc5 translucent body, 2 px outline #4d3531), juice orange #fdb01e with darker bottom #eb7a1e, pink/brown straws #e194a7, straight 2-3 px highlights on the left side.",
+   "note": "Absent in the logo cover; borrow the warm yellow/orange of lanterna for juice, the red of tenda_righe for straws, tinted glass of vetro_bottiglie."
+  }
+ }
+}

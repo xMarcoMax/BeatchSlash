@@ -31,11 +31,6 @@ _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 window/stretch/mode="canvas_items"
 
-[editor]
-
-version_control/plugin_name="GitPlugin"
-version_control/autoload_on_startup=true
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")

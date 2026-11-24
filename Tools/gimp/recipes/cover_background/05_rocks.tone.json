@@ -1,0 +1,226 @@
+{
+ "reference": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/ref_nologo_canvas.png",
+ "sigma": 1.2,
+ "min_area": 12,
+ "tolerance": 0.5,
+ "areas": [
+  {
+   "box": [
+    340,
+    1025,
+    630,
+    1135
+   ],
+   "subject_part": "_rockl",
+   "background": [
+    "#543b33",
+    "#49372f"
+   ],
+   "tones": [
+    {
+     "name": "rockl_dark",
+     "sample": "#7a5048",
+     "paint": "#7d4e45"
+    },
+    {
+     "name": "rockl_shade",
+     "sample": "#825a5d",
+     "paint": "#84585b"
+    },
+    {
+     "name": "rockl_mauve",
+     "sample": "#8c646b",
+     "paint": "#8e6269"
+    },
+    {
+     "name": "rockl_light",
+     "sample": "#ae7460",
+     "paint": "#b3725b"
+    },
+    {
+     "name": "rockl_lit",
+     "sample": "#d58e66",
+     "paint": "#dc8c5f"
+    }
+   ],
+   "clip": [
+    [
+     446,
+     1048,
+     470,
+     1044,
+     500,
+     1040,
+     512,
+     1039,
+     530,
+     1046,
+     548,
+     1055,
+     566,
+     1065,
+     578,
+     1077,
+     584,
+     1082,
+     630,
+     1135,
+     340,
+     1135,
+     340,
+     1060
+    ]
+   ],
+   "exclude": [
+    {
+     "poly": [
+      330,
+      985,
+      425,
+      985,
+      442,
+      1030,
+      452,
+      1058,
+      456,
+      1082,
+      330,
+      1082
+     ]
+    }
+   ],
+   "patch": [
+    {
+     "image": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/05_rocks.patch.png"
+    }
+   ],
+   "open": 1
+  },
+  {
+   "box": [
+    1640,
+    1005,
+    1965,
+    1140
+   ],
+   "subject_part": "_rockr",
+   "background": [
+    "#553d42",
+    "#483232",
+    "#433333",
+    "#4e393c"
+   ],
+   "tones": [
+    {
+     "name": "rockr_dark",
+     "sample": "#73565f",
+     "paint": "#75545e"
+    },
+    {
+     "name": "rockr_shade",
+     "sample": "#806273",
+     "paint": "#826073"
+    },
+    {
+     "name": "rockr_mauve",
+     "sample": "#956b76",
+     "paint": "#986875"
+    },
+    {
+     "name": "rockr_warm",
+     "sample": "#c6826a",
+     "paint": "#cc7f64"
+    },
+    {
+     "name": "rockr_lit",
+     "sample": "#f79d5b",
+     "paint": "#ff9c53"
+    },
+    {
+     "name": "rockr_light",
+     "sample": "#f9b57b",
+     "paint": "#ffb575"
+    },
+    {
+     "name": "rockr_hi",
+     "sample": "#fdd9aa",
+     "paint": "#ffd9a8"
+    }
+   ],
+   "clip": [
+    [
+     1668,
+     1078,
+     1676,
+     1069,
+     1684,
+     1060,
+     1692,
+     1052,
+     1700,
+     1048,
+     1708,
+     1044,
+     1716,
+     1040,
+     1724,
+     1037,
+     1740,
+     1031,
+     1756,
+     1026,
+     1772,
+     1024,
+     1800,
+     1023,
+     1842,
+     1022,
+     1965,
+     1022,
+     1965,
+     1140,
+     1640,
+     1140,
+     1640,
+     1082
+    ]
+   ],
+   "exclude": [
+    {
+     "poly": [
+      1840,
+      990,
+      1925,
+      990,
+      1925,
+      1085,
+      1788,
+      1085,
+      1796,
+      1068,
+      1808,
+      1052,
+      1825,
+      1043,
+      1850,
+      1041,
+      1866,
+      1045,
+      1874,
+      1050,
+      1858,
+      1030,
+      1840,
+      1012
+     ]
+    }
+   ],
+   "patch": [
+    {
+     "image": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/05_rocks.patch.png"
+    }
+   ],
+   "open": 1
+  }
+ ]
+}

@@ -1,0 +1,588 @@
+{
+ "recipe": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/06_palm.json",
+ "remove": [
+  "palm_frond_",
+  "palm2_frond_",
+  "palm2_left_frond"
+ ],
+ "schemes": {
+  "yellow": {
+   "out": "#2b3218",
+   "light": "#fdce36",
+   "light2": "#e3b42a",
+   "dark": "#b49f23",
+   "dark2": "#6f6a1f",
+   "rib": "#7d7420",
+   "streak": "#fee57a"
+  },
+  "olive": {
+   "out": "#262d14",
+   "light": "#9a8f26",
+   "light2": "#837d22",
+   "dark": "#5b5a1f",
+   "dark2": "#464f22",
+   "rib": "#3a4226",
+   "streak": "#b8aa35"
+  },
+  "dark": {
+   "out": "#1f2511",
+   "light": "#5d6b26",
+   "light2": "#4b5a22",
+   "dark": "#3a4226",
+   "dark2": "#2c331b",
+   "rib": "#2a3117",
+   "streak": "#73812e"
+  },
+  "grey": {
+   "out": "#2b2e1c",
+   "light": "#6e6f52",
+   "light2": "#5f6047",
+   "dark": "#4f5038",
+   "dark2": "#43442f",
+   "rib": "#3e3f2b",
+   "streak": "#80816a"
+  },
+  "palm": {
+   "out": "#16260e",
+   "light": "#5f8a2a",
+   "light2": "#4d7424",
+   "dark": "#355a1e",
+   "dark2": "#27431a",
+   "rib": "#27431a",
+   "streak": "#7aa236"
+  },
+  "palm_dark": {
+   "out": "#121f0b",
+   "light": "#3f6524",
+   "light2": "#33561e",
+   "dark": "#284419",
+   "dark2": "#1d3313",
+   "rib": "#1d3313",
+   "streak": "#557d2c"
+  }
+ },
+ "vary": {
+  "seed": 7
+ },
+ "groups": [
+  {
+   "layer": "palm2_fronds_back",
+   "before": "palm2_trunk_outline",
+   "blades": [
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      240,
+      -5
+     ],
+     "droop": -40,
+     "width": 62,
+     "leaflets": 8,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      585,
+      -10
+     ],
+     "droop": -45,
+     "width": 62,
+     "leaflets": 8,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      320,
+      215
+     ],
+     "droop": -15,
+     "width": 58,
+     "leaflets": 7,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      530,
+      200
+     ],
+     "droop": -15,
+     "width": 58,
+     "leaflets": 7,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    }
+   ]
+  },
+  {
+   "layer": "palm2_fronds_front",
+   "before": "palm_trunk_outline",
+   "blades": [
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      195,
+      160
+     ],
+     "droop": -65,
+     "width": 72,
+     "leaflets": 9,
+     "scheme": "yellow",
+     "scheme_far": "olive",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      620,
+      140
+     ],
+     "droop": -60,
+     "width": 70,
+     "leaflets": 9,
+     "scheme": "palm",
+     "scheme_far": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      400,
+      60
+     ],
+     "end": [
+      395,
+      -70
+     ],
+     "droop": 5,
+     "width": 56,
+     "leaflets": 7,
+     "scheme": "yellow",
+     "scheme_far": "olive",
+     "notch": 0.32,
+     "slant": 1.5,
+     "teeth": "right"
+    }
+   ]
+  },
+  {
+   "layer": "palm2_crown_nuts",
+   "before": "palm2_fronds_front",
+   "ops_before": [
+    {
+     "shape": {
+      "circle": [
+       395,
+       70,
+       9
+      ],
+      "grow": 3
+     },
+     "fill": {
+      "color": "#4f3328"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       409,
+       71,
+       9
+      ],
+      "grow": 3
+     },
+     "fill": {
+      "color": "#4f3328"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       402,
+       76,
+       10
+      ],
+      "grow": 3
+     },
+     "fill": {
+      "color": "#4f3328"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       395,
+       70,
+       9
+      ]
+     },
+     "fill": {
+      "color": "#8a4a2e"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       409,
+       71,
+       9
+      ]
+     },
+     "fill": {
+      "color": "#7d3b2a"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       402,
+       76,
+       10
+      ]
+     },
+     "fill": {
+      "color": "#a05535"
+     }
+    },
+    {
+     "shape": {
+      "circle": [
+       391,
+       65,
+       4
+      ]
+     },
+     "fill": {
+      "color": "#d27a3e"
+     }
+    }
+   ]
+  },
+  {
+   "layer": "palm2_crown",
+   "before": "palm_trunk_outline",
+   "ops_before": [
+    {
+     "shape": {
+      "ellipse": [
+       400,
+       62,
+       17,
+       12
+      ],
+      "grow": 2.4
+     },
+     "fill": {
+      "color": "#24300f"
+     }
+    },
+    {
+     "shape": {
+      "ellipse": [
+       400,
+       62,
+       17,
+       12
+      ]
+     },
+     "fill": {
+      "radial": [
+       "#a49a2c",
+       "#4b5a22",
+       [
+        394,
+        54
+       ],
+       [
+        417,
+        72
+       ]
+      ]
+     }
+    },
+    {
+     "shape": {
+      "ellipse": [
+       400,
+       62,
+       17,
+       12
+      ]
+     },
+     "stroke": {
+      "lines": [
+       [
+        389.8,
+        64,
+        400,
+        56,
+        410.2,
+        63
+       ]
+      ],
+      "size": 2.5,
+      "color": "#d9c24a",
+      "taper": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "layer": "palm_fronds_back",
+   "before": "palm_trunk_outline",
+   "blades": [
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      580,
+      -15
+     ],
+     "droop": -45,
+     "width": 70,
+     "leaflets": 8,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      915,
+      55
+     ],
+     "droop": -50,
+     "width": 70,
+     "leaflets": 8,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      765,
+      -70
+     ],
+     "droop": 5,
+     "width": 60,
+     "leaflets": 7,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5,
+     "teeth": "right"
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      625,
+      235
+     ],
+     "droop": -10,
+     "width": 64,
+     "leaflets": 7,
+     "scheme": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    }
+   ]
+  },
+  {
+   "layer": "palm_fronds_front",
+   "blades": [
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      540,
+      215
+     ],
+     "droop": -60,
+     "width": 80,
+     "leaflets": 8,
+     "scheme": "yellow",
+     "scheme_far": "olive",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      575,
+      95
+     ],
+     "droop": -55,
+     "width": 74,
+     "leaflets": 8,
+     "scheme": "palm",
+     "scheme_far": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      785,
+      255
+     ],
+     "droop": -12,
+     "width": 72,
+     "leaflets": 7,
+     "scheme": "palm",
+     "scheme_far": "palm_dark",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      960,
+      196
+     ],
+     "droop": -60,
+     "width": 80,
+     "leaflets": 8,
+     "scheme": "yellow",
+     "scheme_far": "olive",
+     "notch": 0.32,
+     "slant": 1.5
+    },
+    {
+     "crown": [
+      713,
+      110
+     ],
+     "end": [
+      880,
+      15
+     ],
+     "droop": -50,
+     "width": 70,
+     "leaflets": 8,
+     "scheme": "yellow",
+     "scheme_far": "olive",
+     "notch": 0.32,
+     "slant": 1.5
+    }
+   ]
+  },
+  {
+   "layer": "palm_crown",
+   "ops_before": [
+    {
+     "shape": {
+      "ellipse": [
+       713,
+       112,
+       19,
+       13
+      ],
+      "grow": 2.4
+     },
+     "fill": {
+      "color": "#24300f"
+     }
+    },
+    {
+     "shape": {
+      "ellipse": [
+       713,
+       112,
+       19,
+       13
+      ]
+     },
+     "fill": {
+      "radial": [
+       "#a49a2c",
+       "#4b5a22",
+       [
+        707,
+        104
+       ],
+       [
+        732,
+        123
+       ]
+      ]
+     }
+    },
+    {
+     "shape": {
+      "ellipse": [
+       713,
+       112,
+       19,
+       13
+      ]
+     },
+     "stroke": {
+      "lines": [
+       [
+        701.6,
+        114,
+        713,
+        106,
+        724.4,
+        113
+       ]
+      ],
+      "size": 2.5,
+      "color": "#d9c24a",
+      "taper": 0.8
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,227 @@
+{
+ "reference": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/ref_nologo_canvas.png",
+ "sigma": 1.4,
+ "min_area": 60,
+ "tolerance": 0.5,
+ "areas": [
+  {
+   "box": [
+    995,
+    430,
+    1400,
+    548
+   ],
+   "tones": [
+    {
+     "name": "isl_far",
+     "sample": [
+      "#4b91d3",
+      "#4f8cc3",
+      "#4b8eb4"
+     ],
+     "paint": "#4391db"
+    },
+    {
+     "name": "islet_veg_light",
+     "sample": "#afab58",
+     "paint": "#b4b053"
+    },
+    {
+     "name": "islet_veg_mid",
+     "sample": "#949c68",
+     "paint": "#969f65"
+    },
+    {
+     "name": "islet_veg_dark",
+     "sample": "#758b75",
+     "paint": "#748c74"
+    },
+    {
+     "name": "islet_veg_shade",
+     "sample": "#577d81",
+     "paint": "#547f84"
+    },
+    {
+     "name": "islet_deep",
+     "sample": "#3d6f8c",
+     "paint": "#387091"
+    },
+    {
+     "name": "islet_rock_lit",
+     "sample": "#f8ba9a",
+     "paint": "#feb894"
+    },
+    {
+     "name": "islet_rock_mid",
+     "sample": "#c89ea6",
+     "paint": "#cb9ba4"
+    },
+    {
+     "name": "islet_rock_lav",
+     "sample": "#9692b7",
+     "paint": "#9490b9"
+    },
+    {
+     "name": "islet_rock_blue",
+     "sample": "#6b81b4",
+     "paint": "#677fb8"
+    }
+   ],
+   "exclude": [
+    {
+     "mask": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/chars/couple_fine_mask.png"
+    },
+    {
+     "mask": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/chars/rival_rough_mask.png"
+    }
+   ],
+   "extend": [
+    [
+     1146,
+     552,
+     1150,
+     544,
+     1162,
+     534,
+     1170,
+     522,
+     1174,
+     504,
+     1176,
+     486,
+     1182,
+     468,
+     1192,
+     452,
+     1206,
+     443,
+     1226,
+     441,
+     1250,
+     444,
+     1280,
+     456,
+     1296,
+     476,
+     1302,
+     492,
+     1306,
+     515,
+     1310,
+     530,
+     1318,
+     532,
+     1330,
+     528,
+     1342,
+     535,
+     1350,
+     552
+    ]
+   ],
+   "patch": [
+    {
+     "image": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/02_islands.patch.png"
+    }
+   ],
+   "background": [
+    "#88c2f9",
+    "#6fb2f2",
+    "#a3d0fa",
+    "#95cafb"
+   ]
+  },
+  {
+   "box": [
+    1560,
+    340,
+    2172,
+    548
+   ],
+   "subject_part": "_cliff",
+   "tones": [
+    {
+     "name": "cliff_veg_light",
+     "sample": "#c6b645",
+     "paint": "#cebc3d"
+    },
+    {
+     "name": "cliff_veg_mid",
+     "sample": "#a6a24e",
+     "paint": "#aba749"
+    },
+    {
+     "name": "cliff_veg_dark",
+     "sample": "#7d8a5c",
+     "paint": "#7e8d59"
+    },
+    {
+     "name": "cliff_veg_shade",
+     "sample": "#607a6b",
+     "paint": "#5e7c6b"
+    },
+    {
+     "name": "cliff_deep",
+     "sample": "#3a6679",
+     "paint": "#36687d"
+    },
+    {
+     "name": "cliff_rock_hi",
+     "sample": "#fbc79d",
+     "paint": "#ffc799"
+    },
+    {
+     "name": "cliff_rock_lit",
+     "sample": "#fab286",
+     "paint": "#ffb181"
+    },
+    {
+     "name": "cliff_rock_mid",
+     "sample": "#c69794",
+     "paint": "#c99491"
+    },
+    {
+     "name": "cliff_rock_mauve",
+     "sample": "#8a7fa1",
+     "paint": "#897da3"
+    },
+    {
+     "name": "cliff_rock_lav",
+     "sample": "#7881bb",
+     "paint": "#747ebf"
+    },
+    {
+     "name": "cliff_rock_blue",
+     "sample": "#646ea7",
+     "paint": "#606bab"
+    },
+    {
+     "name": "cliff_rock_deep",
+     "sample": "#4c6290",
+     "paint": "#486194"
+    }
+   ],
+   "exclude": [
+    {
+     "mask": "C:/Users/stefa/AppData/Local/Temp/beatch_cover_preview/chars/rival_fine_mask.png"
+    }
+   ],
+   "background": [
+    "#88c2f9",
+    "#6fb2f2",
+    "#a3d0fa",
+    "#95cafb",
+    "#82bffc"
+   ],
+   "open": 1,
+   "edge_blend": [
+    0.5
+   ],
+   "patch": [
+    {
+     "image": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/02_islands_cliff.patch.png"
+    }
+   ]
+  }
+ ]
+}

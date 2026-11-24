@@ -1,0 +1,319 @@
+{
+ "recipe": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/recipes/cover_background/10_plants.json",
+ "remove": [
+  "plant_bush_r1_"
+ ],
+ "schemes": {
+  "yellow": {
+   "out": "#2b3218",
+   "light": "#fdce36",
+   "light2": "#e3b42a",
+   "dark": "#b49f23",
+   "dark2": "#6f6a1f",
+   "rib": "#7d7420",
+   "streak": "#fee57a"
+  },
+  "olive": {
+   "out": "#262d14",
+   "light": "#9a8f26",
+   "light2": "#837d22",
+   "dark": "#5b5a1f",
+   "dark2": "#464f22",
+   "rib": "#3a4226",
+   "streak": "#b8aa35"
+  },
+  "dark": {
+   "out": "#1f2511",
+   "light": "#5d6b26",
+   "light2": "#4b5a22",
+   "dark": "#3a4226",
+   "dark2": "#2c331b",
+   "rib": "#2a3117",
+   "streak": "#73812e"
+  },
+  "grey": {
+   "out": "#2b2e1c",
+   "light": "#6e6f52",
+   "light2": "#5f6047",
+   "dark": "#4f5038",
+   "dark2": "#43442f",
+   "rib": "#3e3f2b",
+   "streak": "#80816a"
+  }
+ },
+ "vary": {
+  "seed": 11,
+  "width": 0.15,
+  "bend": 0.5,
+  "curl": 6,
+  "wave": 0.6
+ },
+ "groups": [
+  {
+   "layer": "plant_r1_contact",
+   "before": "plant_bush_r2_back_outline",
+   "mode": "multiply",
+   "opacity": 60,
+   "ops_before": [
+    {
+     "shape": {
+      "ellipse": [
+       1722,
+       903,
+       62,
+       9
+      ],
+      "feather": 7
+     },
+     "fill": {
+      "color": "#9c6a44"
+     }
+    }
+   ]
+  },
+  {
+   "layer": "plant_r1_back",
+   "before": "plant_bush_r2_back_outline",
+   "ops_before": [
+    {
+     "shape": {
+      "ellipse": [
+       1722,
+       897,
+       30,
+       9
+      ],
+      "feather": 1
+     },
+     "fill": {
+      "color": "#2c331b"
+     }
+    }
+   ],
+   "leaves": [
+    {
+     "base": [
+      1715.04,
+      897.92
+     ],
+     "tip": [
+      1664,
+      868
+     ],
+     "width": 10,
+     "bend": 8,
+     "scheme": "dark",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1717.92,
+      895.16
+     ],
+     "tip": [
+      1688,
+      845
+     ],
+     "width": 11,
+     "bend": -6,
+     "scheme": "dark",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1719.6,
+      893.6
+     ],
+     "tip": [
+      1702,
+      832
+     ],
+     "width": 10,
+     "bend": 4,
+     "scheme": "olive",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1726.56,
+      895.28
+     ],
+     "tip": [
+      1760,
+      846
+     ],
+     "width": 10,
+     "bend": -8,
+     "scheme": "dark",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1729.2,
+      897.68
+     ],
+     "tip": [
+      1782,
+      866
+     ],
+     "width": 9,
+     "bend": 6,
+     "scheme": "olive",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1724.16,
+      894.32
+     ],
+     "tip": [
+      1740,
+      838
+     ],
+     "width": 9,
+     "bend": 3,
+     "scheme": "dark",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    }
+   ]
+  },
+  {
+   "layer": "plant_r1_front",
+   "before": "plant_bush_r2_back_outline",
+   "leaves": [
+    {
+     "base": [
+      1718.16,
+      899.12
+     ],
+     "tip": [
+      1690,
+      878
+     ],
+     "width": 10,
+     "bend": 8,
+     "scheme": "yellow",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1720.08,
+      896.48
+     ],
+     "tip": [
+      1706,
+      856
+     ],
+     "width": 10,
+     "bend": 5,
+     "scheme": "yellow",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1722.48,
+      895.76
+     ],
+     "tip": [
+      1726,
+      850
+     ],
+     "width": 10,
+     "bend": -4,
+     "scheme": "yellow",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1725.12,
+      897.2
+     ],
+     "tip": [
+      1748,
+      862
+     ],
+     "width": 10,
+     "bend": -6,
+     "scheme": "yellow",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1728.0,
+      899.36
+     ],
+     "tip": [
+      1772,
+      880
+     ],
+     "width": 9,
+     "bend": -8,
+     "scheme": "olive",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    },
+    {
+     "base": [
+      1720.8,
+      898.4
+     ],
+     "tip": [
+      1712,
+      872
+     ],
+     "width": 8,
+     "bend": 4,
+     "scheme": "dark",
+     "belly": 0.55,
+     "stalk": [
+      1722,
+      902
+     ]
+    }
+   ]
+  }
+ ]
+}

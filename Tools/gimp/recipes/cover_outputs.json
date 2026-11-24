@@ -1,0 +1,365 @@
+{
+ "_comment": "Beatch Slash! cover outputs: master = scene XCF plus imported figures and logos; variants per final image. Run compose_variants.run() in GIMP (see Docs/GIMP.md).",
+ "master": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_background.xcf",
+ "interpolation": "lohalo",
+ "groups": [
+  {
+   "name": "characters",
+   "visible": true,
+   "layers": [
+    {
+     "name": "couple_shadow",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_couple.xcf",
+     "layer": "shadow",
+     "mode": "multiply",
+     "opacity": 65,
+     "nonlinear": true
+    },
+    {
+     "name": "rival_shadow",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_rival.xcf",
+     "layer": "shadow",
+     "mode": "multiply",
+     "opacity": 65,
+     "nonlinear": true
+    },
+    {
+     "name": "couple",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_couple.xcf",
+     "layer": "couple"
+    },
+    {
+     "name": "ball_crumbs",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_couple.xcf",
+     "layer": "ball_crumbs"
+    },
+    {
+     "name": "exclaim",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_couple.xcf",
+     "layer": "exclaim"
+    },
+    {
+     "name": "rival",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_rival.xcf",
+     "layer": "rival"
+    },
+    {
+     "name": "hearts",
+     "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_rival.xcf",
+     "layer": "hearts"
+    }
+   ]
+  },
+  {
+   "name": "logos",
+   "visible": false,
+   "layers": [
+    {
+     "name": "logo_text",
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-logo-text-only.png",
+     "visible": false
+    },
+    {
+     "name": "logo_full",
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-logo.png"
+    }
+   ]
+  }
+ ],
+ "variants": [
+  {
+   "name": "background",
+   "visible": {
+    "characters": false,
+    "logos": false
+   },
+   "exports": [
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-background-extended.png"
+    },
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-background.png",
+     "box": [
+      250,
+      140,
+      1922,
+      1081
+     ]
+    }
+   ]
+  },
+  {
+   "name": "no_logo",
+   "visible": {
+    "characters": true,
+    "logos": false
+   },
+   "exports": [
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-no-logo-extended.png"
+    },
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-no-logo.png",
+     "box": [
+      250,
+      140,
+      1922,
+      1081
+     ]
+    }
+   ]
+  },
+  {
+   "name": "logo",
+   "visible": {
+    "characters": true,
+    "logos": true,
+    "logo_text": false,
+    "logo_full": true
+   },
+   "transforms": [
+    {
+     "items": [
+      "characters"
+     ],
+     "scale": 0.9,
+     "pivot": [
+      443,
+      177
+     ],
+     "move": [
+      -183,
+      109
+     ]
+    },
+    {
+     "items": [
+      "rival",
+      "hearts",
+      "rival_shadow"
+     ],
+     "move": [
+      28,
+      0
+     ]
+    },
+    {
+     "items": [
+      "logo_full"
+     ],
+     "scale": 0.37,
+     "pivot": [
+      0,
+      0
+     ],
+     "move": [
+      1281,
+      148
+     ]
+    }
+   ],
+   "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_logo.xcf",
+   "exports": [
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-logo.png",
+     "box": [
+      250,
+      140,
+      1922,
+      1081
+     ]
+    }
+   ],
+   "raise": {
+    "above": "characters",
+    "items": [
+     "plant_left_over",
+     "plant_pistil_light",
+     "plant_pistil_base",
+     "plant_pistil_outline",
+     "plant_hib_petal_fore_left",
+     "plant_hib_petal_lower_right",
+     "plant_hib_petal_upper_right",
+     "plant_hib_petal_upright",
+     "plant_hib_petal_rear_left",
+     "plant_left_flowershade",
+     "plant_r2_front",
+     "plant_r2_sand",
+     "plant_r2_mid",
+     "plant_r2_back",
+     "plant_r2_contact",
+     "plant_r1_front",
+     "plant_r1_back",
+     "plant_r1_contact",
+     "plant_left_front",
+     "plant_left_sand",
+     "plant_left_mid",
+     "plant_left_back",
+     "plant_left_contact",
+     "rock_right_tones",
+     "rock_right_base",
+     "rock_right_outline",
+     "rock_right_contact",
+     "rock_left_tones",
+     "rock_left_base",
+     "rock_left_outline",
+     "rock_left_contact"
+    ]
+   }
+  },
+  {
+   "name": "logo_extended",
+   "visible": {
+    "characters": true,
+    "logos": true,
+    "logo_text": false,
+    "logo_full": true
+   },
+   "transforms": [
+    {
+     "items": [
+      "characters"
+     ],
+     "scale": 0.9,
+     "pivot": [
+      443,
+      177
+     ],
+     "move": [
+      -183,
+      109
+     ]
+    },
+    {
+     "items": [
+      "rival",
+      "hearts",
+      "rival_shadow"
+     ],
+     "move": [
+      28,
+      0
+     ]
+    },
+    {
+     "items": [
+      "logo_full"
+     ],
+     "scale": 0.48,
+     "pivot": [
+      0,
+      0
+     ],
+     "move": [
+      1344,
+      6
+     ]
+    }
+   ],
+   "raise": {
+    "above": "characters",
+    "items": [
+     "plant_left_over",
+     "plant_pistil_light",
+     "plant_pistil_base",
+     "plant_pistil_outline",
+     "plant_hib_petal_fore_left",
+     "plant_hib_petal_lower_right",
+     "plant_hib_petal_upper_right",
+     "plant_hib_petal_upright",
+     "plant_hib_petal_rear_left",
+     "plant_left_flowershade",
+     "plant_r2_front",
+     "plant_r2_sand",
+     "plant_r2_mid",
+     "plant_r2_back",
+     "plant_r2_contact",
+     "plant_r1_front",
+     "plant_r1_back",
+     "plant_r1_contact",
+     "plant_left_front",
+     "plant_left_sand",
+     "plant_left_mid",
+     "plant_left_back",
+     "plant_left_contact",
+     "rock_right_tones",
+     "rock_right_base",
+     "rock_right_outline",
+     "rock_right_contact",
+     "rock_left_tones",
+     "rock_left_base",
+     "rock_left_outline",
+     "rock_left_contact"
+    ]
+   },
+   "exports": [
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-logo-extended.png",
+     "box": [
+      167,
+      0,
+      2172,
+      1128
+     ]
+    }
+   ]
+  },
+  {
+   "name": "square",
+   "visible": {
+    "characters": true,
+    "logos": true,
+    "logo_text": false,
+    "logo_full": true
+   },
+   "transforms": [
+    {
+     "items": [
+      "characters"
+     ],
+     "scale": 0.85,
+     "pivot": [
+      443,
+      177
+     ],
+     "move": [
+      348,
+      271
+     ]
+    },
+    {
+     "items": [
+      "logo_full"
+     ],
+     "scale": 0.47,
+     "pivot": [
+      0,
+      0
+     ],
+     "move": [
+      924,
+      24
+     ]
+    }
+   ],
+   "canvas": [
+    1222,
+    1222
+   ],
+   "origin": [
+    730,
+    0
+   ],
+   "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_square.xcf",
+   "exports": [
+    {
+     "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-square.png",
+     "size": [
+      1024,
+      1024
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+  "xcf": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/beatch_slash_cover_background.xcf",
+  "source_reference": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-no-logo.png",
+  "reference_layer": "reference",
+  "canvas": [2172, 1222],
+  "reference_offset": [250, 140],
+  "style_reference": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-logo.png",
+  "style_reference_layer": "style_reference",
+  "style_reference_offset": [250, 140],
+  "replace_layers": true,
+  "export_png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Images/beatch-slash-cover-background-extended.png"
+}

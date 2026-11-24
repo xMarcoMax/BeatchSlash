@@ -21,6 +21,8 @@ const SLOT_STEP = PI / 6.0
 #Attackers stand at about 230 px from the target, so a slot is taken by whoever is within this arc of it and this distance
 const SLOT_ARC = SLOT_STEP * 0.8
 const SLOT_RING_MAX = 320.0
+#With no free slot the enemy keeps walking until it is this close to an attacker or to an enemy already waiting, then stands still
+const WAIT_GAP = 80.0
 #Walking for STUCK_TIME seconds while shortening the path to its slot by less than this fraction of what it should: move to another slot
 const STUCK_TIME = 0.6
 const STUCK_PROGRESS_RATIO = 0.3
@@ -44,6 +46,9 @@ var path = PackedVector2Array()
 var path_index = 0
 var repath_timer = 0.0
 var slot_angle = NAN
+#No free slot: walks towards the ring on its own side (`slot_angle`) and, once `parked`, waits there until a slot frees up
+var waiting = false
+var parked = false
 var stuck_time = 0.0
 var stuck_remaining = 0.0
 var blocked_normal = Vector2.ZERO
@@ -106,21 +111,29 @@ func _physics_process(delta):
 
 #Direction to the next waypoint of the path to the slot (straight to the slot while the path is unavailable), pushed away from nearby enemies
 func _steer(delta) -> Vector2:
-	if stuck_time == 0.0:
-		stuck_remaining = _path_remaining()
-	stuck_time += delta
-	if stuck_time > STUCK_TIME:
-		if stuck_remaining - _path_remaining() < speed * stuck_time * STUCK_PROGRESS_RATIO:
-			slot_angle = _pick_slot(slot_angle)
-			repath_timer = 0.0
+	if parked:
 		stuck_time = 0.0
+	else:
+		if stuck_time == 0.0:
+			stuck_remaining = _path_remaining()
+		stuck_time += delta
+		if stuck_time > STUCK_TIME:
+			if stuck_remaining - _path_remaining() < speed * stuck_time * STUCK_PROGRESS_RATIO:
+				_choose_slot(slot_angle)
+				repath_timer = 0.0
+				# Waiting and not getting anywhere (jammed in the crowd): stop instead of shuffling
+				parked = waiting
+			stuck_time = 0.0
 	repath_timer -= delta
 	if repath_timer <= 0.0:
 		repath_timer = REPATH_INTERVAL + randf() * 0.2
-		if is_nan(slot_angle) or _slot_taken(slot_angle):
-			slot_angle = _pick_slot()
+		if waiting or is_nan(slot_angle) or _slot_taken(slot_angle):
+			_choose_slot()
 		path = pathfinder.find_path(global_position, _slot_point(slot_angle), _blockers()) if pathfinder else PackedVector2Array()
 		path_index = 0
+	parked = waiting and (parked or _near_waiting_group() or global_position.distance_to(_slot_point(slot_angle)) < WAYPOINT_RADIUS)
+	if parked:
+		return Vector2.ZERO
 	while path_index < path.size() - 1 and global_position.distance_to(path[path_index]) < WAYPOINT_RADIUS:
 		path_index += 1
 	var goal = path[path_index] if path_index < path.size() else _slot_point(slot_angle)
@@ -173,14 +186,27 @@ func _blocks_slot(body, center, angle) -> bool:
 	var offset = body.global_position - center
 	return offset.length() < SLOT_RING_MAX and absf(angle_difference(offset.angle(), angle)) < SLOT_ARC
 
-#First free slot starting from the side the enemy comes from, then alternating around the ring; skips `excluded` (a slot that did not work)
+#Take the first free slot; with none free, wait on the ring on the side the enemy comes from
+func _choose_slot(excluded = NAN):
+	var angle = _pick_slot(excluded)
+	waiting = is_nan(angle)
+	slot_angle = target.global_position.angle_to_point(global_position) if waiting else angle
+
+#True when an attacker or an enemy already parked is within WAIT_GAP
+func _near_waiting_group() -> bool:
+	for other in get_tree().get_nodes_in_group("enemy"):
+		if other != self and other.hp > 0 and (other.is_attacking or other.parked) and global_position.distance_to(other.global_position) < WAIT_GAP:
+			return true
+	return false
+
+#First free slot starting from the side the enemy comes from, then alternating around the ring; skips `excluded` (a slot that did not work); NAN when every slot is taken
 func _pick_slot(excluded = NAN) -> float:
 	var base = target.global_position.angle_to_point(global_position)
 	for i in range(13):
 		var angle = base + ((i + 1) >> 1) * SLOT_STEP * (slide_side if i % 2 == 1 else -slide_side)
 		if not _slot_taken(angle) and (is_nan(excluded) or absf(angle_difference(angle, excluded)) >= SLOT_ARC):
 			return angle
-	return base + SLOT_STEP * slide_side
+	return NAN
 
 #Push away from nearby living enemies and from the player, with a sideways component so two bodies facing each other slide past
 func _separation() -> Vector2:

@@ -1,14 +1,25 @@
 extends CanvasLayer
 
-# Titolo mostrato per ogni sub_category del CSV, nell'ordine di comparsa nel tab.
-# Le sub_category non elencate compaiono in fondo con il loro nome grezzo.
-const SECTION_TITLES := {
-	"Shield": "Moralità",
-	"Health": "Fedeltà",
+# Sezioni di ogni tab Partner: titolo e righe (sub_category) che le compongono, nell'ordine di comparsa.
+# Una sub_category non elencata compare in una sezione a parte in fondo, con il suo nome grezzo.
+const SECTIONS := {
+	"Target": [{"title": "Moralità e Fedeltà", "rows": ["Shield", "Health", "Both"]}],
 }
 
-# Tab con pochi oggetti: una sola griglia, senza intestazioni di sezione
+# Tab con pochi oggetti: una sola sezione senza intestazione e una sola riga
 const SECTIONLESS_TABS := ["Player", "Bonus"]
+
+# Icona a inizio riga, per chiave di riga (sub_category o, nei tab senza sezioni, categoria).
+# Le righe senza icona propria usano il segnaposto.
+const ROW_ICONS := {
+	"Shield": "res://Assets/Icons/shield.png",
+	"Health": "res://Assets/Icons/health.png",
+	"Both": "res://Assets/Icons/shield_health.png",
+	"Player": "res://Assets/Icons/row_player.png",
+	"Bonus": "res://Assets/Icons/row_bonus.png",
+}
+const PLACEHOLDER_ROW_ICON := "res://Assets/icon.svg"
+const ROW_ICON_SIZE := 52
 
 const ITEM_COLUMNS := 3
 const HEADER_COLOR_PROPERTIES := ["font_color", "font_hover_color", "font_pressed_color",
@@ -44,7 +55,7 @@ func populate_tab(type: String):
 	items.sort_custom(func(a: Item, b: Item): return a.data["order"] < b.data["order"])
 
 	if type in SECTIONLESS_TABS:
-		add_section(tab_sections[type], "", items)
+		add_section(tab_sections[type], "", [{"key": type, "items": items}])
 		return
 
 	var groups := {}
@@ -53,21 +64,28 @@ func populate_tab(type: String):
 			groups[item.data["sub_category"]] = []
 		groups[item.data["sub_category"]].append(item)
 
-	var keys: Array = SECTION_TITLES.keys().filter(func(k): return groups.has(k))
-	keys.append_array(groups.keys().filter(func(k): return not SECTION_TITLES.has(k)))
-	for key in keys:
-		add_section(tab_sections[type], SECTION_TITLES.get(key, key), groups[key])
+	var listed := []
+	for section: Dictionary in SECTIONS.get(type, []):
+		var rows := []
+		for key: String in section["rows"]:
+			listed.append(key)
+			if groups.has(key):
+				rows.append({"key": key, "items": groups[key]})
+		if not rows.is_empty():
+			add_section(tab_sections[type], section["title"], rows)
+	for key in groups.keys():
+		if not listed.has(key):
+			add_section(tab_sections[type], key, [{"key": key, "items": groups[key]}])
 
-func add_section(parent: VBoxContainer, title: String, items: Array):
+# Una sezione ha un'intestazione a levetta (se ha un titolo) e le sue righe una sotto l'altra, divise da un separatore
+func add_section(parent: VBoxContainer, title: String, rows: Array):
 	var section := VBoxContainer.new()
 	section.add_theme_constant_override("separation", 8)
 	parent.add_child(section)
 
-	var grid := GridContainer.new()
-	grid.name = "Items"
-	grid.columns = ITEM_COLUMNS
-	grid.add_theme_constant_override("h_separation", 10)
-	grid.add_theme_constant_override("v_separation", 10)
+	var body := VBoxContainer.new()
+	body.name = "Rows"
+	body.add_theme_constant_override("separation", 10)
 
 	# L'intestazione è un pulsante a levetta: la freccia accanto al titolo comprime/espande la sezione
 	if title != "":
@@ -82,18 +100,48 @@ func add_section(parent: VBoxContainer, title: String, items: Array):
 		header.add_theme_font_size_override("font_size", 24)
 		for property in HEADER_COLOR_PROPERTIES:
 			header.add_theme_color_override(property, Color.WHITE)
-		header.toggled.connect(_set_section_expanded.bind(header, grid))
-		_set_section_expanded(true, header, grid)
+		header.toggled.connect(_set_section_expanded.bind(header, body))
+		_set_section_expanded(true, header, body)
 		section.add_child(header)
 		section.add_child(HSeparator.new())
-	section.add_child(grid)
+	section.add_child(body)
+
+	for i in rows.size():
+		if i > 0:
+			body.add_child(HSeparator.new())
+		add_row(body, rows[i]["key"], rows[i]["items"])
+
+# Una riga: l'icona di riga a sinistra e la griglia delle schede a destra
+func add_row(parent: VBoxContainer, key: String, items: Array):
+	var row := HBoxContainer.new()
+	row.name = "Row_" + key
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+
+	var icon := TextureRect.new()
+	icon.name = "RowIcon"
+	icon.texture = load(ROW_ICONS.get(key, PLACEHOLDER_ROW_ICON))
+	icon.custom_minimum_size = Vector2(ROW_ICON_SIZE, ROW_ICON_SIZE)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(icon)
+
+	var grid := GridContainer.new()
+	grid.name = "Items"
+	grid.columns = ITEM_COLUMNS
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	row.add_child(grid)
 
 	for item: Item in items:
 		item.purchase_requested.connect(_purchase_item)
 		grid.add_child(item)
 
-func _set_section_expanded(expanded: bool, header: Button, grid: GridContainer):
-	grid.visible = expanded
+func _set_section_expanded(expanded: bool, header: Button, body: Control):
+	body.visible = expanded
 	header.icon = arrow_icon(expanded)
 
 # Triangolo bianco: giù = sezione aperta, destra = sezione chiusa
@@ -127,7 +175,7 @@ func _on_currency_changed(value: int):
 	currency_label.text = "Valuta: %d¢" % value
 	_refresh_items()
 
-# Moralità o fedeltà cambiate: un ripristino inutile (barra già piena) non si può comprare
+# Moralità o fedeltà cambiate: un ripristino inutile (barra già piena, o entrambe per i pacchetti) non si può comprare
 func _on_partner_health_changed(_hp, _shield):
 	_refresh_items()
 
@@ -142,9 +190,14 @@ func _is_useless(item: Item) -> bool:
 	var partner = get_tree().get_first_node_in_group("target")
 	if partner == null or partner.max_hp == null:
 		return false
-	if item.data["sub_category"] == "Shield":
-		return partner.shield >= partner.max_shield
-	return partner.hp >= partner.max_hp
+	var shield_full = partner.shield >= partner.max_shield
+	var health_full = partner.hp >= partner.max_hp
+	match item.data["sub_category"]:
+		"Shield":
+			return shield_full
+		"Both":
+			return shield_full and health_full
+	return health_full
 
 func _purchase_item(item: Item):
 	if not item.can_buy(Global.currency):

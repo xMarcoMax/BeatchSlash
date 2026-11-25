@@ -1,0 +1,27 @@
+{
+ "_comment": "Icona 'Moralita e Fedelta' (scudo e cuore in diagonale): master = tela 1254x1254 trasparente con le due icone a dimensione piena; la variante le rimpicciolisce (scala 0.68 attorno a (0, 0)) e le sposta, scudo in alto a sinistra sopra il cuore in basso a destra. Eseguire compose_variants.run() in GIMP (vedi Docs/GIMP.md).",
+ "master": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Tools/gimp/shield_health.xcf",
+ "interpolation": "lohalo",
+ "groups": [
+  {
+   "name": "icons",
+   "visible": true,
+   "layers": [
+    {"name": "health", "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Icons/health.png"},
+    {"name": "shield", "png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Icons/shield.png"}
+   ]
+  }
+ ],
+ "variants": [
+  {
+   "name": "icon",
+   "transforms": [
+    {"items": ["health"], "scale": 0.68, "pivot": [0, 0], "move": [414, 435]},
+    {"items": ["shield"], "scale": 0.68, "pivot": [0, 0], "move": [-51, 12]}
+   ],
+   "exports": [
+    {"png": "C:/Users/stefa/Documents/Progetti/GodotProjects/beatch-slash!/Assets/Icons/shield_health.png"}
+   ]
+  }
+ ]
+}

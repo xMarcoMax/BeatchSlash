@@ -1,0 +1,49 @@
+{
+ "_comment": "Prompt per Codex/ImageGen: icone dei tre pacchetti Entrambi del negozio e icone di riga di Giocatore e Bonus. Uscita: PNG trasparente quadrato (come le altre icone, 1254x1254) copiato in Assets/Icons/. Dopo la consegna: colonna image del CSV (pacchetti) e ROW_ICONS in Scripts/upgrades_purchase.gd (righe).",
+ "tool": "image_gen.imagegen (built-in)",
+ "icons": [
+  {
+   "output": "Assets/Icons/mint_tonic_water.png",
+   "references": [
+    "Assets/Icons/tonic_water.png",
+    "Assets/Icons/mint_candies.png",
+    "Assets/Icons/berry_smoothie.png"
+   ],
+   "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3-4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is the approved tonic water icon (identity of the drink), image 2 the approved mint candies icon (identity of the mint), image 3 the approved berry smoothie icon (style and glass proportions). Create ONE new icon: a mojito-style drink, a tall clear tapered glass (same glass shape and proportions as the berry smoothie icon) filled with sparkling aqua-blue tonic water with a few clear ice cubes and tiny bubbles, a generous bunch of fresh bright green mint leaves with a sprig sticking out of the top, one thin lime wheel on the rim and one bent golden-yellow straw. Mint leaves large and simple, with a lighter green vein; keep the same aqua blue of the tonic water icon."
+  },
+  {
+   "output": "Assets/Icons/herbed_lemon_granita.png",
+   "references": [
+    "Assets/Icons/lemon_granita.png",
+    "Assets/Icons/rosemary_chips.png",
+    "Assets/Icons/berry_smoothie.png"
+   ],
+   "prompt": "Create one game inventory icon for Granita al Limone Aromatizzata, isolated and centered on a 1254 × 1254 transparent square canvas with the full silhouette visible. Image 1 is the plain lemon granita icon and the exact visual base, image 2 is a rosemary shape reference, and image 3 is the icon style reference. Preserve image 1's composition, scale, warm dark-brown outline, broad cel shading, and pale lemon-yellow crushed ice with ivory glints. Keep its wide warm-white paper gelato cup with the same height, rolled rim and coral band. Show only the narrow coral-red spoon handle, with the scoop buried in the ice. Scatter a few dark-green chopped rosemary needles over the ice and tuck one small rosemary sprig into the right side of the mound. Keep the rosemary readable at 38–48 pixels. No lemon slice, fruit garnish, background, cast shadow, text, or watermark."
+  },
+  {
+   "output": "Assets/Icons/berry_strawberry_smoothie.png",
+   "references": [
+    "Assets/Icons/berry_smoothie.png",
+    "Assets/Icons/strawberry_milkshake.png",
+    "Assets/Icons/berry_smoothie.png"
+   ],
+   "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3-4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is the approved berry smoothie icon (identity and glass), image 2 the approved strawberry milkshake icon (identity of the strawberry part), image 3 the style reference. Create ONE new icon: a tall clear tapered glass (same glass as image 1) holding a two-tone smoothie that blends the two drinks, deep violet berry color in the lower half melting into bright strawberry pink in the upper half with a soft wavy boundary, topped with a small swirl of pink cream, a few blueberries and blackberries and one ripe red strawberry with green leaves on the rim, one bent straw. It is the premium, richest drink of the set: slightly fuller and more abundant than image 1 but with the same simple silhouette."
+  },
+  {
+   "output": "Assets/Icons/row_player.png",
+   "references": [
+    "Assets/Icons/shield.png",
+    "Assets/Icons/health.png"
+   ],
+   "prompt": "Use case: stylized-concept. Create ONE row emblem icon for the shop panel of the Italian beach comedy game Beatch Slash!. Match the approved HUD icons exactly: polished clean hand-drawn cartoon, bold warm dark-brown outline, saturated colors, clean 3-4-tone cel shading with warm cream highlights at upper left and deeper planes at lower right, broad simple shapes readable at 52x52 pixels, nearly frontal view with subtle illustrated volume. One centered complete object occupying about 80 percent of a square canvas, even transparent margin, genuine transparent background. NO pixel art, no photorealism, no plastic 3D render, no words, letters, numbers, badge, frame, particles, cast shadow, glow, environment or watermark. Images 1 and 2 are the approved shield and heart icons: strict style reference for outline, shading and color saturation. Subject: the protagonist's weapon, a round ball of golden beach sand with a lumpy packed texture, a few visible sand grains and one or two tiny shell fragments pressed into it, shown mid-throw with three short curved speed streaks behind it and a few small sand grains flying off. Warm sand palette (cream, golden tan, deeper ochre) with the same dark warm-brown outline. The speed streaks stay inside the 80 percent area."
+  },
+  {
+   "output": "Assets/Icons/row_bonus.png",
+   "references": [
+    "Assets/Icons/shield.png",
+    "Assets/Icons/health.png"
+   ],
+   "prompt": "Use case: stylized-concept. Create ONE row emblem icon for the shop panel of the Italian beach comedy game Beatch Slash!. Match the approved HUD icons exactly: polished clean hand-drawn cartoon, bold warm dark-brown outline, saturated colors, clean 3-4-tone cel shading with warm cream highlights at upper left and deeper planes at lower right, broad simple shapes readable at 52x52 pixels, nearly frontal view with subtle illustrated volume. One centered complete object occupying about 80 percent of a square canvas, even transparent margin, genuine transparent background. NO pixel art, no photorealism, no plastic 3D render, no words, letters, numbers, badge, frame, particles, cast shadow, glow, environment or watermark. Images 1 and 2 are the approved shield and heart icons: strict style reference for outline, shading and color saturation. Subject: a bonus gift, a small square gift box in coral-red with a cream lid band, tied with a thick golden-yellow ribbon and a large two-loop bow, shown in three-quarter view slightly from above, with two small cream four-point sparkles at the upper right (inside the 80 percent area). No lid opening, no contents visible, no starfish, no coins."
+  }
+ ]
+}

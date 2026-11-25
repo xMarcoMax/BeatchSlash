@@ -1,48 +1,75 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwccdi1diecof"]
+[gd_scene format=3 uid="uid://bwccdi1diecof"]
 
-[ext_resource type="SpriteFrames" path="res://Assets/Characters/Player/player_frames.tres" id="1_frames"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="2_script"]
-[ext_resource type="PackedScene" path="res://Objects/projectiles.tscn" id="3_ball"]
-[ext_resource type="Texture2D" path="res://Assets/Characters/Player/player_moving_throw.png" id="4_moving_throw"]
-[ext_resource type="Script" path="res://Scripts/ground_shadow.gd" id="5_ground_shadow"]
+[ext_resource type="SpriteFrames" uid="uid://by56civwb66hd" path="res://Assets/Characters/Player/player_frames.tres" id="1_frames"]
+[ext_resource type="Script" uid="uid://bfmp7d82hfq72" path="res://Scripts/player.gd" id="2_script"]
+[ext_resource type="PackedScene" uid="uid://b0kya84v0rrp1" path="res://Objects/projectiles.tscn" id="3_ball"]
+[ext_resource type="Material" path="res://Assets/Shaders/ground_body.tres" id="3_cbmiu"]
+[ext_resource type="Texture2D" uid="uid://cwdjmef1qhe3f" path="res://Assets/Characters/Player/player_moving_throw.png" id="4_moving_throw"]
+[ext_resource type="Script" uid="uid://bre6pqaybwjq2" path="res://Scripts/ground_shadow.gd" id="5_ground_shadow"]
+[ext_resource type="Material" path="res://Assets/Shaders/ground_shadow.tres" id="5_w3rah"]
+[ext_resource type="Texture2D" uid="uid://cvgp6fhdfak0j" path="res://Assets/Characters/Player/player_spritesheet.png" id="6_c4gpq"]
+[ext_resource type="AudioStream" uid="uid://bpm2ru6e3ycmw" path="res://Assets/Sfx/sand_throw_randomizer.tres" id="9_cbmiu"]
+
+[sub_resource type="AtlasTexture" id="Atlas_006"]
+atlas = ExtResource("6_c4gpq")
+region = Rect2(0, 48, 48, 48)
+filter_clip = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_faqlr"]
 size = Vector2(56, 48)
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=645680315 groups=["player"]]
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("2_script")
 ball = ExtResource("3_ball")
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1258380337]
 texture_filter = 1
+material = ExtResource("3_cbmiu")
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("1_frames")
 animation = &"idle_down"
 autoplay = "idle_down"
 offset = Vector2(0, -3)
 
-[node name="GroundShadow" type="Sprite2D" parent="AnimatedSprite2D"]
+[node name="GroundShadow" type="Sprite2D" parent="AnimatedSprite2D" unique_id=1551213544]
+z_index = -1
+z_as_relative = false
+material = ExtResource("5_w3rah")
+texture = SubResource("Atlas_006")
+offset = Vector2(0, -3)
 script = ExtResource("5_ground_shadow")
 
-[node name="MovingThrow" type="Sprite2D" parent="."]
+[node name="MovingThrow" type="Sprite2D" parent="." unique_id=1893090446]
 visible = false
 texture_filter = 1
+material = ExtResource("3_cbmiu")
 scale = Vector2(4, 4)
 texture = ExtResource("4_moving_throw")
+offset = Vector2(0, -3)
 hframes = 8
 vframes = 64
-offset = Vector2(0, -3)
 
-[node name="GroundShadow" type="Sprite2D" parent="MovingThrow"]
+[node name="GroundShadow" type="Sprite2D" parent="MovingThrow" unique_id=543182355]
+z_index = -1
+z_as_relative = false
+material = ExtResource("5_w3rah")
+texture = ExtResource("4_moving_throw")
+offset = Vector2(0, -3)
+hframes = 8
+vframes = 64
 script = ExtResource("5_ground_shadow")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1504432304]
 position = Vector2(0, 52)
 shape = SubResource("RectangleShape2D_faqlr")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1456842771]
 scale = Vector2(2, 2)
 target_position = Vector2(50, 0)
+
+[node name="ThrowSound" type="AudioStreamPlayer" parent="." unique_id=1399904372]
+stream = ExtResource("9_cbmiu")
+max_polyphony = 3

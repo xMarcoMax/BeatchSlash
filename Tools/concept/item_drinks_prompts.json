@@ -4,11 +4,10 @@
     {
       "output": "Assets/Icons/lemon_granita.png",
       "references": [
-        "Assets/Sprites/lemon_granita.png",
         "Assets/Icons/berry_smoothie.png",
         "Assets/ConceptArt/Shop/shop_with_shopkeeper_turnaround.png"
       ],
-      "prompt": "Create one game inventory icon, isolated, centered on a square canvas with generous 10% padding, full silhouette visible. Match the approved berry smoothie icon and beach kiosk concept: polished smooth hand-drawn cartoon with bold dark warm brown outline, rounded forms, vibrant beach palette, clean flat cel shading with 3–4 tones, simple highlights from upper left, charming sunny tone, three-quarter front view slightly from above. Large simple details readable at 48 pixels. Transparent background, no floor, no cast shadow, no badge, no border, no words, no logos, no watermark. No pixelation, no photorealism. Image 1 is subject identity, image 2 is the approved style reference, image 3 the concept style reference. Recreate the first reference: a turquoise-blue icy lemon granita in a tapered clear glass, mound of crushed ice, large yellow lemon slice on the rim and one red straw. Convey frosty texture with a few simple angular ice glints; keep silhouette coherent with the approved berry smoothie icon."
+      "prompt": "Create one game inventory icon, isolated and centered on a 1254 × 1254 transparent square canvas with 10% padding and the full silhouette visible. Image 1 is the icon style reference and image 2 is the kiosk concept reference: polished smooth hand-drawn cartoon, bold warm dark-brown outline, clean cel shading with 3–4 tones, highlights from the upper left, and a three-quarter view slightly from above. Keep the shapes readable at 38–48 pixels. Draw a mound of pale lemon-yellow crushed ice with angular ivory glints and buttery yellow shadows. Serve it in a wide, opaque warm-white paper gelato cup with curved flared sides, a rolled rim, and one coral-red band. The cup body below the front rim is about 40% as tall as the rim is wide. Insert a coral-red ice-cream spoon scoop-first into the ice and show only its narrow flat handle with a rounded rectangular tip. No visible spoon scoop, lemon slice, other fruit garnish, blue ice, glass, straw, herbs, cast shadow, text, or watermark."
     },
     {
       "output": "Assets/Icons/tonic_water.png",

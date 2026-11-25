@@ -14,4 +14,7 @@ coin_bonus;Salvadanaio a Forma di Granchio;Aumenta del 10% le monete guadagnate;
 ombrellone;Ombrellone;Dimezza la perdita di moralità per 3 ondate;0.5;4;Target;Shield;beach_umbrella.png;80;0;guard;3;0;0;0
 crosswords;Settimana Enigmistica;Dimezza la perdita di fedeltà per 3 ondate;0.5;4;Target;Health;crosswords.png;80;0;guard;3;0;0;0
 melting_ice_cream;Gelato Fondente;Raddoppia le monete guadagnate nella prossima ondata;1;1;Bonus;Coins;melting_ice_cream.png;80;0;coin_bonus;1;5;0;1
+little_both;Acqua Tonica alla Menta;Ripristina il 25% di moralità e fedeltà del tuo partner;0.25;0;Target;Both;mint_tonic_water.png;70;0;restore;0;0;5;0
+medium_both;Granita al Limone Aromatizzata;Ripristina il 50% di moralità e fedeltà del tuo partner;0.5;1;Target;Both;herbed_lemon_granita.png;120;0;restore;0;0;5;0
+large_both;Frullato Frutti di Bosco e Fragola;Ripristina il 100% di moralità e fedeltà del tuo partner;1;2;Target;Both;berry_strawberry_smoothie.png;240;0;restore;0;10;5;0
 ;;;;;;;;;;;;;;

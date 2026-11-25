@@ -1,0 +1,15 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://bpm2ru6e3ycmw"]
+
+[ext_resource type="AudioStream" uid="uid://bf4k0veh1h6a6" path="res://Assets/Sfx/sand_throw_1.wav" id="1_6kd7a"]
+[ext_resource type="AudioStream" uid="uid://c57y471f3floc" path="res://Assets/Sfx/sand_throw_2.wav" id="2_khh0l"]
+[ext_resource type="AudioStream" uid="uid://ds8f0d5k5mq14" path="res://Assets/Sfx/sand_throw_3.wav" id="3_wwjyh"]
+[ext_resource type="AudioStream" uid="uid://cr0fnmqg3bvjv" path="res://Assets/Sfx/sand_throw_4.wav" id="4_3tiny"]
+
+[resource]
+random_pitch = 1.1
+random_volume_offset_db = 1.5
+streams_count = 4
+stream_0/stream = ExtResource("1_6kd7a")
+stream_1/stream = ExtResource("2_khh0l")
+stream_2/stream = ExtResource("3_wwjyh")
+stream_3/stream = ExtResource("4_3tiny")

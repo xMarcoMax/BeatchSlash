@@ -101,3 +101,53 @@ func test_catalog_loads_with_the_new_columns() -> void:
 	var header := file.get_csv_line(";")
 	assert_eq(header.size(), 15, "Il catalogo ha 15 colonne")
 	assert_eq(header.slice(12), PackedStringArray(["min_wave", "every", "cooldown"]))
+
+
+# Righe del catalogo per id: colonne id, price (8 prima del cambio di colonna: indici letti dall'intestazione)
+func _catalog() -> Dictionary:
+	var file := FileAccess.open("res://Files/item_list.csv", FileAccess.READ)
+	var header := file.get_csv_line(";")
+	var rows := {}
+	while not file.eof_reached():
+		var columns := file.get_csv_line(";")
+		if columns.size() < header.size() or columns[0] == "":
+			continue
+		var row := {}
+		for i in header.size():
+			row[header[i]] = columns[i]
+		rows[columns[0]] = row
+	return rows
+
+
+func test_both_packs_cost_more_than_their_two_singles_and_are_a_reward() -> void:
+	if _in_editor():
+		return
+	var rows := _catalog()
+	var tiers := {"little": [70, 0], "medium": [120, 0], "large": [240, 10]}
+	for tier: String in tiers:
+		var pack: Dictionary = rows[tier + "_both"]
+		var singles: int = int(rows[tier + "_shield"]["price"]) + int(rows[tier + "_health"]["price"])
+		assert_eq(int(pack["price"]), tiers[tier][0], "Prezzo del pacchetto " + tier)
+		assert_true(int(pack["price"]) > singles, "Il pacchetto costa più dei due singoli: " + tier)
+		assert_eq(pack["sub_category"], "Both")
+		assert_eq(pack["effect"], "restore")
+		assert_eq(int(pack["every"]), 5, "Solo dopo le ondate multiple di 5")
+		assert_eq(int(pack["min_wave"]), tiers[tier][1], "Sblocco del pacchetto " + tier)
+		assert_eq(int(pack["max_purchases"]), 0)
+
+
+func test_biggest_pack_is_locked_until_wave_10_and_rises_with_waves() -> void:
+	if _in_editor():
+		return
+	var pack: Dictionary = _catalog()["large_both"]
+	var item := _item(int(pack["price"]), int(pack["max_purchases"]), int(pack["min_wave"]), int(pack["every"]))
+	item.wave = 5
+	assert_false(item.can_buy(1000000), "Dopo l'ondata 5 il 100% non è acquistabile")
+	assert_eq(item.lock_text(), "Acquistabile dopo l'ondata 10")
+	item.wave = 10
+	assert_true(item.can_buy(1000000))
+	assert_eq(item.price(), 375, "A ondata 10 il prezzo è salito due volte del 25%")
+	item.wave = 11
+	assert_false(item.can_buy(1000000))
+	item.free()
+

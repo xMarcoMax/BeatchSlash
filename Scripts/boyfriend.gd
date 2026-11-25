@@ -7,6 +7,8 @@ const GLANCE_PAUSE = Vector2(2.5, 5.0)
 #Floating numbers use the colors of the HUD bars: blue = morality, red = fidelity
 const SHIELD_TEXT_COLOR = Color(0.35, 0.75, 1.0)
 const HEALTH_TEXT_COLOR = Color(1.0, 0.35, 0.35)
+#Horizontal distance of each number from the centre when a purchase restores both bars
+const BOTH_TEXT_SPREAD = 90.0
 
 @export var hp = 100
 @export var shield = 100
@@ -114,6 +116,9 @@ func _apply_bonus(data: Dictionary):
 			set_shield(max_shield * data["bonus"])
 		["restore", "Health"]:
 			set_hp(max_hp * data["bonus"])
+		["restore", "Both"]:
+			set_shield(max_shield * data["bonus"])
+			set_hp(max_hp * data["bonus"])
 		["max", "Shield"]:
 			set_max_shield(roundi(base_max_shield * data["bonus"]))
 		["max", "Health"]:
@@ -122,8 +127,10 @@ func _apply_bonus(data: Dictionary):
 			guard_shield += data["bonus"]
 		["guard", "Health"]:
 			guard_health += data["bonus"]
-	show_change(shield - shield_before, SHIELD_TEXT_COLOR)
-	show_change(hp - hp_before, HEALTH_TEXT_COLOR)
+	# Restoring both bars: the two numbers go side by side instead of on top of each other
+	var side = Vector2(BOTH_TEXT_SPREAD, 0) if data["sub_category"] == "Both" else Vector2.ZERO
+	show_change(shield - shield_before, SHIELD_TEXT_COLOR, -side)
+	show_change(hp - hp_before, HEALTH_TEXT_COLOR, side)
 	SignalManager.update_health_shield.emit(hp, shield)
 
 #A temporary guard ran out of waves
@@ -136,9 +143,9 @@ func _on_item_expired(data: Dictionary):
 		guard_health -= data["bonus"]
 
 #Number above his head with the change of a bar ("-10", "+25")
-func show_change(amount, color: Color):
+func show_change(amount, color: Color, shift := Vector2.ZERO):
 	if roundi(amount) != 0:
-		FloatingText.spawn(get_parent(), position + FloatingText.HEAD_OFFSET, "%+d" % roundi(amount), color)
+		FloatingText.spawn(get_parent(), position + FloatingText.HEAD_OFFSET + shift, "%+d" % roundi(amount), color)
 
 func set_hp(value):
 	hp += value

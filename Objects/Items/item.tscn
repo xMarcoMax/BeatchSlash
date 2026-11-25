@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://dcf1bs7yefd6p" path="res://Objects/Items/item.gd" id="1_isssg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
-content_margin_left = 10.0
-content_margin_top = 8.0
-content_margin_right = 10.0
-content_margin_bottom = 8.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
 bg_color = Color(0.17, 0.17, 0.17, 1)
 border_width_left = 2
 border_width_top = 2
@@ -19,23 +19,23 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [node name="Item" type="PanelContainer"]
-custom_minimum_size = Vector2(240, 0)
+custom_minimum_size = Vector2(190, 0)
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_isssg")
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="Top" type="HBoxContainer" parent="Content"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Image" type="TextureRect" parent="Content/Top"]
 texture_filter = 1
-custom_minimum_size = Vector2(48, 48)
+custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 size_flags_vertical = 0
 expand_mode = 1
@@ -49,19 +49,19 @@ theme_override_constants/separation = 0
 [node name="Name" type="Label" parent="Content/Top/Texts"]
 layout_mode = 2
 theme_type_variation = "ItemTitleLabel"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 13
 text = "Nome Item"
 autowrap_mode = 2
 
 [node name="Description" type="Label" parent="Content/Top/Texts"]
 layout_mode = 2
 theme_type_variation = "ItemDescriptionLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 11
 text = "Descrizione"
 autowrap_mode = 2
 
 [node name="BuyButton" type="Button" parent="Content"]
-custom_minimum_size = Vector2(0, 34)
+custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "99999¢"

@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var ray_cast: RayCast2D = $RayCast2D
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 @onready var moving_throw: Sprite2D = $MovingThrow
+@onready var throw_sound: AudioStreamPlayer = $ThrowSound
 @export var damage = 10
 
 # Part of the screen between the HUD bands, in global coordinates (set by the level): the player cannot leave it.
@@ -42,6 +43,8 @@ var nominal_speed = speed
 var last_animation = "down"
 var is_attacking = false
 var _throw_released = false
+#Global point aimed at when the current throw started; the ball is released towards it
+var throw_target := Vector2.ZERO
 var _moving_gait_phase: float = 0.0
 
 func _ready():
@@ -104,6 +107,8 @@ func start_throw(mouse_position: Vector2):
 		_moving_gait_phase = 0.0
 		if animations.animation.begins_with("walk_") or animations.animation.begins_with("dash_"):
 			_moving_gait_phase = animations.frame + animations.frame_progress
+	# The ball goes where the mouse was when the throw started, like the pose: the mouse may move before the release frame
+	throw_target = mouse_position
 	var aim = mouse_position - global_position
 	if not aim.is_zero_approx():
 		last_animation = Formulas.direction_name(aim)
@@ -128,7 +133,7 @@ func _on_animation_frame_changed():
 		# With the shop open the player cannot act: a throw already in progress ends without releasing the ball.
 		# Existing projectile/raycast logic remains in shoot_sand().
 		if not Global.is_in_purchase and not Global.game_over_sequence:
-			shoot_sand(get_global_mouse_position())
+			shoot_sand(throw_target)
 		throw_released.emit()
 
 func _on_animation_finished():
@@ -172,17 +177,23 @@ func stop_acting():
 
 #Input movement direction
 func get_input():
-	var direction = Input.get_vector("ui_left", "ui_right","ui_up","ui_down")
+	# Not Input.get_vector: it reads raw axis values and applies the deadzone only to the whole vector,
+	# so a drifting gamepad stick leaks into the other axis while a key is held (the player walks crooked).
+	# get_action_strength applies each action's own deadzone.
+	var direction = Vector2(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	).limit_length(1.0)
 	nominal_speed = speed * 2 if Input.is_action_pressed("run") else speed
 	velocity = direction * nominal_speed
 
 #Shooting sand ball
-@warning_ignore("unused_parameter")
 func shoot_sand(mouse_position):
 	var b: Area2D = ball.instantiate()
 	b.damage = damage
 	# The base Player scene can also be run directly with F6 (no scene owner).
 	var projectile_parent = owner if owner != null else get_parent()
 	projectile_parent.add_child(b)
-	ray_cast.look_at(get_global_mouse_position())
+	ray_cast.look_at(mouse_position)
 	b.global_transform = ray_cast.global_transform
+	throw_sound.play()

@@ -288,8 +288,38 @@ def boy_flex(t):
         P["upper_arm."+side].rotation_euler = (0, 0, R(sg*-(85 + 6*s)))
         P["forearm."+side].rotation_euler = (0, 0, R(sg*-(115 + 12*s)))
 
+def boy_walk(t):
+    """camminata della scenetta di game over: il passo del Player, occhi aperti"""
+    walk(t)
+
+# Bacio mandato (game over), un frame per riga:
+# (braccio dx X, braccio dx Z, avambraccio dx X, mano dx X, spine X, testa X, testa Z, occhi chiusi)
+# 0 riposo; 1-3 la mano sale alle labbra; 4 bacio; 5-7 il braccio si distende verso di lei (soffio); 8-9 tiene
+KISS = [
+    (5, 6, -10, 0, 1, -5, 0, False),
+    (-25, 0, -60, 0, 2, -4, 0, False),
+    (-65, -10, -118, 0, 3, -2, 0, False),
+    (-100, 4, -124, 0, 3, 6, -4, False),
+    (-104, 4, -128, 0, 3, 8, -6, True),
+    (-92, -8, -80, 0, 5, 0, -3, False),
+    (-82, 6, -30, -15, 8, -3, 0, False),
+    (-86, 10, -12, -20, 9, -4, 0, False),
+    (-86, 10, -12, -20, 8, -4, 0, False),
+    (-84, 10, -14, -18, 7, -4, 0, False),
+]
+
+def boy_kiss(i):
+    """frame i del bacio mandato: mano destra alle labbra, poi braccio disteso verso la ragazza; sinistra sul fianco"""
+    global EYES_CLOSED
+    uax, uaz, fax, hdx, spx, hx, hz, closed = KISS[i]
+    P = pb(); hands_on_hips(P, "L"); EYES_CLOSED = closed
+    P["upper_arm.R"].rotation_euler = (R(uax), 0, R(uaz)); P["forearm.R"].rotation_euler = (R(fax), 0, 0)
+    P["hand.R"].rotation_euler = (R(hdx), 0, 0)
+    P["spine"].rotation_euler = (R(spx), 0, 0); P["head"].rotation_euler = (R(hx), 0, R(hz))
+
 # nome, frame, FPS, loop
-ANIMS = [("idle", 6, 5.0, True), ("glance", 8, 8.0, False), ("admire", 8, 6.0, True), ("flex", 8, 8.0, True)]
+ANIMS = [("idle", 6, 5.0, True), ("glance", 8, 8.0, False), ("admire", 8, 6.0, True), ("flex", 8, 8.0, True),
+         ("walk", 8, 12.8, True), ("kiss", len(KISS), 8.0, False)]
 
 def anim_frames(name, n):
     """frame [direzione][frame] di un'animazione"""
@@ -303,17 +333,24 @@ def anim_frames(name, n):
                 clear_pose(); boy_glance(f, yaw); out[d][f] = render_sprites(yaws=[0])[0]
             continue
         EYES_CLOSED = name == "idle"
-        clear_pose(); {"idle": boy_idle, "admire": boy_admire, "flex": boy_flex}[name](t)
+        clear_pose()
+        if name == "kiss": boy_kiss(f)
+        else: {"idle": boy_idle, "admire": boy_admire, "flex": boy_flex, "walk": boy_walk}[name](t)
         for d, fr in enumerate(render_sprites(yaws=DIR8)): out[d][f] = fr
     EYES_CLOSED = False; clear_pose()
     return out
 
-def build_boyfriend():
-    """boyfriend_spritesheet.png (celle 64x64, righe = gruppo*8 + direzione, 8 colonne) e boyfriend_frames.tres"""
+def build_boyfriend(only=None):
+    """boyfriend_spritesheet.png (celle 64x64, righe = gruppo*8 + direzione, colonne = frame) e boyfriend_frames.tres.
+    `only`: nomi dei gruppi da rendere; gli altri vengono copiati dall'atlante esistente (celle identiche al pixel)"""
     bpy.data.objects["SandBall"].hide_render = True
     os.makedirs(PROJ, exist_ok=True)
-    sheet = np.zeros((len(ANIMS)*8*SIZE, 8*SIZE, 4))
+    path = os.path.join(PROJ, "boyfriend_spritesheet.png")
+    sheet = np.zeros((len(ANIMS)*8*SIZE, max(n for _, n, _, _ in ANIMS)*SIZE, 4))
+    if only is not None:
+        old = grab(path); sheet[:old.shape[0], :old.shape[1]] = old
     for g, (name, n, fps, loop) in enumerate(ANIMS):
+        if only is not None and name not in only: continue
         fr = anim_frames(name, n)
         for d in range(8):
             for f in range(n):

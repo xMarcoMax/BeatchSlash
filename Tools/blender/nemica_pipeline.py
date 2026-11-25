@@ -13,7 +13,8 @@ blender_pipeline.py. Atlante: righe = gruppo*8 + direzione, colonne = frame (12)
 Celle 64x64 con la stessa scala di pixel del Player; margine per chioma e caduta.
 Gruppi: 0 = walk (8 frame), 1 = flirt (12 frame, posa ammiccante davanti al ragazzo),
 2 = idle (6 frame, da ferma quando e' bloccata; riusa idle() del Player),
-3 = dead (8 frame, caduta a sedere, non in loop: l'ultimo frame resta a terra; vedi fall()).
+3 = dead (8 frame, caduta a sedere, non in loop: l'ultimo frame resta a terra; vedi fall()),
+4 = blush e 5 = sad (scenetta di game over). L'elenco completo e' la tabella GROUPS.
 Direzioni (ordine righe): up, down, right, left, up_right, up_left, down_right, down_left.
 
 Palette: capelli #2a1240 #4b2a78 #7043a1 #a97fd9; costume #16503a #25805a #3db57d #8de0b4.
@@ -114,6 +115,52 @@ def fall(i):
     P["hair"].rotation_euler = (R(hr), 0, 0)
 
 
+def blush(t):
+    """scenetta di game over: riceve il bacio, arrossisce con le mani sulle guance, spalle alzate,
+    testa che dondola, un ginocchio piegato in dentro"""
+    P = pb(); s = math.sin(t)
+    P["hips"].rotation_euler = (0, R(4*s), 0)
+    P["spine"].rotation_euler = (R(4), R(-3*s), 0); P["chest"].rotation_euler = (R(-3), 0, 0)
+    P["head"].rotation_euler = (R(6), 0, R(9*s))
+    P["thigh.L"].rotation_euler = (R(-12), 0, R(6)); P["shin.L"].rotation_euler = (R(28), 0, 0)
+    P["foot.L"].rotation_euler = (R(-12), 0, 0)
+    for side, sg in (("L", 1), ("R", -1)):
+        P["upper_arm."+side].rotation_euler = (R(-62), 0, R(sg*20))
+        P["forearm."+side].rotation_euler = (R(-150), 0, 0)
+    P["hair"].rotation_euler = (R(6), R(6*s), 0)
+
+def sad(t):
+    """scenetta di game over: delusa, curva in avanti a gobba, testa china, braccia penzoloni, sospiro lento"""
+    P = pb(); b = (1 - math.cos(t))/2
+    sp, ch = 11 + 2*b, 10 + 2*b
+    P["spine"].rotation_euler = (R(sp), 0, 0); P["chest"].rotation_euler = (R(ch), 0, 0)
+    P["head"].rotation_euler = (R(13 + 3*b), 0, 0)
+    P["thigh.L"].rotation_euler = (R(-8), 0, 0); P["thigh.R"].rotation_euler = (R(-8), 0, 0)
+    P["shin.L"].rotation_euler = (R(14), 0, 0); P["shin.R"].rotation_euler = (R(14), 0, 0)
+    for side, sg in (("L", -1), ("R", 1)):
+        # Compensano il busto: le braccia pendono verso la sabbia, appena in avanti
+        P["upper_arm."+side].rotation_euler = (R(-(sp + ch) + 6), 0, R(sg*4))
+        P["forearm."+side].rotation_euler = (R(-8), 0, 0)
+    P["hair"].rotation_euler = (R(4 + 2*b), 0, 0)
+
+# Guance rosa sotto gli occhi timbrati (arrossire), solo nel gruppo blush
+BLUSH_RGB = hx8("#e8707a")
+BLUSH = False
+_stamp_face_base = globals().get("_stamp_face_base", stamp_face)
+
+def stamp_face(rgb, alpha, cam, size):
+    stamps = _stamp_face_base(rgb, alpha, cam, size)
+    if BLUSH:
+        for st in stamps:
+            y = st["y"] + 3
+            for x in range(st["x"], st["x"] + st["width"]):
+                if 0 <= x < size and 0 <= y < size and alpha[y, x] > 0: rgb[y, x] = BLUSH_RGB
+    return stamps
+
+# Gruppi dell'atlante, nell'ordine delle righe: nome, posa (t) o frame (i), frame, FPS, loop
+GROUPS = [('walk', walk_e, 8, 8, True), ('flirt', flirt, FLIRT_FRAMES, 8, True), ('idle', idle, 6, 5, True),
+          ('dead', None, FALL_FRAMES, 12, False), ('blush', blush, 8, 8, True), ('sad', sad, 6, 4, True)]
+
 def build_enemy():
     steps = build_enemy_steps()
     while True:
@@ -121,20 +168,26 @@ def build_enemy():
         except StopIteration as done: return done.value
 
 
-def build_enemy_steps():
-    """Una posa per next(); il PNG viene scritto solo all'esaurimento del generatore."""
-    global REST_FEET
+def build_enemy_steps(only=None):
+    """Una posa per next(); il PNG viene scritto solo all'esaurimento del generatore.
+    `only`: nomi dei gruppi da rendere; gli altri vengono copiati dall'atlante esistente (celle identiche al pixel)."""
+    global REST_FEET, BLUSH
     REST_FEET = None
     rig = bpy.data.objects["Rig"]; rig.animation_data_create(); rig.animation_data.action = None
     clear_pose()
     bpy.data.objects["SandBall"].hide_render = True
-    sheet = np.zeros((32*SIZE, FLIRT_FRAMES*SIZE, 4))
-    for g, (fn, n) in enumerate(((walk_e, 8), (flirt, FLIRT_FRAMES), (idle, 6), (None, FALL_FRAMES))):
+    sheet = np.zeros((len(GROUPS)*8*SIZE, max(g[2] for g in GROUPS)*SIZE, 4))
+    if only is not None:
+        old = grab(os.path.join(PROJ, "enemy_spritesheet.png")); sheet[:old.shape[0], :old.shape[1]] = old
+    for g, (name, fn, n, _, _) in enumerate(GROUPS):
+        if only is not None and name not in only: continue
+        BLUSH = name == 'blush'
         for f in range(n):
             out = render_pose(fn if fn else (lambda t, f=f: fall(f)), f/n*2*math.pi, yaws=DIR8)
             for d in range(8):
                 r = g*8+d; sheet[r*SIZE:(r+1)*SIZE, f*SIZE:(f+1)*SIZE] = out[d]
-            yield (fn.__name__ if fn else 'dead'), f
+            yield name, f
+    BLUSH = False
     clear_pose()
     os.makedirs(PROJ, exist_ok=True)
     save_rgba(sheet, os.path.join(PROJ, "enemy_spritesheet.png"))
@@ -151,8 +204,7 @@ def write_enemy_frames():
         with open(path, encoding='utf-8-sig') as existing:
             match = re.search(r'uid="([^"]+)"', existing.readline())
             if match: uid = f' uid="{match.group(1)}"'
-    groups = [('walk', 8, 8, True), ('flirt', FLIRT_FRAMES, 8, True),
-              ('idle', 6, 5, True), ('dead', FALL_FRAMES, 12, False)]
+    groups = [(name, n, fps, loop) for name, _, n, fps, loop in GROUPS]
     directions = ['up', 'down', 'right', 'left', 'up_right', 'up_left', 'down_right', 'down_left']
     lines = [f'[gd_resource type="SpriteFrames" format=3{uid}]', '',
              '[ext_resource type="Texture2D" path="res://Assets/Characters/Enemy/enemy_spritesheet.png" id="1"]', '']

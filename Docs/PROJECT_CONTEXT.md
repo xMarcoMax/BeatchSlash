@@ -74,10 +74,10 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down in pixel art, ambien
 - **Due valori di difesa del ragazzo:**
   - **Moralità** (lo scudo): la sua caratura morale e il rispetto per la fidanzata. Le nemiche intaccano prima questa.
   - **Fedeltà** (la salute): entra in gioco quando la moralità è a zero e cala man mano che le nemiche attaccano.
-  - Quando moralità e fedeltà sono a zero il ragazzo non è più fedele e scappa con le altre ragazze: è il game over.
+  - Quando moralità e fedeltà sono a zero il ragazzo non è più fedele e se ne va con la ragazza che lo ha conquistato: è il game over.
 - **Come attaccano le nemiche:** non fanno danno fisico. Fanno pose, avances e movimenti sensuali verso il ragazzo; quando la moralità è a zero arrivano anche a toccarlo.
 - **Stile delle avances:** le nemiche restano sempre vestite (costumi da spiaggia), niente nudità. Pose ammiccanti e ironiche, fumettistiche e volutamente esagerate (sguardi, baci, capelli, appoggiarsi, braccio al collo). A moralità zero il contatto è sensuale ma ironico: breve e comico, con cuoricini ed espressioni esagerate. Deve essere sempre evidente che le ragazze ci provano attivamente.
-- **Reazioni del ragazzo:** con la moralità attiva guarda le ragazze con curiosità, senza malizia; a moralità zero le guarda con più interesse; infine cede e scappa.
+- **Reazioni del ragazzo:** con la moralità attiva guarda le ragazze con curiosità, senza malizia; a moralità zero le guarda con più interesse; infine cede e se ne va con l'ultima che lo ha attaccato.
 - **Nemiche:** ragazze in spiaggia più belle della protagonista, con la chioma voluminosa e colori variabili di capelli, occhi, costume e pelle. Sono previste diverse "classi": da quelle molto resistenti, con molto danno ma lente (movimento e frequenza di attacco), a quelle fragili e veloci con danno costante, con un ampio range intermedio. Ogni classe può avere un aspetto distinto. Oggi esiste solo la nemica base.
 - **Valuta:** le monete sono quelle perse dalle ragazze sconfitte.
 
@@ -93,7 +93,7 @@ Tono ironico e leggero. Tower defense a ondate, 2D top-down in pixel art, ambien
 ### Player
 
 - Velocità di movimento a tre livelli; si sale comprando l'Infradito Conchiglia. La corsa raddoppia la velocità del livello attuale.
-- La protagonista non può uscire dallo schermo di gioco.
+- La protagonista non può uscire dallo schermo di gioco. Parte sulla sabbia accanto al telo rosso dell'ombrellone di sinistra (in basso a sinistra): è il suo ombrellone.
 - **Lancio:** la palla parte quando il braccio la lancia; si può lanciare anche camminando e correndo.
 - **Velocità di lancio a tre livelli**, si sale solo comprando il Corso di Schiacciata (decisione dell'utente): lenta (come la camminata), media, veloce.
 - Non si può lanciare di nuovo finché il gesto precedente non è quasi finito.
@@ -136,7 +136,7 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 
 ### Game over e menu
 
-- Al game over il gioco si ferma e compare il pannello con Ricomincia, Torna al Menù, Esci.
+- **Scenetta di game over:** appena la fedeltà arriva a zero il gioco si ferma (niente più nemiche, attacchi, lanci, negozio o pausa; le palle già in volo e le nemiche che stanno cadendo finiscono, ma le palle non fanno più danno) e parte subito la scenetta. Il ragazzo e l'ultima nemica che lo ha attaccato scendono verso il basso, mentre la protagonista, da dove si trova, cammina verso il suo ombrellone; le altre nemiche restano ferme e guardano il ragazzo. Quando tutti e tre sono arrivati, ragazzo a sinistra e nemica a destra si guardano: lui le manda un bacio (bacia la mano e soffia), un cuoricino vola da lui a lei, lei arrossisce con le mani sulle guance e sopra di lei salgono in diagonale due cuoricini piccoli che sfumano. Dopo circa 2 secondi lui le si avvicina e la segue: escono insieme dall'inquadratura verso destra, un po' più svelti. Appena si allontanano la protagonista, che fino a quel momento guardava il ragazzo, si volta verso il basso e piange con le mani in faccia e le lacrime; le altre nemiche si curvano deluse continuando a guardare la coppia che se ne va. Circa 1 secondo dopo l'uscita della coppia compare il pannello con Ricomincia, Torna al Menù, Esci.
 - Menu principale con Nuova partita, Opzioni (volume e muto), Tutorial. Pausa con Esc: Riprendi, Ricomincia, Torna al Menù.
 - La musica (unico brano, in loop) suona nel menu; in partita non c'è musica.
 
@@ -187,7 +187,7 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 - **Elementi di scena:** disposizione ispirata a una spiaggia libera italiana, con pochi elementi e un criterio (richiesta dell'utente):
   - macchia di palme con cespugli e fiori ai piedi sul lato opposto al mare (in alto a sinistra, dietro il chiosco, a sinistra, in basso a sinistra, in basso);
   - punta della baia con gruppo di scogli; ciottoli e conchiglie sulla linea delle mareggiate; un tronco spiaggiato lungo la riva;
-  - due soli gruppi di ombrelloni: a destra due aperti con due teli e una tavola; in basso a sinistra uno aperto e uno chiuso con telo e tavola;
+  - due soli gruppi di ombrelloni: a destra due aperti con due teli e una tavola; in basso a sinistra uno aperto con telo e tavola (quello della protagonista);
   - il centro libero.
 - **Solidi e decorazioni:** palme, rocce medie e grandi, cespugli, ombrelloni, tavole piantate, tronchi, botti e cartello bloccano personaggi e palle di sabbia. Ciottoli, conchiglie, fiori, palme giovani, teli e tavole sdraiate sono decorazioni a terra, calpestabili.
 - **Granchio:** si muove (un animaletto non deve essere fermo: richiesta dell'utente). Non è calpestabile.
@@ -202,6 +202,7 @@ Il bonus, se maggiore di zero, è annunciato da un popup animato al centro dello
 ### Nemica base
 
 - Donna adulta atletica e formosa, proporzioni chibi, vita definita, seno e glutei un po' più pieni della protagonista senza eccessi. Capelli viola lunghi e lisci fino alla vita bassa; bikini smeraldo a triangolo con lacci e fiocchi ai fianchi, slip sgambato.
+- **Varianti di colore:** a ogni nascita ogni nemica riceve a caso un colore di capelli (viola del concept, nero, castano, biondo, rosa, azzurro, acqua) e un colore di costume (verde del concept, blu, nero, bianco, rosso, viola; niente colori vicini alla pelle come rosa, arancione o giallo, perché sembrerebbero nude), mai lo stesso nome su entrambi. La prima nemica di ogni ondata ha sempre i colori del concept (capelli viola, bikini verde). Il bikini è ben leggibile anche a dimensione di gioco (coppe, lacci e slip più ampi). Ogni colore ha tre toni nello stile toon; pelle, occhi e contorni non cambiano. Le future classi di nemiche useranno lo stesso sistema.
 
 ### Ragazzo
 
@@ -295,6 +296,7 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 - **Economia di base:** valori dell'ondata 1, monete fisse per nemica senza crescita per ondata.
 - **Bonus di fine ondata:** regole della sezione 3 e animazione del popup.
 - **Fumetto di Sandro:** grafica, dimensione, posizione e durata dei ringraziamenti; avviso dell'aumento dei prezzi (sezione 4).
+- **Scenetta di game over:** sequenza, tempi e sprite come descritti nella sezione 3 ("Game over e menu"): camminata e bacio del ragazzo, imbarazzo e delusione delle nemiche, pianto della protagonista, cuoricini. Punto di partenza della protagonista accanto al telo del suo ombrellone, senza l'ombrellone chiuso.
 - **Mondo:** inquadratura fissa con il ragazzo al centro; terreno di sola sabbia, battigia e mare; mappa del tutorial; elementi di scena e loro disposizione; granchio animato.
 - **Interfaccia:** bande in legno scurite, icone dell'HUD, barre a tubo, numeri fluttuanti.
 - **Icone degli oggetti:** stile illustrato, con il frullato come riferimento.
@@ -307,15 +309,17 @@ Funzionamenti e comportamenti approvati dall'utente: sono il riferimento per gli
 Sviluppi in corso, in test o in attesa di valutazione e approvazione.
 
 - **Coda delle nemiche attorno al ragazzo:** quando i posti attorno a lui sono tutti occupati, le nuove nemiche continuano a camminare finché non sono vicine a quelle già attaccate o in attesa, poi restano ferme lì; quando una di quelle che attaccano cade, la nemica libera che vede il posto lo prende. Obiettivo di gioco: costringere il giocatore a muoversi per sconfiggere le nemiche. Da provare in partita con tante nemiche.
+- **Varianti di colore della nemica base:** capelli e costume a colori casuali (sezione 6). Da provare in partita: scelta dei colori e leggibilità del bikini nelle pose di flirt.
 - **Bilanciamento del negozio:** prezzi più alti a cifre tonde, aumento del 25% ogni 5 ondate per gli oggetti acquistabili sempre, aumento del 25% per livello per quelli con massimo, sblocchi per ondata, Barretta e Gelato con disponibilità periodica (sezione 4); da provare in partita, tarando prezzi e ondate di sblocco.
 
 ### 10.3 Punti aperti
 
 Sviluppi decisi, da avviare.
 
-- **Ondata difficile ogni 5 ondate (punto principale):** ogni quinta ondata più dura (nemiche più forti o veloci, oppure una nemica boss); chiusa l'ondata si sbloccano cose nuove e salgono i prezzi del negozio. Da definire difficoltà, boss e ricompense.
-- **Varianti di colore e classi di nemiche** (vedi concept, sezione 2).
-- **Fuga del ragazzo al game over:** scenetta in cui cede e scappa.
+Punto più importante: ondata difficile con le classi di nemiche.
+
+- **Ondata difficile ogni 5 ondate (punto principale):** ogni quinta ondata più dura (nemiche più forti o veloci, oppure una nemica boss). Aumento dei prezzi e sblocchi del negozio a ogni multiplo di 5 sono già fatti (sezione 4); restano da definire difficoltà, boss e ricompense.
+- **Classi di nemiche** (vedi concept, sezione 2), collegate all'ondata difficile; ognuna avrà le sue varianti di colore con lo stesso sistema della nemica base. Da definire insieme all'utente, con un'idea di aspetto e comportamento di ogni classe; poi Codex produce l'immagine di concept con il turnaround, da cui si realizzano sprite e modelli.
 - **Negozio:** prezzi definitivi dopo i playtest; nuovi oggetti per Giocatore, Partner e Bonus, compresi altri bonus temporanei.
 - **Negozio, quando ci saranno molti oggetti:** verificare che le schede stiano nel pannello o rimpicciolirle; rivalutare la suddivisione di Giocatore e Bonus.
 - **Bilanciamento:** dopo i playtest, valutare insieme progressione delle nemiche e potenziamenti acquistabili (danno della protagonista, massimi di moralità e fedeltà, altri bonus). Il giocatore cresce senza limite, quindi le nemiche non hanno tetto.
@@ -329,10 +333,10 @@ Idee e concept su cui ragionare prima di formalizzarli e spostarli nei punti ape
 
 - Ondate infinite oppure un limite; modalità di sfida diverse; obiettivi o campagna; altri livelli.
 - **Versione mobile:** il gioco sa già se è usato su mobile (tablet compresi); da definire come distinguere i controlli. Ipotesi: movimento con joystick virtuale a sinistra (spingendo a fondo si corre); attacco con un'unica azione a destra con mira automatica sulla nemica più vicina, oppure un secondo joystick di mira per la mira libera. Da adattare anche negozio, pausa, dimensioni di pulsanti e testi, e da verificare su un telefono vero la leggibilità dei personaggi.
-- Il ragazzo, al game over, scappa con l'ultima nemica che lo ha attaccato.
 - Rigenerazione leggera di moralità e fedeltà tra le ondate (per esempio +10%), come oggetto acquistabile o come regalo.
 - **Regali di fine ondata:** ogni tot ondate il giocatore sceglie un bonus tra alcuni proposti; si ottengono solo così, non nel negozio (la rigenerazione leggera è un candidato). Da definire: frequenza, quanti bonus proposti, elenco e interfaccia di scelta.
 - Bonus temporanei con limiti diversi dal numero di ondate.
+- Possibilità di saltare la scenetta di game over con un tasto, se dopo averla provata più volte risulta lunga.
 - Animazione del conto alla rovescia della prossima ondata.
 - Battute e freddure brevi che Sandro dice ogni tanto, a caso, nel suo fumetto (frasi da scrivere, frequenza da decidere).
 - Transizioni tra le profondità del mare.

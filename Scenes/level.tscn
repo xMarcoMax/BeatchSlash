@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bl61hfkyhdt23"]
+[gd_scene format=3 uid="uid://bl61hfkyhdt23"]
 
 [ext_resource type="PackedScene" uid="uid://bwccdi1diecof" path="res://Characters/player.tscn" id="1_6bqah"]
 [ext_resource type="Script" uid="uid://dsoesl8lamd66" path="res://Scripts/level.gd" id="1_nesj5"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d0knuth3fquin" path="res://Scenes/pause_menu.tscn" id="6_2klc5"]
 [ext_resource type="PackedScene" uid="uid://5262icj7jl87" path="res://Objects/upgrades.tscn" id="12_pa6b8"]
 [ext_resource type="PackedScene" path="res://Scenes/tutorial_map.tscn" id="13_tutorial_map"]
-[ext_resource type="PackedScene" path="res://Scenes/tutorial_props.tscn" id="14_tutorial_props"]
+[ext_resource type="PackedScene" uid="uid://cgkl38riu31m6" path="res://Scenes/tutorial_props.tscn" id="14_tutorial_props"]
 [ext_resource type="FontFile" uid="uid://dvm3n3u0reowu" path="res://Assets/Fonts/LuckiestGuy-Regular.ttf" id="15_luckiest"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spawn_left"]
@@ -90,31 +90,31 @@ z_index = -3
 position = Vector2(800, -560)
 script = ExtResource("2_28emp")
 
-[node name="LeftSpawn" type="CollisionShape2D" parent="World/EnemySpawn"]
+[node name="LeftSpawn" type="CollisionShape2D" parent="World/EnemySpawn" unique_id=1656464502]
 position = Vector2(-1700, 0)
 shape = SubResource("RectangleShape2D_spawn_left")
 disabled = true
 
-[node name="RightSpawn" type="CollisionShape2D" parent="World/EnemySpawn"]
+[node name="RightSpawn" type="CollisionShape2D" parent="World/EnemySpawn" unique_id=2973421]
 position = Vector2(1700, 450)
 shape = SubResource("RectangleShape2D_spawn_right")
 disabled = true
 
-[node name="TopSpawn" type="CollisionShape2D" parent="World/EnemySpawn"]
+[node name="TopSpawn" type="CollisionShape2D" parent="World/EnemySpawn" unique_id=1884443892]
 position = Vector2(-600, -1030)
 shape = SubResource("RectangleShape2D_spawn_top")
 disabled = true
 
-[node name="BottomSpawn" type="CollisionShape2D" parent="World/EnemySpawn"]
+[node name="BottomSpawn" type="CollisionShape2D" parent="World/EnemySpawn" unique_id=139627191]
 position = Vector2(0, 1030)
 shape = SubResource("RectangleShape2D_spawn_bottom")
 disabled = true
 
-[node name="TutorialMap" parent="World" instance=ExtResource("13_tutorial_map")]
+[node name="TutorialMap" parent="World" unique_id=666883774 instance=ExtResource("13_tutorial_map")]
 position = Vector2(800, -560)
 
 [node name="Player" parent="." unique_id=230777973 instance=ExtResource("1_6bqah")]
-position = Vector2(800, -380)
+position = Vector2(378, -235)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1943727975]
 position = Vector2(800, -560)
@@ -126,7 +126,7 @@ position = Vector2(800, -560)
 [node name="Upgrades" parent="." unique_id=1102380179 instance=ExtResource("12_pa6b8")]
 position = Vector2(512, -990)
 
-[node name="Props" parent="." instance=ExtResource("14_tutorial_props")]
+[node name="Props" parent="." unique_id=1819099053 instance=ExtResource("14_tutorial_props")]
 position = Vector2(800, -560)
 
 [node name="NextWaveTimer" type="Timer" parent="." unique_id=1278951022]

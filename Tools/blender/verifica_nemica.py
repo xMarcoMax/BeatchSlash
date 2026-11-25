@@ -188,12 +188,11 @@ def check_enemy():
         idle(0)
         bpy.context.view_layer.update()
 
-    groups = [('walk', 8, 8.0, True), ('flirt', 12, 8.0, True),
-              ('idle', 6, 5.0, True), ('dead', 8, 12.0, False)]
+    groups = [(name, count, float(fps), loop) for name, _, count, fps, loop in GROUPS]
     directions = ['up', 'down', 'right', 'left', 'up_right', 'up_left', 'down_right', 'down_left']
     sheet = grab(os.path.join(PROJ, 'enemy_spritesheet.png'))
     assert SIZE == 64, f'Cella nemica errata: {SIZE}'
-    assert sheet.shape == (32*SIZE, 12*SIZE, 4), f'Dimensioni atlante errate: {sheet.shape}'
+    assert sheet.shape == (len(groups)*8*SIZE, 12*SIZE, 4), f'Dimensioni atlante errate: {sheet.shape}'
     assert np.isfinite(sheet).all(), 'Atlante con valori non finiti'
     checked_frames = 0
     for group, (name, count, _, _) in enumerate(groups):
@@ -218,7 +217,7 @@ def check_enemy():
         assert re.search(r'^filter_clip\s*=\s*(true|1)\s*$', properties, re.M), f'filter_clip disattivo: {resource_id}'
         atlases[resource_id] = tuple(float(value.strip()) for value in region.group(1).split(','))
     animations = re.findall(r'"frames":\s*\[(.*?)\],\s*"loop":\s*(true|false|[01]),\s*"name":\s*&"([^"]+)",\s*"speed":\s*([\d.]+)', text, re.S)
-    assert len(animations) == 32, f'Numero animazioni errato: {len(animations)}'
+    assert len(animations) == len(groups)*8, f'Numero animazioni errato: {len(animations)}'
     expected = {name+'_'+direction: (count, speed, loop, group*8+index)
                 for group, (name, count, speed, loop) in enumerate(groups)
                 for index, direction in enumerate(directions)}

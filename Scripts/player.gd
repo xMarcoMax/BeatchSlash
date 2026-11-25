@@ -54,6 +54,9 @@ func _ready():
 
 @warning_ignore("unused_parameter")
 func _physics_process(delta):
+	# Game over scene: GameOverSequence moves her and picks her animations
+	if Global.game_over_sequence:
+		return
 	if(!Global.is_in_purchase):
 		get_input()
 		_update_moving_throw(delta)
@@ -75,6 +78,8 @@ func _on_item_purchased(data: Dictionary):
 
 #Input events (shoot, attack, etc.)
 func _input(event):
+	if Global.game_over_sequence:
+		return
 	if(event.is_action_pressed("shoot_sand")):
 		var mouse_position = get_global_mouse_position()
 		start_throw(mouse_position)
@@ -122,7 +127,7 @@ func _on_animation_frame_changed():
 		_throw_released = true
 		# With the shop open the player cannot act: a throw already in progress ends without releasing the ball.
 		# Existing projectile/raycast logic remains in shoot_sand().
-		if not Global.is_in_purchase:
+		if not Global.is_in_purchase and not Global.game_over_sequence:
 			shoot_sand(get_global_mouse_position())
 		throw_released.emit()
 
@@ -156,6 +161,14 @@ func _update_moving_throw(delta: float):
 	moving_throw.frame = atlas_row * 8 + animations.frame
 	moving_throw.show()
 	animations.hide()
+
+#Game over scene: a throw in progress ends at once without releasing the ball, then GameOverSequence takes over
+func stop_acting():
+	is_attacking = false
+	_throw_released = true
+	velocity = Vector2.ZERO
+	moving_throw.hide()
+	animations.show()
 
 #Input movement direction
 func get_input():

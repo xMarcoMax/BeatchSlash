@@ -64,7 +64,7 @@ LAYOUT = [
     ("umbrella_open_yellow", 16.6, 1.8), ("towel_green", 15.0, 3.0), ("surf_stripes_lean_l", 14.0, 0.8),
     ("umbrella_open_blue", 19.8, 3.6), ("towel_blue", 18.4, 5.0),
     # --- ombrelloni a sinistra, vicino alla macchia: uno aperto, uno chiuso, un telo e una tavola
-    ("umbrella_open_red", -12.6, 5.4), ("towel_red", -11.0, 6.7), ("umbrella_closed_pink", -9.8, 4.2), ("surf_hibiscus_lean_r", -14.8, 6.4),
+    ("umbrella_open_red", -12.6, 5.4), ("towel_red", -11.0, 6.7),("surf_hibiscus_lean_r", -14.8, 6.4),
 ]
 
 

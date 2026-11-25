@@ -6,7 +6,7 @@ signal enemy_left_target(enemy)
 
 #Segnali del nemico e del player
 signal defeated
-signal attack_target
+signal attack_target(damage, attacker)
 
 #Segnali per l'acquisto per Target, Player, Bonus
 signal item_target_purchased(data)
@@ -22,5 +22,6 @@ signal currency_changed(value)
 signal purchase_item
 signal wave_purchase_item(wave)
 
-signal game_over
+#Fedeltà a zero: `last_attacker` è la nemica che ha dato l'ultimo colpo (emesso una sola volta)
+signal game_over(last_attacker)
 signal game_started

@@ -40,25 +40,23 @@ def apply_girl_suit(cc, body):
     x = op('MULTIPLY', op('ABSOLUTE', xyz.outputs['X']), cc.K)
     row = op('SUBTRACT', cc.foot, op('MULTIPLY', xyz.outputs['Z'], cc.K))
     front = op('LESS_THAN', xyz.outputs['Y'], 0)
-    # Coppe: vertice (38, 443), scollo fino al centro (4, 493), bordo inferiore curvo.
-    neckline = op('SUBTRACT', 499, op('MULTIPLY', x, 1.45))
-    upper = op('MAXIMUM', neckline, op('ADD', 443-38*1.1, op('MULTIPLY', x, 1.1)))
-    cup_x = op('SUBTRACT', x, 36)
-    hem = op('SUBTRACT', 503, op('MULTIPLY', op('MULTIPLY', cup_x, cup_x), 0.009))
-    cups = op('MULTIPLY', between(row, upper, hem), op('LESS_THAN', x, 70))
-    # Lacci verso il collo, fascia sottile dietro e nodo centrale.
-    strap_x = op('ADD', 22, op('MULTIPLY', op('SUBTRACT', row, 410), 0.52))
-    strap = op('MULTIPLY', between(row, 410, 451), op('LESS_THAN', op('ABSOLUTE', op('SUBTRACT', x, strap_x)), 2.8))
-    center = op('MULTIPLY', between(row, 490, 497), op('LESS_THAN', x, 12))
+    # Misure in pixel del concept (1 pixel di sprite = circa 17,8). Il bikini deve restare leggibile a 64 px:
+    # coppe a trapezio che si allarga verso il basso, lacci larghi 14, slip alto e sgambato.
+    cups = op('MULTIPLY', between(row, 440, 530),
+              op('LESS_THAN', op('ABSOLUTE', op('SUBTRACT', x, 40)), op('MULTIPLY', op('SUBTRACT', row, 357), 0.25)))
+    # Lacci verso il collo, fascia dietro e nodo centrale.
+    strap_x = op('ADD', 22, op('MULTIPLY', op('SUBTRACT', row, 405), 0.45))
+    strap = op('MULTIPLY', between(row, 405, 452), op('LESS_THAN', op('ABSOLUTE', op('SUBTRACT', x, strap_x)), 7))
+    center = op('MULTIPLY', between(row, 492, 504), op('LESS_THAN', x, 12))
     top = op('MAXIMUM', op('MAXIMUM', cups, strap), center)
-    back = op('MULTIPLY', between(row, 487, 494), op('LESS_THAN', x, 85))
+    back = op('MULTIPLY', between(row, 482, 502), op('LESS_THAN', x, 90))
     top = op('ADD', op('MULTIPLY', top, front), op('MULTIPLY', back, op('SUBTRACT', 1, front)))
-    waist = op('SUBTRACT', 597, op('MULTIPLY', op('MULTIPLY', x, x), 0.0045))
-    leg = op('SUBTRACT', 635, op('MULTIPLY', x, 1.12))
+    waist = op('SUBTRACT', 585, op('MULTIPLY', op('MULTIPLY', x, x), 0.0045))
+    leg = op('SUBTRACT', 668, op('MULTIPLY', x, 1.12))
     bottom_front = between(row, waist, leg)
-    bottom_back = between(row, op('SUBTRACT', 603, op('MULTIPLY', x, 0.33)), op('SUBTRACT', 652, op('MULTIPLY', x, 1.15)))
+    bottom_back = between(row, op('SUBTRACT', 590, op('MULTIPLY', x, 0.33)), op('SUBTRACT', 668, op('MULTIPLY', x, 1.15)))
     bottom = op('ADD', op('MULTIPLY', bottom_front, front), op('MULTIPLY', bottom_back, op('SUBTRACT', 1, front)))
-    hip_string = op('MULTIPLY', between(row, op('SUBTRACT', waist, 3), op('ADD', waist, 3)), between(x, 40, 90))
+    hip_string = op('MULTIPLY', between(row, op('SUBTRACT', waist, 6), op('ADD', waist, 6)), between(x, 40, 100))
     mask = op('MAXIMUM', top, op('MAXIMUM', bottom, hip_string))
     links.new(mask, nodes['SuitMask'].inputs[0])
     # Rimuovere i vecchi confini del costume, ora scollegati dalla nuova maschera.

@@ -32,7 +32,8 @@ func _on_body_entered(body):
 		return
 	if body.is_in_group("upgrades") or body.is_in_group("solid_prop"):
 		_impact()
-	elif body.is_in_group("enemy") and body.hp > 0:
+	# During the game over scene balls pass through the girls without any effect
+	elif body.is_in_group("enemy") and body.hp > 0 and not Global.game_over_sequence:
 		_impact()
 		body.take_damage(damage, transform.x)
 

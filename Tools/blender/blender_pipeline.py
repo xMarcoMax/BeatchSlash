@@ -329,3 +329,73 @@ def build_steps(yaws=DIRY, sheet_name="player_spritesheet.png", mt_name="player_
     save_rgba(sheet, os.path.join(PROJ, sheet_name))
     save_rgba(mt, os.path.join(PROJ, mt_name))
     return sheet.shape, mt.shape
+
+
+# ---------- pianto (scenetta di game over) ----------
+# Solo verso il basso: mani sul viso, testa china, spalle scosse dai singhiozzi. Atlante a parte, una riga.
+CRY_FRAMES, CRY_FPS = 6, 8.0
+
+def cry(t):
+    P = pb(); sob = abs(math.sin(t))
+    P["chest"].location = (0, 0.02*sob, 0)
+    P["spine"].rotation_euler = (R(8 + 2*sob), 0, 0)
+    P["head"].rotation_euler = (R(10 + 2*sob), 0, R(2*math.sin(2*t)))
+    for s, sg in (("L", 1), ("R", -1)):
+        P["upper_arm."+s].rotation_euler = (R(-105 - 3*sob), 0, R(sg*-15))
+        P["forearm."+s].rotation_euler = (R(-120), 0, 0)
+    P["hair"].rotation_euler = (R(4 + 2*sob), 0, 0)
+
+TEAR = hx8("#9fdcff")
+
+def stamp_tears(rgb, alpha, cam, size, frame):
+    """al posto del viso (coperto dalle mani): una goccia per occhio, fuori dal bordo delle mani, che scende
+    di un pixel a ogni frame e riparte ogni 3"""
+    for n, side in (("Eye_L", 1), ("Eye_R", -1)):
+        v = world_to_camera_view(scene, cam, bpy.data.objects[n].matrix_world.translation)
+        cx, cy = v.x*size, (1-v.y)*size
+        y = int(round(cy)) + 1 + frame % 3
+        row = np.where(alpha[y] > 0)[0] if 0 <= y < size else []
+        if not len(row): continue
+        # colonna della goccia: un pixel dentro il contorno della sagoma, dal lato dell'occhio
+        x = int(round(cx)) + (2 if cx > size/2 else -2)
+        x = min(max(x, row.min() + 1), row.max() - 1)
+        for dy in (0, 1):
+            if 0 <= y+dy < size and alpha[y+dy, x] > 0: rgb[y+dy, x] = TEAR
+    return []
+
+def build_cry(png_name="player_cry.png", tres_name="player_frames.tres", anim="cry_down"):
+    """Riga di CRY_FRAMES celle (yaw 0, verso il basso) senza viso timbrato (lo coprono le mani);
+    aggiunge o sostituisce l'animazione `anim` nel .tres del Player con un ext_resource proprio."""
+    global stamp_face
+    base_stamp = stamp_face; cells = []
+    try:
+        bpy.data.objects["SandBall"].hide_render = True
+        for f in range(CRY_FRAMES):
+            stamp_face = lambda rgb, alpha, cam, size, f=f: stamp_tears(rgb, alpha, cam, size, f)
+            cells.append(render_pose(cry, f/CRY_FRAMES*2*math.pi, yaws=[0])[0])
+    finally:
+        stamp_face = base_stamp; clear_pose()
+    save_rgba(np.concatenate(cells, axis=1), os.path.join(PROJ, png_name))
+    add_strip_animation(os.path.join(PROJ, tres_name), "res://Assets/Characters/Player/" + png_name,
+                        anim, CRY_FRAMES, SIZE, CRY_FPS, True)
+    return len(cells)
+
+def add_strip_animation(tres_path, png_res, anim, count, cell, fps, loop):
+    """Aggiunge a un SpriteFrames salvato da Godot un'animazione presa da una striscia orizzontale di celle,
+    con un ext_resource dedicato; se l'animazione o i suoi sub_resource esistono già li sostituisce."""
+    import re
+    txt = open(tres_path, encoding="utf-8").read()
+    rid = "strip_" + anim; prefix = "Strip_%s_" % anim
+    txt = re.sub(r'\[ext_resource [^\n]*id="%s"\]\n' % rid, "", txt)
+    txt = re.sub(r'\[sub_resource type="AtlasTexture" id="%s\d+"\]\n(?:[^\[\n][^\n]*\n)*\n?' % prefix, "", txt)
+    txt = re.sub(r',\s*\{\s*"frames": \[[^\]]*\],\s*"loop": [^,]+,\s*"name": &"%s",\s*"speed": [^}]+\}' % anim, "", txt)
+    ext = '[ext_resource type="Texture2D" path="%s" id="%s"]\n' % (png_res, rid)
+    last_ext = list(re.finditer(r'\[ext_resource [^\n]*\]\n', txt))[-1]
+    txt = txt[:last_ext.end()] + ext + txt[last_ext.end():]
+    subs = "".join('[sub_resource type="AtlasTexture" id="%s%d"]\natlas = ExtResource("%s")\nregion = Rect2(%d, 0, %d, %d)\nfilter_clip = true\n\n'
+                   % (prefix, f, rid, f*cell, cell, cell) for f in range(count))
+    at = txt.index("[resource]"); txt = txt[:at] + subs + txt[at:]
+    frames = ", ".join('{\n"duration": 1.0,\n"texture": SubResource("%s%d")\n}' % (prefix, f) for f in range(count))
+    entry = ', {\n"frames": [%s],\n"loop": %s,\n"name": &"%s",\n"speed": %s\n}' % (frames, "true" if loop else "false", anim, float(fps))
+    end = txt.rstrip().rindex("]"); txt = txt[:end] + entry + txt[end:]
+    open(tres_path, "w", encoding="utf-8", newline="\n").write(txt)

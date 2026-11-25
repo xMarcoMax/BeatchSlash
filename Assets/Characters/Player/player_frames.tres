@@ -2,6 +2,37 @@
 
 [ext_resource type="Texture2D" uid="uid://cvgp6fhdfak0j" path="res://Assets/Characters/Player/player_spritesheet.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://c0qml5oi86dxs" path="res://Assets/Characters/Player/player_diagonals_spritesheet.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://7yeal5tyut0s" path="res://Assets/Characters/Player/player_cry.png" id="strip_cry_down"]
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_0"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(0, 0, 48, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_1"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(48, 0, 48, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_2"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(96, 0, 48, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_3"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(144, 0, 48, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_4"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(192, 0, 48, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Strip_cry_down_5"]
+atlas = ExtResource("strip_cry_down")
+region = Rect2(240, 0, 48, 48)
+filter_clip = true
 
 [sub_resource type="AtlasTexture" id="Atlas_064"]
 atlas = ExtResource("1")
@@ -1205,6 +1236,29 @@ filter_clip = true
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Strip_cry_down_5")
+}],
+"loop": 1,
+"name": &"cry_down",
+"speed": 8.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_064")

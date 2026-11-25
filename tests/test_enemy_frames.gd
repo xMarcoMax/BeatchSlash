@@ -23,11 +23,11 @@ func test_enemy_scene_atlas_regions() -> void:
 	if frames == null:
 		errors.append("SpriteFrames mancante nella scena")
 	else:
-		if frames.get_animation_names().size() != 32:
-			errors.append("La scena deve avere 32 animazioni")
+		if frames.get_animation_names().size() != 48:
+			errors.append("La scena deve avere 48 animazioni")
 		var disk: SpriteFrames = ResourceLoader.load("res://Assets/Characters/Enemy/enemy_frames.tres", "SpriteFrames", ResourceLoader.CACHE_MODE_IGNORE_DEEP)
 		var groups = [["walk", 8, 8.0, true], ["flirt", 12, 8.0, true],
-			["idle", 6, 5.0, true], ["dead", 8, 12.0, false]]
+			["idle", 6, 5.0, true], ["dead", 8, 12.0, false], ["blush", 8, 8.0, true], ["sad", 6, 4.0, true]]
 		var directions = ["up", "down", "right", "left", "up_right", "up_left", "down_right", "down_left"]
 		for group_index in range(groups.size()):
 			var group: Array = groups[group_index]
@@ -54,7 +54,7 @@ func test_enemy_scene_atlas_regions() -> void:
 						errors.append("Regione errata: %s: %s" % [label, texture.region])
 					if not texture.filter_clip:
 						errors.append("filter_clip disattivato: %s" % label)
-					if texture.atlas == null or texture.atlas.get_size() != Vector2(768, 2048):
+					if texture.atlas == null or texture.atlas.get_size() != Vector2(768, 3072):
 						errors.append("Dimensioni atlante errate: %s" % label)
 					if disk == null or not disk.has_animation(animation) or disk.get_frame_count(animation) != count:
 						errors.append("File su disco incoerente: %s" % animation)

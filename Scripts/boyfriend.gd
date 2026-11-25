@@ -26,6 +26,8 @@ var guard_health = 0.0
 #Enemies inside the hit zone, i.e. attacking him
 var attackers: Array = []
 var glance_left = 0.0
+#Game over scene: GameOverSequence moves him and picks his animations
+var scripted = false
 
 func _ready():
 	max_hp = hp
@@ -50,7 +52,8 @@ func _on_body_exited(body):
 		attackers.erase(body)
 
 func _process(delta):
-	update_animation(delta)
+	if not scripted:
+		update_animation(delta)
 
 #Sunbathing when nobody attacks. Under attack: with morality left (any fidelity) an occasional glance at an attacker;
 #with no morality, admires the nearest girl, and shows off his muscles once fidelity is at half or less
@@ -80,10 +83,14 @@ func _nearest_attacker():
 			nearest = enemy
 	return nearest
 
-func _on_enemy_attack(damage):
+#The attack that empties fidelity starts the game over, once, with the girl who made it
+func _on_enemy_attack(damage, attacker):
+	if Global.game_over_sequence:
+		return
 	calculate_health_values(damage)
 	if hp <= 0:
-		SignalManager.game_over.emit()
+		Global.game_over_sequence = true
+		SignalManager.game_over.emit(attacker)
 
 func calculate_health_values(damage):
 	if shield > 0:

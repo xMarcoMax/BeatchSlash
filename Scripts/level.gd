@@ -36,9 +36,13 @@ var points = 0
 var point_multiplier
 var currency_multiplier
 var wave_currency = 0       # monete accreditate dalle nemiche nell'ondata in corso (gli acquisti non contano)
+# Telo dell'ombrellone del Player: punto di partenza della partita e meta nella scenetta di game over
+var player_home: Vector2
 
 #Set essential variables
 func _ready():
+	Global.game_over_sequence = false
+	player_home = player.global_position
 	player.play_area = _play_area()
 	hud.add_child(bonus_popup)
 	hud.set_values(target.hp, target.shield)
@@ -71,6 +75,9 @@ func _world_bounds() -> Rect2:
 
 #Enemis spawn and check of completed wave
 func _process(delta):
+	# Game over scene: no more spawns and no end of wave (the game over wins over a wave ending at the same time)
+	if Global.game_over_sequence:
+		return
 	spawn_enemy()
 	check_all_eliminated()
 	if next_wave_timer.time_left > 0:
@@ -113,6 +120,9 @@ func spawn_enemy():
 		var spawn_point = spawn_area.calculate_spawn_point()
 		var spawn = enemy.instantiate()
 		spawn.position = to_local(spawn_point)
+		#The first enemy of every wave keeps the colours of the concept (purple hair, green bikini)
+		if spawn_number == total_enemies:
+			spawn.look = EnemyPalette.original()
 		add_child(spawn)
 		spawn.pathfinder = pathfinder
 		spawn.set_spawn_values(target,
@@ -137,7 +147,16 @@ func _on_next_wave_timer_timeout():
 	next_wave.visible = false
 	set_next_wave()
 
-func _on_game_over():
+#The boyfriend leaves with the girl who made the last attack; the panel appears when the scene ends
+func _on_game_over(last_attacker):
+	next_wave_timer.stop()
+	next_wave.visible = false
+	var sequence := GameOverSequence.new()
+	add_child(sequence)
+	sequence.finished.connect(_show_game_over)
+	sequence.play(player, target, last_attacker, player_home, _play_area(), pathfinder)
+
+func _show_game_over():
 	game_over.visible = true
 	get_tree().paused = true
 

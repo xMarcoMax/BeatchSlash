@@ -38,7 +38,7 @@ const PUFF_COVER_TIME = 0.2
 const PUFF_OFFSET = Vector2(0, 8)
 const PUFF = preload("res://Objects/puff.tscn")
 const DAMAGE_TEXT_COLOR = Color(1.0, 0.92, 0.35)
-const HIT_FLASH_SHADER = preload("res://Assets/Characters/Enemy/hit_flash.gdshader")
+const BODY_SHADER = preload("res://Assets/Characters/Enemy/enemy_body.gdshader")
 
 #Set by level.gd at spawn; without it the enemy walks straight to the target
 var pathfinder: Pathfinder
@@ -59,16 +59,25 @@ var flash_left = 0.0
 var stun_left = 0.0
 var knockback = Vector2.ZERO
 var hit_material: ShaderMaterial
+#Hair and costume colours: set by level.gd before the enemy enters the tree, otherwise picked in _ready (EnemyPalette.pick())
+var look: Dictionary
 var facing = Vector2.ZERO
 var is_attacking = false
+#Game over scene: everyone stands still looking at the target, then takes this pose, still turned to him (empty = idle);
+#the girl who leaves with him is `scripted`: GameOverSequence moves her and picks her animations
+var game_over_pose = ""
+var scripted = false
 
 #Set target and initial hp bar value
 func _ready():
 	target = get_node("../Boyfriend")
 	progress_bar.max_value = hp;
-	# One material per enemy: the flash must not light up all the others
+	# One material per enemy: the flash and the hair and costume colours are its own
 	hit_material = ShaderMaterial.new()
-	hit_material.shader = HIT_FLASH_SHADER
+	hit_material.shader = BODY_SHADER
+	if look.is_empty():
+		look = EnemyPalette.pick()
+	EnemyPalette.apply(hit_material, look)
 	animations.material = hit_material
 	SignalManager.enemy_attacking.connect(_on_enemy_attacking)
 	SignalManager.enemy_left_target.connect(_on_enemy_left_target)
@@ -79,7 +88,7 @@ func _process(delta):
 	health.text = "Salute: 0" if hp <= 0 else "Salute: "+str(hp)
 	progress_bar.value = hp
 	set_healthbar_color()
-	if is_attacking and attack_cooldown.is_stopped():
+	if is_attacking and attack_cooldown.is_stopped() and not Global.game_over_sequence:
 		attack()
 
 func set_healthbar_color():
@@ -92,11 +101,17 @@ func set_healthbar_color():
 		progress_bar.liquid_color = Color(0.88, 0.12, 0.18)
 
 func attack():
-	SignalManager.attack_target.emit(damage)
+	SignalManager.attack_target.emit(damage, self)
 	attack_cooldown.start()
 
 #Follow the path to the target, going around obstacles and other enemies
 func _physics_process(delta):
+	if Global.game_over_sequence:
+		velocity = Vector2.ZERO
+		knockback = Vector2.ZERO
+		if not scripted:
+			update_animation(delta)
+		return
 	stun_left = maxf(stun_left - delta, 0.0)
 	if hp <= 0 or is_attacking or stun_left > 0.0:
 		velocity = Vector2.ZERO
@@ -225,6 +240,9 @@ func update_animation(delta):
 	if hp <= 0:
 		return
 	var to_target = target.position - position
+	if Global.game_over_sequence:
+		animations.play((game_over_pose if game_over_pose != "" else "idle") + "_" + Formulas.direction_name(to_target))
+		return
 	var moved = get_real_velocity() - knockback
 	# Smoothed so sliding jitter does not flip walk/idle or the facing direction every frame
 	move_speed = lerpf(move_speed, moved.length(), 1.0 - exp(-MOTION_SMOOTHING * delta))
@@ -277,7 +295,7 @@ func _on_dead_timer_timeout():
 	queue_free()
 
 func _on_enemy_attacking(attacker):
-	if attacker == self:
+	if attacker == self and not Global.game_over_sequence:
 		is_attacking = true
 
 func _on_enemy_left_target(enemy):

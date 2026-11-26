@@ -26,6 +26,7 @@ SignalManager="*res://Scripts/Autoload/SignalManager.gd"
 MusicManager="*res://Scripts/Autoload/MusicManager.gd"
 Global="*res://Scripts/Autoload/Global.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+Sfx="*res://Scripts/Autoload/Sfx.gd"
 
 [display]
 

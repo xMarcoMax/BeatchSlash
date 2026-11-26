@@ -267,6 +267,7 @@ func take_damage(amount, from_direction = Vector2.ZERO):
 	if hp <= 0:
 		return
 	hp -= amount
+	Sfx.play(Sfx.ENEMY_DEFEAT if hp <= 0 else Sfx.ENEMY_HIT)
 	FloatingText.spawn(get_parent(), position + FloatingText.HEAD_OFFSET, "-%d" % amount, DAMAGE_TEXT_COLOR)
 	flash_left = HIT_FLASH_TIME
 	knockback = from_direction.normalized() * HIT_KNOCKBACK

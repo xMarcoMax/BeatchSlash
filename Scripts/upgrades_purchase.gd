@@ -209,6 +209,7 @@ func _purchase_item(item: Item):
 	item.waves_left = data["duration"]
 	# Il cambio di valuta aggiorna tutte le schede, compreso il contatore di questa
 	Global.currency -= cost
+	Sfx.play(Sfx.PURCHASE)
 
 	match data["category"]:
 		"Player":

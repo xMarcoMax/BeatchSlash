@@ -21,6 +21,8 @@ const base_enemy_currency = 18
 const WAVE_BONUS_PERFECT = 0.5
 const WAVE_BONUS_GUARDED = 0.25
 const WAVE_BONUS_WEAK = 0.1
+# Negli ultimi secondi del conto alla rovescia ogni numero ha il suo tic
+const COUNTDOWN_TICKS = 3
 
 var enemy = preload("res://Characters/enemy.tscn")
 var bonus_popup = preload("res://Objects/wave_bonus_popup.tscn").instantiate()
@@ -35,6 +37,7 @@ var remain
 var points = 0
 var point_multiplier
 var currency_multiplier
+var _last_countdown_second := 0   # ultimo numero mostrato dal conto alla rovescia, per dare un tic solo al cambio
 var wave_currency = 0       # monete accreditate dalle nemiche nell'ondata in corso (gli acquisti non contano)
 # Telo dell'ombrellone del Player: punto di partenza della partita e meta nella scenetta di game over
 var player_home: Vector2
@@ -86,6 +89,7 @@ func _process(delta):
 #Check if all enemies defeated and set timer to next wave
 func check_all_eliminated():
 	if(total_enemies == defeated_level and next_wave_timer.is_stopped()):
+		Sfx.play(Sfx.WAVE_COMPLETE)
 		_award_wave_bonus()
 		next_wave.visible = true
 		next_wave_timer.start()
@@ -113,7 +117,12 @@ func _award_wave_bonus():
 		bonus_popup.play("Bonus ondata +%d%%" % roundi(rate * 100), "+%d monete" % bonus)
 
 func update_timer_text():
-	next_wave.text = "[center]Prossima ondata tra: [color=#ffcc47]%d[/color][/center]" % ceili(next_wave_timer.time_left)
+	var seconds := ceili(next_wave_timer.time_left)
+	# Un tic a ogni secondo del conto alla rovescia finale (3, 2, 1); poi il fischio all'inizio dell'ondata
+	if seconds != _last_countdown_second and seconds <= COUNTDOWN_TICKS:
+		Sfx.play(Sfx.COUNTDOWN_TICK)
+	_last_countdown_second = seconds
+	next_wave.text = "[center]Prossima ondata tra: [color=#ffcc47]%d[/color][/center]" % seconds
 
 func spawn_enemy():
 	if spawn_number > 0:
@@ -144,6 +153,7 @@ func _on_defeated():
 	hud.set_points(points)
 
 func _on_next_wave_timer_timeout():
+	Sfx.play(Sfx.WAVE_START)
 	next_wave.visible = false
 	set_next_wave()
 
@@ -157,6 +167,8 @@ func _on_game_over(last_attacker):
 	sequence.play(player, target, last_attacker, player_home, _play_area(), pathfinder)
 
 func _show_game_over():
+	MusicManager.stop_music() # la musica di sottofondo (quando ci sarà) si interrompe e parte lo stinger
+	Sfx.play(Sfx.GAME_OVER)
 	game_over.visible = true
 	get_tree().paused = true
 

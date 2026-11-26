@@ -24,6 +24,8 @@ const EXIT_PACE = 1.4
 const KISS_TIME = 2.0
 ## Frame di `kiss_right` in cui il braccio si distende e parte il cuoricino
 const KISS_RELEASE_FRAME = 6
+## Frame di `kiss_right` in cui parte lo schiocco del bacio (poco prima del cuoricino)
+const KISS_SMACK_FRAME = 4
 ## Cuoricino: dalla mano di lui al petto di lei (offset dalle origini), durata del volo, ampiezza dell'arco
 const HEART_FROM = Vector2(70, -75)
 const HEART_TO = Vector2(-10, -70)
@@ -86,6 +88,9 @@ func play(player_body, boy_body, last_attacker, home: Vector2, view: Rect2, path
 	# He blows a kiss, the heart flies to her, she blushes with two small hearts over her head
 	var kiss_end := Time.get_ticks_msec() + int(KISS_TIME * 1000.0)
 	boy.animations.play("kiss_right")
+	while boy.animations.animation == "kiss_right" and boy.animations.frame < KISS_SMACK_FRAME:
+		await get_tree().process_frame
+	Sfx.play(Sfx.KISS)
 	while boy.animations.animation == "kiss_right" and boy.animations.frame < KISS_RELEASE_FRAME:
 		await get_tree().process_frame
 	await _send_heart(boy.global_position + HEART_FROM, girl.global_position + HEART_TO)
@@ -176,6 +181,7 @@ func _face(body, direction: Vector2) -> void:
 ## Heart in flight along a small arc, then a quick pop where it lands; returns when it lands
 func _send_heart(from: Vector2, to: Vector2) -> void:
 	var heart := _effect_sprite(KISS_HEART, from)
+	Sfx.play(Sfx.HEART_FLY)
 	var flight := heart.create_tween()
 	flight.tween_method(func(k: float): heart.global_position = from.lerp(to, k) + Vector2(0, -HEART_ARC * sin(PI * k)), 0.0, 1.0, HEART_FLIGHT)
 	await flight.finished
@@ -186,6 +192,7 @@ func _send_heart(from: Vector2, to: Vector2) -> void:
 
 ## Two small hearts from the centre, rising diagonally left and right and fading, like the damage numbers
 func _small_hearts(at: Vector2) -> void:
+	Sfx.play(Sfx.HEARTS_SPARKLE)
 	for side in [-1.0, 1.0]:
 		var heart := _effect_sprite(SMALL_HEART, at)
 		var tween := heart.create_tween().set_parallel(true)

@@ -22,7 +22,7 @@ const WAVE_BONUS_PERFECT = 0.5
 const WAVE_BONUS_GUARDED = 0.25
 const WAVE_BONUS_WEAK = 0.1
 # Negli ultimi secondi del conto alla rovescia ogni numero ha il suo tic
-const COUNTDOWN_TICKS = 3
+const COUNTDOWN_TICKS = 5
 # Un'ondata con più nemiche di così le fa nascere una alla volta, a questo intervallo; fino a SPAWN_STAGGER_ABOVE nascono tutte insieme
 const SPAWN_STAGGER_ABOVE = 4
 const SPAWN_INTERVAL = 1.5
@@ -123,7 +123,7 @@ func _award_wave_bonus():
 
 func update_timer_text():
 	var seconds := ceili(next_wave_timer.time_left)
-	# Un tic a ogni secondo del conto alla rovescia finale (3, 2, 1); poi il fischio all'inizio dell'ondata
+	# Un tic a ogni secondo del conto alla rovescia finale (5, 4, 3, 2, 1); poi il fischio all'inizio dell'ondata
 	if seconds != _last_countdown_second and seconds <= COUNTDOWN_TICKS:
 		Sfx.play(Sfx.COUNTDOWN_TICK)
 	_last_countdown_second = seconds

@@ -18,10 +18,9 @@ var purchases := 0
 # useless_text è il motivo mostrato nel tooltip
 var useless := false
 var useless_text := ""
-# Regole dei ripristini: quelli fino a questa quota del massimo (il più piccolo) bastano a barra non piena; quello al 100% e i
-# pacchetti Entrambi si usano solo con una barra rimasta a questa quota o meno; gli altri solo se non ripristinano più di quanto manca
+# Regole dei ripristini: quelli fino a questa quota del massimo (il più piccolo) bastano a barra non piena; i ripristini al 100%
+# (premi) si usano con la barra non piena; quelli in mezzo solo se non ripristinano più di quanto manca
 const RESTORE_ALWAYS_UP_TO := 0.25
-const RESTORE_LOW_BAR := 0.25
 # Acquisti già fatti dal gruppo di oggetti che condividono i crediti (colonna group); -1 = l'oggetto usa i propri. Lo imposta il negozio
 var credit_purchases := -1
 # Ondate che restano a un oggetto temporaneo (colonna duration del CSV); 0 = non attivo
@@ -42,6 +41,14 @@ func init_nodes():
 	item_description = get_node("Content/Top/Texts/Description")
 	buy_button = get_node("Content/BuyButton")
 	buy_button.pressed.connect(func(): purchase_requested.emit(self))
+
+# Quota di ripristino di ora: il premio Entrambi ripristina early_bonus (colonna early_bonus) finché l'ondata finita è sotto
+# full_from_wave, poi bonus. Per gli altri oggetti è sempre bonus.
+func effective_bonus() -> float:
+	var early: float = data.get("early_bonus", 0.0)
+	if early > 0.0 and wave < data.get("full_from_wave", 0):
+		return early
+	return data["bonus"]
 
 func setup(row: Dictionary, image: Texture2D, currency: int):
 	data = row
@@ -113,7 +120,8 @@ func can_buy(currency: int) -> bool:
 # Aggiorna descrizione (con il contatore), prezzo, stato del pulsante e tooltip del motivo del blocco
 func refresh(currency: int):
 	var max_count: int = data["max_purchases"]
-	item_description.text = data["description"]
+	# La descrizione di un oggetto con early_bonus contiene %d%% al posto della percentuale di ripristino
+	item_description.text = data["description"] % roundi(effective_bonus() * 100.0) if data.get("early_bonus", 0.0) > 0.0 else data["description"]
 	if max_count > 0:
 		item_description.text += " (%d/%d)" % [purchases, max_count]
 	if waves_left > 0:
@@ -130,8 +138,8 @@ func get_data() -> Dictionary:
 
 # Motivo per cui un ripristino non si può comprare con le barre così (vuoto se si può). `bonus` è la quota del massimo che ripristina,
 # `sub_category` "Shield", "Health" o "Both". Regola di ogni barra: il 25% basta che la barra non sia piena; il 50% non deve
-# ripristinare più di quanto manca; il 100% vuole la barra al 25% o meno. Entrambi: stessa regola, basta che la rispetti una delle due barre;
-# l'Entrambi al 100% (il premio) si usa se almeno una barra non è piena.
+# ripristinare più di quanto manca; il 100% (premio) basta che la barra non sia piena. Entrambi: stessa regola, basta che la rispetti una
+# delle due barre; l'Entrambi al 100% si usa se almeno una barra non è piena.
 static func restore_block(bonus: float, sub_category: String, max_shield: float, shield: float, max_hp: float, hp: float) -> String:
 	var shield_block := _bar_block(bonus, "moralità", max_shield, shield)
 	var hp_block := _bar_block(bonus, "fedeltà", max_hp, hp)
@@ -148,16 +156,13 @@ static func restore_block(bonus: float, sub_category: String, max_shield: float,
 		return ""
 	if max_shield - shield < 0.01 and max_hp - hp < 0.01:
 		return "Moralità e fedeltà sono già al massimo"
-	return "Serve almeno una barra al 25% o meno" if bonus >= 1.0 else "Ripristinerebbe più di quanto manca a entrambe le barre"
+	return "Ripristinerebbe più di quanto manca a entrambe le barre"
 
 # Regola di una barra sola (vuoto = il ripristino si può usare)
 static func _bar_block(bonus: float, name: String, max_bar: float, bar_now: float) -> String:
 	var missing := max_bar - bar_now
 	if missing < 0.01:
 		return "La %s è già al massimo" % name
-	if bonus >= 1.0:
-		if bar_now > max_bar * RESTORE_LOW_BAR + 0.01:
-			return "Serve la %s al 25%% o meno" % name
-	elif bonus > RESTORE_ALWAYS_UP_TO and max_bar * bonus > missing + 0.01:
+	if bonus > RESTORE_ALWAYS_UP_TO and bonus < 1.0 and max_bar * bonus > missing + 0.01:
 		return "Ripristinerebbe %d di %s, ma ne mancano %d" % [roundi(max_bar * bonus), name, roundi(missing)]
 	return ""

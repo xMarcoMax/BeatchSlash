@@ -99,8 +99,8 @@ func test_catalog_loads_with_the_new_columns() -> void:
 	var file := FileAccess.open("res://Files/item_list.csv", FileAccess.READ)
 	assert_true(file != null, "Il catalogo deve esistere")
 	var header := file.get_csv_line(";")
-	assert_eq(header.size(), 17, "Il catalogo ha 17 colonne")
-	assert_eq(header.slice(12), PackedStringArray(["min_wave", "every", "cooldown", "per_waves", "group"]))
+	assert_eq(header.size(), 19, "Il catalogo ha 19 colonne")
+	assert_eq(header.slice(12), PackedStringArray(["min_wave", "every", "cooldown", "per_waves", "group", "early_bonus", "full_from_wave"]))
 
 
 # Righe del catalogo per id: colonne id, price (8 prima del cambio di colonna: indici letti dall'intestazione)
@@ -119,21 +119,39 @@ func _catalog() -> Dictionary:
 	return rows
 
 
-func test_both_pack_is_a_free_reward_every_5_waves() -> void:
+func test_100_percent_restores_are_one_shared_reward_every_5_waves() -> void:
 	if _in_editor():
 		return
 	var rows := _catalog()
-	assert_false(rows.has("little_both") or rows.has("medium_both"), "Resta solo il pacchetto al 100%")
-	for tier in ["large"]:
-		var pack: Dictionary = rows[tier + "_both"]
-		assert_eq(int(pack["price"]), 0, "Premio gratuito: " + tier)
-		assert_eq(pack["sub_category"], "Both")
+	assert_false(rows.has("little_both") or rows.has("medium_both"), "Entrambi è un solo oggetto")
+	for id in ["large_shield", "large_health", "large_both"]:
+		var pack: Dictionary = rows[id]
+		assert_eq(int(pack["price"]), 0, "Premio gratuito: " + id)
 		assert_eq(pack["effect"], "restore")
 		assert_eq(int(pack["per_waves"]), 5)
 		assert_eq(int(pack["min_wave"]), 5)
 		assert_eq(int(pack["every"]), 0)
-		assert_eq(pack["group"], "both")
+		assert_eq(pack["group"], "reward", "I tre ripristini al 100% dividono i crediti")
 		assert_eq(int(pack["max_purchases"]), 0)
+	assert_eq(rows["large_both"]["sub_category"], "Both")
+	assert_eq(float(rows["large_both"]["early_bonus"]), 0.5, "Entrambi ripristina il 50% prima dell'ondata 15")
+	assert_eq(int(rows["large_both"]["full_from_wave"]), 15)
+
+
+func test_both_reward_is_half_until_wave_15_then_full() -> void:
+	if _in_editor():
+		return
+	var both := _item(0, 0, 5, 0, 0, 5)
+	both.data["bonus"] = 1.0
+	both.data["early_bonus"] = 0.5
+	both.data["full_from_wave"] = 15
+	both.wave = 5
+	assert_eq(both.effective_bonus(), 0.5)
+	both.wave = 10
+	assert_eq(both.effective_bonus(), 0.5)
+	both.wave = 15
+	assert_eq(both.effective_bonus(), 1.0)
+	both.free()
 
 
 func test_reward_group_gives_one_pick_per_credit() -> void:
@@ -222,12 +240,12 @@ func test_restore_rules() -> void:
 	# 50%: non deve ripristinare più di quanto manca (massimo 100: moralità a 50 sì, a 51 no)
 	assert_eq(Item.restore_block(0.5, "Shield", 100.0, 50.0, 100.0, 100.0), "")
 	assert_eq(Item.restore_block(0.5, "Shield", 100.0, 51.0, 100.0, 100.0), "Ripristinerebbe 50 di moralità, ma ne mancano 49")
-	# 100%: la barra deve essere al 25% o meno
-	assert_eq(Item.restore_block(1.0, "Shield", 100.0, 25.0, 100.0, 100.0), "")
+	# 100% (premio): basta che la barra non sia piena
 	assert_eq(Item.restore_block(1.0, "Shield", 100.0, 0.0, 100.0, 100.0), "")
-	assert_eq(Item.restore_block(1.0, "Shield", 100.0, 26.0, 100.0, 100.0), "Serve la moralità al 25% o meno")
-	assert_eq(Item.restore_block(1.0, "Health", 100.0, 100.0, 125.0, 31.0), "")
-	assert_eq(Item.restore_block(1.0, "Health", 100.0, 100.0, 125.0, 32.0), "Serve la fedeltà al 25% o meno")
+	assert_eq(Item.restore_block(1.0, "Shield", 100.0, 90.0, 100.0, 100.0), "")
+	assert_eq(Item.restore_block(1.0, "Shield", 100.0, 100.0, 100.0, 100.0), "La moralità è già al massimo")
+	assert_eq(Item.restore_block(1.0, "Health", 100.0, 100.0, 125.0, 120.0), "")
+	assert_eq(Item.restore_block(1.0, "Health", 100.0, 100.0, 125.0, 125.0), "La fedeltà è già al massimo")
 	# Entrambi: stessa regola dei singoli, basta che la rispetti una delle due barre
 	assert_eq(Item.restore_block(0.25, "Both", 100.0, 100.0, 100.0, 95.0), "")
 	assert_eq(Item.restore_block(0.25, "Both", 100.0, 100.0, 100.0, 100.0), "Moralità e fedeltà sono già al massimo")

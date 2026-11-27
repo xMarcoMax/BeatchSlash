@@ -200,7 +200,7 @@ func _restore_block(item: Item) -> String:
 	var partner = get_tree().get_first_node_in_group("target")
 	if partner == null or partner.max_hp == null:
 		return ""
-	return Item.restore_block(item.data["bonus"], item.data["sub_category"], partner.max_shield, partner.shield, partner.max_hp, partner.hp)
+	return Item.restore_block(item.effective_bonus(), item.data["sub_category"], partner.max_shield, partner.shield, partner.max_hp, partner.hp)
 
 func _purchase_item(item: Item):
 	if not item.can_buy(Global.currency):
@@ -208,7 +208,9 @@ func _purchase_item(item: Item):
 	var cost := item.price() # prima del conteggio: il prezzo dipende dagli acquisti già fatti
 	item.purchases += 1
 	item.bought_wave = item.wave
-	var data = item.get_data()
+	# Copia con la quota di ripristino di ora (il premio Entrambi cambia con l'ondata)
+	var data: Dictionary = item.get_data().duplicate()
+	data["bonus"] = item.effective_bonus()
 	item.waves_left = data["duration"]
 	# Il cambio di valuta aggiorna tutte le schede, compreso il contatore di questa
 	Global.currency -= cost
@@ -248,6 +250,8 @@ func load_item_file():
 			"cooldown": int(columns[14]),
 			"per_waves": int(columns[15]) if columns.size() > 15 else 0,
 			"group": columns[16] if columns.size() > 16 else "",
+			"early_bonus": float(columns[17]) if columns.size() > 17 else 0.0,
+			"full_from_wave": int(columns[18]) if columns.size() > 18 else 0,
 		}
 		if not tab_sections.has(row["category"]):
 			push_warning("item_list.csv: categoria sconosciuta '%s' per %s, riga ignorata" % [row["category"], row["id"]])

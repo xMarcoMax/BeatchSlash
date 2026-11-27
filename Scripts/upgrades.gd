@@ -12,8 +12,9 @@ extends StaticBody2D
 const THANKS_PURCHASE := "Grazie per l'acquisto!"
 const THANKS_VISIT := "Grazie per la visita!"
 const THANKS_TIME := 3.0
-const PRICE_RISE := "Da oggi i prezzi sono aumentati del %d%%!"
+const PRICE_RISE := "L'inflazione colpisce! Stessa qualità, ma del %d%% in più!"
 const PRICE_RISE_TIME := 4.0
+const PRICE_RISE_FONT_SIZE := 34 # più piccolo del normale: la frase deve occupare poco più dei ringraziamenti
 
 var player_in_range = false
 var last_gesture: StringName = &""
@@ -76,7 +77,7 @@ func _close_purchase():
 # Pausa tra le ondate: se i prezzi sono appena saliti (ogni PRICE_WAVE_STEP ondate) Sandro lo dice
 func _on_wave_finished(wave: int):
 	if wave % Item.PRICE_WAVE_STEP == 0:
-		balloon.say(PRICE_RISE % roundi(Item.PRICE_GROWTH * 100.0), PRICE_RISE_TIME)
+		balloon.say(PRICE_RISE % roundi(Item.PRICE_GROWTH * 100.0), PRICE_RISE_TIME, PRICE_RISE_FONT_SIZE)
 
 func _on_item_purchased(_data):
 	visit_purchased = true

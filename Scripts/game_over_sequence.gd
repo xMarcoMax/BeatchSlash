@@ -181,7 +181,6 @@ func _face(body, direction: Vector2) -> void:
 ## Heart in flight along a small arc, then a quick pop where it lands; returns when it lands
 func _send_heart(from: Vector2, to: Vector2) -> void:
 	var heart := _effect_sprite(KISS_HEART, from)
-	Sfx.play(Sfx.HEART_FLY)
 	var flight := heart.create_tween()
 	flight.tween_method(func(k: float): heart.global_position = from.lerp(to, k) + Vector2(0, -HEART_ARC * sin(PI * k)), 0.0, 1.0, HEART_FLIGHT)
 	await flight.finished

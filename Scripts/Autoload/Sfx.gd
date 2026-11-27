@@ -11,7 +11,6 @@ const COUNTDOWN_TICK = preload("res://Assets/Sfx/countdown_tick.wav")
 const PURCHASE = preload("res://Assets/Sfx/purchase_randomizer.tres")
 const GAME_OVER = preload("res://Assets/Sfx/game_over.wav")
 const KISS = preload("res://Assets/Sfx/kiss.wav")
-const HEART_FLY = preload("res://Assets/Sfx/heart_fly.wav")
 const HEARTS_SPARKLE = preload("res://Assets/Sfx/hearts_sparkle.wav")
 
 func _ready() -> void:

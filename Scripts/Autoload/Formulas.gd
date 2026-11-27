@@ -2,8 +2,8 @@ extends Node
 
 # Crescita per ondata, con n = ondata - 1 (l'ondata 1 vale esattamente la base). Valori da ritoccare dopo le prove.
 const ENEMIES_PER_WAVE = 0.6    # nemiche in più a ogni ondata (lineare, senza tetto)
-const HEALTH_LINEAR = 0.12      # salute: crescita lineare
-const HEALTH_QUADRATIC = 0.004  # salute: termine che accelera la crescita nelle ondate avanzate
+const HEALTH_LINEAR = 0.06      # salute: crescita lineare
+const HEALTH_QUADRATIC = 0.002  # salute: termine che accelera la crescita nelle ondate avanzate
 const DAMAGE_LINEAR = 0.05      # danno: cresce più piano della salute
 
 func calculate(type, wave_real, base):

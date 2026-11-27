@@ -155,10 +155,10 @@ func _steer(delta) -> Vector2:
 	var direction = (global_position.direction_to(goal) + _separation() * SEPARATION_WEIGHT).limit_length(1.0)
 	# Pushing into something (player, enemy): move along its surface at full speed instead of crawling
 	if blocked_normal != Vector2.ZERO and direction.dot(blocked_normal) < 0.0:
-		direction = direction.slide(blocked_normal)
-		if direction.length() < 0.3:
-			direction = blocked_normal.orthogonal() * slide_side
-		direction = direction.normalized()
+		# Side of the surface the goal lies on, however small the offset; only an exactly head-on push uses the enemy's own side
+		var tangent = blocked_normal.orthogonal()
+		var side = signf(direction.dot(tangent))
+		direction = tangent * (side if side != 0.0 else slide_side)
 	return direction
 
 #Standing bodies the path must go around: attacking enemies and the player

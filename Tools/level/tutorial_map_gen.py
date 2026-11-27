@@ -24,7 +24,7 @@ SOURCE = 0
 
 def water(vx, vy):
     """Baia in alto a destra: tre rettangoli a gradini larghi che escono dai bordi della mappa (la costa non corre mai lungo il bordo)."""
-    return (vx >= 12 and vy <= -12) or (vx >= 17 and vy <= -8) or (vx >= 23 and vy <= -5)
+    return (vx >= 12 and vy <= -12) or (vx >= 17 and vy <= -8) or (vx >= 24 and vy <= -5)
 
 
 def cfg(field, cx, cy):

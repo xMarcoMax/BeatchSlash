@@ -27,8 +27,8 @@ signal throw_released
 const THROW_FPS_LEVELS = [8.0, 16.0, 32.0]
 var throw_speed_level = 0
 
-# Walking speed per level (the run key doubles it): the player starts slower, the shop raises the level up to the old speed.
-const SPEED_LEVELS = [320.0, 360.0, 400.0]
+# Walking speed per level (the run key doubles it): the player starts slower, the shop raises the level (+25% each).
+const SPEED_LEVELS = [320.0, 400.0, 480.0]
 var speed_level = 0
 var speed = SPEED_LEVELS[0]
 var damage_base
@@ -46,6 +46,10 @@ var _throw_released = false
 #Global point aimed at when the current throw started; the ball is released towards it
 var throw_target := Vector2.ZERO
 var _moving_gait_phase: float = 0.0
+# After a throw ends while she is walking, she keeps facing the aim (arm in its last pose) for this long, so shooting fast while
+# walking the other way does not flash the walk of the movement direction between two throws
+const AIM_HOLD_TIME := 0.4
+var aim_hold := 0.0
 
 func _ready():
 	Global.is_in_purchase = false
@@ -61,6 +65,7 @@ func _physics_process(delta):
 	if Global.game_over_sequence:
 		return
 	if(!Global.is_in_purchase):
+		_tick_aim_hold(delta)
 		get_input()
 		_update_moving_throw(delta)
 		update_animation()
@@ -88,7 +93,7 @@ func _input(event):
 		start_throw(mouse_position)
 
 func update_animation():
-	if is_attacking: return
+	if is_attacking or aim_hold > 0.0: return
 	if velocity.length() == 0:
 		animations.play("idle_" + last_animation)
 	else:
@@ -104,9 +109,12 @@ func start_throw(mouse_position: Vector2):
 	# Carry the current step into the throw, including its fractional progress.
 	# Rapid follow-up throws keep the running gait clock instead of restarting it.
 	if not is_attacking:
-		_moving_gait_phase = 0.0
-		if animations.animation.begins_with("walk_") or animations.animation.begins_with("dash_"):
-			_moving_gait_phase = animations.frame + animations.frame_progress
+		# During the aim hold the gait clock is already running: restarting it would make the legs jump
+		if aim_hold <= 0.0:
+			_moving_gait_phase = 0.0
+			if animations.animation.begins_with("walk_") or animations.animation.begins_with("dash_"):
+				_moving_gait_phase = animations.frame + animations.frame_progress
+		aim_hold = 0.0
 	# The ball goes where the mouse was when the throw started, like the pose: the mouse may move before the release frame
 	throw_target = mouse_position
 	var aim = mouse_position - global_position
@@ -139,16 +147,31 @@ func _on_animation_frame_changed():
 func _on_animation_finished():
 	if is_attacking and animations.animation.begins_with("throw_"):
 		is_attacking = false
-		moving_throw.hide()
-		animations.show()
 		if velocity.is_zero_approx():
+			moving_throw.hide()
+			animations.show()
 			animations.play("idle_" + last_animation)
 		else:
-			update_animation()
-			animations.set_frame_and_progress(int(_moving_gait_phase), fmod(_moving_gait_phase, 1.0))
+			aim_hold = AIM_HOLD_TIME  # the moving-throw sprite stays on screen, still facing the aim
+
+# Aim hold over (time up, or she stopped): back to the plain walk or idle, with the gait where the throw sprite had it
+func _tick_aim_hold(delta: float):
+	if aim_hold <= 0.0:
+		return
+	aim_hold -= delta
+	if aim_hold > 0.0 and not velocity.is_zero_approx():
+		return
+	aim_hold = 0.0
+	moving_throw.hide()
+	animations.show()
+	if velocity.is_zero_approx():
+		animations.play("idle_" + last_animation)
+	else:
+		update_animation()
+		animations.set_frame_and_progress(int(_moving_gait_phase), fmod(_moving_gait_phase, 1.0))
 
 func _update_moving_throw(delta: float):
-	if not is_attacking or velocity.is_zero_approx():
+	if not (is_attacking or aim_hold > 0.0) or velocity.is_zero_approx():
 		moving_throw.hide()
 		animations.show()
 		return
@@ -170,6 +193,7 @@ func _update_moving_throw(delta: float):
 #Game over scene: a throw in progress ends at once without releasing the ball, then GameOverSequence takes over
 func stop_acting():
 	is_attacking = false
+	aim_hold = 0.0
 	_throw_released = true
 	velocity = Vector2.ZERO
 	moving_throw.hide()

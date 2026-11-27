@@ -23,6 +23,9 @@ const WAVE_BONUS_GUARDED = 0.25
 const WAVE_BONUS_WEAK = 0.1
 # Negli ultimi secondi del conto alla rovescia ogni numero ha il suo tic
 const COUNTDOWN_TICKS = 3
+# Un'ondata con più nemiche di così le fa nascere una alla volta, a questo intervallo; fino a SPAWN_STAGGER_ABOVE nascono tutte insieme
+const SPAWN_STAGGER_ABOVE = 4
+const SPAWN_INTERVAL = 1.5
 
 var enemy = preload("res://Characters/enemy.tscn")
 var bonus_popup = preload("res://Objects/wave_bonus_popup.tscn").instantiate()
@@ -32,6 +35,7 @@ var wave = 1
 var defeated_total = 0
 var defeated_level = 0
 var spawn_number
+var spawn_wait = 0.0        # secondi che mancano alla prossima nascita (solo nelle ondate scaglionate)
 var remain
 
 var points = 0
@@ -81,6 +85,7 @@ func _process(delta):
 	# Game over scene: no more spawns and no end of wave (the game over wins over a wave ending at the same time)
 	if Global.game_over_sequence:
 		return
+	spawn_wait = maxf(spawn_wait - delta, 0.0)
 	spawn_enemy()
 	check_all_eliminated()
 	if next_wave_timer.time_left > 0:
@@ -125,7 +130,7 @@ func update_timer_text():
 	next_wave.text = "[center]Prossima ondata tra: [color=#ffcc47]%d[/color][/center]" % seconds
 
 func spawn_enemy():
-	if spawn_number > 0:
+	if spawn_number > 0 and spawn_wait <= 0.0:
 		var spawn_point = spawn_area.calculate_spawn_point()
 		var spawn = enemy.instantiate()
 		spawn.position = to_local(spawn_point)
@@ -139,6 +144,8 @@ func spawn_enemy():
 			Formulas.calculate("damage", wave, base_enemy_damage)
 		)
 		spawn_number -= 1
+		if total_enemies > SPAWN_STAGGER_ABOVE:
+			spawn_wait = SPAWN_INTERVAL
 
 func _on_defeated():
 	defeated_total += 1

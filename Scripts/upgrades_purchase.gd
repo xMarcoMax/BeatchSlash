@@ -167,7 +167,6 @@ func _on_wave_finished(wave: int):
 
 func _on_button_pressed():
 	Global.is_in_purchase = false
-	Global.purchase_just_closed = true
 	visible = false
 
 # Valuta cambiata (monete guadagnate o spese): aggiorna il saldo e i pulsanti
@@ -180,24 +179,28 @@ func _on_partner_health_changed(_hp, _shield):
 	_refresh_items()
 
 func _refresh_items():
+	# Gli oggetti dello stesso gruppo dividono i crediti: un solo acquisto per credito, a scelta fra loro
+	var group_purchases := {}
 	for item: Item in item_list:
-		item.useless = _is_useless(item)
+		var group: String = item.data.get("group", "")
+		if group != "":
+			group_purchases[group] = group_purchases.get(group, 0) + item.purchases
+	for item: Item in item_list:
+		var group: String = item.data.get("group", "")
+		item.credit_purchases = group_purchases[group] if group != "" else -1
+	for item: Item in item_list:
+		item.useless_text = _restore_block(item)
+		item.useless = item.useless_text != ""
 		item.refresh(Global.currency)
 
-func _is_useless(item: Item) -> bool:
+# Perché un ripristino non si può comprare con le barre di ora (vuoto = si può): la regola è in Item.restore_block
+func _restore_block(item: Item) -> String:
 	if item.data["effect"] != "restore":
-		return false
+		return ""
 	var partner = get_tree().get_first_node_in_group("target")
 	if partner == null or partner.max_hp == null:
-		return false
-	var shield_full = partner.shield >= partner.max_shield
-	var health_full = partner.hp >= partner.max_hp
-	match item.data["sub_category"]:
-		"Shield":
-			return shield_full
-		"Both":
-			return shield_full and health_full
-	return health_full
+		return ""
+	return Item.restore_block(item.data["bonus"], item.data["sub_category"], partner.max_shield, partner.shield, partner.max_hp, partner.hp)
 
 func _purchase_item(item: Item):
 	if not item.can_buy(Global.currency):
@@ -243,6 +246,8 @@ func load_item_file():
 			"min_wave": int(columns[12]),
 			"every": int(columns[13]),
 			"cooldown": int(columns[14]),
+			"per_waves": int(columns[15]) if columns.size() > 15 else 0,
+			"group": columns[16] if columns.size() > 16 else "",
 		}
 		if not tab_sections.has(row["category"]):
 			push_warning("item_list.csv: categoria sconosciuta '%s' per %s, riga ignorata" % [row["category"], row["id"]])

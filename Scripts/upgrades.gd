@@ -8,12 +8,12 @@ extends StaticBody2D
 @onready var purchase: CanvasLayer = get_node_or_null("../UI/UpgradesPurchase")
 @onready var balloon: ShopBalloon = $Balloon
 
-# Frasi di Sandro. Il fumetto dell'aumento dei prezzi resta finché non si apre il negozio o finisce la pausa;
-# i ringraziamenti scompaiono da soli.
+# Frasi di Sandro. Scompaiono tutte da sole; aprire il negozio o la fine della pausa zittiscono anche l'avviso dei prezzi in anticipo.
 const THANKS_PURCHASE := "Grazie per l'acquisto!"
 const THANKS_VISIT := "Grazie per la visita!"
 const THANKS_TIME := 3.0
 const PRICE_RISE := "Da oggi i prezzi sono aumentati del %d%%!"
+const PRICE_RISE_TIME := 4.0
 
 var player_in_range = false
 var last_gesture: StringName = &""
@@ -47,7 +47,9 @@ func _input(event):
 		_update_purchase_state()
 	elif event.is_action_pressed("esc") and purchase != null and purchase.visible:
 		_close_purchase()
+		# Vale solo per questo evento Esc (il menù di pausa lo legge subito dopo): non deve restare acceso e inghiottire il prossimo
 		Global.purchase_just_closed = true
+		get_tree().process_frame.connect(func(): Global.purchase_just_closed = false, CONNECT_ONE_SHOT)
 
 
 func _process(_delta):
@@ -74,7 +76,7 @@ func _close_purchase():
 # Pausa tra le ondate: se i prezzi sono appena saliti (ogni PRICE_WAVE_STEP ondate) Sandro lo dice
 func _on_wave_finished(wave: int):
 	if wave % Item.PRICE_WAVE_STEP == 0:
-		balloon.say(PRICE_RISE % roundi(Item.PRICE_GROWTH * 100.0))
+		balloon.say(PRICE_RISE % roundi(Item.PRICE_GROWTH * 100.0), PRICE_RISE_TIME)
 
 func _on_item_purchased(_data):
 	visit_purchased = true

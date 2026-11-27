@@ -1,0 +1,29 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "reference_directory": "Assets/ConceptArt/Enemies",
+  "output_directory": "Characters/Enemy/FlirtPoses",
+  "transparent_background": true,
+  "common": "Use case: stylized-concept. A reusable full-body character cutout from the cartoon beach comedy Beatch Slash! Create one vertical PNG with a genuinely transparent alpha background, containing exactly one drawing of a clearly adult woman about 25–35 years old. The attached turnaround is the definitive character, costume and illustration-style reference; the three views describe one person. Keep her recognizable face, eyes, body build, compact adult cartoon proportions, hair, tan skin, exact opaque swimwear, colors and signature accessories. Use the same warm-brown contour, simple graphic cel shading and clean edges as the reference. Transform her stance into the specified playful, sensual flirting gesture directed at the viewer, who is in the boyfriend's point of view. She is visibly taking the initiative to draw him closer. Direct eye contact at a natural eye-level camera, with expressive face and readable silhouette. Frame the entire figure including hair, hands and bare feet, with a comfortable transparent margin all around. Keep hands anatomically clear and the original swimsuit fully in place. Grounded pose, no added character, scenery, typography, sticker border, floating hearts, floor or cast shadow.",
+  "characters": {
+    "influencer": {
+      "ref": "enemy_influencer_turnaround.png",
+      "file": "enemy_influencer_flirt.png",
+      "pose": "The Influencer is the boldest and most openly provocative of the four: a confident glamorous beach pin-up with heightened eye contact and inviting body language. Use a pronounced three-quarter contrapposto, one hip pushed out, bare legs staggered with a soft front knee, and a slight forward tilt toward the observer. She lowers her oversized sunglasses a little with her left hand and holds the viewer's gaze over the lenses, with striking lashes and an unmistakable teasing pout. Her right hand keeps the hot-pink smartphone low at the outside hip. Keep her low-waist honey-blonde waves, white bikini with gold trim and hip rings, gold hoops, necklace and bracelets. Natural secure coverage and garment fit, exactly as in the source character."
+    },
+    "base": {
+      "ref": "enemy_turnaround.png",
+      "file": "enemy_base_flirt.png",
+      "pose": "The base rival is boldly seductive in a different way: she gives the viewer a clear come-closer gesture with the curled index finger of her raised right hand, around shoulder level and visible in silhouette. The other hand rests lightly on the far hip. In a lively three-quarter pose, her weight is on one foot, the inner knee is softly bent, and her shoulders lean in slightly while the hips naturally angle away. Her head tilts just enough for a knowing smile and half-lidded direct eye contact. Long straight purple hair falls along her outline and the emerald triangular tie bikini and hip bows match the turnaround. Her expression and gesture do the inviting."
+    },
+    "fast": {
+      "ref": "enemy_fast_turnaround.png",
+      "file": "enemy_fast_flirt.png",
+      "pose": "The fast runner is energetic and playfully sensual. She turns toward the observer as if she has just stopped mid-step, standing on the front leg with the back heel up, her torso gently twisting toward camera. Her right hand floats just off the lips as she blows a cheeky kiss at the viewer and her left hand balances the pose low and behind the hip. Keep both eyes expressive and give her a mischievous smile in the kiss. Make the high golden ponytail swing broadly with the turn. Use the exact red sports top and athletic fitted red bottoms with white stripes and the little red anklet. Her build is slender and lightly toned with a soft abdomen and faint shading, matching the file."
+    },
+    "heavy": {
+      "ref": "enemy_heavy_turnaround.png",
+      "file": "enemy_heavy_flirt.png",
+      "pose": "The heavy rival is composed, sensual and confident. She turns her shoulders into a relaxed three-quarter stance with her weight grounded on one leg, and advances the other foot a little. Her right hand settles lightly on the upper hip just above the cream sarong knot. Her left hand lifts a loose curl near her cheek in a simple readable gesture. A faint head tilt, steady half-lidded gaze straight at the viewer, and a calm asymmetric smile make the invitation deliberate. Keep her sturdy broad soft build, voluminous chestnut top bun, royal-blue one-piece and cream pareo with its knot on her anatomical right hip."
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+ "tool": "image_gen.imagegen (built-in)",
+ "output_directory": "Characters/Illustrations",
+ "transparent_background": true,
+ "workflow": "One image per call, 2-3 candidates each, saved outside the project and shown to the user; overwrite the official file only after the user's choice (no _v2 copies). The enemy flirt poses are references for drawing style and rendering ONLY, so the whole set looks consistent: never copy their poses, attitude, expressions or seductive body language.",
+ "references": {
+  "player_identity": "Assets/ConceptArt/Player/player_turnaround.png",
+  "boyfriend_identity": "Assets/ConceptArt/Boyfriend/boyfriend_turnaround.png",
+  "personality": "Assets/Images/beatch-slash-cover-no-logo.png",
+  "couple_original": "Characters/Illustrations/couple_pose.png (the ORIGINAL file of the project, not a new candidate)",
+  "style_only": [
+   "Characters/Enemy/FlirtPoses/enemy_base_flirt.png",
+   "Characters/Enemy/FlirtPoses/enemy_fast_flirt.png",
+   "Characters/Enemy/FlirtPoses/enemy_influencer_flirt.png"
+  ],
+  "couple_base": "C:/Users/stefa/.codex/generated_images/01a21d6e-cee3-7791-b054-fc3df77c0243/exec-6e6e518c-1b17-40c5-9ca9-501d5249306d.png (approved woman; outside the project)",
+  "boyfriend_pose_start": "Characters/Illustrations/boyfriend_pose.png (current official file: approved body, style and general stance, but flat and with a copied, lifeless face)",
+  "player_style": "Characters/Illustrations/player_pose.png (current official file: approved look and drawing style of the heroine)"
+ },
+ "common": "Use case: stylized-concept. A full-body character illustration for the cartoon beach comedy Beatch Slash!, a reusable cutout with a genuinely transparent alpha background, drawn and rendered exactly like the attached enemy illustrations so the whole set is consistent (same linework, warm dark-brown contour, flat colours, simple 2-3 tone cel shading, level of finish, compact adult cartoon proportions with a large head). Those enemy images are a STYLE reference only: ignore their poses, attitude and expressions completely; these two characters are the opposite of them. BODY AND FACE ARE LOCKED to the turnaround: same face shape, head size, body build, limb thickness, hips and shoulders; do not slim, lengthen, sharpen or restyle the character, and keep the hairstyle exactly as in the turnaround. The turnaround defines who the character is, not the pose: draw a new, natural pose with a lively, readable expression. The mood is cheerful and wholesome. ABSOLUTELY NOT a pin-up or glamour pose and nothing sensual: no arched back, no pushed-out hip, no hand on the hip, no hands in the hair, no hand at the waistband or shorts, no flexed muscles, no half-closed or bedroom eyes, no smirk, no pout, no wink, no suggestive look. Natural eye-level camera; the character looks at the viewer unless the pose says otherwise. Frame the whole figure (hair, hands, feet) with a comfortable transparent margin. No scenery, floor, cast shadow, text, logo, hearts or extra characters.",
+ "characters": {
+  "boyfriend": {
+   "file": "boyfriend_pose.png",
+   "size": "1024x1536",
+   "refs": [
+    "boyfriend_pose_start",
+    "boyfriend_identity",
+    "personality",
+    "style_only"
+   ],
+   "pose": "The boyfriend sunbathing on the beach, standing, exactly the idle pose he has in the game: BOTH hands resting on his hips, enjoying the sun. Start from the attached current boyfriend illustration (same body, build, proportions, style) and make it three-dimensional and alive: his body in a clear three-quarter view turned slightly toward the viewer's LEFT, weight on one leg and the other knee relaxed, chest open and shoulders relaxed, the elbows naturally out to the sides, his head tilted slightly back and turned up toward the sun. Eyes peacefully closed, a content, blissful, easy-going smile (mouth closed or barely parted), relaxed eyebrows: a carefree guy enjoying a perfect beach day, completely at ease. Give real volume and depth: warm sunlight from the upper left with clear cel-shaded shadow shapes on face, neck, chest, arms and legs, overlapping forms, the far arm and leg slightly smaller and partly behind the body. The face must be redrawn with personality, not copied from the turnaround. Keep his exact identity: broad friendly face, short dark-brown hair with the sides shorter and the top neatly swept to one side (not spiky), short brown beard on chin and jaw with a small triangular goatee and bare skin under the lower lip, moderately tanned skin, athletic sturdy build without exaggerated muscles, thin beaded necklace with dark beads and red, yellow and green accents, warm terracotta knee-length swim shorts with a light drawstring. No props, nothing that is not in the turnaround. Forbidden: flexing or bodybuilder posing, smug or seductive look, wide toothy grin, blush, frontal symmetric stance."
+  },
+  "player": {
+   "file": "player_pose.png",
+   "size": "1024x1536",
+   "refs": [
+    "player_style",
+    "player_identity",
+    "personality",
+    "style_only"
+   ],
+   "pose": "The girlfriend in the middle of the action, defending her boyfriend: she is winding up to throw a sand ball. Keep the look and drawing style of the attached current player illustration. Her body is in a dynamic three-quarter view turned toward the viewer's RIGHT, feet planted wide and firm, knees bent, weight shifting onto the back leg; her throwing arm is drawn back behind her shoulder holding a round sand ball (sandy, slightly grainy), the other arm extended forward to aim, hand open. Her big voluminous wavy red hair swings with the motion. Face: focused and sure of herself, eyes fixed on her target just past the viewer, a determined, confident little smile, sunny and having fun, a light natural blush. Clear volume: three-quarter perspective, foreshortened forward arm, warm sunlight from the upper left with cel-shaded shadows. Not sensual at all: no arched back, no pushed-out hip, no pin-up feel; an athletic, joyful action pose. Keep her exact identity and the turnaround's body: very long thick voluminous wavy red hair reaching the waist, warm tan skin, brown eyes, light turquoise two-piece swimsuit (bralette top and matching bottoms) exactly as in the turnaround, same build and proportions, do not slim her."
+  },
+  "couple": {
+   "file": "couple_pose.png",
+   "size": "1536x1024",
+   "refs": [
+    "couple_base",
+    "boyfriend_identity",
+    "personality",
+    "style_only"
+   ],
+   "pose": "Use case: precise-object-edit of the couple base image (a posed holiday photo, both looking at the viewer). THE WOMAN IS APPROVED: keep her exactly as she is in the base image (pose, face, expression, hands, hair, swimsuit, proportions, position); do not touch her. REDRAW THE MAN'S WHOLE FIGURE, not only the face, keeping his size and position: his near arm stays around her shoulders with the hand resting on her shoulder as in the base; his body turns slightly toward her, weight on the leg nearer to her, the other knee softly bent; his free arm hangs relaxed with a natural slight bend at the elbow; his head tilts a little toward hers while he looks at the viewer. He is a simple, happy, carefree young man, proud and fond of his girlfriend. Face: a relaxed, genuine smile, mouth closed or only softly parted showing just a little of the upper teeth, never a wide grin and never clenched teeth; eyes softly crinkled by the smile, eyebrows relaxed and slightly lifted, the natural look of a real person caught smiling in a photo. No blush. Keep his exact identity and the turnaround's face shape: broad friendly face, short dark-brown hair with the sides shorter and the top neatly swept to one side (not spiky), short brown beard on chin and jaw with a small triangular goatee and bare skin under the lower lip, green eyes, moderately tanned skin, athletic sturdy build without exaggerated muscles, thin beaded necklace with dark beads and red, yellow and green accents, warm terracotta knee-length swim shorts with a light drawstring. Nothing else: no props, no objects, no accessories that are not in the turnaround. Forbidden for him: thumbs-up, peace sign, salute or any posing gesture; wide toothy grin; frontal symmetric stance; stiff straight arms; flexed muscles; smug, sly or seductive look. Same rendering style, glow and transparent background as the base image."
+  }
+ }
+}
